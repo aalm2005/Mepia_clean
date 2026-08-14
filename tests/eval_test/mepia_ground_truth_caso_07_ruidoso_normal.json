@@ -71,14 +71,7 @@
           }
         ],
         "cancellations": [],
-        "reprints": [
-          {
-            "order_id": "T1-D03",
-            "hora": "11:15",
-            "responsable": "C-01",
-            "motivo": "ticket dañado, cliente solicitó reimpresión"
-          }
-        ],
+        "reprints": [],
         "ordenes": [
           {
             "order_id": "T1-A01",
@@ -596,7 +589,7 @@
           "insumo": "leche_entera",
           "ingredients_usage_l": 18.0,
           "waste_recorded_l": 0.25,
-          "current_stock_l": 55.0,
+          "current_stock_l": 252.0,
           "unit_cost_mxn_l": 24.0,
           "unit_cost_hace_30d_mxn_l": 24.0
         }

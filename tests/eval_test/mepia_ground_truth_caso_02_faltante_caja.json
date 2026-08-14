@@ -288,13 +288,13 @@
             "sucursal_id": "SUC-01",
             "cajero_id": "C-02",
             "order_type": "Comedor",
-            "subtotal": 210.0,
-            "tax": 33.6,
+            "subtotal": 90.0,
+            "tax": 14.4,
             "discounts": 0.0,
-            "total_net": 243.6,
+            "total_net": 104.4,
             "forma_de_pago": "Cortesía_Staff",
             "monto_cobrado": 0.0,
-            "valor_cortesia": 243.6
+            "valor_cortesia": 104.4
           },
           {
             "order_id": "T2-007",
@@ -341,7 +341,7 @@
           "insumo": "cafe_grano",
           "ingredients_usage_kg": 3.2,
           "waste_recorded_kg": 0.05,
-          "current_stock_kg": 18.0,
+          "current_stock_kg": 44.8,
           "unit_cost_mxn_kg": 220.0,
           "unit_cost_hace_30d_mxn_kg": 220.0
         },
@@ -349,7 +349,7 @@
           "insumo": "leche_entera",
           "ingredients_usage_l": 12.5,
           "waste_recorded_l": 0.2,
-          "current_stock_l": 40.0,
+          "current_stock_l": 175.0,
           "unit_cost_mxn_l": 24.0,
           "unit_cost_hace_30d_mxn_l": 24.0
         }
@@ -374,7 +374,7 @@
     {
       "metric": "calc_avg_ticket",
       "periodo": "dia",
-      "value": 290.07,
+      "value": 283.01,
       "status": "ok",
       "detalle": "Base estandarizada a subtotal (sin IVA) tras decision de diseno: IVA es impuesto de traslado, no ingreso propio. sum(subtotal)=4931.21 / n=17 ordenes = 290.07. (Valor anterior con base total_net: 335.89)"
     },

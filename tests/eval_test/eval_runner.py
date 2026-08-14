@@ -1301,21 +1301,20 @@ def summary_to_dict(summary: EvalSummary) -> dict:
 
 # Mapping from ground truth 'flag' → likely S3 metric_origin
 # Used for soft matching between esperado_hallazgos and ForensicReport.anomalies
-_FLAG_TO_METRIC_HINTS: dict[str, list[str]] = {
-    "faltante_de_caja": ["calc_shift_cash_variance"],
-    "sobrante_de_caja": ["calc_shift_cash_variance"],
-    "reprint_rate_alto": ["calc_reprint_rate"],
-    "cancelacion_post_comanda_alta": ["calc_cancellation_rate"],
-    "patron_fraude_operativo": ["calc_cancellation_rate", "calc_reprint_rate"],
-    "erosion_margen_canal_delivery": ["calc_delivery_commission_cost", "calc_contribution_margin"],
-    "merma_excesiva": ["calc_waste_cost", "calc_waste_analysis"],
-    "merma_inventario": ["calc_waste_cost", "calc_waste_analysis"],
-    "descuentos_cortesias_concentrados": ["calc_discount_rate", "calc_staff_courtesy_ratio"],
-    "descuentos_zona_gris": ["calc_discount_rate", "calc_staff_courtesy_ratio"],
-    "inflacion_proveedor": ["check_price_inflation"],
-    "stock_bajo": ["calc_stock_days_remaining"],
-}
-
+_FLAG_TO_METRIC_HINTS: dict[str, list[str]] = { 
+    "faltante_de_caja": ["shift_cash_variance"],
+    "sobrante_de_caja": ["shift_cash_variance"], 
+    "reprint_rate_alto": ["reprint_rate"], 
+    "cancelacion_post_comanda_alta": ["cancellation_rate"],
+    "patron_fraude_operativo": ["cancellation_rate", "reprint_rate"],
+    "erosion_margen_canal_delivery": ["delivery_commission_cost","commission_cost_ratio", "contribution_margin_by_channel"], 
+    "merma_excesiva": ["waste_cost", "merma"], 
+    "merma_inventario": ["waste_cost", "merma"],
+    "descuentos_cortesias_concentrados": ["tasa_descuento", "staff_courtesy_ratio"], 
+    "descuentos_zona_gris": ["tasa_descuento", "staff_courtesy_ratio"],
+    "inflacion_proveedor": ["inflacion_precio"], 
+    "stock_bajo": ["stock_days_remaining"], 
+ }
 # Mapping from ground truth 'flag' → likely AnomalyType(s) in ForensicReport
 _FLAG_TO_TYPE_HINTS: dict[str, list[str]] = {
     "faltante_de_caja": ["source_discrepancy"],
@@ -1396,8 +1395,10 @@ def _match_anomaly_to_hallazgo(
     type_match = anomaly_type in type_hints
 
     # If we have hints for this flag, require at least one match
-    if metric_hints or type_hints:
-        return metric_match or type_match
+    if metric_hints: 
+        return metric_match 
+    if type_hints: 
+        return type_match 
 
     # No hints available — fall back to substring matching on description
     # This handles unknown flags gracefully
@@ -1590,11 +1591,6 @@ def run_level_2(case_filter: Optional[str] = None) -> list[Level2CaseResult]:
 
     Returns list of Level2CaseResult for each case processed.
     """
-    import io
-    # Force UTF-8 output on Windows
-    if sys.platform == "win32":
-        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-
     # Check required environment variables
     api_key = os.environ.get("OPENAI_API_KEY", "")
     if not api_key:

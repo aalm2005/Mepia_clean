@@ -447,9 +447,9 @@ def calc_waste_analysis(
             .lte("transaction_date", end_date)
             .execute()
         )
-        compras = compras_resp.data or []
-
-        if not compras:
+        compras_raw = compras_resp.data or []
+        compras = [c for c in compras_raw if c.get("quantity") is not None and c.get("unit")] 
+        if not compras: 
             return CalcResult(
                 metric="merma",
                 value=None,

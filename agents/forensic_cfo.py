@@ -124,28 +124,112 @@ REGLAS ESTRICTAS:
    sin excepción, independientemente del contexto o daily_context.tags.
 8. observed_causality está DEPRECADO y siempre es null. No existe contexto externo
    que modifique severity — la severidad se basa EXCLUSIVAMENTE en los datos de S3.
+9. NUNCA generes un AnomalyItem cuyo metric_origin corresponda a un CalcResult con status "ok".
+   S3 ya evaluó ese valor contra su umbral de negocio y determinó que está dentro de rango normal 
+   no lo reevalües con tu propio criterio. Un CalcResult con status "ok" SÍ puede citarse como 
+   data_points/evidence_sources para cuantificar o explicar una anomalía distinta que sí tenga status 
+   "warning" o "critical" -- pero nunca genera su propio AnomalyItem. EXCEPCIÓN: si un CalcResult trae el campo "_ALERTA_INDIVIDUAL", SÍ debes generar un AnomalyItem para el responsable que ahí se menciona, aunque el campo "status" del mismo CalcResult diga "ok" -- ese campo refleja el agregado del día, que puede diluir el problema de una sola persona. La nota de "_ALERTA_INDIVIDUAL" siempre manda sobre el "status" agregado cuando ambos aparecen juntos.
 
 Responde ÚNICAMENTE con el JSON estructurado solicitado. Sin texto adicional."""
 
+_PERSONAL_THRESHOLDS: dict[str, tuple[Optional[float], Optional[float]]] = {
+    "tasa_descuento": (10, None),
+    "staff_courtesy_ratio": (None, 5),
+    "cancellation_rate": (2, 5),
+    "reprint_rate": (5, 10),
+}
 
+
+def _individual_alert_detail(calc_result: dict) -> str | None:
+    thresholds = _PERSONAL_THRESHOLDS.get(calc_result.get("metric", ""))
+    if not thresholds:
+        return None
+    warning_t, critical_t = thresholds
+    context = calc_result.get("context") or ""
+    marker = "by_responsable: "
+    idx = context.find(marker)
+    if idx == -1:
+        return None
+    try:
+        by_resp = json.loads(context[idx + len(marker):])
+    except (ValueError, json.JSONDecodeError):
+        return None
+    alerts = []
+    for responsable, data in by_resp.items():
+        rate = data.get("rate_pct")
+        if rate is None:
+            continue
+        rate = float(rate)
+        if critical_t is not None and rate > critical_t:
+            alerts.append(f"{responsable}: {rate}% (critical, umbral {critical_t}%)")
+        elif warning_t is not None and rate > warning_t:
+            alerts.append(f"{responsable}: {rate}% (warning, umbral {warning_t}%)")
+    return "; ".join(alerts) if alerts else None
+
+
+def _has_individual_alert(calc_result: dict) -> bool:
+    return _individual_alert_detail(calc_result) is not None
+    
 def _build_user_prompt(
     calc_results: list[dict],
     business_id: str,
     date: str,
 ) -> str:
-    """Construye el mensaje de usuario con los datos de S3 para el LLM."""
-    calc_json = json.dumps(calc_results, ensure_ascii=False, indent=2, default=str)
+    """Construye el mensaje de usuario con los datos de S3 para el LLM.
+
+    Separa fisicamente los CalcResult en dos bloques -- una instruccion de texto
+    entre varias reglas numeradas no fue suficiente para que el modelo dejara de
+    generar anomalias sobre datos con status "ok" (confirmado en eval real: seguia
+    marcando "merma" en el caso de dia limpio pese a la regla explicita). Separar
+    estructuralmente el input es una senal mucho mas dificil de ignorar que una
+    regla mas en una lista.
+    """
+    accionables = []
+    promoted_ids: set[int] = set()
+    for r in calc_results:
+        if r.get("status") in ("warning", "critical"):
+            accionables.append(r)
+            promoted_ids.add(id(r))
+            continue
+        detail = _individual_alert_detail(r)
+        if detail is not None:
+            r2 = dict(r)
+            r2["_ALERTA_INDIVIDUAL"] = (
+                f"El agregado del dia dice status=ok, pero esto es una EXCEPCION "
+                f"a la Regla 9: {detail}. Genera un AnomalyItem para este "
+                f"responsable especifico -- el status agregado no aplica a su caso "
+                f"individual, que si cruza su propio umbral."
+            )
+            accionables.append(r2)
+            promoted_ids.add(id(r))
+    referencia = [r for r in calc_results if id(r) not in promoted_ids]
+
+    accionables_json = json.dumps(accionables, ensure_ascii=False, indent=2, default=str)
+    referencia_json = json.dumps(referencia, ensure_ascii=False, indent=2, default=str)
 
     return f"""Analiza los siguientes resultados del Motor de Cálculo S3 para el negocio {business_id} el {date}.
 
-## Resultados de S3 (CalcResult[]):
-{calc_json}
+## BLOQUE A — Resultados ACCIONABLES (status != "ok"):
+Estos son los ÚNICOS CalcResult sobre los que puedes generar un AnomalyItem. Si este
+bloque está vacío ([]), la respuesta correcta es anomalies: [] — no hay nada que
+reportar, sin importar qué haya en el Bloque B.
+{accionables_json}
+
+## BLOQUE B — Resultados de REFERENCIA (status == "ok", solo contexto):
+S3 ya evaluó estos valores contra su umbral de negocio y determinó que están dentro
+de rango normal. PROHIBIDO generar un AnomalyItem cuyo metric_origin sea alguno de
+estos — no los reevalúes con tu propio criterio. Solo úsalos como data_points de
+apoyo si ayudan a cuantificar o explicar una anomalía real del Bloque A (ej. el
+desglose de calc_delivery_commission_cost para explicar un calc_commission_cost_ratio
+en warning).
+{referencia_json}
 
 ## observed_causality (deprecado):
 null
 
 ## Tu tarea:
-1. Identifica TODAS las anomalías presentes en los datos de S3.
+1. Genera un AnomalyItem por cada anomalía real que identifiques, tomando el
+   metric_origin ÚNICAMENTE del Bloque A. El Bloque B es solo lectura de apoyo.
 2. Para cada anomalía, genera un AnomalyItem con:
    - anomaly_id: UUID único (genera uno nuevo)
    - type: clasifica según el tipo de anomalía
