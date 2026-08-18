@@ -52,6 +52,33 @@ class GatekeeperAgent:
         "operative_cost_margin",
         "health_score",
         "inventory_variance",
+        # --- 25 métricas nuevas de S3 (sesión de extensión, ver
+        #     mepia_v4_metricas_diseno.md) -- agrupadas por requisito de datos
+        #     compartido en 9 clusters, no una por una ---
+        # Cluster A: transactions
+        "avg_ticket", "channel_mix", "discount_rate",
+        "hourly_sales_pattern", "sales_by_staff", "sales_by_branch",
+        "top_bottom_sellers", "revenue_concentration", "category_mix",
+        "modifier_attach_rate", "item_discount_split", "payment_mix",
+        "staff_courtesy_ratio", "loyalty_redemption_cost",
+        # Cluster B: transactions + recipes
+        "price_consistency",
+        # Cluster C: transactions + delivery_platform_config
+        "delivery_commission_cost", "commission_cost_ratio",
+        # Cluster D: transactions + recipes + delivery_platform_config
+        "contribution_margin_by_channel",
+        # Cluster E: transactions + shift_audit_events
+        "ticket_volume",
+        # Cluster E2: transactions + shift_audit_events + pos_inputs
+        "cancellation_rate", "reprint_rate",
+        # Cluster F: shift_audit_events
+        "shift_cash_variance",
+        # Cluster G: shift_audit_events + pos_inputs + business_fixed_costs
+        "labor_cost_ratio",
+        # Cluster H: shift_audit_events + pos_inputs
+        "sales_per_labor_hour",
+        # Cluster I: inventory_daily
+        "waste_cost", "stock_days_remaining",
     ]
 
     def __init__(self, supabase_client: Any) -> None:
@@ -77,6 +104,42 @@ class GatekeeperAgent:
         results["operative_cost_margin"] = self._eval_operative_cost_margin(business_id, date)
         results["health_score"] = self._eval_health_score(results)
         results["inventory_variance"] = self._eval_inventory_variance(business_id, date)
+
+        # --- 25 métricas nuevas, por cluster (mismo resultado de cluster
+        #     aplicado a todas las métricas que comparten ese requisito) ---
+        cluster_a = self._eval_transactions_only(business_id, date)
+        for m in (
+            "avg_ticket", "channel_mix", "discount_rate", "hourly_sales_pattern",
+            "sales_by_staff", "sales_by_branch", "top_bottom_sellers",
+            "revenue_concentration", "category_mix", "modifier_attach_rate",
+            "item_discount_split", "payment_mix", "staff_courtesy_ratio",
+            "loyalty_redemption_cost",
+        ):
+            results[m] = cluster_a
+
+        results["price_consistency"] = self._eval_transactions_and_recipes(business_id, date)
+
+        cluster_c = self._eval_transactions_and_delivery_config(business_id, date)
+        for m in ("delivery_commission_cost", "commission_cost_ratio"):
+            results[m] = cluster_c
+
+        results["contribution_margin_by_channel"] = (
+            self._eval_contribution_margin_by_channel(business_id, date)
+        )
+
+        results["ticket_volume"] = self._eval_ticket_volume(business_id, date)
+
+        cluster_e2 = self._eval_cancellation_reprint(business_id, date)
+        for m in ("cancellation_rate", "reprint_rate"):
+            results[m] = cluster_e2
+
+        results["shift_cash_variance"] = self._eval_shift_cash_variance(business_id, date)
+        results["labor_cost_ratio"] = self._eval_labor_cost_ratio(business_id, date)
+        results["sales_per_labor_hour"] = self._eval_sales_per_labor_hour(business_id, date)
+
+        cluster_i = self._eval_inventory_metrics(business_id, date)
+        for m in ("waste_cost", "stock_days_remaining"):
+            results[m] = cluster_i
 
         # Persistir en metric_status
         now_iso = datetime.now(timezone.utc).isoformat()
@@ -282,6 +345,226 @@ class GatekeeperAgent:
         if missing:
             return ("dormant", missing)
 
+        return ("active", [])
+
+    # ------------------------------------------------------------------
+    # Clusters de las 25 métricas nuevas de S3
+    # Un metodo por requisito de datos compartido, no uno por metrica --
+    # ver mepia_v4_metricas_diseno.md para el mapeo completo de que
+    # metrica cae en que cluster.
+    # ------------------------------------------------------------------
+
+    def _eval_transactions_only(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster A: requiere >=1 transaccion de venta ese dia."""
+        try:
+            result = (
+                self._db.table("transactions")
+                .select("id")
+                .eq("business_id", business_id)
+                .eq("transaction_date", date)
+                .eq("type", "ingreso")
+                .eq("category", "venta")
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not result.data:
+            return ("dormant", ["transactions"])
+        return ("active", [])
+
+    def _eval_transactions_and_recipes(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster B: transacciones + al menos 1 receta del negocio."""
+        status, missing = self._eval_transactions_only(business_id, date)
+        if status != "active":
+            return (status, missing)
+        try:
+            recipes = (
+                self._db.table("recipes")
+                .select("id")
+                .eq("business_id", business_id)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not recipes.data:
+            return ("dormant", ["recipes"])
+        return ("active", [])
+
+    def _eval_transactions_and_delivery_config(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster C: transacciones + delivery_platform_config del negocio."""
+        status, missing = self._eval_transactions_only(business_id, date)
+        if status != "active":
+            return (status, missing)
+        try:
+            config = (
+                self._db.table("delivery_platform_config")
+                .select("id")
+                .eq("business_id", business_id)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not config.data:
+            return ("dormant", ["delivery_platform_config"])
+        return ("active", [])
+
+    def _eval_contribution_margin_by_channel(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster D: transacciones + recipes + delivery_platform_config."""
+        status, missing = self._eval_transactions_and_recipes(business_id, date)
+        if status != "active":
+            return (status, missing)
+        try:
+            config = (
+                self._db.table("delivery_platform_config")
+                .select("id")
+                .eq("business_id", business_id)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not config.data:
+            return ("dormant", ["delivery_platform_config"])
+        return ("active", [])
+
+    def _eval_ticket_volume(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster E: transacciones + shift_audit_events."""
+        status, missing = self._eval_transactions_only(business_id, date)
+        if status != "active":
+            return (status, missing)
+        try:
+            shifts = (
+                self._db.table("shift_audit_events")
+                .select("id")
+                .eq("business_id", business_id)
+                .eq("date", date)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not shifts.data:
+            return ("dormant", ["shift_audit_events"])
+        return ("active", [])
+
+    def _eval_cancellation_reprint(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster E2: transacciones + shift_audit_events + pos_inputs."""
+        status, missing = self._eval_ticket_volume(business_id, date)
+        if status != "active":
+            return (status, missing)
+        try:
+            pos = (
+                self._db.table("pos_inputs")
+                .select("id")
+                .eq("business_id", business_id)
+                .eq("date", date)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not pos.data:
+            return ("dormant", ["pos_inputs"])
+        return ("active", [])
+
+    def _eval_shift_cash_variance(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster F: solo shift_audit_events."""
+        try:
+            shifts = (
+                self._db.table("shift_audit_events")
+                .select("id")
+                .eq("business_id", business_id)
+                .eq("date", date)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not shifts.data:
+            return ("dormant", ["shift_audit_events"])
+        return ("active", [])
+
+    def _eval_labor_cost_ratio(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster G: shift_audit_events + pos_inputs + business_fixed_costs
+        (con al menos un concepto de nomina configurado)."""
+        status, missing = self._eval_shift_cash_variance(business_id, date)
+        if status != "active":
+            return (status, missing)
+        try:
+            pos = (
+                self._db.table("pos_inputs")
+                .select("id")
+                .eq("business_id", business_id)
+                .eq("date", date)
+                .execute()
+            )
+            nomina = (
+                self._db.table("business_fixed_costs")
+                .select("id")
+                .eq("business_id", business_id)
+                .ilike("concept", "%nómina%")
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        missing_fields: list[str] = []
+        if not pos.data:
+            missing_fields.append("pos_inputs")
+        if not nomina.data:
+            missing_fields.append("business_fixed_costs_nomina")
+        if missing_fields:
+            return ("dormant", missing_fields)
+        return ("active", [])
+
+    def _eval_sales_per_labor_hour(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster H: shift_audit_events + pos_inputs (sin requerir nomina)."""
+        status, missing = self._eval_shift_cash_variance(business_id, date)
+        if status != "active":
+            return (status, missing)
+        try:
+            pos = (
+                self._db.table("pos_inputs")
+                .select("id")
+                .eq("business_id", business_id)
+                .eq("date", date)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not pos.data:
+            return ("dormant", ["pos_inputs"])
+        return ("active", [])
+
+    def _eval_inventory_metrics(
+        self, business_id: str, date: str
+    ) -> tuple[str, list[str]]:
+        """Cluster I: inventory_daily (waste_cost, stock_days_remaining)."""
+        try:
+            inv = (
+                self._db.table("inventory_daily")
+                .select("id")
+                .eq("business_id", business_id)
+                .eq("date", date)
+                .execute()
+            )
+        except Exception:
+            return ("dormant", ["db_error"])
+        if not inv.data:
+            return ("dormant", ["inventory_daily"])
         return ("active", [])
 
     # ------------------------------------------------------------------

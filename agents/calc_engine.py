@@ -447,9 +447,9 @@ def calc_waste_analysis(
             .lte("transaction_date", end_date)
             .execute()
         )
-        compras_raw = compras_resp.data or []
-        compras = [c for c in compras_raw if c.get("quantity") is not None and c.get("unit")] 
-        if not compras: 
+        compras = compras_resp.data or []
+
+        if not compras:
             return CalcResult(
                 metric="merma",
                 value=None,
@@ -1110,6 +1110,192 @@ def run_calc_engine(
                         context=f"Error al calcular inventory_variance: {exc}",
                     )
                 )
+
+        # =====================================================================
+        # 26 métricas nuevas de S3 (extensión post spec-driven original)
+        # =====================================================================
+
+        elif metric == "avg_ticket":
+            try:
+                results.append(calc_avg_ticket(business_id, date, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="avg_ticket", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "channel_mix":
+            try:
+                results.append(calc_channel_mix(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="channel_mix", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "discount_rate":
+            try:
+                results.append(calc_discount_rate(business_id, date, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="tasa_descuento", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "hourly_sales_pattern":
+            try:
+                results.append(calc_hourly_sales_pattern(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="hourly_sales_pattern", value=None, unit="",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "sales_by_staff":
+            try:
+                results.append(calc_sales_by_staff(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="sales_by_staff", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "sales_by_branch":
+            try:
+                results.append(calc_sales_by_branch(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="sales_by_branch", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "top_bottom_sellers":
+            try:
+                results.append(calc_top_bottom_sellers(business_id, date, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="top_bottom_sellers", value=None, unit="",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "revenue_concentration":
+            try:
+                results.append(calc_revenue_concentration(business_id, date, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="revenue_concentration", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "category_mix":
+            try:
+                results.append(calc_category_mix(business_id, date, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="category_mix", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "modifier_attach_rate":
+            try:
+                results.append(calc_modifier_attach_rate(business_id, date, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="modifier_attach_rate", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "item_discount_split":
+            try:
+                results.append(calc_item_discount_split(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="item_discount_split", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "payment_mix":
+            try:
+                results.append(calc_payment_mix(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="payment_mix", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "staff_courtesy_ratio":
+            try:
+                results.append(calc_staff_courtesy_ratio(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="staff_courtesy_ratio", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "loyalty_redemption_cost":
+            try:
+                results.append(calc_loyalty_redemption_cost(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="loyalty_redemption_cost", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "price_consistency":
+            try:
+                results.append(check_price_consistency(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="consistencia_precios", value=None, unit="",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "delivery_commission_cost":
+            try:
+                results.append(calc_delivery_commission_cost(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="delivery_commission_cost", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "commission_cost_ratio":
+            try:
+                results.append(calc_commission_cost_ratio(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="commission_cost_ratio", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "contribution_margin_by_channel":
+            try:
+                results.append(calc_contribution_margin_by_channel(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="contribution_margin_by_channel", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "ticket_volume":
+            try:
+                results.append(calc_ticket_volume(business_id, date, "dia", db))
+            except Exception as exc:
+                results.append(CalcResult(metric="ticket_volume", value=None, unit="",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "cancellation_rate":
+            try:
+                results.append(calc_cancellation_rate(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="cancellation_rate", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "reprint_rate":
+            try:
+                results.append(calc_reprint_rate(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="reprint_rate", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "shift_cash_variance":
+            try:
+                results.append(calc_shift_cash_variance(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="shift_cash_variance", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "labor_cost_ratio":
+            try:
+                results.append(calc_labor_cost_ratio(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="labor_cost_ratio", value=None, unit="%",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "sales_per_labor_hour":
+            try:
+                results.append(calc_sales_per_labor_hour(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="sales_per_labor_hour", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "waste_cost":
+            try:
+                results.append(calc_waste_cost(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="waste_cost", value=None, unit="MXN",
+                                           status="incomplete_data", context=f"Error: {exc}"))
+
+        elif metric == "stock_days_remaining":
+            try:
+                results.append(calc_stock_days_remaining(business_id, date, db))
+            except Exception as exc:
+                results.append(CalcResult(metric="stock_days_remaining", value=None, unit="días",
+                                           status="incomplete_data", context=f"Error: {exc}"))
 
         else:
             # Métrica activa sin función implementada — registrar como incomplete_data

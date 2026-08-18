@@ -245,6 +245,10 @@ class MockQueryBuilder:
         self._filters.append(("in", field, values))
         return self
 
+    def ilike(self, field: str, pattern: str) -> "MockQueryBuilder": 
+        self._filters.append(("ilike", field, pattern)) 
+        return self
+
     def order(self, field: str, desc: bool = False) -> "MockQueryBuilder":
         self._order_field = field
         self._order_desc = desc
@@ -258,6 +262,17 @@ class MockQueryBuilder:
         self._is_single = True
         return self
 
+    def insert(self, data) -> "MockQueryBuilder":
+        # No-op -- Nivel 3 no necesita persistencia real, solo que no truene
+        # cuando N05/S2 intentan escribir a audit_results/metric_status/etc.
+        return self
+
+    def upsert(self, data, **kwargs) -> "MockQueryBuilder":
+        return self
+
+    def delete(self) -> "MockQueryBuilder":
+        return self
+        
     def execute(self) -> MockQueryResult:
         """Apply filters to stored data and return matching rows."""
         rows = self._store.get(self._table, [])
@@ -272,6 +287,9 @@ class MockQueryBuilder:
                 rows = [r for r in rows if str(r.get(fld, "")) <= str(val)]
             elif op == "in":
                 rows = [r for r in rows if r.get(fld) in val]
+            elif op == "ilike":
+                needle = str(val).strip("%").lower() 
+                rows = [r for r in rows if needle in str(r.get(fld, "")).lower()]
 
         # Apply ordering
         if self._order_field:
