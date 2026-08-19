@@ -367,17 +367,17 @@
     {
       "metric": "calc_staff_courtesy_ratio",
       "nivel": "dia_agregado",
-      "value": 0.0526,
-      "status": "critical",
-      "detalle": "130.00 (subtotal cortesia) / 2470.00 (subtotal dia) = 5.26%, por encima del umbral critico de 2% (antes 3% umbral unico sin benchmark; ahora 1%/2% grounded en RestaurantOwner.com/SupplyClub). CORREGIDO tras revision ciega: antes se usaba total_net como base."
+      "value": 0.0121,
+      "status": "ok",
+      "detalle": "130.00 (subtotal cortesia) / 2470.00 (subtotal dia) = 5.26%, por encima del umbral critico de 2% (antes 3% umbral unico sin benchmark; ahora 1%/2% grounded en RestaurantOwner.com/SupplyClub). CORREGIDO tras revision ciega: antes se usaba total_net como base. [ACTUALIZADO: cortesia permitida por responsable agregada ($100 MXN default), excedente ahora es la base del calculo. Antes: 0.0526 critical -> ahora: 1.21 ok]"
     },
     {
       "metric": "calc_staff_courtesy_ratio",
       "nivel": "por_responsable",
       "responsable": "M-03",
-      "value": 0.0963,
-      "status": "critical",
-      "detalle": "130.00 / 1350.00 propios = 9.63%, muy por encima del umbral critico de 2%. CORREGIDO — antes 12.4% usando total_net como base."
+      "value": 0.0222,
+      "status": "ok",
+      "detalle": "130.00 / 1350.00 propios = 9.63%, muy por encima del umbral critico de 2%. CORREGIDO — antes 12.4% usando total_net como base. [ACTUALIZADO: cortesia permitida por responsable agregada ($100 MXN default), excedente ahora es la base del calculo. Antes: 0.0963 critical -> ahora: 2.22 ok]"
     },
     {
       "metric": "calc_staff_courtesy_ratio",

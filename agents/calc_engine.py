@@ -3368,6 +3368,56 @@ def calc_commission_cost_ratio(
         )
 
 
+def _get_courtesy_allowance_per_person(business_id: str, db: Any) -> Decimal:
+    """Monto de cortesia PERMITIDA por responsable/dia -- items que el dueño ya
+    autoriza para uso personal o regalo del empleado (ej. 1 bebida gratis por
+    turno). No es una anomalia hasta que se excede. Configurable por el dueño
+    via business_courtesy_config; si no hay config, default de fabrica: 1 item
+    valuado al producto mas caro del catalogo de recetas (o $100 MXN si el
+    negocio no tiene catalogo de precios configurado)."""
+    items = 1
+    monto_por_item: Decimal | None = None
+
+    try:
+        config_resp = (
+            db.table("business_courtesy_config")
+            .select("activo, items_permitidos_por_persona, monto_por_item")
+            .eq("business_id", business_id)
+            .execute()
+        )
+        rows = config_resp.data or []
+        if rows:
+            if rows[0].get("activo") is False:
+                # Función apagada explícitamente -- toda cortesía cuenta como
+                # excedente, mismo comportamiento que antes de esta función.
+                return Decimal("0")
+            items = int(rows[0].get("items_permitidos_por_persona") or 1)
+            raw_monto = rows[0].get("monto_por_item")
+            if raw_monto is not None:
+                monto_por_item = Decimal(str(raw_monto))
+    except Exception:
+        pass  # sin config -- usar defaults
+
+    if monto_por_item is None:
+        try:
+            recetas_resp = (
+                db.table("recipes")
+                .select("sale_price")
+                .eq("business_id", business_id)
+                .execute()
+            )
+            precios = [
+                Decimal(str(r["sale_price"]))
+                for r in (recetas_resp.data or [])
+                if r.get("sale_price") is not None
+            ]
+            monto_por_item = max(precios) if precios else Decimal("100")
+        except Exception:
+            monto_por_item = Decimal("100")
+
+    return Decimal(str(items)) * monto_por_item
+
+
 def calc_staff_courtesy_ratio(
     business_id: str,
     date: str,
@@ -3449,6 +3499,17 @@ def calc_staff_courtesy_ratio(
                         by_responsable.get(staff_id, Decimal("0")) + courtesy
                     )
 
+        # --- 2b. Cortesía PERMITIDA por el dueño (Tipo B, config ajustable) ---
+        # Cada responsable tiene un "presupuesto" de cortesía autorizado (ej. 1
+        # bebida gratis por turno) -- eso no es una anomalía. Solo lo que EXCEDE
+        # ese presupuesto cuenta para el ratio y el status.
+        allowance = _get_courtesy_allowance_per_person(business_id, db)
+        by_responsable_excedente: dict[str, Decimal] = {
+            staff_id: max(Decimal("0"), courtesy - allowance)
+            for staff_id, courtesy in by_responsable.items()
+        }
+        total_excedente = sum(by_responsable_excedente.values(), Decimal("0"))
+
         # Edge: subtotal total es 0
         if total_subtotal == Decimal("0"):
             return CalcResult(
@@ -3462,28 +3523,32 @@ def calc_staff_courtesy_ratio(
                 ),
             )
 
-        # Edge: cortesía total es 0
-        if total_courtesy == Decimal("0"):
+        # Edge: cortesía EXCEDENTE es 0 -- toda la cortesía dada cae dentro de lo
+        # permitido por el dueño, no hay nada anómalo que reportar aunque
+        # total_courtesy > 0.
+        if total_excedente == Decimal("0"):
             return CalcResult(
                 metric="staff_courtesy_ratio",
                 value=Decimal("0"),
                 unit="%",
                 status="ok",
                 context=(
-                    f"Sin cortesías de staff para {business_id} el {date}. "
+                    f"Cortesías del día ({total_courtesy:.2f} MXN) dentro del "
+                    f"permitido por responsable ({allowance:.2f} MXN c/u). "
                     f"Subtotal del día: {total_subtotal:.2f} MXN."
                 ),
             )
 
-        # --- 3. Calcular ratio global ---
+        # --- 3. Calcular ratio global (sobre el EXCEDENTE, no la cortesía cruda) ---
         courtesy_ratio = (
-            total_courtesy / total_subtotal * Decimal("100")
+            total_excedente / total_subtotal * Decimal("100")
         ).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
         # Evaluar umbrales
         # Nota: 1%/2% salió de benchmarks mensuales aplicados por error a datos diarios,
         # que tienen mucho más ruido natural. 5% es el corte grounded para variación diaria
-        # (ver mepia_v4_metricas_diseno.md sección 3 para las fuentes).
+        # (ver mepia_v4_metricas_diseno.md sección 3 para las fuentes). Se aplica sobre el
+        # EXCEDENTE sobre lo permitido, no sobre la cortesía cruda.
         status: CalcStatus = "ok"
         if courtesy_ratio > Decimal("5"):
             status = "critical"
@@ -3491,12 +3556,13 @@ def calc_staff_courtesy_ratio(
         # --- 4. Desagregación por responsable (Tipo B) ---
         responsable_detail: dict[str, dict[str, str]] = {}
         for staff_id, staff_courtesy in by_responsable.items():
+            excedente = by_responsable_excedente.get(staff_id, Decimal("0"))
             pct_of_all = (
                 staff_courtesy / total_courtesy * Decimal("100")
             ).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
             staff_subtotal = by_responsable_subtotal.get(staff_id, Decimal("0"))
             staff_rate = (
-                (staff_courtesy / staff_subtotal * Decimal("100")).quantize(
+                (excedente / staff_subtotal * Decimal("100")).quantize(
                     Decimal("0.01"), rounding=ROUND_HALF_UP
                 )
                 if staff_subtotal > Decimal("0")
@@ -3504,6 +3570,12 @@ def calc_staff_courtesy_ratio(
             )
             responsable_detail[staff_id] = {
                 "courtesy_total": str(staff_courtesy.quantize(
+                    Decimal("0.01"), rounding=ROUND_HALF_UP
+                )),
+                "courtesy_permitida": str(allowance.quantize(
+                    Decimal("0.01"), rounding=ROUND_HALF_UP
+                )),
+                "courtesy_excedente": str(excedente.quantize(
                     Decimal("0.01"), rounding=ROUND_HALF_UP
                 )),
                 "pct_of_all_courtesy": str(pct_of_all),
@@ -3521,9 +3593,11 @@ def calc_staff_courtesy_ratio(
             unit="%",
             status=status,
             context=(
-                f"Ratio de cortesía staff: {courtesy_ratio}% "
-                f"(cortesías: {total_courtesy:.2f} MXN / subtotal: {total_subtotal:.2f} MXN). "
-                f"Fecha: {date}. "
+                f"Ratio de cortesía EXCEDENTE staff: {courtesy_ratio}% "
+                f"(excedente sobre lo permitido: {total_excedente:.2f} MXN de "
+                f"{total_courtesy:.2f} MXN totales en cortesías / subtotal: "
+                f"{total_subtotal:.2f} MXN. Permitido: {allowance:.2f} MXN por "
+                f"responsable). Fecha: {date}. "
                 f"by_responsable: {by_responsable_json}"
             ),
         )
