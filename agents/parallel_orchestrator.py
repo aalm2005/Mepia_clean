@@ -168,7 +168,7 @@ class N06ParallelOrchestrator:
         result = self._gather(payload, node_results)
 
         # --- Persistir antes de retornar (P8) ---
-        self._persist(result)
+        self._persist(result, sequential_context=payload.sequential_context)
 
         return result
 
@@ -491,13 +491,23 @@ class N06ParallelOrchestrator:
     # Persistencia
     # ------------------------------------------------------------------
 
-    def _persist(self, result: ParallelGatherResult) -> None:
+    def _persist(self, result: ParallelGatherResult, sequential_context: SequentialContext | None = None) -> None:
         """
         Persiste ParallelGatherResult en audit_results ANTES de retornar.
         P8: garantiza exactamente 1 registro por layer2_run_id.
+
+        Incluye sequential_context (forensic_report/insights de N05) dentro de
+        result_data -- sin esto, N10 (context_builder) recibia estos campos
+        siempre vacios al disparar Layer 3 en "modo normal" (via audit_run_id),
+        porque ParallelGatherResult por si solo nunca trae sequential_context,
+        solo trae node_results. Mismo tipo de bug que el de Layer3State/LangGraph
+        encontrado antes en esta sesion -- el dato existia, pero no se guardaba.
         """
         try:
             now_iso = datetime.now(timezone.utc).isoformat()
+            result_data = result.model_dump(mode="json")
+            if sequential_context is not None:
+                result_data["sequential_context"] = sequential_context.model_dump(mode="json")
             self._db.table("audit_results").insert(
                 {
                     "id": result.layer2_run_id,
@@ -506,7 +516,7 @@ class N06ParallelOrchestrator:
                     "pipeline_layer": "parallel",
                     "node_id": "N06",
                     "node_status": result.gather_status,
-                    "result_data": result.model_dump(mode="json"),
+                    "result_data": result_data,
                     "created_at": now_iso,
                 }
             ).execute()

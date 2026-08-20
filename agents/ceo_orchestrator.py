@@ -6,6 +6,7 @@ Spec: .kiro/specs/mepia/n05_ceo_orchestrator.md
 """
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 from datetime import datetime, timezone
@@ -17,6 +18,12 @@ from pydantic import BaseModel
 from agents.calc_engine import CalcResult, run_calc_engine
 from agents.forensic_cfo import AnomalyItem, ForensicReport, ForensicCFOAgent
 from agents.gatekeeper import GatekeeperAgent, GatekeeperResult
+from agents.parallel_orchestrator import (
+    ContextTags,
+    Layer2RunPayload,
+    N06ParallelOrchestrator,
+    SequentialContext,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -228,6 +235,8 @@ class N05CEOOrchestrator:
             archetype=archetype,
             temporalidad=temporalidad,
             calc_results=calc_results_dicts,
+            audit_insights=audit_insights,
+            active_metrics=gk_result.active_metrics,
         )
 
         if escalation.triggered:
@@ -551,6 +560,8 @@ class N05CEOOrchestrator:
         archetype: Archetype,
         temporalidad: str,
         calc_results: list[dict],
+        audit_insights: list[AuditInsight],
+        active_metrics: list[str],
     ) -> EscalationInfo:
         """
         Evalúa si escalar a Layer 2 según risk_level y flag del request.
@@ -580,6 +591,8 @@ class N05CEOOrchestrator:
                 temporalidad=temporalidad,
                 calc_results=calc_results,
                 forensic_report=forensic_report,
+                audit_insights=audit_insights,
+                active_metrics=active_metrics,
             )
             # P2: triggered=True → layer2_run_id no nulo
             return EscalationInfo(
@@ -601,29 +614,116 @@ class N05CEOOrchestrator:
         temporalidad: str,
         calc_results: list[dict],
         forensic_report: ForensicReport,
+        audit_insights: list[AuditInsight],
+        active_metrics: list[str],
     ) -> None:
         """
-        Dispara POST /layer2/run internamente.
-        En V1 se registra el intent en audit_results — N06 aún no está implementado.
+        Dispara N06 (Layer 2 scatter-gather) de verdad.
+
+        Antes (V1) solo se registraba el intent en audit_results ("N06_pending")
+        sin invocar nada -- N06 ya existe y funciona (agents/parallel_orchestrator.py,
+        con su propio endpoint /layer2/run), simplemente nunca se conectó a N05.
+
+        Fire-and-forget: N05 dispara Layer 2 y sigue con su propio reporte sin
+        esperar a que termine (coincide con el docstring original: "Dispara
+        POST /layer2/run internamente"). N06ParallelOrchestrator.run() hace su
+        propia persistencia en audit_results con node_id="N06" -- /layer2/status
+        ya sabe leer de ahí, no hace falta loguear un placeholder aparte.
         """
-        now_iso = datetime.now(timezone.utc).isoformat()
-        self._db.table("audit_results").insert(
-            {
-                "id": layer2_run_id,
-                "business_id": business_id,
-                "date": date,
-                "pipeline_layer": "parallel",
-                "node_id": "N06_pending",
-                "node_status": "pending",
-                "result_data": {
-                    "sequential_run_id": sequential_run_id,
-                    "archetype": archetype,
-                    "temporalidad": temporalidad,
-                    "trigger_reason": "risk_level_high",
+        payload = Layer2RunPayload(
+            layer2_run_id=layer2_run_id,
+            sequential_run_id=sequential_run_id,
+            business_id=business_id,
+            date=date,
+            archetype=archetype,
+            temporalidad=temporalidad,
+            sequential_context=SequentialContext(
+                business_id=business_id,
+                active_metrics=active_metrics,
+                calc_results=calc_results,
+                forensic_report=forensic_report.model_dump(mode="json"),
+                insights=[i.model_dump(mode="json") for i in audit_insights],
+                context_tags=ContextTags(),
+            ),
+        )
+        coro = self._run_layer2_then_layer3(payload)
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+        if loop is not None:
+            # Ya hay un event loop corriendo (ej. llamado desde un endpoint
+            # async de FastAPI) -- programar como task, no bloquear.
+            loop.create_task(coro)
+        else:
+            # Sin event loop activo (ej. llamado sync desde un script/test) --
+            # correrlo directo, sin bloquear nada mas porque no hay nada mas
+            # corriendo en este hilo de todas formas.
+            asyncio.run(coro)
+
+    async def _run_layer2_then_layer3(self, payload: Layer2RunPayload) -> None:
+        """
+        Corre N06 y, si termina con al menos un nodo exitoso, encadena Layer 3
+        automaticamente -- antes nada disparaba Layer 3 al terminar N06, el
+        endpoint real (/layer3/run, modo normal) requeria que alguien lo
+        llamara a mano con el audit_run_id. Ahora es automatico.
+
+        Usa los datos ya en memoria (payload.sequential_context + el resultado
+        fresco de N06) en vez de re-leerlos de la DB -- evita depender de que
+        _persist ya haya escrito (aunque tambien se corrigio para incluir
+        sequential_context, por si alguien dispara Layer 3 manualmente despues).
+
+        Un fallo en Layer 3 nunca debe borrar el trabajo de N06, que ya
+        termino y ya se persistio -- por eso todo el bloque de Layer 3 esta
+        en su propio try/except.
+        """
+        result = await N06ParallelOrchestrator(self._db).run(payload)
+
+        if result.gather_status == "failed":
+            # Los 3 nodos de Layer 2 fallaron -- no tiene caso generar un
+            # reporte consolidado sin ninguna señal nueva que aportar.
+            return
+
+        try:
+            from agents.layer3_graph import build_layer3_graph
+
+            try:
+                from utils.memory_service import MemoryService
+                memory_service = MemoryService(supabase_client=self._db)
+            except Exception:
+                memory_service = None
+
+            initial_state = {
+                "layer3_run_id": str(uuid4()),
+                "layer2_run_id": payload.layer2_run_id,
+                "sequential_run_id": payload.sequential_run_id,
+                "business_id": payload.business_id,
+                "date": payload.date,
+                "archetype": payload.archetype,
+                "enriched_payload": {},
+                "draft_report": None,
+                "intentos_critico": 0,
+                "feedback_critico": None,
+                "historial_feedback": [],
+                "tipos_falla_critico": [],
+                "draft_status": "pending",
+                "audit_results": [],
+                "final_response": None,
+                "_db": self._db,
+                "_memory_service": memory_service,
+                "_parallel_gather_result": {
+                    "temporalidad": payload.temporalidad,
+                    "sequential_context": payload.sequential_context.model_dump(mode="json"),
+                    "node_results": [nr.model_dump(mode="json") for nr in result.node_results],
                 },
-                "created_at": now_iso,
             }
-        ).execute()
+            graph = build_layer3_graph(memory_service)
+            await graph.ainvoke(initial_state)
+        except Exception:
+            # Layer 3 fallo -- N06 ya corrio y ya se persistio, no se pierde.
+            # Alguien puede reintentar Layer 3 manualmente despues via
+            # /layer3/run con este mismo layer2_run_id como audit_run_id.
+            pass
 
     # ------------------------------------------------------------------
     # Persistencia
