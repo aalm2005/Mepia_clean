@@ -69,25 +69,41 @@ _VERDICT_SCHEMA = {
 }
 
 _SYSTEM_PROMPT_N13 = """Eres el Revisor de Calidad (N13) del sistema MEPIA.
-Tu trabajo es evaluar el borrador de auditoría generado por N11 en dos dimensiones:
+Tu ÚNICO trabajo en esta evaluación es el TEST MATEMÁTICO. El test de lenguaje
+prohibido/identidad ya NO es tu responsabilidad — se calcula por separado con
+código determinista, fuera de este LLM. No lo evalúes, no lo menciones, y
+nunca devuelvas "DESVIACION_IDENTIDAD" en tipos_falla — si lo haces, se
+ignora de todas formas.
 
-1. TEST MATEMÁTICO (ALUCINACION_MATEMATICA):
+TEST MATEMÁTICO (ALUCINACION_MATEMATICA):
    - Extrae TODAS las cifras numéricas del operational_narrative y executive_summary.
-   - Verifica que cada cifra exista en forensic_report, audit_insights o time_series.
-   - Si encuentras UNA cifra que no existe en los datos → ALUCINACION_MATEMATICA.
-
-2. TEST DE IDENTIDAD (DESVIACION_IDENTIDAD):
-   - Verifica que el texto NO use lenguaje corporativo prohibido.
-   - Palabras prohibidas: "optimizar recursos", "sinergia", "KPIs", "roadmap",
-     "stakeholders", "apalancar", "deep dive", "best practices".
-   - Si encuentras UNA palabra prohibida → DESVIACION_IDENTIDAD.
+   - Verifica que cada cifra provenga de un valor real en forensic_report, audit_insights
+     o time_series — ya sea exacta, o un REDONDEO NATURAL razonable de ese valor real
+     (ej. 25.93% descrito como "un cuarto" o "aproximadamente 26%"; 5.63 días descrito
+     como "casi 6 días"; $146.16 descrito como "cerca de 150 pesos"). Un redondeo natural
+     es tolerable dentro de ~10% de diferencia relativa del valor real, para que el
+     texto sea legible sin dejar de ser honesto.
+   - Es ALUCINACION_MATEMATICA solo si la cifra NO corresponde a ningún valor real de los
+     datos (inventada de la nada), o si la diferencia con el valor real supera ese ~10%
+     de tolerancia razonable.
+   - También es ALUCINACION_MATEMATICA cualquier ejemplo físico/analogía (kilos de un
+     insumo, unidades de un producto, etc.) que mencione un insumo o producto que NO
+     aparece en los datos de este caso — aunque la cifra en sí sea plausible.
+   - CUIDADO CON AGREGADO vs. POR-RESPONSABLE: los datos suelen traer DOS cifras
+     distintas y legítimas para el mismo tipo de métrica — un total del DÍA COMPLETO
+     (todos los responsables juntos) y un total PROPIO de un responsable específico
+     (ej. "subtotal: 2470.00" es del día completo, "subtotal_propio: 1350.00" es solo
+     de esa persona — ambos están en los mismos datos, ninguno es un error). Si la
+     narrativa atribuye una cifra a un responsable nombrado específicamente (ej. "M-03"),
+     verifica esa cifra contra el desglose POR ESE RESPONSABLE en los datos (busca su
+     ID específico), no contra el total agregado del día — son dos cosas distintas y
+     ambas pueden estar correctas a la vez sin contradecirse.
 
 REGLAS:
 - Si apruebas: tipos_falla = ["NINGUNA"], warning_especifico = null,
   insight_para_memoria = resumen de 2 líneas del reporte para memoria histórica.
-- Si rechazas: tipos_falla = lista de fallas encontradas, warning_especifico = descripción
-  detallada de TODAS las fallas para que N11 las corrija, insight_para_memoria = null.
-- Puedes detectar múltiples fallas simultáneas.
+- Si rechazas: tipos_falla = ["ALUCINACION_MATEMATICA"], warning_especifico = descripción
+  detallada de la falla para que N11 la corrija, insight_para_memoria = null.
 - Responde ÚNICAMENTE con el JSON estructurado."""
 
 
@@ -196,8 +212,53 @@ def _run_n13(state: Layer3State, memory_service: Any) -> dict:
         }
 
 
+_PALABRAS_PROHIBIDAS = [
+    "optimiz",  # raiz: optimizar, optimizando, optimización, optimizado, optimiza...
+    "sinergia", "kpi", "roadmap", "stakeholder",
+    "apalanc",  # raiz: apalancar, apalancando, apalancado...
+    "deep dive", "best practice",
+]
+
+
+def _check_identity_deviation(draft_report: dict) -> Optional[str]:
+    """Chequeo DETERMINISTA de lenguaje prohibido -- no depende del LLM.
+
+    Se movio de la LLM (n13) a codigo puro tras confirmar en eval real que el
+    LLM repetidamente (a) escaneaba audit_insights/datos_referencia (que N11 no
+    escribe y no puede corregir) en vez de limitarse al draft_report, pese a
+    instrucciones explicitas en el prompt, y (b) inventaba palabras prohibidas
+    fuera de la lista real ("cuello de botella", "control de inventario").
+    Buscar 8 frases exactas es un problema determinista -- Python lo hace mejor
+    que un LLM, mismo principio que ya aplicamos en S4 (Bloque A/B).
+
+    Revisa UNICAMENTE los campos que N11 genero: executive_summary,
+    operational_narrative, y el "action" de cada pragmatic_action. Nunca
+    revisa datos_referencia (forensic_report/audit_insights/time_series).
+    """
+    textos = [
+        draft_report.get("executive_summary", "") or "",
+        draft_report.get("operational_narrative", "") or "",
+    ]
+    for accion in draft_report.get("pragmatic_actions", []) or []:
+        if isinstance(accion, dict):
+            textos.append(accion.get("action", "") or "")
+
+    texto_completo = " ".join(textos).lower()
+    for frase in _PALABRAS_PROHIBIDAS:
+        if frase in texto_completo:
+            return frase
+    return None
+
+
 def _evaluate_with_llm(draft_report: dict, enriched_payload: dict) -> CriticVerdict:
-    """Llama a gpt-4o con structured output para evaluar el DraftReport."""
+    """Llama a gpt-4o con structured output para evaluar el DraftReport.
+
+    DESVIACION_IDENTIDAD se calcula SIEMPRE de forma determinista (ver
+    _check_identity_deviation), corra o no el LLM -- por eso corre antes del
+    try/except del LLM, no depende de que la llamada tenga éxito.
+    """
+    frase_prohibida = _check_identity_deviation(draft_report)
+
     try:
         from openai import OpenAI
 
@@ -236,21 +297,40 @@ def _evaluate_with_llm(draft_report: dict, enriched_payload: dict) -> CriticVerd
 
         raw = json.loads(response.choices[0].message.content)
         tipos = [TipoFalla(t) for t in raw.get("tipos_falla", ["NINGUNA"])]
+        # El LLM ya no decide DESVIACION_IDENTIDAD (ver _check_identity_deviation) --
+        # si la sigue devolviendo por costumbre del prompt viejo, se ignora aqui.
+        tipos = [t for t in tipos if t != TipoFalla.DESVIACION_IDENTIDAD]
+
+        warning = raw.get("warning_especifico")
+        if frase_prohibida:
+            tipos = [t for t in tipos if t != TipoFalla.NINGUNA]
+            tipos.append(TipoFalla.DESVIACION_IDENTIDAD)
+            nota = f'Lenguaje prohibido detectado: "{frase_prohibida}" en el texto generado por N11.'
+            warning = f"{warning} {nota}" if warning else nota
+        if not tipos:
+            tipos = [TipoFalla.NINGUNA]
 
         return CriticVerdict(
-            aprobado=raw["aprobado"],
+            aprobado=raw["aprobado"] and frase_prohibida is None,
             tipos_falla=tipos,
-            warning_especifico=raw.get("warning_especifico"),
+            warning_especifico=warning,
             insight_para_memoria=raw.get("insight_para_memoria"),
         )
 
     except Exception as exc:
-        # P9: LLM error → approved_with_warning, pipeline no se bloquea
+        # P9: LLM error → approved_with_warning si no hay lenguaje prohibido,
+        # pero el chequeo determinista de identidad SIGUE aplicando aunque el
+        # LLM (que solo hace el test matematico) no este disponible.
+        tipos = [TipoFalla.DESVIACION_IDENTIDAD] if frase_prohibida else [TipoFalla.NINGUNA]
+        nota_llm = f"Revisión matemática automática — LLM no disponible: {exc}"
+        nota_identidad = (
+            f' Lenguaje prohibido detectado: "{frase_prohibida}".' if frase_prohibida else ""
+        )
         return CriticVerdict(
-            aprobado=True,
-            tipos_falla=[TipoFalla.NINGUNA],
-            warning_especifico=None,
-            insight_para_memoria=f"Revisión automática — LLM no disponible: {exc}",
+            aprobado=frase_prohibida is None,
+            tipos_falla=tipos,
+            warning_especifico=(nota_llm + nota_identidad) if frase_prohibida else None,
+            insight_para_memoria=nota_llm if not frase_prohibida else None,
         )
 
 

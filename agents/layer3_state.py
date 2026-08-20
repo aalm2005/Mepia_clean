@@ -81,3 +81,15 @@ class Layer3State(TypedDict):
 
     # ── Output terminal (escrito por N14) ─────────────────────────────────────
     final_response: Optional[Dict[str, Any]]  # FinalResponse empaquetado — default None
+
+    # ── Dependencias inyectadas (viven solo en memoria del grafo) ─────────────
+    #    CRITICO: LangGraph filtra initial_state contra este TypedDict -- toda
+    #    llave no declarada aqui se descarta ANTES de que el primer nodo la
+    #    vea, sin error ni warning. Confirmado con un grafo minimo de prueba
+    #    (sesion Nivel 3b): sin estas 3 declaraciones, N10 recibia estas
+    #    llaves vacias pese a que el caller si las mandaba, perdiendo
+    #    forensic_report/audit_insights/db en cada corrida real -- incluyendo
+    #    en produccion, api/main.py las inyecta con el mismo patron.
+    _db: Any                                     # cliente Supabase (o MockDB en tests)
+    _memory_service: Any                         # MemoryService | None
+    _parallel_gather_result: Dict[str, Any]      # ParallelGatherResult serializado
