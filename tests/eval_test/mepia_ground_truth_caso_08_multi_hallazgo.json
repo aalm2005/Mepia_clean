@@ -835,6 +835,13 @@
       "responsable": "M-03",
       "severidad": "warning",
       "justificacion_corta": "Fuga de margen real (25.9% descuento, 9.63% cortesía sobre ventas propias, base subtotal) — muy por encima del agregado del día. MATIZ tras revisión ciega: mi framing original decía \"sin evidencia de fraude, tono no acusatorio\". La IA revisora, viendo los mismos datos crudos, señaló que los 5 descuentos se aplicaron consecutivamente a pagos en EFECTIVO — un vector real de posible fraude (cobrar completo, registrar descuento, quedarse con la diferencia), aunque sin el patrón de motivo-repetido que sí tiene C-07. Conclusión: no se puede afirmar \"sin evidencia de fraude\" como un hecho — solo se puede decir que no tiene el mismo patrón de mala fe explícita que C-07. El tono correcto es \"amerita revisión, no descartar\", no \"definitivamente inocente\"."
+    },
+    {
+      "prioridad": 4,
+      "flag": "stock_bajo",
+      "insumo": "cafe_grano",
+      "severidad": "warning",
+      "justificacion_corta": "6.92 dias de stock restante para cafe_grano, por debajo del umbral de 7 dias -- senal operativa real (riesgo de desabasto), pero de menor severidad que las otras 3: no implica perdida financiera directa ni mala conducta, es una alerta de reabastecimiento a tiempo. Se agrego esta vez con commit inmediato para no perderse otra vez (sesion Nivel 3b, revision de accuracy final)."
     }
   ]
 }
