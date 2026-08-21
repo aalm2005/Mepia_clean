@@ -125,7 +125,19 @@ Responde ÚNICAMENTE con un JSON válido con esta estructura exacta:
   ]
 }
 No incluyas texto fuera del JSON. No uses markdown dentro del JSON.
-Pragmatic_actions: mínimo 1, máximo 3."""
+
+REGLA DE COBERTURA (independiente del límite de acciones de abajo):
+"operational_narrative" DEBE mencionar TODAS las anomalías reales del Bloque A,
+sin excepción — aunque haya 4, 5 o más. Nunca omitas una anomalía real solo
+porque ya cubriste otras. Si son muchas, sé más breve en cada una (una o dos
+frases por anomalía) en vez de omitir alguna por completo.
+
+Pragmatic_actions: mínimo 1, máximo 3 -- este límite es SOLO para las acciones
+recomendadas, no limita cuántas anomalías puedes narrar arriba. Si hay más de 3
+anomalías, agrupa varias en una sola acción cuando tenga sentido (ej. una
+acción de "revisar con el equipo el manejo de caja y descuentos" puede cubrir
+tanto una varianza de caja como una tasa de descuento alta) -- pero eso nunca
+justifica dejar una anomalía real fuera de operational_narrative."""
 
 _FEEDBACK_TEMPLATE = """
 ⚠️ REVISIÓN RECHAZADA: Tu borrador anterior no cumplió con los estándares.
