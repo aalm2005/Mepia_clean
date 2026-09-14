@@ -600,3 +600,24 @@ audit_results: List[dict]        # veredictos serializados — default []
 # Output terminal (escrito por N14)
 final_response: dict | None      # FinalResponse empaquetado — default None
 ```
+
+### ChatEvidenceReference
+```
+audit_result_id: str             # audit_results.id
+node_id: str                     # "S3" o "N14" en fase 1
+date: YYYY-MM-DD
+created_at: datetime | null
+```
+
+### ChatGroundingPacket
+Paquete determinista permitido como evidencia del futuro chatbot.
+```
+business_id: str
+requested_date: YYYY-MM-DD | null
+resolved_date: YYYY-MM-DD | null
+metrics: list[dict]              # allowlist de CalcResult
+final_report: dict | null        # allowlist de FinalReport
+evidence: ChatEvidenceReference[]
+missing_data: str[]
+built_at: datetime
+```

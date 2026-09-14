@@ -173,10 +173,23 @@ Persiste outputs de todos los nodos del pipeline (S3, S4, N06, N07, N08, N09, La
 | node_id         | text         | `"S3"` \| `"S4"` \| `"N06"` \| `"N07"` \| `"N08"` \| `"N09"` \| `"N11"` etc. |
 | module          | text         | Nombre descriptivo del módulo (ej. `"conciliacion_caja"`)          |
 | archetype       | text         | `"Operative Genius"` \| `"Product Purist"` \| `"Growth Hacker"`   |
-| raw_result      | jsonb        | JSON serializado del resultado del nodo                            |
+| raw_result      | jsonb/text   | Campo legacy; se conserva por compatibilidad                       |
+| result_data     | jsonb        | Contrato vigente: resultado estructurado de cada nodo              |
 | copilot_phrase  | text         | Frase CEO-framed — `null` para nodos que no generan frases (N06)  |
 | node_status     | text         | `"success"` \| `"partial"` \| `"failed"` \| `"timeout"` \| `"error"` |
 | created_at      | timestamptz  | default now()                                                      |
+
+`node_status` describe la ejecución del nodo y usa únicamente `success`, `partial`,
+`failed`, `timeout` o `error`. Veredictos de dominio como `approved` o `rejected`
+se conservan dentro de `result_data`. La migración
+`008_audit_results_runtime_contract.sql` actualiza instalaciones creadas desde el
+schema legacy de `001_init.sql`. Antes de instalar el constraint, normaliza los
+estados históricos con esta política: `completed`, `complete`, `approved` y
+`approved_with_warning_cortafuegos` → `success`; `rejected` y `pending` →
+`partial`; los estados vigentes se conservan y cualquier valor no reconocido →
+`error`. `pending` se considera una ejecución incompleta, no una ejecución
+exitosa. Los valores `NULL` permanecen `NULL` por compatibilidad con filas
+antiguas sin estado.
 
 ---
 

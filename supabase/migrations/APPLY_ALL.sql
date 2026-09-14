@@ -142,10 +142,53 @@ CREATE TABLE IF NOT EXISTS audit_results (
     module           TEXT,
     archetype        TEXT,
     raw_result       JSONB,
+    result_data      JSONB,
     copilot_phrase   TEXT,
     node_status      TEXT CHECK (node_status IN ('success', 'partial', 'failed', 'timeout', 'error')),
     created_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Compatibilidad con instalaciones creadas desde 001_init.sql. En esas bases,
+-- CREATE TABLE IF NOT EXISTS no agrega las columnas del contrato actual.
+ALTER TABLE audit_results
+    ADD COLUMN IF NOT EXISTS run_id UUID,
+    ADD COLUMN IF NOT EXISTS business_id UUID REFERENCES businesses(id),
+    ADD COLUMN IF NOT EXISTS date DATE,
+    ADD COLUMN IF NOT EXISTS pipeline_layer TEXT,
+    ADD COLUMN IF NOT EXISTS node_id TEXT,
+    ADD COLUMN IF NOT EXISTS result_data JSONB,
+    ADD COLUMN IF NOT EXISTS node_status TEXT;
+
+ALTER TABLE audit_results ALTER COLUMN module DROP NOT NULL;
+ALTER TABLE audit_results DROP CONSTRAINT IF EXISTS audit_results_pipeline_layer_check;
+ALTER TABLE audit_results ADD CONSTRAINT audit_results_pipeline_layer_check
+    CHECK (pipeline_layer IS NULL OR pipeline_layer IN ('sequential', 'parallel', 'loop'));
+ALTER TABLE audit_results DROP CONSTRAINT IF EXISTS audit_results_node_status_check;
+
+-- Normaliza filas escritas por versiones anteriores antes de instalar el
+-- constraint vigente. Si se agrega el constraint primero, PostgreSQL valida las
+-- filas legacy y aborta al encontrar completed/complete/approved/rejected/pending.
+-- pending representaba un handoff incompleto hacia N06, por eso pasa a partial.
+-- Un valor desconocido se marca error para conservar la evidencia de la fila.
+UPDATE audit_results
+SET node_status = CASE lower(btrim(node_status))
+    WHEN 'success' THEN 'success'
+    WHEN 'completed' THEN 'success'
+    WHEN 'complete' THEN 'success'
+    WHEN 'approved' THEN 'success'
+    WHEN 'approved_with_warning_cortafuegos' THEN 'success'
+    WHEN 'partial' THEN 'partial'
+    WHEN 'rejected' THEN 'partial'
+    WHEN 'pending' THEN 'partial'
+    WHEN 'failed' THEN 'failed'
+    WHEN 'timeout' THEN 'timeout'
+    WHEN 'error' THEN 'error'
+    ELSE 'error'
+END
+WHERE node_status IS NOT NULL;
+
+ALTER TABLE audit_results ADD CONSTRAINT audit_results_node_status_check
+    CHECK (node_status IS NULL OR node_status IN ('success', 'partial', 'failed', 'timeout', 'error'));
 
 CREATE TABLE IF NOT EXISTS circuit_breaker_state (
     id                   UUID PRIMARY KEY DEFAULT gen_random_uuid(),

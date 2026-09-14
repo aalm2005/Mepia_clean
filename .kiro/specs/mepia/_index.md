@@ -40,6 +40,8 @@
 [Layer 2: Parallel]   Orquestador → N09 Gastos (N07/N08 skipped_v1)
         ↓
 [Layer 3: Loop/Critic] N10 Context Builder → N11 Consultor → N12 Phrase Expander → N13 Revisor → N14 Informe Final
+        ↓
+[Application Layer] N15 Chat fundamentado → interfaz Chat IA
 ```
 
 ## Nodos y archivos de spec
@@ -47,12 +49,12 @@
 | ID   | Nodo                    | Capa       | Archivo                    | Estado      |
 |------|-------------------------|------------|----------------------------|-------------|
 | S1   | Ingesta (3 inputs)      | Sequential | `s1_ingesta.md`            | 🔧 in dev   |
-| S1B  | Ingesta API (primaria)  | Sequential | `s1b_ingesta_api.md`       | 🔧 in dev   |
+| S1B  | Ingesta API (primaria)  | Sequential | `s1b_ingesta_api.md`       | ✅ done     |
 | N01  | POS PDF Input (fallback)| Sequential | `n01_pos_pdf_input.md`     | ✅ done — fallback, ya no ruta primaria |
 | N02  | Facturas Proveedor Input| Sequential | `n02_facturas_input.md`    | ✅ done      |
 | N03  | Human Input Endpoints   | Sequential | `n03_human_input_endpoints.md` | ✅ req done |
 | S2   | Stand-by / Gatekeeper   | Sequential | `s2_gatekeeper.md`         | ✅ req done  |
-| S3   | Motor de Cálculo        | Sequential | `s3_motor_calculo.md`      | 🔧 in dev — extendido con 24 métricas nuevas |
+| S3   | Motor de Cálculo        | Sequential | `s3_motor_calculo.md`      | ✅ done — extendido con 26 métricas nuevas |
 | S4   | Forensic CFO (Auditoría IA) | Sequential | `s4_auditoria_ia.md`       | ✅ done      |
 | N05  | CEO Orchestrator (Síntesis Estratégica) | CEO Layer  | `n05_ceo_orchestrator.md`  | ✅ done     |
 | N06  | Orquestador ADK         | Parallel   | `n06_orchestrator_adk.md`  | ✅ done     |
@@ -71,6 +73,7 @@
 | AUTH | Autenticación y Autorización | Transversal | `_auth_strategy.md`   | ✅ req done |
 | ONB  | Onboarding de Identidad | Transversal| `n10_onboarding_identidad.md` | ✅ req done |
 | EVAL | Set de Evaluación Offline | Transversal | `eval_offline.md`       | 🔧 in dev — placeholder |
+| N15  | Chat de consulta fundamentada | Aplicación | `n15_chat_consulta.md` | 🔧 in dev — fase 1 completa |
 
 - **POSIngestResult** → `n01_pos_pdf_input.md`
 - **FacturaIngestResult** → `n02_facturas_input.md`
@@ -94,6 +97,7 @@
 - **OrchestratorResult** → `n05_ceo_orchestrator.md`
 - **AgentResult** → `agents/base_agent.py`
 - **MemoryChunk** → `mem_memory_layer.md`
+- **ChatGroundingPacket** → `n15_chat_consulta.md`
 
 ## Diseño Frontend (Fase 2)
 
@@ -110,7 +114,7 @@
 | Spec          | Archivo de código                        |
 |---------------|------------------------------------------|
 | N01           | `api/main.py` + `agents/pos_parser.py` + `app/api/upload/route.ts`|
-| S1B           | `api/main.py` → `POST /ingest/api-event` (pendiente) |
+| S1B           | `api/main.py` → `POST /ingest/api-event`             |
 | N02           | `api/main.py` → `POST /ingest/factura` + `agents/factura_parser.py`|
 | N03           | `api/main.py` → `/transactions`, `/cash-counts`, `/onboarding` |
 | N05           | `api/main.py` → `POST /orchestrator/run`, `GET /orchestrator/status/{run_id}` |
@@ -127,6 +131,7 @@
 | Layer 3 State       | `agents/layer3_state.py`                 |
 | API Layer 3         | `api/main.py` → `POST /api/audit/layer3/run`, `GET /api/audit/layer3/status/{id}`, `GET /api/audit/layer3/result/{id}` |
 | MEM MemoryService   | `utils/memory_service.py`                |
+| N15 Chat grounding  | `agents/chat_grounding.py`               |
 
 ## Schema de base de datos
 

@@ -377,7 +377,13 @@ def _persist_n13(
                 "date": date,
                 "pipeline_layer": "loop",
                 "node_id": "N13",
-                "node_status": verdict_entry.get("resultado", "unknown"),
+                # node_status describe la ejecución del nodo; el veredicto de
+                # calidad se conserva sin pérdida en result_data.resultado.
+                "node_status": (
+                    "success"
+                    if str(verdict_entry.get("resultado", "")).startswith("approved")
+                    else "partial"
+                ),
                 "result_data": verdict_entry,
                 "created_at": verdict_entry.get("timestamp"),
             }

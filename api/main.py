@@ -1638,7 +1638,7 @@ async def run_audit(payload: AuditRunPayload):
                 "date": payload.date,
                 "pipeline_layer": "sequential",
                 "node_id": "S4",
-                "node_status": "completed",
+                "node_status": "success",
                 "result_data": report.model_dump(mode="json"),
                 "created_at": now_iso,
             }

@@ -750,7 +750,7 @@ class N05CEOOrchestrator:
                     "date": date,
                     "pipeline_layer": "sequential",
                     "node_id": "N05",
-                    "node_status": "completed",
+                    "node_status": "success",
                     "result_data": {
                         "archetype": archetype,
                         "pipeline_status": pipeline_status,

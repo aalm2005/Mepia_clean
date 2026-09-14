@@ -515,7 +515,11 @@ class N06ParallelOrchestrator:
                     "date": result.date,
                     "pipeline_layer": "parallel",
                     "node_id": "N06",
-                    "node_status": result.gather_status,
+                    "node_status": {
+                        "complete": "success",
+                        "partial": "partial",
+                        "failed": "failed",
+                    }.get(result.gather_status, "error"),
                     "result_data": result_data,
                     "created_at": now_iso,
                 }

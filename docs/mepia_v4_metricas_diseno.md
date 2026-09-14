@@ -34,6 +34,7 @@
 | 18 | **Hueco N05→N06 cerrado.** `_trigger_layer2` en `ceo_orchestrator.py` solo registraba un "intent" en `audit_results` (`node_id="N06_pending"`) — nunca invocaba realmente a N06 (`agents/parallel_orchestrator.py`), pese a que N06 ya existía completo, con sus propios tests PBT y su propio endpoint real `/layer2/run`. Corregido: `_trigger_layer2` ahora arma el `Layer2RunPayload` real (con `active_metrics`, `calc_results`, `forensic_report`, `audit_insights` — antes no se pasaban) y llama a `N06ParallelOrchestrator(self._db).run(payload)`. Fire-and-forget con manejo correcto de event loop: si ya hay un loop corriendo (como en el endpoint real de FastAPI, que es `async def`), lo programa como `task` sin bloquear; si no hay loop activo (como en un script/test síncrono), lo corre con `asyncio.run()` — evita el crash típico de invocar `asyncio.run()` dentro de un loop ya activo. Verificado en aislado (N06 corre y regresa `gather_status` real) y en cadena completa (forzando `risk_level=high`, la escalación dispara con `layer2_run_id` real e invoca N06). Nivel 3a se mantiene en 8/8 tras el cambio — el fix no alteró la lógica de decisión de escalar, solo conectó lo que ya existía | ✅ Cerrado |
 | 19 | **Hueco N06→Layer 3 encontrado y cerrado.** Al revisar qué pasa después de que N06 termina, se encontró que nada disparaba Layer 3 automáticamente — el endpoint real `/layer3/run` (modo normal) requiere que alguien lo llame manualmente con un `audit_run_id` de un N06 ya completado. Es decir, aunque N05→N06 ya estaba conectado (decisión #18), el resultado de la investigación profunda de N06 nunca llegaba solo al reporte final que lee el usuario. **Segundo bug encontrado en el camino**: `N06ParallelOrchestrator._persist()` nunca guardaba `sequential_context` (el forensic_report/insights de N05) dentro de `result_data` — solo guardaba sus propios `node_results`. Esto significa que incluso si alguien disparaba Layer 3 manualmente vía el endpoint real, N10 (context_builder) habría recibido forensic_report/insights vacíos de todas formas — mismo patrón de "el dato existe pero nunca se guarda/pasa" que el bug de `Layer3State`/LangGraph (decisión #17). Corregido: `_persist()` ahora incluye `sequential_context` en lo que guarda; `_trigger_layer2` (renombrado internamente a `_run_layer2_then_layer3`) espera a que N06 termine y, si al menos un nodo tuvo éxito, dispara Layer 3 automáticamente usando los datos ya en memoria (payload.sequential_context + el resultado fresco de N06), sin depender de releer la base. Un fallo en Layer 3 nunca borra el trabajo de N06 (ya persistido aparte) — todo el bloque de Layer 3 vive en su propio try/except. Verificado extremo a extremo forzando escalación con LLM simulado: la cadena completa N05→N06→Layer3 corre sin errores funcionales | ✅ Cerrado |
 | 20 | **Validación final: ¿el reporte consolidado de N14 llega al 90-95% de accuracy original?** Nivel 3b había verificado que el reporte pasa control de calidad (sin alucinación, sin desviación de identidad) pero nunca se había comparado su *contenido* contra `esperado_hallazgos` — esa comparación es la que de verdad responde la pregunta con la que arrancó el proyecto ("¿el sistema llega a los hallazgos correctos?"). Se extendió `eval_runner_n3b.py` con `check_report_content()` — mismo patrón de keywords por flag que ya usa el matcher de Nivel 2, pero buscando en el texto libre del reporte final en vez de en `metric_origin` estructurado. Primera corrida: 8/9 (88.9%) — faltaba `stock_bajo` en `caso_08`, que resultó ser una entrada de `esperado_hallazgos` que se había agregado en una sesión anterior pero **nunca se llegó a confirmar en git** (se perdió en un `git reset --hard origin/master` de sincronización) — se volvió a agregar y esta vez sí se subió a git de inmediato. Con eso: 9/10 (90.0%) — pero `caso_08` (el caso con más señales, 5 anomalías reales) seguía sin mencionar `descuentos_cortesias_concentrados` en el reporte final, de forma repetible en 2 corridas seguidas con LLM real (no era ruido aleatorio). Causa encontrada en el prompt de N11: "`pragmatic_actions`: mínimo 1, máximo 3" se estaba acoplando implícitamente a cuántos hallazgos se narraban — con 5 anomalías reales pero tope de 3 acciones, N11 aparentemente solo narraba lo que alcanzaba a cubrir con acciones. Corregido con una regla de cobertura explícita y separada: el tope de 3 acciones es solo para las acciones recomendadas, `operational_narrative` debe mencionar TODAS las anomalías reales sin excepción, agrupando varias en una sola acción si hace falta. Verificado: `caso_08` pasa a 4/4 hallazgos mencionados. **Resultado final: 10/10 (100%) en el chequeo de contenido del reporte consolidado** — por encima del objetivo original de 90-95% con el que arrancó todo el proyecto | ✅ Cerrado |
+| 21 | **Inicio del chatbot fundamentado, fase 1.** Antes de llamar a un LLM se creó `ChatGroundingService`, que arma un paquete determinista solo con métricas S3 y reporte N14 del mismo negocio y fecha, aplica allowlists de campos, adjunta referencias a `audit_results` y declara fuentes faltantes sin inventar valores. La revisión encontró un prerrequisito de producción: el código persistía en `result_data`, pero las migraciones solo declaraban `raw_result`; además, varios nodos escribían estados fuera del constraint SQL. Se agregó la migración `008_audit_results_runtime_contract.sql`, se corrigió `APPLY_ALL.sql` para instalaciones nuevas y legacy, y se normalizó `node_status` al vocabulario operativo (`success`, `partial`, `failed`, `timeout`, `error`). Corrección 1 del 14-sep-2026: ambos scripts ahora eliminan el constraint anterior, convierten las filas históricas y solo entonces instalan el constraint nuevo; así `completed`, `complete`, `approved`, `approved_with_warning_cortafuegos`, `rejected` y `pending` ya no pueden abortar la migración. `pending` pasa a `partial` porque en producción identifica el handoff incompleto `N06_pending`, no una ejecución exitosa. Los valores desconocidos pasan a `error` y `NULL` se conserva. Validación cerrada en el proyecto aislado de Supabase `MEPIA - PRUEBAS`: 13 estados sintéticos, dos ejecuciones consecutivas del archivo `008` completo, 0 estados inválidos, constraint vigente, 2 índices esperados y 13/13 filas preservadas. El chat aún no expone endpoint ni usa LLM: primero se cierra la cadena de evidencia y la autorización por negocio. | 🔧 En progreso — corrección 1 validada en pruebas; despliegue en producción y correcciones 2–4 pendientes |
 
 ---
 
@@ -246,8 +247,65 @@ siguiente número que salga del eval runner es el que cuenta.
 3. ~~Ejecutar el prompt de Kiro (Tareas 1–5) para generar/actualizar los specs~~ — hecho.
 4. ~~Codificar lo que los specs describen~~ — hecho.
 5. ~~Correr los 8 casos y registrar el primer número de accuracy honesto~~ — hecho. Nivel 1: 100% (95/95). Nivel 2 (S3→S4): 90.9% recall (10/11), techo real del harness (ver decisión #15).
-6. **Pipeline completo validado extremo a extremo, incluyendo el contenido del reporte final.** Nivel 1: 100%. Nivel 2: 90.9% recall (techo explicado). Nivel 3a (decisión de escalar): 8/8. Nivel 3b (control de calidad del reporte): 8/8 sin advertencias. N05→N06 y N06→Layer3 (decisiones #18, #19): conectados de verdad, ya no son stubs. **Contenido del reporte final vs. `esperado_hallazgos` (decisión #20): 10/10 (100%)** — el número que de verdad valida el objetivo original de 90-95% con el que arrancó el proyecto. No queda ningún hueco de integración ni de accuracy conocido en el pipeline principal, de S1B hasta N14.
+6. **Pipeline lógico validado extremo a extremo, incluyendo el contenido del reporte final.** Nivel 1: 100%. Nivel 2: 90.9% recall (techo explicado). Nivel 3a (decisión de escalar): 8/8. Nivel 3b (control de calidad del reporte): 8/8 sin advertencias. N05→N06 y N06→Layer3 (decisiones #18, #19): conectados de verdad, ya no son stubs. **Contenido del reporte final vs. `esperado_hallazgos` (decisión #20): 10/10 (100%)**. El hueco posterior del contrato de persistencia SQL se corrigió en la decisión #21 y la migración se verificó en una instancia Supabase aislada; falta su despliegue controlado en producción.
 7. Capa de skills — diseño de ruteo y las 3 skills de dominio (conciliación, PLD, gastos) ya existen (revisar con Axel de dónde salieron, aparecieron ya escritas y sin confirmar en git — ver nota en el chat de sesión). N07/N08 (implementación real) se dejan para otra versión a propósito.
 8. Footer de procedencia/linaje en N14 — sigue sin diseñar.
 9. Pantalla de Configuración — le toca a otro miembro del equipo (frontend). Inputs nuevos que capturar: cortesía permitida por responsable (`business_courtesy_config`).
-10. **Siguiente pieza grande de producto: chat con grounding** para que el dueño de negocio pregunte sobre sus números/glosario sin salirse de información verificable — diseño en 5 fases (datos verificables, herramientas/tools, nodo de chat, verificación tipo eval, integración con la pestaña "Chat IA" ya prevista en la interfaz). En progreso.
+10. **Chat con grounding en implementación.** Fase 1 terminada: paquete verificable S3/N14, aislamiento por `business_id`, allowlist y procedencia. Siguen herramientas de consulta, nodo LLM, evaluación offline y la pestaña "Chat IA".
+
+---
+
+## 10. Implementación incremental del chatbot
+
+| Paso | Entregable | Estado |
+|---|---|---|
+| 1 | Datos verificables: `ChatGroundingPacket` desde S3/N14 y contrato real de `audit_results` | ✅ Implementado |
+| 2 | Herramientas deterministas para consultar métricas, reportes y glosario | Siguiente |
+| 3 | Nodo conversacional con respuesta estructurada y rechazo cuando falta evidencia | Pendiente |
+| 4 | Eval offline: exactitud, ausencia de invención, aislamiento y preguntas fuera de alcance | Pendiente |
+| 5 | Endpoint autenticado, historial controlado e integración de la pestaña Chat IA | Pendiente |
+
+Regla vigente: el chat es de solo lectura. No se publica un endpoint que acepte únicamente
+`business_id` hasta implementar autenticación y autorización que demuestren que el usuario
+puede consultar ese negocio.
+
+### Corrección 1 — normalización de estados legacy
+
+La migración debe ejecutarse en este orden: eliminar el constraint anterior, normalizar
+`node_status` y crear el constraint vigente. La transformación es idempotente:
+
+| Estado previo | Estado vigente |
+|---|---|
+| `completed`, `complete`, `approved`, `approved_with_warning_cortafuegos` | `success` |
+| `rejected`, `pending` | `partial` |
+| `success`, `partial`, `failed`, `timeout`, `error` | Se conserva |
+| Cualquier otro texto | `error` |
+| `NULL` | Se conserva como `NULL` |
+
+La prueba local comprueba que `008_audit_results_runtime_contract.sql` y
+`APPLY_ALL.sql` contienen la misma política y que el `UPDATE` aparece entre la
+eliminación y la creación del constraint.
+
+Validación real del 14-sep-2026 en el proyecto aislado `MEPIA - PRUEBAS`:
+
+- Se recreó el esquema de MEPIA sin copiar datos de producción.
+- Se insertaron 13 filas sintéticas: los cinco estados vigentes, seis estados
+  históricos —incluido `pending`—, un valor desconocido y un valor `NULL`.
+- La fila específica `N06_pending` se comprobó primero como `pending`; la ejecución
+  del archivo `008` completo la convirtió a `partial`.
+- La segunda ejecución terminó sin error y conservó los mismos resultados.
+- Consulta final: `pending_test_status = partial`, `invalid_statuses = 0`, constraint
+  `audit_results_node_status_check` presente, `required_indexes = 2` y
+  `preserved_test_rows = 13`.
+
+Una inspección de solo lectura de producción encontró 40 filas `completed` y 18
+filas `pending`; las 18 filas `pending` pertenecen a `node_id = 'N06_pending'`.
+Esto respalda el mapeo de `pending` a `partial`, porque representa una transición
+incompleta del pipeline y no evidencia válida para el chatbot.
+
+Con esta evidencia, la lógica de la corrección 1 queda cerrada en pruebas. Las
+filas sintéticas permanecen identificadas con `module = 'migration_008_test'` y
+`module = 'migration_008_pending_test'` dentro de `MEPIA - PRUEBAS`. El despliegue
+en producción permanece pendiente hasta contar con un respaldo lógico verificable,
+una consulta previa que confirme los conteos a transformar y ejecución transaccional
+de la migración con verificación posterior.

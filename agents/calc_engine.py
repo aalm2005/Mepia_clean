@@ -1321,7 +1321,7 @@ def run_calc_engine(
                 "date": date,
                 "pipeline_layer": "sequential",
                 "node_id": "S3",
-                "node_status": "completed",
+                "node_status": "success",
                 "result_data": {
                     "results": [r.model_dump(mode="json") for r in results],
                     "skipped_metrics": skipped,
