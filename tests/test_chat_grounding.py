@@ -13,6 +13,7 @@ class _Query:
     def __init__(self, rows):
         self._rows = list(rows)
         self._filters = []
+        self._allowed_statuses = None
         self._orders = []
         self._limit = None
 
@@ -21,6 +22,13 @@ class _Query:
 
     def eq(self, field, value):
         self._filters.append((field, value))
+        return self
+
+    def or_(self, expression):
+        expected = "node_status.is.null,node_status.in.(success,completed)"
+        if expression != expected:
+            raise AssertionError(f"Filtro OR inesperado: {expression}")
+        self._allowed_statuses = {None, "success", "completed"}
         return self
 
     def order(self, field, desc=False):
@@ -37,6 +45,12 @@ class _Query:
             for row in self._rows
             if all(str(row.get(field)) == str(value) for field, value in self._filters)
         ]
+        if self._allowed_statuses is not None:
+            rows = [
+                row
+                for row in rows
+                if row.get("node_status") in self._allowed_statuses
+            ]
         for field, desc in reversed(self._orders):
             rows.sort(key=lambda row: str(row.get(field) or ""), reverse=desc)
         if self._limit is not None:
@@ -142,6 +156,38 @@ class ChatGroundingServiceTests(unittest.TestCase):
         packet = ChatGroundingService(_FakeDB(rows)).build_packet("biz-a")
 
         self.assertEqual(packet.resolved_date, "2026-09-02")
+        self.assertEqual(packet.metrics[0]["metric"], "valid")
+
+    def test_filters_invalid_statuses_before_limiting_latest_rows(self):
+        rows = [
+            _row(
+                "s3-ok",
+                "biz-a",
+                "2026-09-01",
+                "S3",
+                {"results": [{"metric": "valid"}]},
+                "2026-09-01T20:00:00Z",
+            )
+        ]
+        for index, node_status in enumerate(
+            ["failed", "partial", "error", "timeout", "invalid"],
+            start=2,
+        ):
+            rows.append(
+                _row(
+                    f"s3-{node_status}",
+                    "biz-a",
+                    f"2026-09-{index:02d}",
+                    "S3",
+                    {"results": [{"metric": f"not-{node_status}"}]},
+                    f"2026-09-{index:02d}T20:00:00Z",
+                    node_status,
+                )
+            )
+
+        packet = ChatGroundingService(_FakeDB(rows)).build_packet("biz-a")
+
+        self.assertEqual(packet.resolved_date, "2026-09-01")
         self.assertEqual(packet.metrics[0]["metric"], "valid")
 
 

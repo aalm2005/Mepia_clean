@@ -58,6 +58,12 @@ _FINAL_REPORT_FIELDS = (
 
 _METRIC_FIELDS = ("metric", "value", "unit", "status", "context")
 
+# PostgREST aplica este filtro antes de ordenar y limitar la consulta. ``NULL``
+# y ``completed`` se conservan por compatibilidad con filas históricas.
+_VALID_NODE_STATUS_FILTER = (
+    "node_status.is.null,node_status.in.(success,completed)"
+)
+
 
 class ChatGroundingService:
     """
@@ -140,9 +146,13 @@ class ChatGroundingService:
         if requested_date:
             query = query.eq("date", requested_date)
 
-        response = query.order("date", desc=True).order(
-            "created_at", desc=True
-        ).limit(5).execute()
+        response = (
+            query.or_(_VALID_NODE_STATUS_FILTER)
+            .order("date", desc=True)
+            .order("created_at", desc=True)
+            .limit(5)
+            .execute()
+        )
         rows = response.data or []
         for row in rows:
             if str(row.get("business_id")) != business_id:
