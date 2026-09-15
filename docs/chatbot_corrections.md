@@ -160,7 +160,10 @@ continúan filtrándose mediante `_METRIC_FIELDS`.
 **Registro Git verificado:**
 
 - Rama: `codex/chat-grounding-step4`.
-- Commit: `sin commit`.
+- Commit de código y pruebas: `367ab96e9e6a16cc63781dce4f462aa7a6556565`
+  (`fix: validar estructura de metricas S3`).
+- Commit de cierre documental: `f13e2e86fb770d7b730447670ebaf6c9978a8bce`
+  (`docs: cerrar correccion 4`).
 - Base verificada: `b1aa4ca8a542f57f9e1052696289b54955e7028f`
   (`docs: cerrar corrección 3 y registrar incidencias`).
 - Archivos modificados: `.kiro/specs/mepia/n15_chat_consulta.md`,
@@ -272,4 +275,5 @@ conversacional.
 | 14-sep-2026 | Corrección 2 | `codex/chat-grounding-step2` | `abd165b` | `agents/chat_grounding.py`, `tests/test_chat_grounding.py`, `docs/mepia_v4_metricas_diseno.md` | 9/9 relacionadas; regresión e integración en `MEPIA - PRUEBAS` correctas |
 | 15-sep-2026 | Continuidad documental | `codex/chat-grounding-step2` | Sin commit; base `abd165b` | `AGENTS.md`, `docs/chatbot_corrections.md`, `docs/mepia_v4_metricas_diseno.md`, `.kiro/specs/mepia/n15_chat_consulta.md` | No se ejecutaron pruebas unitarias porque no cambió código; `git diff --check` sin errores |
 | 15-sep-2026 | Corrección 3, cierre documental y bitácora de incidencias | `codex/chat-grounding-step3` | `922ba91` (código y pruebas) | `AGENTS.md`, `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 8/8 grounding y 2/2 migración; 10/10 relacionadas aprobadas (`OK`) |
-| 15-sep-2026 | Corrección 4 y cierre documental | `codex/chat-grounding-step4` | `sin commit`; base `b1aa4ca` | `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 10/10 grounding y 2/2 migración; 12/12 relacionadas aprobadas (`Ran 12 tests in 0.021s`, `OK`) con el runtime de Codex; el intento con `python` no inició (`INC-20260915-002`); `git diff --check` código 0, sin errores de espacios y con advertencias LF→CRLF |
+| 15-sep-2026 | Corrección 4 y cierre documental | `codex/chat-grounding-step4` | `367ab96` (código y pruebas); `f13e2e8` (cierre documental); base `b1aa4ca` | `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 10/10 grounding y 2/2 migración; 12/12 relacionadas aprobadas (`Ran 12 tests in 0.021s`, `OK`) con el runtime de Codex; el intento con `python` no inició (`INC-20260915-002`); `git diff --check` código 0, sin errores de espacios y con advertencias LF→CRLF |
+| 15-sep-2026 | Revisión final y sincronización documental antes del Trabajo 5 | `codex/chat-grounding-step4` | `sin commit`; HEAD `f13e2e8` | `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md` | Suite específica: 12/12 aprobadas (`Ran 12 tests in 0.017s`, `OK`). Suite general: 12 pruebas importables aprobadas y 9 módulos no importados por ausencia de `pytest` (`Ran 21 tests in 0.020s`, `FAILED (errors=9)`); incidencia `INC-20260915-002` actualizada. `git diff --check`: código 0, sin errores de espacios y con advertencias LF→CRLF |

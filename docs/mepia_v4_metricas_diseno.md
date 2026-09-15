@@ -363,8 +363,9 @@ Validación de integración del 14-sep-2026:
 
 ### Corrección 3 — reporte N14 vacío después de aplicar la allowlist
 
-Las correcciones 1, 2 y 3 están terminadas en desarrollo y pruebas. La Corrección
-4 es el siguiente trabajo obligatorio.
+Las correcciones 1, 2, 3 y 4 están terminadas en desarrollo y pruebas. El Trabajo
+5 de linaje exacto entre S3 y N14 es el siguiente trabajo obligatorio de robustez
+para cerrar el Paso 1.
 
 `ChatGroundingService._extract_final_report()` filtra `result_data` mediante
 `_FINAL_REPORT_FIELDS` y ahora devuelve `None` si ningún campo autorizado
@@ -400,7 +401,8 @@ Archivos modificados para la corrección y su cierre documental:
 `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`,
 `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`,
 `docs/mepia_v4_metricas_diseno.md` y `tests/test_chat_grounding.py`. Rama
-`codex/chat-grounding-step4`; `sin commit`; base verificada `b1aa4ca`.
+`codex/chat-grounding-step4`; commit `367ab96` para código y pruebas; commit
+`f13e2e8` para el cierre documental; base verificada `b1aa4ca`.
 
 Validación local del 15-sep-2026 con el runtime de Python incluido con Codex:
 10/10 pruebas de grounding y 2/2 pruebas del contrato de migración aprobadas;
