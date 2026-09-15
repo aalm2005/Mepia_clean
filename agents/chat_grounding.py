@@ -189,8 +189,9 @@ class ChatGroundingService:
         result_data = row.get("result_data") or {}
         if not isinstance(result_data, dict) or not result_data:
             return None
-        return {
+        final_report = {
             key: result_data.get(key)
             for key in _FINAL_REPORT_FIELDS
             if key in result_data
         }
+        return final_report or None
