@@ -143,6 +143,66 @@ class ChatGroundingServiceTests(unittest.TestCase):
             ["metrics_not_found", "final_report_not_found", "no_audit_results"],
         )
 
+    def test_treats_non_object_s3_result_data_as_missing_metrics(self):
+        invalid_values = (
+            [{"metric": "hidden-list-metric"}],
+            "hidden-text-metric",
+            987654,
+            True,
+            None,
+        )
+
+        for invalid_value in invalid_values:
+            with self.subTest(result_data=repr(invalid_value)):
+                rows = [
+                    _row(
+                        "s3-malformed",
+                        "biz-a",
+                        "2026-09-02",
+                        "S3",
+                        invalid_value,
+                        "2026-09-02T20:00:00Z",
+                    )
+                ]
+
+                packet = ChatGroundingService(_FakeDB(rows)).build_packet("biz-a")
+
+                self.assertEqual(packet.metrics, [])
+                self.assertIn("metrics_not_found", packet.missing_data)
+                self.assertEqual([item.node_id for item in packet.evidence], ["S3"])
+                self.assertNotIn("hidden-list-metric", str(packet.model_dump()))
+                self.assertNotIn("hidden-text-metric", str(packet.model_dump()))
+
+    def test_treats_non_list_s3_results_as_missing_metrics(self):
+        invalid_values = (
+            {"metric": "hidden-object-metric"},
+            "hidden-text-metric",
+            987654,
+            False,
+            None,
+        )
+
+        for invalid_value in invalid_values:
+            with self.subTest(results=repr(invalid_value)):
+                rows = [
+                    _row(
+                        "s3-malformed-results",
+                        "biz-a",
+                        "2026-09-02",
+                        "S3",
+                        {"results": invalid_value},
+                        "2026-09-02T20:00:00Z",
+                    )
+                ]
+
+                packet = ChatGroundingService(_FakeDB(rows)).build_packet("biz-a")
+
+                self.assertEqual(packet.metrics, [])
+                self.assertIn("metrics_not_found", packet.missing_data)
+                self.assertEqual([item.node_id for item in packet.evidence], ["S3"])
+                self.assertNotIn("hidden-object-metric", str(packet.model_dump()))
+                self.assertNotIn("hidden-text-metric", str(packet.model_dump()))
+
     def test_reports_n14_with_only_disallowed_fields_as_missing(self):
         rows = [
             _row(

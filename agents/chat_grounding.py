@@ -174,8 +174,12 @@ class ChatGroundingService:
     def _extract_metrics(row: Optional[dict]) -> list[dict]:
         if row is None:
             return []
-        result_data = row.get("result_data") or {}
-        raw_metrics = result_data.get("results") or []
+        result_data = row.get("result_data")
+        if not isinstance(result_data, dict):
+            return []
+        raw_metrics = result_data.get("results")
+        if not isinstance(raw_metrics, list):
+            return []
         return [
             {key: item.get(key) for key in _METRIC_FIELDS}
             for item in raw_metrics
