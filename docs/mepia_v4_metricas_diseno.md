@@ -4,6 +4,7 @@
 **Documentos relacionados** (este archivo es el punto de entrada, no repite su contenido completo):
 - `mepia_ground_truth_8_escenarios.md` — los 8 casos de ground truth formulados en detalle
 - `kiro_prompt_ingesta_api_metricas.md` — prompt listo para pegar en Kiro (26 funciones nuevas de S3, ver decisión #16 para el conteo final confirmado)
+- [`chatbot_corrections.md`](chatbot_corrections.md) — bitácora oficial del avance, correcciones, robustecimiento y preparación para producción del chatbot
 
 ---
 
@@ -256,6 +257,12 @@ siguiente número que salga del eval runner es el que cuenta.
 ---
 
 ## 10. Implementación incremental del chatbot
+
+La fuente de verdad para continuar este trabajo es
+[`docs/chatbot_corrections.md`](chatbot_corrections.md). Allí se mantiene el orden
+obligatorio, la evidencia de Git y pruebas, y la separación entre defectos del
+Paso 1, robustecimiento, preparación para producción y fases posteriores. Esta
+sección conserva únicamente el diseño general y las decisiones ya consolidadas.
 
 | Paso | Entregable | Estado |
 |---|---|---|

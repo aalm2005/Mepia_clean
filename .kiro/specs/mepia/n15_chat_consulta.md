@@ -1,7 +1,18 @@
 # N15 - Chat de consulta fundamentada
 
 **Capa:** Aplicación | **Anterior:** S3/N14 | **Siguiente:** interfaz Chat IA
-**Archivos relacionados:** `_glossary.md`, `db_schema.md`, `agents/chat_grounding.py`
+**Archivos relacionados:** `_glossary.md`, `db_schema.md`,
+`agents/chat_grounding.py`,
+[`docs/chatbot_corrections.md`](../../../docs/chatbot_corrections.md)
+
+## Continuidad del trabajo
+
+La fuente de verdad para el avance, las correcciones obligatorias, las pruebas y
+los controles de producción es
+[`docs/chatbot_corrections.md`](../../../docs/chatbot_corrections.md). Todo trabajo
+futuro debe comenzar por el primer elemento obligatorio marcado como pendiente en
+esa bitácora. La Corrección 3 allí registrada es un defecto del Paso 1 y no equivale
+a la fase 3 del chatbot descrita más adelante.
 
 ## Input / Output
 
