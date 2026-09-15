@@ -8,9 +8,10 @@ Las incidencias ocurridas durante desarrollo, pruebas, documentación o publicac
 se registran por separado en [`chatbot_incidents.md`](chatbot_incidents.md). No
 duplicar aquí su contenido operativo; citar el identificador cuando sea relevante.
 
-**Estado al 15-sep-2026:** las correcciones 1, 2 y 3 están terminadas en desarrollo
-y pruebas. La **Corrección 4** es el siguiente trabajo obligatorio. Producción no
-ha sido modificada y no se ha desplegado el chatbot.
+**Estado al 15-sep-2026:** las correcciones 1, 2, 3 y 4 están terminadas en
+desarrollo y pruebas. El **Trabajo 5 — linaje exacto entre S3 y N14** es el
+siguiente trabajo obligatorio. Producción no ha sido modificada y no se ha
+desplegado el chatbot.
 
 ## A. Correcciones de defectos del Paso 1
 
@@ -132,7 +133,9 @@ permanece en la evidencia auditable, pero sus campos no autorizados no se expone
   autorizados.
 - No se consultó, desplegó ni modificó producción.
 
-### Corrección 4 — siguiente trabajo obligatorio
+### Corrección 4 — terminada en desarrollo y pruebas
+
+**Estado:** terminada en desarrollo y pruebas.
 
 **Defecto confirmado.** `ChatGroundingService._extract_metrics()` presupone que
 `result_data` es un diccionario. Un JSONB con una lista, texto, número u otro tipo
@@ -148,13 +151,48 @@ paquete. También debe validarse el tipo de `results`.
 - Registrar la ausencia o invalidez correspondiente en `missing_data`.
 - Agregar pruebas de regresión para lista, texto, número y `null`.
 
+**Implementación:** `_extract_metrics()` comprueba primero que `result_data` sea
+un diccionario y que `results` sea una lista. Si cualquiera tiene un tipo
+inesperado, devuelve una lista vacía sin iterar ni exponer el contenido persistido;
+`build_packet()` registra entonces `metrics_not_found`. Las métricas S3 válidas
+continúan filtrándose mediante `_METRIC_FIELDS`.
+
+**Registro Git verificado:**
+
+- Rama: `codex/chat-grounding-step4`.
+- Commit: `sin commit`.
+- Base verificada: `b1aa4ca8a542f57f9e1052696289b54955e7028f`
+  (`docs: cerrar corrección 3 y registrar incidencias`).
+- Archivos modificados: `.kiro/specs/mepia/n15_chat_consulta.md`,
+  `agents/chat_grounding.py`, `docs/chatbot_corrections.md`,
+  `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md` y
+  `tests/test_chat_grounding.py`.
+
+**Pruebas y validaciones registradas:**
+
+- El comando `python -m unittest tests.test_chat_grounding
+  tests.test_audit_results_migration -v` no pudo iniciar porque `python` no
+  estaba disponible en el `PATH`; se actualizó `INC-20260915-002`.
+- El mismo módulo de pruebas se ejecutó con el runtime de Python incluido con
+  Codex: 10/10 pruebas de grounding y 2/2 de migración aprobadas; 12/12 en total
+  (`Ran 12 tests in 0.021s`, `OK`).
+- `git diff --check` terminó con código 0 y sin errores de espacios; Git emitió
+  advertencias de normalización futura de LF a CRLF para los seis archivos
+  modificados.
+- Las regresiones cubren `result_data` como lista, texto, número, booleano y
+  `null`, además de `results` como objeto, texto, número, booleano y `null`.
+- La prueba existente con métricas S3 válidas continúa aprobando y conserva los
+  campos autorizados.
+- No se consultó, desplegó ni modificó producción.
+
 Estas son las cuatro correcciones concretas encontradas durante la revisión
-inicial. La cantidad puede aumentar: cualquier defecto nuevo descubierto por una
-prueba debe agregarse a esta bitácora y priorizarse explícitamente.
+inicial y todas están terminadas en desarrollo y pruebas. La cantidad puede
+aumentar: cualquier defecto nuevo descubierto por una prueba debe agregarse a
+esta bitácora y priorizarse explícitamente.
 
 ## B. Trabajo obligatorio de robustez para cerrar el Paso 1
 
-### Trabajo 5 — linaje exacto entre S3 y N14
+### Trabajo 5 — linaje exacto entre S3 y N14 — siguiente trabajo obligatorio
 
 **Estado:** pendiente de diseño e implementación.
 
@@ -210,8 +248,9 @@ Ninguno de estos pasos está autorizado por el estado actual de esta bitácora.
 
 Este plan general no debe confundirse con las correcciones anteriores:
 
-1. Datos verificables y grounding S3/N14 — implementado, con correcciones y
-   robustecimiento pendientes.
+1. Datos verificables y grounding S3/N14 — implementado; las cuatro correcciones
+   iniciales están terminadas y el robustecimiento de linaje del Trabajo 5 es el
+   siguiente trabajo obligatorio.
 2. Herramientas deterministas para consultar métricas, reportes y glosario —
    pendiente.
 3. Nodo conversacional con respuesta estructurada y rechazo cuando falta evidencia
@@ -233,3 +272,4 @@ conversacional.
 | 14-sep-2026 | Corrección 2 | `codex/chat-grounding-step2` | `abd165b` | `agents/chat_grounding.py`, `tests/test_chat_grounding.py`, `docs/mepia_v4_metricas_diseno.md` | 9/9 relacionadas; regresión e integración en `MEPIA - PRUEBAS` correctas |
 | 15-sep-2026 | Continuidad documental | `codex/chat-grounding-step2` | Sin commit; base `abd165b` | `AGENTS.md`, `docs/chatbot_corrections.md`, `docs/mepia_v4_metricas_diseno.md`, `.kiro/specs/mepia/n15_chat_consulta.md` | No se ejecutaron pruebas unitarias porque no cambió código; `git diff --check` sin errores |
 | 15-sep-2026 | Corrección 3, cierre documental y bitácora de incidencias | `codex/chat-grounding-step3` | `922ba91` (código y pruebas) | `AGENTS.md`, `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 8/8 grounding y 2/2 migración; 10/10 relacionadas aprobadas (`OK`) |
+| 15-sep-2026 | Corrección 4 y cierre documental | `codex/chat-grounding-step4` | `sin commit`; base `b1aa4ca` | `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 10/10 grounding y 2/2 migración; 12/12 relacionadas aprobadas (`Ran 12 tests in 0.021s`, `OK`) con el runtime de Codex; el intento con `python` no inició (`INC-20260915-002`); `git diff --check` código 0, sin errores de espacios y con advertencias LF→CRLF |

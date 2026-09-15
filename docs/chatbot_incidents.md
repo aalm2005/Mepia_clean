@@ -51,32 +51,39 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
   `supabase/migrations/008_audit_results_runtime_contract.sql`,
   `supabase/migrations/APPLY_ALL.sql`, commit `ca96ba9`.
 
-## INC-20260915-002 — Python 3.14 no tenía Pydantic instalado
+## INC-20260915-002 — El Python local no estaba listo para ejecutar las pruebas
 
 - **Fecha:** 15-sep-2026 (fecha de registro; fecha exacta del incidente no
   documentada).
-- **Trabajo o corrección relacionada:** Corrección 3; ejecución de las pruebas de
-  grounding y migración.
-- **Rama:** `codex/chat-grounding-step3`.
+- **Trabajo o corrección relacionada:** Correcciones 3 y 4; ejecución de las
+  pruebas de grounding y migración.
+- **Ramas:** `codex/chat-grounding-step3` y `codex/chat-grounding-step4`.
 - **Categoría:** dependencias.
 - **Severidad:** bloqueante.
 - **Acción:** Ejecutar la suite relacionada con el intérprete Python inicialmente
   disponible.
-- **Síntoma:** Python 3.14 produjo `ModuleNotFoundError` porque `pydantic` no estaba
-  instalado.
-- **Impacto:** Las pruebas no podían iniciar en ese intérprete.
-- **Causa:** Confirmada: el entorno de Python 3.14 utilizado inicialmente no tenía
-  disponible la dependencia `pydantic`.
+- **Síntoma:** En la Corrección 3, Python 3.14 produjo `ModuleNotFoundError` porque
+  `pydantic` no estaba instalado. En la Corrección 4, el comando `python` no fue
+  reconocido porque el ejecutable no estaba disponible en el `PATH`.
+- **Impacto:** Las pruebas no podían iniciar con el intérprete local disponible en
+  cada worktree.
+- **Causa:** Confirmada para cada intento: en la Corrección 3, el entorno Python
+  3.14 no tenía `pydantic`; en la Corrección 4, no había un ejecutable `python`
+  resoluble desde el `PATH`.
 - **Solución o alternativa:** Se utilizó el runtime de Python incluido con Codex.
-- **Evidencia de resolución:** La ejecución posterior terminó con 8/8 pruebas de
-  grounding y 2/2 de migración aprobadas; 10/10 en total (`OK`).
+- **Evidencia de resolución:** Para la Corrección 3, la ejecución posterior terminó
+  con 8/8 pruebas de grounding y 2/2 de migración aprobadas; 10/10 en total
+  (`OK`). Para la Corrección 4, el runtime incluido con Codex ejecutó 10/10 pruebas
+  de grounding y 2/2 de migración; 12/12 en total (`Ran 12 tests in 0.021s`,
+  `OK`).
 - **Estado:** resuelta.
 - **Acción preventiva:** Comprobar el intérprete y sus dependencias antes de correr
   la suite, y usar el runtime incluido con Codex cuando el entorno local no cumpla
   los requisitos.
 - **Archivos o commits relacionados:** `agents/chat_grounding.py`,
   `tests/test_chat_grounding.py`, `tests/test_audit_results_migration.py`; commit
-  `922ba91` para el código y la prueba de regresión.
+  `922ba91` para la Corrección 3; Corrección 4 en rama
+  `codex/chat-grounding-step4`, `sin commit`.
 
 ## INC-20260915-003 — Push de step2 rechazado con HTTP 403
 

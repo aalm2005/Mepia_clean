@@ -12,11 +12,11 @@ La fuente de verdad para el avance, las correcciones obligatorias, las pruebas y
 los controles de producción es
 [`docs/chatbot_corrections.md`](../../../docs/chatbot_corrections.md). Todo trabajo
 futuro debe comenzar por el primer elemento obligatorio marcado como pendiente en
-esa bitácora. Las correcciones 1, 2 y 3 están terminadas en desarrollo y pruebas;
-la Corrección 4 es el siguiente defecto obligatorio pendiente. La Corrección 3 es
-un defecto del Paso 1 y no equivale a la fase 3 del chatbot descrita más adelante.
-Las incidencias del proceso de desarrollo y validación se mantienen, sin duplicar
-la bitácora de correcciones, en
+esa bitácora. Las correcciones 1, 2, 3 y 4 están terminadas en desarrollo y
+pruebas. El Trabajo 5 de linaje exacto entre S3 y N14 es el siguiente trabajo
+obligatorio de robustez para cerrar el Paso 1; no es una quinta corrección ni la
+fase 5 del chatbot descrita más adelante. Las incidencias del proceso de desarrollo
+y validación se mantienen, sin duplicar la bitácora de correcciones, en
 [`docs/chatbot_incidents.md`](../../../docs/chatbot_incidents.md).
 
 ## Input / Output
@@ -37,6 +37,10 @@ la bitácora de correcciones, en
 - WHEN se construye un paquete THEN cada consulta filtra por `business_id`.
 - WHEN no se solicita fecha THEN se usa la fecha S3 exitosa más reciente.
 - WHEN existe S3 THEN solo se exponen `metric`, `value`, `unit`, `status` y `context`.
+- WHEN `result_data` de S3 no es un objeto THEN no se lanza una excepción, no se
+  expone su contenido y `missing_data` incluye `metrics_not_found`.
+- WHEN `results` de S3 no es una lista THEN no se itera ni se expone su contenido
+  y `missing_data` incluye `metrics_not_found`.
 - WHEN existe N14 THEN solo se exponen los campos permitidos del reporte final.
 - WHEN el `result_data` de N14 no contiene ningún campo autorizado THEN
   `final_report` es `None` y `missing_data` incluye `final_report_not_found`.
@@ -48,7 +52,8 @@ la bitácora de correcciones, en
 
 ## Fases
 
-1. ✅ Paquete determinista S3/N14 y contrato de persistencia.
+1. 🔧 Paquete determinista S3/N14 y contrato de persistencia implementados;
+   siguiente: robustez de linaje del Trabajo 5.
 2. Pendiente: herramientas de consulta de métricas, reportes y glosario.
 3. Pendiente: nodo LLM con respuesta estructurada y rechazo por falta de evidencia.
 4. Pendiente: evaluación offline y pruebas de aislamiento.
@@ -63,6 +68,10 @@ la bitácora de correcciones, en
 
 - Negocio sin auditorías: paquete vacío con `no_audit_results`.
 - Fecha sin S3 pero con N14: se conserva el reporte y se marca la métrica faltante.
+- S3 con `result_data` como lista, texto, número, booleano o `null`: conserva la
+  evidencia, devuelve métricas vacías y agrega `metrics_not_found`.
+- S3 con `results` de cualquier tipo distinto de lista: conserva la evidencia,
+  devuelve métricas vacías y agrega `metrics_not_found`.
 - N14 con campos autorizados y no autorizados: conserva solo los autorizados.
 - N14 sin ningún campo autorizado: `final_report = None`, agrega
   `final_report_not_found` y no expone los campos descartados.
@@ -71,4 +80,5 @@ la bitácora de correcciones, en
 ## Archivos relacionados de este nodo
 
 - `agents/chat_grounding.py` - implementación de la fase 1.
-- `tests/test_chat_grounding.py` - aislamiento, fechas, allowlist y datos faltantes.
+- `tests/test_chat_grounding.py` - aislamiento, fechas, allowlist, tipos
+  persistidos inválidos y datos faltantes.
