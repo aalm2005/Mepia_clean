@@ -4,9 +4,13 @@ Este documento es la fuente de verdad para continuar el desarrollo del chatbot s
 depender del historial de conversaciones. Debe actualizarse después de cada cambio
 con evidencia real de Git, pruebas y validaciones.
 
-**Estado al 15-sep-2026:** las correcciones 1 y 2 están terminadas en desarrollo y
-pruebas. La **Corrección 3** es el siguiente trabajo obligatorio. Producción no ha
-sido modificada y no se ha desplegado el chatbot.
+Las incidencias ocurridas durante desarrollo, pruebas, documentación o publicación
+se registran por separado en [`chatbot_incidents.md`](chatbot_incidents.md). No
+duplicar aquí su contenido operativo; citar el identificador cuando sea relevante.
+
+**Estado al 15-sep-2026:** las correcciones 1, 2 y 3 están terminadas en desarrollo
+y pruebas. La **Corrección 4** es el siguiente trabajo obligatorio. Producción no
+ha sido modificada y no se ha desplegado el chatbot.
 
 ## A. Correcciones de defectos del Paso 1
 
@@ -78,9 +82,9 @@ más recientes oculten una ejecución exitosa anterior.
   `supabase-py==2.31.0`.
 - Producción únicamente se consultó en modo de lectura. No se realizó despliegue.
 
-### Corrección 3 — siguiente trabajo obligatorio
+### Corrección 3 — terminada en desarrollo y pruebas
 
-**Estado:** pendiente.
+**Estado:** terminada en desarrollo y pruebas.
 
 **Defecto confirmado.** En `agents/chat_grounding.py`,
 `_extract_final_report()` devuelve `{}` cuando una fila N14 contiene datos, pero
@@ -98,9 +102,37 @@ reporte válido y no agrega `final_report_not_found`.
 - Agregar una prueba de regresión con un N14 que contenga únicamente un campo no
   permitido, por ejemplo `instructions`.
 
-Esta corrección debe implementarse antes de iniciar la Corrección 4.
+**Implementación:** `_extract_final_report()` construye el reporte exclusivamente
+con `_FINAL_REPORT_FIELDS` y devuelve `None` cuando el filtrado no conserva ningún
+campo. `build_packet()` registra entonces `final_report_not_found`; la fila N14
+permanece en la evidencia auditable, pero sus campos no autorizados no se exponen.
 
-### Corrección 4 — pendiente
+**Registro Git verificado:**
+
+- Rama: `codex/chat-grounding-step3`.
+- Commit de código y pruebas: `922ba91fcc088465fc52b0ed1a4be19921422ba1`
+  (`fix: tratar reportes N14 sin campos autorizados como ausentes`).
+- Archivos modificados: `AGENTS.md`, `.kiro/specs/mepia/n15_chat_consulta.md`,
+  `agents/chat_grounding.py`, `docs/chatbot_corrections.md`,
+  `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md` y
+  `tests/test_chat_grounding.py`.
+
+**Pruebas y validaciones registradas:**
+
+- Comando ejecutado con el Python incluido en el entorno de Codex:
+  `python -m unittest tests.test_chat_grounding tests.test_audit_results_migration -v`.
+- Resultado real: 8/8 pruebas de grounding y 2/2 pruebas de migración aprobadas;
+  10/10 en total (`OK`).
+- Incidencia de entorno relacionada: `INC-20260915-002`, resuelta mediante el
+  runtime de Python incluido con Codex.
+- La regresión usa un N14 cuyo único campo es `instructions` y comprueba
+  `final_report is None`, `final_report_not_found` y ausencia de `instructions`
+  en el paquete.
+- La prueba existente de un N14 válido continúa aprobando y conserva sus campos
+  autorizados.
+- No se consultó, desplegó ni modificó producción.
+
+### Corrección 4 — siguiente trabajo obligatorio
 
 **Defecto confirmado.** `ChatGroundingService._extract_metrics()` presupone que
 `result_data` es un diccionario. Un JSONB con una lista, texto, número u otro tipo
@@ -200,3 +232,4 @@ conversacional.
 | 14-sep-2026 | Corrección 1 | `codex/chat-grounding-step1` | `ca96ba9` | 15 archivos; detalle en la sección A | 8/8 locales; validación doble de migración en `MEPIA - PRUEBAS` correcta |
 | 14-sep-2026 | Corrección 2 | `codex/chat-grounding-step2` | `abd165b` | `agents/chat_grounding.py`, `tests/test_chat_grounding.py`, `docs/mepia_v4_metricas_diseno.md` | 9/9 relacionadas; regresión e integración en `MEPIA - PRUEBAS` correctas |
 | 15-sep-2026 | Continuidad documental | `codex/chat-grounding-step2` | Sin commit; base `abd165b` | `AGENTS.md`, `docs/chatbot_corrections.md`, `docs/mepia_v4_metricas_diseno.md`, `.kiro/specs/mepia/n15_chat_consulta.md` | No se ejecutaron pruebas unitarias porque no cambió código; `git diff --check` sin errores |
+| 15-sep-2026 | Corrección 3, cierre documental y bitácora de incidencias | `codex/chat-grounding-step3` | `922ba91` (código y pruebas) | `AGENTS.md`, `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 8/8 grounding y 2/2 migración; 10/10 relacionadas aprobadas (`OK`) |
