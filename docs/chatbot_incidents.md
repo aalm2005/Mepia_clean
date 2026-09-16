@@ -55,9 +55,11 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
 
 - **Fecha:** 15-sep-2026 (fecha de registro; fecha exacta del incidente no
   documentada).
-- **Trabajo o corrección relacionada:** Correcciones 3 y 4 y revisión final;
-  ejecución de las pruebas de grounding, migración y suite general.
-- **Ramas:** `codex/chat-grounding-step3` y `codex/chat-grounding-step4`.
+- **Trabajo o corrección relacionada:** Correcciones 3 y 4, revisión final y
+  Trabajo 5; ejecución de las pruebas de grounding, migración, persistencia de
+  linaje y suite general.
+- **Ramas:** `codex/chat-grounding-step3`, `codex/chat-grounding-step4` y
+  `codex/chat-grounding-step5`.
 - **Categoría:** dependencias.
 - **Severidad:** bloqueante.
 - **Acción:** Ejecutar la suite relacionada con el intérprete Python inicialmente
@@ -66,7 +68,9 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
   `pydantic` no estaba instalado. En la Corrección 4, el comando `python` no fue
   reconocido porque el ejecutable no estaba disponible en el `PATH`. En la
   revisión final, el runtime incluido con Codex no pudo importar nueve módulos de
-  la suite general porque no tenía instalado `pytest`.
+  la suite general porque no tenía instalado `pytest`. En el Trabajo 5, Python
+  3.14 volvió a no importar grounding porque no tenía `pydantic`; el runtime de
+  Codex ejecutó las suites específicas, pero sigue sin `pytest` ni `hypothesis`.
 - **Impacto:** Las pruebas no podían iniciar con el intérprete local disponible en
   cada worktree. La suite específica de las correcciones sí pudo ejecutarse, pero
   la suite general no pudo completarse en este entorno.
@@ -74,9 +78,12 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
   3.14 no tenía `pydantic`; en la Corrección 4, no había un ejecutable `python`
   resoluble desde el `PATH`; en la revisión final, el runtime de Codex no incluía
   `pytest` y no se encontró otro intérprete o entorno virtual local utilizable.
-- **Solución o alternativa:** Se utilizó el runtime de Python incluido con Codex
-  para la suite específica. No se instalaron dependencias ni se alteró el entorno
-  para forzar la suite general.
+- **Solución o alternativa:** Primero se utilizó el runtime de Python incluido con
+  Codex para la suite específica. Durante el Trabajo 5 se creó después un entorno
+  virtual temporal y aislado con Python 3.12.14, se instalaron las dependencias
+  declaradas y `pytest`, y se agregó `api/requirements-dev.txt` para hacer
+  reproducible la preparación del entorno de pruebas sin modificar el Python del
+  sistema.
 - **Evidencia de resolución:** Para la Corrección 3, la ejecución posterior terminó
   con 8/8 pruebas de grounding y 2/2 de migración aprobadas; 10/10 en total
   (`OK`). Para la Corrección 4, el runtime incluido con Codex ejecutó 10/10 pruebas
@@ -84,17 +91,30 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
   `OK`). En la revisión final se repitió esa suite: 12/12 aprobadas
   (`Ran 12 tests in 0.017s`, `OK`). El descubrimiento general alcanzó 21 pruebas,
   aprobó las 12 importables y terminó con 9 errores de importación por ausencia de
-  `pytest` (`FAILED (errors=9)`).
-- **Estado:** mitigada.
+  `pytest` (`FAILED (errors=9)`). En el Trabajo 5, el comando mínimo con Python
+  3.14 ejecutó 4 pruebas de migración y terminó con un error de importación de
+  grounding por ausencia de `pydantic` (`Ran 5 tests`, `FAILED (errors=1)`). El
+  runtime de Codex aprobó 13/13 pruebas de grounding, 4/4 de migración y 4/4 de
+  persistencia de linaje; 21/21 en total (`Ran 21 tests in 0.038s`, `OK`). La
+  comprobación inicial de dependencias reportó `pydantic=True`, `pytest=False` e
+  `hypothesis=False` en el runtime, y las tres ausentes en Python local. En el
+  entorno aislado posterior, la primera suite general recopiló 118 pruebas y
+  terminó con 112 aprobadas y 6 fallidas por una inconsistencia histórica no
+  relacionada con el Trabajo 5 (`INC-20260915-006`). Tras corregirla, la suite
+  completa sin caché terminó con 118/118 pruebas y 17 subpruebas aprobadas en
+  39.18 s.
+- **Estado:** resuelta.
 - **Acción preventiva:** Comprobar el intérprete y sus dependencias antes de correr
   la suite, usar el runtime incluido con Codex cuando el entorno local no cumpla
   los requisitos y declarar las dependencias de desarrollo necesarias para la
   suite general, incluido `pytest`.
 - **Archivos o commits relacionados:** `agents/chat_grounding.py`,
-  `tests/test_chat_grounding.py`, `tests/test_audit_results_migration.py`; commit
+  `api/requirements-dev.txt`, `tests/test_chat_grounding.py`,
+  `tests/test_audit_results_migration.py`; commit
   `922ba91` para la Corrección 3; commits `367ab96` (código y pruebas) y
   `f13e2e8` (cierre documental) para la Corrección 4 en la rama
-  `codex/chat-grounding-step4`.
+  `codex/chat-grounding-step4`; Trabajo 5 `sin commit`, base `855151f`, en
+  `codex/chat-grounding-step5`.
 
 ## INC-20260915-003 — Push de step2 rechazado con HTTP 403
 
@@ -171,3 +191,67 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
   bitácora ni al repositorio.
 - **Archivos o commits relacionados:** `agents/chat_grounding.py`, commit
   `abd165b`.
+
+## INC-20260915-006 — Prueba de reimpresiones desfasada respecto al modelo vigente
+
+- **Fecha:** 15-sep-2026.
+- **Trabajo o corrección relacionada:** Validación de regresión completa durante
+  el Trabajo 5; defecto histórico no causado por el linaje S3/N14.
+- **Rama:** `codex/chat-grounding-step5`.
+- **Categoría:** pruebas y persistencia.
+- **Severidad:** media.
+- **Acción:** Ejecutar la suite general después de instalar todas sus
+  dependencias.
+- **Síntoma:** 6 de 118 pruebas fallaron al construir `ShiftAuditEvent` con
+  `reprints=2`; Pydantic rechazó el entero porque el modelo vigente exige una
+  lista de `ReprintRecord`.
+- **Impacto:** La suite general no podía quedar verde. La inspección adicional
+  mostró además que la persistencia enviaba objetos Pydantic directamente en la
+  columna JSONB de reimpresiones.
+- **Causa:** Confirmada en la base `855151f`: el modelo había cambiado de entero a
+  `list[ReprintRecord]`, pero el fixture de `tests/test_persist_ingestion.py` no se
+  actualizó y `_persist_shift_audit_events()` no convertía esos modelos a JSON.
+- **Solución o alternativa:** Se actualizó el fixture con dos
+  `ReprintRecord`, se agregó una aserción del JSON persistido y se serializan los
+  registros mediante `model_dump(mode="json")` antes del `upsert`.
+- **Evidencia de resolución:** La suite focalizada aprobó 23/23 pruebas; la suite
+  completa final aprobó 118/118 pruebas y 17 subpruebas en 39.22 s.
+- **Estado:** resuelta.
+- **Acción preventiva:** Cuando cambie un contrato Pydantic destinado a JSONB,
+  actualizar simultáneamente fixtures y pruebas de serialización, no solo las
+  anotaciones del modelo.
+- **Archivos o commits relacionados:** `agents/api_ingest.py`,
+  `tests/test_persist_ingestion.py`; sin commit, base `855151f`.
+
+## INC-20260915-007 — DDL directo no válido dentro del bloque PL/pgSQL de la migración 009
+
+- **Fecha:** 15-sep-2026.
+- **Trabajo o corrección relacionada:** Trabajo 5; validación de la migración 009
+  en `MEPIA - PRUEBAS`.
+- **Rama:** `codex/chat-grounding-step5`.
+- **Categoría:** Supabase y migraciones.
+- **Severidad:** bloqueante para la migración, sin pérdida de datos.
+- **Acción:** Ejecutar la migración 009 endurecida en PostgreSQL real.
+- **Síntoma:** Supabase devolvió `ERROR 42601`, error de sintaxis cerca de
+  `TABLE`, en el `ALTER TABLE` situado dentro del `IF` del bloque `DO`.
+- **Impacto:** La primera ejecución se detuvo después de crear únicamente la
+  columna nullable `source_s3_result_id`; no creó la FK ni el índice y no cambió
+  ninguna de las 19 filas existentes.
+- **Causa:** Confirmada: el DDL condicional se escribió como `ALTER TABLE`
+  directo dentro del bloque PL/pgSQL. `pglast` validó el SQL exterior, pero no el
+  contenido del cuerpo `DO`, que recibe como una cadena.
+- **Solución o alternativa:** El `ALTER TABLE ... ADD CONSTRAINT` condicional se
+  ejecuta mediante `EXECUTE $ddl$ ... $ddl$` tanto en la migración incremental
+  como en `APPLY_ALL.sql`. La prueba contractual exige ahora esa forma.
+- **Evidencia de resolución:** Las 21 pruebas específicas aprobaron después del
+  cambio. La migración corregida terminó correctamente en `MEPIA - PRUEBAS` y se
+  ejecutó una segunda vez sin error. La verificación final reportó columna UUID,
+  FK validada con `ON DELETE SET NULL`, el índice btree esperado, 19/19 filas
+  preservadas, 0 enlaces históricos, 1 FK y 1 índice.
+- **Estado:** resuelta.
+- **Acción preventiva:** Validar siempre los cuerpos PL/pgSQL en una instancia
+  PostgreSQL real; un parser SQL exterior no sustituye esa prueba.
+- **Archivos o commits relacionados:**
+  `supabase/migrations/009_audit_results_s3_lineage.sql`,
+  `supabase/migrations/APPLY_ALL.sql`,
+  `tests/test_audit_results_migration.py`; sin commit, base `855151f`.

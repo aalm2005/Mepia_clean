@@ -9,6 +9,10 @@ MIGRATION_PATHS = (
     ROOT / "supabase" / "migrations" / "008_audit_results_runtime_contract.sql",
     ROOT / "supabase" / "migrations" / "APPLY_ALL.sql",
 )
+LINEAGE_MIGRATION_PATH = (
+    ROOT / "supabase" / "migrations" / "009_audit_results_s3_lineage.sql"
+)
+FULL_INSTALL_PATH = ROOT / "supabase" / "migrations" / "APPLY_ALL.sql"
 
 EXPECTED_MAPPINGS = {
     "success": "success",
@@ -70,6 +74,49 @@ class AuditResultsMigrationTests(unittest.TestCase):
             self.assertIn("ELSE 'error'", statement)
 
         self.assertEqual(statements[0], statements[1])
+
+    def test_incremental_and_full_install_define_exact_s3_lineage(self):
+        for path in (LINEAGE_MIGRATION_PATH, FULL_INSTALL_PATH):
+            with self.subTest(path=path.name):
+                sql = path.read_text(encoding="utf-8")
+                normalized = " ".join(sql.split())
+
+                self.assertIn("source_s3_result_id UUID", normalized)
+                self.assertIn(
+                    "ADD CONSTRAINT audit_results_source_s3_result_id_fkey",
+                    normalized,
+                )
+                self.assertIn(
+                    "FOREIGN KEY (source_s3_result_id)",
+                    normalized,
+                )
+                self.assertIn(
+                    "REFERENCES audit_results(id) ON DELETE SET NULL",
+                    normalized,
+                )
+                self.assertIn("NOT VALID", normalized)
+                self.assertIn("EXECUTE $ddl$ ALTER TABLE audit_results", normalized)
+                self.assertIn(
+                    "VALIDATE CONSTRAINT audit_results_source_s3_result_id_fkey",
+                    normalized,
+                )
+                self.assertNotIn(
+                    "DROP CONSTRAINT IF EXISTS audit_results_source_s3_result_id_fkey",
+                    normalized,
+                )
+                self.assertIn("idx_audit_results_s3_lineage", normalized)
+                self.assertIn(
+                    "(business_id, source_s3_result_id, node_id, created_at DESC)",
+                    normalized,
+                )
+
+    def test_lineage_migration_does_not_infer_historical_links(self):
+        sql = LINEAGE_MIGRATION_PATH.read_text(encoding="utf-8")
+
+        self.assertNotRegex(
+            sql,
+            r"UPDATE\s+audit_results\s+SET\s+source_s3_result_id",
+        )
 
 
 if __name__ == "__main__":

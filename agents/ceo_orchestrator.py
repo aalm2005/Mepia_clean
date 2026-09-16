@@ -230,6 +230,7 @@ class N05CEOOrchestrator:
             forensic_report=forensic_report,
             escalate_to_parallel=escalate_to_parallel,
             run_id=run_id,
+            source_s3_result_id=calc_run.run_id,
             business_id=business_id,
             date=date,
             archetype=archetype,
@@ -246,6 +247,7 @@ class N05CEOOrchestrator:
         completed_at = datetime.now(timezone.utc).isoformat()
         self._persist_result(
             run_id=run_id,
+            source_s3_result_id=calc_run.run_id,
             business_id=business_id,
             date=date,
             archetype=archetype,
@@ -555,6 +557,7 @@ class N05CEOOrchestrator:
         forensic_report: ForensicReport,
         escalate_to_parallel: bool,
         run_id: str,
+        source_s3_result_id: str,
         business_id: str,
         date: str,
         archetype: Archetype,
@@ -585,6 +588,7 @@ class N05CEOOrchestrator:
             self._trigger_layer2(
                 layer2_run_id=layer2_run_id,
                 sequential_run_id=run_id,
+                source_s3_result_id=source_s3_result_id,
                 business_id=business_id,
                 date=date,
                 archetype=archetype,
@@ -608,6 +612,7 @@ class N05CEOOrchestrator:
         self,
         layer2_run_id: str,
         sequential_run_id: str,
+        source_s3_result_id: str,
         business_id: str,
         date: str,
         archetype: Archetype,
@@ -633,6 +638,7 @@ class N05CEOOrchestrator:
         payload = Layer2RunPayload(
             layer2_run_id=layer2_run_id,
             sequential_run_id=sequential_run_id,
+            source_s3_result_id=source_s3_result_id,
             business_id=business_id,
             date=date,
             archetype=archetype,
@@ -697,6 +703,7 @@ class N05CEOOrchestrator:
                 "layer3_run_id": str(uuid4()),
                 "layer2_run_id": payload.layer2_run_id,
                 "sequential_run_id": payload.sequential_run_id,
+                "source_s3_result_id": payload.source_s3_result_id,
                 "business_id": payload.business_id,
                 "date": payload.date,
                 "archetype": payload.archetype,
@@ -732,6 +739,7 @@ class N05CEOOrchestrator:
     def _persist_result(
         self,
         run_id: str,
+        source_s3_result_id: str,
         business_id: str,
         date: str,
         archetype: Archetype,
@@ -746,6 +754,7 @@ class N05CEOOrchestrator:
             self._db.table("audit_results").insert(
                 {
                     "id": run_id,
+                    "source_s3_result_id": source_s3_result_id,
                     "business_id": business_id,
                     "date": date,
                     "pipeline_layer": "sequential",
@@ -753,6 +762,7 @@ class N05CEOOrchestrator:
                     "node_status": "success",
                     "result_data": {
                         "archetype": archetype,
+                        "source_s3_result_id": source_s3_result_id,
                         "pipeline_status": pipeline_status,
                         "forensic_report": forensic_report.model_dump(mode="json"),
                         "audit_insights": [i.model_dump(mode="json") for i in audit_insights],

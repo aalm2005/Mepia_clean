@@ -119,6 +119,7 @@ class NodeTimeouts(BaseModel):
 class Layer2RunPayload(BaseModel):
     layer2_run_id:    UUID
     sequential_run_id: UUID                 # run_id de N05 — trazabilidad
+    source_s3_result_id: Optional[UUID]     # audit_results.id de S3; null para legacy/aislado
     business_id:      UUID
     date:             date
     archetype:        Literal["Operative Genius", "Product Purist", "Growth Hacker"]
@@ -162,6 +163,7 @@ class GatherSummary(BaseModel):
 class ParallelGatherResult(BaseModel):
     layer2_run_id:     UUID
     sequential_run_id: UUID
+    source_s3_result_id: Optional[UUID]
     business_id:       UUID
     date:              date
     archetype:         Literal["Operative Genius", "Product Purist", "Growth Hacker"]
@@ -405,7 +407,8 @@ class CircuitResetPayload(BaseModel):
 
 | Campo           | Valor                                                    |
 |-----------------|----------------------------------------------------------|
-| `run_id`        | `layer2_run_id`                                          |
+| `id`            | `layer2_run_id`                                          |
+| `source_s3_result_id` | ID de la fila S3 raíz, propagado sin cambios      |
 | `business_id`   | FK → businesses                                          |
 | `date`          | Fecha auditada                                           |
 | `module`        | `"N06_gather"`                                           |
@@ -429,6 +432,8 @@ Esto garantiza que si Layer 3 falla, los resultados de Layer 2 son recuperables.
 - WHEN `gather_status: "partial"` → Layer 3 recibe `ParallelGatherResult` con nodos fallidos marcados
 - WHEN `gather_status: "failed"` → N05 no reintenta, retorna HTTP 503 al cliente
 - WHEN `gather_status` cualquiera → `ParallelGatherResult` persistido en `audit_results` antes de retornar
+- WHEN `source_s3_result_id` está presente → el resultado y la fila N06
+  conservan exactamente el mismo UUID
 - WHEN `GET /layer2/status/{layer2_run_id}` → retornar estado actual, nunca 404 si el run existe
 - WHEN `POST /layer2/circuit-reset` con nodo no en `circuit_open` → HTTP 409
 - WHEN `POST /layer2/circuit-reset` exitoso → `circuit_breaker_state.circuit_status: "closed"`, `consecutive_failures: 0`

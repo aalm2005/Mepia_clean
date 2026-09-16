@@ -39,11 +39,13 @@ class Layer3RunPayload(BaseModel):
 
 **Modo normal (con `audit_run_id`):**
 El endpoint consulta `audit_results` para reconstruir el contexto completo de Layer 2.
-`layer2_run_id` y `sequential_run_id` se ignoran si `audit_run_id` está presente.
+`layer2_run_id` y `sequential_run_id` se ignoran si `audit_run_id` está presente;
+`source_s3_result_id` se recupera de la fila N06.
 
 **Modo aislado (sin `audit_run_id`, con IDs opcionales o sin ellos):**
 El endpoint no consulta `audit_results`. Usa los IDs proporcionados o genera temporales.
-`business_id`, `date` y `archetype` deben incluirse en el body en este modo.
+`business_id`, `date` y `archetype` deben incluirse en el body en este modo. No
+se inventa linaje: `source_s3_result_id` queda en `None`.
 
 ```python
 class Layer3IsolatedPayload(Layer3RunPayload):
@@ -175,7 +177,8 @@ async def build_initial_state(payload: Layer3RunPayload | Layer3IsolatedPayload,
 
     Modo normal (audit_run_id presente):
       1. Consulta audit_results WHERE run_id = audit_run_id AND node_id = 'N06'
-      2. Extrae layer2_run_id, sequential_run_id, business_id, date, archetype
+      2. Extrae layer2_run_id, sequential_run_id, source_s3_result_id,
+         business_id, date, archetype
       3. Genera nuevo layer3_run_id
 
     Modo aislado (audit_run_id ausente):
@@ -197,6 +200,7 @@ async def build_initial_state(payload: Layer3RunPayload | Layer3IsolatedPayload,
 
         layer2_run_id    = str(row["run_id"])
         sequential_run_id = str(row.get("sequential_run_id", ""))
+        source_s3_result_id = row.get("source_s3_result_id")
         business_id      = str(row["business_id"])
         date             = str(row["date"])
         archetype        = row["archetype"]
@@ -207,6 +211,7 @@ async def build_initial_state(payload: Layer3RunPayload | Layer3IsolatedPayload,
         # ── Modo aislado ──────────────────────────────────────────────────────
         layer2_run_id    = payload.layer2_run_id or f"isolated_{uuid4()}"
         sequential_run_id = payload.sequential_run_id or f"isolated_{uuid4()}"
+        source_s3_result_id = None
         business_id      = payload.business_id
         date             = payload.date
         archetype        = payload.archetype
@@ -217,6 +222,7 @@ async def build_initial_state(payload: Layer3RunPayload | Layer3IsolatedPayload,
         "layer3_run_id":     layer3_run_id,
         "layer2_run_id":     layer2_run_id,
         "sequential_run_id": sequential_run_id,
+        "source_s3_result_id": source_s3_result_id,
         "business_id":       business_id,
         "date":              date,
         "archetype":         archetype,

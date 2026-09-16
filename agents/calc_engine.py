@@ -1317,6 +1317,7 @@ def run_calc_engine(
         db.table("audit_results").insert(
             {
                 "id": run_id,
+                "source_s3_result_id": run_id,
                 "business_id": business_id,
                 "date": date,
                 "pipeline_layer": "sequential",

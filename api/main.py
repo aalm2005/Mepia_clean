@@ -2119,6 +2119,10 @@ async def layer3_run(payload: Layer3RunPayload, background_tasks: BackgroundTask
         sequential_run_id = result_data.get("sequential_run_id", f"isolated_{uuid4()}")
         execution_mode = "normal"
         pgr = result_data  # ParallelGatherResult serializado
+        source_s3_result_id = (
+            row.get("source_s3_result_id")
+            or result_data.get("source_s3_result_id")
+        )
 
     else:
         # ── Modo aislado ──────────────────────────────────────────────────────
@@ -2136,6 +2140,7 @@ async def layer3_run(payload: Layer3RunPayload, background_tasks: BackgroundTask
         sequential_run_id = payload.sequential_run_id or f"isolated_{uuid4()}"
         execution_mode = "isolated"
         pgr = {}
+        source_s3_result_id = None
 
     # Verificar onboarding completo (HTTP 412 si no hay chunk de onboarding)
     onboarding_resp = (
@@ -2162,6 +2167,7 @@ async def layer3_run(payload: Layer3RunPayload, background_tasks: BackgroundTask
         "layer3_run_id": layer3_run_id,
         "layer2_run_id": layer2_run_id,
         "sequential_run_id": sequential_run_id,
+        "source_s3_result_id": source_s3_result_id,
         "business_id": business_id,
         "date": date_str,
         "archetype": archetype,

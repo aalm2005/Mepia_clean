@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from typing import Any, Optional
+from uuid import UUID
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -19,6 +20,7 @@ class ChatEvidenceReference(BaseModel):
     node_id: str = Field(min_length=1)
     date: str = Field(min_length=1)
     created_at: Optional[str] = None
+    source_s3_result_id: Optional[str] = None
 
 
 class ChatGroundingPacket(BaseModel):
@@ -27,6 +29,7 @@ class ChatGroundingPacket(BaseModel):
     business_id: str
     requested_date: Optional[str] = None
     resolved_date: Optional[str] = None
+    source_s3_result_id: Optional[str] = None
     metrics: list[dict] = Field(default_factory=list)
     final_report: Optional[dict] = None
     evidence: list[ChatEvidenceReference] = Field(default_factory=list)
@@ -46,6 +49,7 @@ class ChatGroundingPacket(BaseModel):
 
 
 _FINAL_REPORT_FIELDS = (
+    "source_s3_result_id",
     "layer3_run_id",
     "executive_summary",
     "operational_narrative_md",
@@ -67,7 +71,7 @@ _VALID_NODE_STATUS_FILTER = (
 
 class ChatGroundingService:
     """
-    Recupera el último resultado S3 y su reporte N14 asociado por fecha.
+    Recupera el último resultado S3 y el N14 enlazado a esa fila exacta.
 
     ``business_id`` se aplica en cada consulta y se vuelve a comprobar en la
     respuesta. Esta defensa en profundidad evita mezclar datos entre negocios.
@@ -91,10 +95,21 @@ class ChatGroundingService:
 
         s3_row = self._latest_row(business_id, "S3", requested_date)
         resolved_date = requested_date or self._row_date(s3_row)
+        source_s3_result_id = self._valid_uuid(
+            s3_row.get("id") if s3_row else None
+        )
 
-        n14_row = self._latest_row(business_id, "N14", resolved_date)
-        if resolved_date is None:
-            resolved_date = self._row_date(n14_row)
+        # Sin una fila S3 con UUID valido no existe una raiz verificable. No se
+        # permite recuperar N14 solo por negocio y fecha, ni siquiera como
+        # fallback para registros historicos.
+        n14_row = None
+        if source_s3_result_id is not None and resolved_date is not None:
+            n14_row = self._latest_row(
+                business_id,
+                "N14",
+                resolved_date,
+                source_s3_result_id=source_s3_result_id,
+            )
 
         metrics = self._extract_metrics(s3_row)
         final_report = self._extract_final_report(n14_row)
@@ -109,6 +124,9 @@ class ChatGroundingService:
                     node_id=str(row.get("node_id", "")),
                     date=str(row.get("date", "")),
                     created_at=row.get("created_at"),
+                    source_s3_result_id=self._valid_uuid(
+                        row.get("source_s3_result_id")
+                    ),
                 )
             )
 
@@ -124,6 +142,7 @@ class ChatGroundingService:
             business_id=business_id,
             requested_date=requested_date,
             resolved_date=resolved_date,
+            source_s3_result_id=source_s3_result_id,
             metrics=metrics,
             final_report=final_report,
             evidence=evidence,
@@ -136,15 +155,21 @@ class ChatGroundingService:
         business_id: str,
         node_id: str,
         requested_date: Optional[str],
+        source_s3_result_id: Optional[str] = None,
     ) -> Optional[dict]:
         query = (
             self._db.table("audit_results")
-            .select("id,business_id,date,node_id,node_status,result_data,created_at")
+            .select(
+                "id,source_s3_result_id,business_id,date,node_id,"
+                "node_status,result_data,created_at"
+            )
             .eq("business_id", business_id)
             .eq("node_id", node_id)
         )
         if requested_date:
             query = query.eq("date", requested_date)
+        if source_s3_result_id is not None:
+            query = query.eq("source_s3_result_id", source_s3_result_id)
 
         response = (
             query.or_(_VALID_NODE_STATUS_FILTER)
@@ -156,6 +181,12 @@ class ChatGroundingService:
         rows = response.data or []
         for row in rows:
             if str(row.get("business_id")) != business_id:
+                continue
+            if (
+                source_s3_result_id is not None
+                and self._valid_uuid(row.get("source_s3_result_id"))
+                != source_s3_result_id
+            ):
                 continue
             # ``completed`` se acepta solo como compatibilidad con datos
             # generados antes de normalizar el contrato de node_status.
@@ -169,6 +200,15 @@ class ChatGroundingService:
         if not row or not row.get("date"):
             return None
         return str(row["date"])
+
+    @staticmethod
+    def _valid_uuid(value: Any) -> Optional[str]:
+        if value is None:
+            return None
+        try:
+            return str(UUID(str(value)))
+        except (TypeError, ValueError, AttributeError):
+            return None
 
     @staticmethod
     def _extract_metrics(row: Optional[dict]) -> list[dict]:

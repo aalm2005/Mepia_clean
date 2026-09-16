@@ -145,7 +145,14 @@ def _run_n13(state: Layer3State, memory_service: Any) -> dict:
             "resultado": "approved_with_warning_cortafuegos",
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
-        _persist_n13(db, layer3_run_id, state["business_id"], state["date"], verdict_entry)
+        _persist_n13(
+            db,
+            layer3_run_id,
+            state["business_id"],
+            state["date"],
+            verdict_entry,
+            state.get("source_s3_result_id"),
+        )
         return {
             "draft_report": draft_report_updated,
             "draft_status": "approved_with_warning",
@@ -163,7 +170,14 @@ def _run_n13(state: Layer3State, memory_service: Any) -> dict:
         "warning": verdict.warning_especifico,
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
-    _persist_n13(db, layer3_run_id, state["business_id"], state["date"], verdict_entry)
+    _persist_n13(
+        db,
+        layer3_run_id,
+        state["business_id"],
+        state["date"],
+        verdict_entry,
+        state.get("source_s3_result_id"),
+    )
 
     new_audit_results = list(state.get("audit_results") or []) + [verdict_entry]
 
@@ -365,6 +379,7 @@ def _persist_n13(
     business_id: str,
     date: str,
     verdict_entry: dict,
+    source_s3_result_id: Optional[str] = None,
 ) -> None:
     """Persiste entrada de auditoría de N13 en audit_results."""
     if db is None:
@@ -373,6 +388,7 @@ def _persist_n13(
         db.table("audit_results").insert(
             {
                 "id": str(uuid4()),
+                "source_s3_result_id": source_s3_result_id,
                 "business_id": business_id,
                 "date": date,
                 "pipeline_layer": "loop",

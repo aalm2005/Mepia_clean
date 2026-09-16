@@ -257,6 +257,7 @@ audit_rules: {
 ```
 layer2_run_id: UUID
 sequential_run_id: UUID
+source_s3_result_id: UUID | null  # audit_results.id de la fila S3 raíz
 business_id: UUID
 date: YYYY-MM-DD
 archetype: "Operative Genius" | "Product Purist" | "Growth Hacker"
@@ -288,6 +289,7 @@ duration_ms: int
 ```
 layer2_run_id: UUID
 sequential_run_id: UUID
+source_s3_result_id: UUID | null  # requerido para linaje verificable; null en legacy/aislado
 business_id: UUID
 date: YYYY-MM-DD
 archetype: "Operative Genius" | "Product Purist" | "Growth Hacker"
@@ -434,6 +436,7 @@ quality_approved: bool               # true si N13 validó el contenido, o true 
 layer3_run_id: UUID              # UUID generado por N10
 layer2_run_id: UUID
 sequential_run_id: UUID
+source_s3_result_id: UUID | null  # audit_results.id de la fila S3 raíz
 business_id: UUID
 date: date
 archetype: "Operative Genius" | "Product Purist" | "Growth Hacker"
@@ -555,6 +558,7 @@ intentos_critico: int            # número de revisiones que requirió el borrad
 quality_warnings: list[str]      # historial_feedback si hubo rechazos
 finalized_at: str                # ISO-8601 UTC
 layer3_duration_ms: int          # duración total del grafo Layer 3
+source_s3_result_id: str | null  # audit_results.id de la fila S3 raíz
 ```
 > Generado por N14 de forma determinista. Sin llamadas a LLM.
 > Persistido en `audit_results` con `node_id: "N14"`.
@@ -577,6 +581,7 @@ metadata: {
 layer3_run_id: str
 layer2_run_id: str          # puede tener prefijo "isolated_" en modo aislado
 sequential_run_id: str      # puede tener prefijo "isolated_" en modo aislado
+source_s3_result_id: str | null  # null en modo aislado o registros legacy
 business_id: str
 date: str
 archetype: str
@@ -607,6 +612,7 @@ audit_result_id: str             # audit_results.id
 node_id: str                     # "S3" o "N14" en fase 1
 date: YYYY-MM-DD
 created_at: datetime | null
+source_s3_result_id: str | null  # raíz S3 compartida por la evidencia
 ```
 
 ### ChatGroundingPacket
@@ -615,6 +621,7 @@ Paquete determinista permitido como evidencia del futuro chatbot.
 business_id: str
 requested_date: YYYY-MM-DD | null
 resolved_date: YYYY-MM-DD | null
+source_s3_result_id: str | null  # audit_results.id de la fila S3 elegida
 metrics: list[dict]              # allowlist de CalcResult
 final_report: dict | null        # allowlist de FinalReport
 evidence: ChatEvidenceReference[]

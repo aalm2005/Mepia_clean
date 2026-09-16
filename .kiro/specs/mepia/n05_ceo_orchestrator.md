@@ -162,7 +162,9 @@ N05 evalúa el `ForensicReport.risk_level` de S4 para decidir si escalar.
 | `risk_level: "medium"` o `"low"` | No escalar (solo Sequential) |
 | `escalate_to_parallel: false` en request | Nunca escalar |
 
-Cuando escala: dispara `POST /layer2/run` internamente con el `run_id` del Sequential como contexto.
+Cuando escala: dispara N06 internamente con el `run_id` del Sequential como
+contexto y con `source_s3_result_id = CalcRunResult.run_id` como raíz exacta del
+linaje.
 
 Si N06 retorna HTTP 503:
 - Actualizar `pipeline_status` a `"failed"` en `OrchestratorResult`
@@ -253,7 +255,8 @@ Cada ejecución se registra en `audit_results`:
 
 | Campo           | Valor |
 |-----------------|-------|
-| `run_id`        | UUID de la ejecución |
+| `id`            | UUID de la ejecución N05 (`OrchestratorResult.run_id`) |
+| `source_s3_result_id` | `audit_results.id` de la fila S3 producida en esta ejecución |
 | `business_id`   | FK → businesses |
 | `date`          | Fecha auditada |
 | `node_id`       | `"N05"` para la síntesis CEO |

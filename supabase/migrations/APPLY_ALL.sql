@@ -135,6 +135,7 @@ CREATE TABLE IF NOT EXISTS metric_status (
 CREATE TABLE IF NOT EXISTS audit_results (
     id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     run_id           UUID,
+    source_s3_result_id UUID REFERENCES audit_results(id) ON DELETE SET NULL,
     business_id      UUID REFERENCES businesses(id),
     date             DATE,
     pipeline_layer   TEXT CHECK (pipeline_layer IN ('sequential', 'parallel', 'loop')),
@@ -152,12 +153,34 @@ CREATE TABLE IF NOT EXISTS audit_results (
 -- CREATE TABLE IF NOT EXISTS no agrega las columnas del contrato actual.
 ALTER TABLE audit_results
     ADD COLUMN IF NOT EXISTS run_id UUID,
+    ADD COLUMN IF NOT EXISTS source_s3_result_id UUID,
     ADD COLUMN IF NOT EXISTS business_id UUID REFERENCES businesses(id),
     ADD COLUMN IF NOT EXISTS date DATE,
     ADD COLUMN IF NOT EXISTS pipeline_layer TEXT,
     ADD COLUMN IF NOT EXISTS node_id TEXT,
     ADD COLUMN IF NOT EXISTS result_data JSONB,
     ADD COLUMN IF NOT EXISTS node_status TEXT;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conrelid = 'audit_results'::regclass
+          AND conname = 'audit_results_source_s3_result_id_fkey'
+    ) THEN
+        EXECUTE $ddl$
+            ALTER TABLE audit_results
+                ADD CONSTRAINT audit_results_source_s3_result_id_fkey
+                FOREIGN KEY (source_s3_result_id)
+                REFERENCES audit_results(id) ON DELETE SET NULL
+                NOT VALID
+        $ddl$;
+    END IF;
+END
+$$;
+ALTER TABLE audit_results
+    VALIDATE CONSTRAINT audit_results_source_s3_result_id_fkey;
 
 ALTER TABLE audit_results ALTER COLUMN module DROP NOT NULL;
 ALTER TABLE audit_results DROP CONSTRAINT IF EXISTS audit_results_pipeline_layer_check;
@@ -248,6 +271,7 @@ CREATE INDEX IF NOT EXISTS idx_metric_status_lookup          ON metric_status (b
 CREATE INDEX IF NOT EXISTS idx_recipes_business              ON recipes (business_id);
 CREATE INDEX IF NOT EXISTS idx_audit_results_run             ON audit_results (run_id);
 CREATE INDEX IF NOT EXISTS idx_audit_results_lookup          ON audit_results (business_id, date, pipeline_layer, node_id);
+CREATE INDEX IF NOT EXISTS idx_audit_results_s3_lineage      ON audit_results (business_id, source_s3_result_id, node_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_circuit_breaker_lookup        ON circuit_breaker_state (business_id, date, node_id);
 CREATE INDEX IF NOT EXISTS idx_circuit_breaker_open          ON circuit_breaker_state (node_id, circuit_status) WHERE circuit_status = 'open';
 CREATE INDEX IF NOT EXISTS idx_onboarding_business           ON business_onboarding (business_id);

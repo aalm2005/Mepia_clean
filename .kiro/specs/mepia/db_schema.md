@@ -167,6 +167,7 @@ Persiste outputs de todos los nodos del pipeline (S3, S4, N06, N07, N08, N09, La
 |-----------------|--------------|--------------------------------------------------------------------|
 | id              | uuid PK      | gen_random_uuid()                                                  |
 | run_id          | uuid         | ID de la ejecución — `layer2_run_id` o `sequential_run_id`        |
+| source_s3_result_id | uuid FK nullable | → `audit_results.id` de la fila S3 raíz; `ON DELETE SET NULL` |
 | business_id     | uuid FK      | → businesses.id                                                    |
 | date            | date         | Fecha auditada                                                     |
 | pipeline_layer  | text         | `"sequential"` \| `"parallel"` \| `"loop"`                        |
@@ -190,6 +191,12 @@ estados históricos con esta política: `completed`, `complete`, `approved` y
 `error`. `pending` se considera una ejecución incompleta, no una ejecución
 exitosa. Los valores `NULL` permanecen `NULL` por compatibilidad con filas
 antiguas sin estado.
+
+La migración `009_audit_results_s3_lineage.sql` agrega el linaje exacto hacia la
+fila S3. El campo es nullable para conservar registros históricos y ejecuciones
+aisladas sin inventar una asociación por negocio y fecha. Los productores nuevos
+lo propagan desde S3 hasta N14; el chat exige coincidencia exacta de
+`business_id`, fecha y `source_s3_result_id`.
 
 ---
 
@@ -334,6 +341,7 @@ CREATE INDEX idx_metric_status_lookup      ON metric_status (business_id, date, 
 CREATE INDEX idx_recipes_business          ON recipes (business_id);
 CREATE INDEX idx_audit_results_run         ON audit_results (run_id);
 CREATE INDEX idx_audit_results_lookup      ON audit_results (business_id, date, pipeline_layer, node_id);
+CREATE INDEX idx_audit_results_s3_lineage  ON audit_results (business_id, source_s3_result_id, node_id, created_at DESC);
 CREATE INDEX idx_circuit_breaker_lookup    ON circuit_breaker_state (business_id, date, node_id);
 CREATE INDEX idx_circuit_breaker_open      ON circuit_breaker_state (node_id, circuit_status) WHERE circuit_status = 'open';
 -- Tablas nuevas (S1B ingesta API)

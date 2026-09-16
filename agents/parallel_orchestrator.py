@@ -13,7 +13,7 @@ from decimal import Decimal
 from typing import Any, Literal, Optional
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from agents.business_health import N09FinancialAuditAgent, NodeResult as N09NodeResult
 
@@ -54,7 +54,15 @@ class Layer2RunPayload(BaseModel):
     archetype: Literal["Operative Genius", "Product Purist", "Growth Hacker"]
     temporalidad: Literal["short", "medium", "long"]
     sequential_context: SequentialContext
+    source_s3_result_id: Optional[str] = None
     node_timeouts: NodeTimeouts = Field(default_factory=NodeTimeouts)
+
+    @field_validator("source_s3_result_id")
+    @classmethod
+    def validate_source_s3_result_id(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return None
+        return str(UUID(str(value)))
 
 
 # ---------------------------------------------------------------------------
@@ -91,6 +99,7 @@ class ParallelGatherResult(BaseModel):
     summary: GatherSummary
     gather_status: Literal["complete", "partial", "failed"]
     completed_at: str
+    source_s3_result_id: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
@@ -383,6 +392,7 @@ class N06ParallelOrchestrator:
             ),
             gather_status=gather_status,
             completed_at=datetime.now(timezone.utc).isoformat(),
+            source_s3_result_id=payload.source_s3_result_id,
         )
 
     # ------------------------------------------------------------------
@@ -511,6 +521,7 @@ class N06ParallelOrchestrator:
             self._db.table("audit_results").insert(
                 {
                     "id": result.layer2_run_id,
+                    "source_s3_result_id": result.source_s3_result_id,
                     "business_id": result.business_id,
                     "date": result.date,
                     "pipeline_layer": "parallel",

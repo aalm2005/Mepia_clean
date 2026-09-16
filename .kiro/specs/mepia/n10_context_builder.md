@@ -296,6 +296,7 @@ class EnrichedAuditPayload(BaseModel):
     layer3_run_id: UUID          # nuevo UUID generado por N10
     layer2_run_id: UUID
     sequential_run_id: UUID
+    source_s3_result_id: Optional[UUID]  # audit_results.id de S3; null en legacy/aislado
     business_id: UUID
     date: date
     archetype: Literal["Operative Genius", "Product Purist", "Growth Hacker"]
@@ -335,7 +336,8 @@ N10 persiste el payload **antes** de entregarlo a N11. Si N11 falla, el payload 
 
 | Campo           | Valor |
 |-----------------|-------|
-| `run_id`        | `layer3_run_id` (nuevo UUID de N10) |
+| `id`            | `layer3_run_id` (nuevo UUID de N10) |
+| `source_s3_result_id` | ID de la fila S3 raíz, propagado sin cambios |
 | `business_id`   | FK → businesses |
 | `date`          | Fecha auditada |
 | `pipeline_layer`| `"loop"` |
@@ -384,6 +386,8 @@ Actualizar en: `_glossary.md` contrato `MemoryChunk`, `mem_memory_layer.md`, y m
 - WHEN `historical_context` supera 1,500 tokens → truncado antes de incluir en payload
 - WHEN N10 completa → `EnrichedAuditPayload` persistido en `audit_results` antes de entregar a N11
 - WHEN N10 completa → N11 recibe `EnrichedAuditPayload`, nunca `ParallelGatherResult` crudo
+- WHEN Layer 3 recibe `source_s3_result_id` → N10 lo conserva en el payload y
+  en su fila de `audit_results`
 
 ---
 

@@ -5,7 +5,7 @@ Estado compartido del grafo LangGraph para el loop N11 → N13 → N14.
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
-from typing_extensions import TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class Layer3State(TypedDict):
@@ -16,6 +16,7 @@ class Layer3State(TypedDict):
         layer3_run_id    : UUID generado por N10 (str)
         layer2_run_id    : UUID del run de Layer 2 (str)
         sequential_run_id: UUID del run secuencial (str)
+        source_s3_result_id: ID de la fila S3 raiz (str | None)
         business_id      : UUID del negocio auditado (str)
         date             : Fecha auditada (ISO-8601 string)
         archetype        : Arquetipo CEO del run
@@ -59,6 +60,7 @@ class Layer3State(TypedDict):
     layer3_run_id: str
     layer2_run_id: str
     sequential_run_id: str
+    source_s3_result_id: NotRequired[Optional[str]]
     business_id: str
     date: str
     archetype: str

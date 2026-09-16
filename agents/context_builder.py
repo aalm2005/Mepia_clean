@@ -80,6 +80,7 @@ class EnrichedAuditPayload(BaseModel):
     historical_context: str
     built_at: str
     build_duration_ms: int
+    source_s3_result_id: Optional[str] = None
 
 
 # Máximo de tokens para historical_context (spec: n10_context_builder.md)
@@ -115,6 +116,7 @@ def n10_context_builder_node(state: Layer3State) -> dict:
     layer2_run_id = state["layer2_run_id"]
     sequential_run_id = state["sequential_run_id"]
     layer3_run_id = state.get("layer3_run_id") or str(uuid4())
+    source_s3_result_id = state.get("source_s3_result_id")
 
     # Extraer datos del parallel_gather_result almacenado en el estado
     pgr = state.get("_parallel_gather_result") or {}
@@ -190,6 +192,7 @@ def n10_context_builder_node(state: Layer3State) -> dict:
         historical_context=historical_context,
         built_at=built_at,
         build_duration_ms=build_duration_ms,
+        source_s3_result_id=source_s3_result_id,
     )
 
     # Persistir en audit_results antes de retornar (P10)
@@ -463,6 +466,7 @@ def _persist_n10(db: Any, payload: EnrichedAuditPayload, layer3_run_id: str) -> 
         db.table("audit_results").insert(
             {
                 "id": layer3_run_id,
+                "source_s3_result_id": payload.source_s3_result_id,
                 "business_id": payload.business_id,
                 "date": payload.date,
                 "pipeline_layer": "loop",

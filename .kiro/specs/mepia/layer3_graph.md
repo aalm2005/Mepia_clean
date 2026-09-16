@@ -132,11 +132,13 @@ El endpoint `POST /api/audit/layer3/run` es el responsable de construir el
 `Layer3State` inicial antes de llamar `.invoke()`. Soporta dos modos:
 
 **Modo normal** (`audit_run_id` presente): consulta `audit_results` para reconstruir
-el contexto de Layer 2. Verifica que el negocio tenga onboarding completo (HTTP 412 si no).
+el contexto de Layer 2, incluido `source_s3_result_id`. Verifica que el negocio
+tenga onboarding completo (HTTP 412 si no).
 
 **Modo aislado** (`audit_run_id` ausente): usa `business_id`, `date` y `archetype`
 del body directamente. Genera `layer2_run_id` y `sequential_run_id` con prefijo
-`isolated_` si no se proporcionan. Útil para testing y debugging de Layer 3 en aislamiento.
+`isolated_` si no se proporcionan y deja `source_s3_result_id = None`. Útil para
+testing y debugging de Layer 3 en aislamiento.
 
 ```python
 # Estructura del estado inicial (construido por el endpoint)
@@ -145,6 +147,7 @@ initial_state: Layer3State = {
     "layer3_run_id":     str(uuid4()),
     "layer2_run_id":     layer2_run_id,        # puede tener prefijo "isolated_"
     "sequential_run_id": sequential_run_id,    # puede tener prefijo "isolated_"
+    "source_s3_result_id": source_s3_result_id, # null solo en legacy/aislado
     "business_id":       business_id,
     "date":              date_str,
     "archetype":         archetype,

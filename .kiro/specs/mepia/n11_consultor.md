@@ -367,7 +367,8 @@ N11 persiste el `Draft_Report` antes de entregarlo a N12.
 
 | Campo           | Valor |
 |-----------------|-------|
-| `run_id`        | `layer3_run_id` (mismo de N10) |
+| `id`            | UUID propio de la fila N11 |
+| `source_s3_result_id` | ID de la fila S3 raíz recibido en `Layer3State` |
 | `business_id`   | FK → businesses |
 | `date`          | Fecha auditada |
 | `pipeline_layer`| `"loop"` |
@@ -377,6 +378,9 @@ N11 persiste el `Draft_Report` antes de entregarlo a N12.
 | `raw_result`    | `DraftReport` serializado (JSON) |
 | `copilot_phrase`| `executive_summary` del `DraftReport` |
 | `node_status`   | `"success"` \| `"failed"` |
+
+`layer3_run_id` permanece dentro de `DraftReport`; `source_s3_result_id` es el
+vínculo persistido común con el resto de la ejecución.
 
 ---
 

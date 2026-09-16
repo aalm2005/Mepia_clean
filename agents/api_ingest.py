@@ -711,6 +711,11 @@ def _persist_shift_audit_events(
             for cr in audit.clock_records
         ]
 
+        reprints_json = [
+            reprint.model_dump(mode="json")
+            for reprint in audit.reprints
+        ]
+
         for shift in audit.shifts:
             # --- shift_audit_events: upsert por (business_id, date, sucursal_id, turno) ---
             shift_row = {
@@ -723,7 +728,7 @@ def _persist_shift_audit_events(
                 "cierre_z": _decimal_to_float(shift.cierre_z),
                 "sobrante_faltante": _decimal_to_float(shift.sobrante_faltante),
                 "cancellations": cancellations_json,
-                "reprints": audit.reprints,
+                "reprints": reprints_json,
                 "clock_records": clock_records_json,
             }
 

@@ -112,6 +112,8 @@ MemoryChunk(
 - WHEN `aprobado == false` → `insight_para_memoria` es `null` siempre
 - WHEN LLM falla (timeout/error) → `approved_with_warning` con mensaje de error, pipeline no se bloquea
 - WHEN N13 ejecuta → entrada agregada a `audit_results` siempre, independientemente del resultado
+- WHEN `Layer3State.source_s3_result_id` está presente → la fila N13 conserva
+  exactamente ese UUID en `audit_results.source_s3_result_id`
 - WHEN `time_series.periodos` tiene más de 7 registros → truncado a los últimos 7 antes de enviar al LLM
 
 ---

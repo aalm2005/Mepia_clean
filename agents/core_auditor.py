@@ -225,7 +225,7 @@ def n11_consultor_node(state: Layer3State) -> dict:
         )
 
     # Persistir en audit_results
-    _persist_n11(db, draft, layer3_run_id)
+    _persist_n11(db, draft, layer3_run_id, state.get("source_s3_result_id"))
 
     return {"draft_report": draft.model_dump(mode="json")}
 
@@ -339,7 +339,12 @@ def _parse_json_response(content: str) -> dict:
         return json.loads(clean)
 
 
-def _persist_n11(db: Any, draft: DraftReport, layer3_run_id: str) -> None:
+def _persist_n11(
+    db: Any,
+    draft: DraftReport,
+    layer3_run_id: str,
+    source_s3_result_id: Optional[str] = None,
+) -> None:
     """Persiste DraftReport en audit_results con node_id='N11'."""
     if db is None:
         return
@@ -347,6 +352,7 @@ def _persist_n11(db: Any, draft: DraftReport, layer3_run_id: str) -> None:
         db.table("audit_results").insert(
             {
                 "id": str(uuid4()),
+                "source_s3_result_id": source_s3_result_id,
                 "business_id": draft.business_id,
                 "date": draft.date,
                 "pipeline_layer": "loop",

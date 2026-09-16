@@ -57,6 +57,7 @@ Si N11 activó el fallback, el valor correcto ya está registrado en
 class FinalReport(BaseModel):
     # Trazabilidad
     layer3_run_id: str
+    source_s3_result_id: Optional[str]  # audit_results.id de la fila S3 raíz
     business_id: str
     date: str
     archetype: str
@@ -106,7 +107,7 @@ N14 persiste el `FinalReport` como el registro terminal del pipeline Layer 3.
 
 | Campo           | Valor |
 |-----------------|-------|
-| `run_id`        | `layer3_run_id` |
+| `source_s3_result_id` | ID de la fila S3 raíz recibido en `Layer3State` |
 | `business_id`   | FK → businesses |
 | `date`          | Fecha auditada |
 | `pipeline_layer`| `"loop"` |
@@ -125,6 +126,8 @@ N14 persiste el `FinalReport` como el registro terminal del pipeline Layer 3.
 - WHEN `draft_status == "approved_with_warning"` → `quality_warnings` contiene el historial de rechazos y el Markdown incluye el bloque de advertencia
 - WHEN N14 completa → `layer3_status: "completed"` en el estado del grafo
 - WHEN N14 completa → `FinalReport` persistido en `audit_results` antes de retornar END
+- WHEN `Layer3State.source_s3_result_id` está presente → el `FinalReport`, su
+  `result_data` y la columna de la fila N14 conservan exactamente ese UUID
 - WHEN `DraftReport.model_used` contiene `"fallback"` → N14 lo propaga sin modificar
 - WHEN N14 falla al persistir → `node_status: "failed"`, error reportado al endpoint disparador
 

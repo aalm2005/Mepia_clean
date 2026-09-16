@@ -33,6 +33,7 @@ class FinalReport(BaseModel):
     quality_warnings: list[str]
     finalized_at: str
     layer3_duration_ms: int
+    source_s3_result_id: Optional[str] = None
 
 
 class FinalResponse(BaseModel):
@@ -100,6 +101,7 @@ def n14_informe_final_node(state: Layer3State) -> dict:
         quality_warnings=quality_warnings,
         finalized_at=finalized_at,
         layer3_duration_ms=layer3_duration_ms,
+        source_s3_result_id=state.get("source_s3_result_id"),
     )
 
     # Persistir en audit_results (P5: layer3_status="completed" solo tras persistencia exitosa)
@@ -169,6 +171,7 @@ def _persist_n14(db: Any, report: FinalReport, layer3_run_id: str) -> bool:
         db.table("audit_results").insert(
             {
                 "id": str(uuid4()),
+                "source_s3_result_id": report.source_s3_result_id,
                 "business_id": report.business_id,
                 "date": report.date,
                 "pipeline_layer": "loop",

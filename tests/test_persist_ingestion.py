@@ -23,6 +23,7 @@ from agents.api_ingest import (
     InventoryUsageEvent,
     PaymentBreakdown,
     ProductLine,
+    ReprintRecord,
     ShiftAuditEvent,
     ShiftData,
     TicketEvent,
@@ -93,7 +94,18 @@ def _make_shift_audit(
                 timing="pre_comanda",
             )
         ],
-        reprints=2,
+        reprints=[
+            ReprintRecord(
+                order_id="T-101",
+                responsable="CAJ-01",
+                hora="11:30",
+            ),
+            ReprintRecord(
+                order_id="T-102",
+                responsable="CAJ-02",
+                hora="12:15",
+            ),
+        ],
         shifts=[
             ShiftData(
                 turno=turno,
@@ -316,6 +328,12 @@ class TestPersistShiftAuditEvents:
         row = upsert_call[0][0]
         assert isinstance(row["cancellations"], list)
         assert row["cancellations"][0]["order_id"] == "T-999"
+        assert isinstance(row["reprints"], list)
+        assert row["reprints"][0] == {
+            "order_id": "T-101",
+            "responsable": "CAJ-01",
+            "hora": "11:30",
+        }
         assert isinstance(row["clock_records"], list)
         assert row["clock_records"][0]["employee_id"] == "EMP-01"
 
