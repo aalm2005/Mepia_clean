@@ -48,7 +48,7 @@ class ChatGroundingPacket(BaseModel):
         return value
 
 
-_FINAL_REPORT_FIELDS = (
+CHAT_FINAL_REPORT_FIELDS = (
     "source_s3_result_id",
     "layer3_run_id",
     "executive_summary",
@@ -60,7 +60,7 @@ _FINAL_REPORT_FIELDS = (
     "finalized_at",
 )
 
-_METRIC_FIELDS = ("metric", "value", "unit", "status", "context")
+CHAT_METRIC_FIELDS = ("metric", "value", "unit", "status", "context")
 
 # PostgREST aplica este filtro antes de ordenar y limitar la consulta. ``NULL``
 # y ``completed`` se conservan por compatibilidad con filas históricas.
@@ -221,7 +221,7 @@ class ChatGroundingService:
         if not isinstance(raw_metrics, list):
             return []
         return [
-            {key: item.get(key) for key in _METRIC_FIELDS}
+            {key: item.get(key) for key in CHAT_METRIC_FIELDS}
             for item in raw_metrics
             if isinstance(item, dict) and item.get("metric")
         ]
@@ -235,7 +235,13 @@ class ChatGroundingService:
             return None
         final_report = {
             key: result_data.get(key)
-            for key in _FINAL_REPORT_FIELDS
+            for key in CHAT_FINAL_REPORT_FIELDS
             if key in result_data
         }
+        # El linaje verificable vive en la columna de ``audit_results``. Si el
+        # JSONB contiene una copia distinta, no se propaga ese valor no fiable.
+        if "source_s3_result_id" in final_report:
+            final_report["source_s3_result_id"] = ChatGroundingService._valid_uuid(
+                row.get("source_s3_result_id")
+            )
         return final_report or None

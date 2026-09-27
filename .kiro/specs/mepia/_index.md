@@ -73,7 +73,7 @@
 | AUTH | Autenticación y Autorización | Transversal | `_auth_strategy.md`   | ✅ req done |
 | ONB  | Onboarding de Identidad | Transversal| `n10_onboarding_identidad.md` | ✅ req done |
 | EVAL | Set de Evaluación Offline | Transversal | `eval_offline.md`       | 🔧 in dev — placeholder |
-| N15  | Chat de consulta fundamentada | Aplicación | `n15_chat_consulta.md` | 🔧 in dev — fase 1 completa |
+| N15  | Chat de consulta fundamentada | Aplicación | `n15_chat_consulta.md` | 🔧 in dev — fases 1 y 2 ampliadas completas |
 
 - **POSIngestResult** → `n01_pos_pdf_input.md`
 - **FacturaIngestResult** → `n02_facturas_input.md`
@@ -98,6 +98,10 @@
 - **AgentResult** → `agents/base_agent.py`
 - **MemoryChunk** → `mem_memory_layer.md`
 - **ChatGroundingPacket** → `n15_chat_consulta.md`
+- **ChatToolResult** → `n15_chat_consulta_tools.md`
+- **MetricDefinition** → `n15_chat_consulta_catalogo.md`
+- **MetricConceptDefinition / ChatGlossaryEntry** → `n15_chat_consulta_catalogo.md`
+- **ChatScopePolicy** → `n15_chat_consulta_catalogo.md`
 
 ## Diseño Frontend (Fase 2)
 
@@ -132,6 +136,8 @@
 | API Layer 3         | `api/main.py` → `POST /api/audit/layer3/run`, `GET /api/audit/layer3/status/{id}`, `GET /api/audit/layer3/result/{id}` |
 | MEM MemoryService   | `utils/memory_service.py`                |
 | N15 Chat grounding  | `agents/chat_grounding.py`               |
+| N15 Chat tools      | `agents/chat_tools.py`                   |
+| N15 Chat catalog    | `agents/chat_metric_catalog.py`          |
 
 ## Schema de base de datos
 

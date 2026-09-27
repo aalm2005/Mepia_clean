@@ -8,10 +8,12 @@ Las incidencias ocurridas durante desarrollo, pruebas, documentación o publicac
 se registran por separado en [`chatbot_incidents.md`](chatbot_incidents.md). No
 duplicar aquí su contenido operativo; citar el identificador cuando sea relevante.
 
-**Estado al 15-sep-2026:** las correcciones 1, 2, 3 y 4 y el **Trabajo 5 —
-linaje exacto entre S3 y N14** están terminados en desarrollo y pruebas. La
-siguiente acción obligatoria es la prueba integral del Paso 1 indicada en C.3;
-producción no ha sido modificada y no se ha desplegado el chatbot.
+**Estado al 24-sep-2026:** las correcciones 1–5, el **Trabajo 5 — linaje exacto
+entre S3 y N14**, la prueba integral del Paso 1 y el Paso 2 ampliado están
+terminados en desarrollo. El Paso 2 cubre las 31 métricas del pipeline, cuatro
+cálculos auxiliares y prohíbe absolutamente calcular desde el chat. La validación
+real del Paso 1 en `MEPIA - PRUEBAS` permanece aprobada. La siguiente acción es el
+Paso 3: nodo conversacional estructurado. Producción no ha sido modificada.
 
 ## A. Correcciones de defectos del Paso 1
 
@@ -89,13 +91,13 @@ más recientes oculten una ejecución exitosa anterior.
 
 **Defecto confirmado.** En `agents/chat_grounding.py`,
 `_extract_final_report()` devuelve `{}` cuando una fila N14 contiene datos, pero
-ninguno de sus campos pertenece a `_FINAL_REPORT_FIELDS`. Como `build_packet()`
+ninguno de sus campos pertenece a `CHAT_FINAL_REPORT_FIELDS`. Como `build_packet()`
 solo comprueba `final_report is None`, interpreta el diccionario vacío como un
 reporte válido y no agrega `final_report_not_found`.
 
 **Resultado esperado:**
 
-- Filtrar `result_data` usando `_FINAL_REPORT_FIELDS`.
+- Filtrar `result_data` usando `CHAT_FINAL_REPORT_FIELDS`.
 - Si después del filtrado no queda ningún campo autorizado, devolver `None`.
 - Agregar `final_report_not_found` a `missing_data`.
 - No exponer campos no autorizados.
@@ -104,7 +106,7 @@ reporte válido y no agrega `final_report_not_found`.
   permitido, por ejemplo `instructions`.
 
 **Implementación:** `_extract_final_report()` construye el reporte exclusivamente
-con `_FINAL_REPORT_FIELDS` y devuelve `None` cuando el filtrado no conserva ningún
+con `CHAT_FINAL_REPORT_FIELDS` y devuelve `None` cuando el filtrado no conserva ningún
 campo. `build_packet()` registra entonces `final_report_not_found`; la fila N14
 permanece en la evidencia auditable, pero sus campos no autorizados no se exponen.
 
@@ -155,7 +157,7 @@ paquete. También debe validarse el tipo de `results`.
 un diccionario y que `results` sea una lista. Si cualquiera tiene un tipo
 inesperado, devuelve una lista vacía sin iterar ni exponer el contenido persistido;
 `build_packet()` registra entonces `metrics_not_found`. Las métricas S3 válidas
-continúan filtrándose mediante `_METRIC_FIELDS`.
+continúan filtrándose mediante `CHAT_METRIC_FIELDS`.
 
 **Registro Git verificado:**
 
@@ -188,16 +190,37 @@ continúan filtrándose mediante `_METRIC_FIELDS`.
   campos autorizados.
 - No se consultó, desplegó ni modificó producción.
 
-Estas son las cuatro correcciones concretas encontradas durante la revisión
-inicial y todas están terminadas en desarrollo y pruebas. La cantidad puede
-aumentar: cualquier defecto nuevo descubierto por una prueba debe agregarse a
-esta bitácora y priorizarse explícitamente.
+### Corrección 5 — copia JSONB de linaje conflictiva — terminada en desarrollo
+
+**Defecto confirmado.** El linaje verificable de N14 vive en la columna
+`audit_results.source_s3_result_id`, pero `_extract_final_report()` también podía
+exponer una copia distinta guardada dentro de `result_data`. Aunque la selección
+de la fila N14 ya usaba la columna correcta, esa duplicación podía mostrar al
+chat un identificador no verificado.
+
+**Implementación.** Si el reporte contiene `source_s3_result_id`, el valor de
+salida se sustituye por el UUID validado de la columna de la fila N14. Los demás
+campos siguen bajo allowlist. La regresión crea una fila cuyo JSONB apunta a otro
+UUID y confirma que solo se conserva la raíz S3 verificada.
+
+**Registro Git verificado:** rama `codex/chatbot-q4`; `sin commit`, HEAD
+`48bdbc4`. Archivos de código y prueba: `agents/chat_grounding.py` y
+`tests/test_chat_grounding.py`.
+
+**Pruebas focalizadas:** `26 passed, 13 subtests passed in 1.55s` con pytest sin
+caché; la misma selección terminó `Ran 26 tests in 0.028s`, `OK` con unittest.
+No se consultó ni modificó ninguna base de datos.
+
+Las cinco correcciones encontradas están terminadas en desarrollo. La cantidad
+puede aumentar: cualquier defecto nuevo descubierto por una prueba debe agregarse
+a esta bitácora y priorizarse explícitamente.
 
 ## B. Trabajo obligatorio de robustez para cerrar el Paso 1
 
 ### Trabajo 5 — linaje exacto entre S3 y N14 — terminado en desarrollo y pruebas
 
-**Estado:** terminado en desarrollo y pruebas (`sin commit`).
+**Estado:** terminado en desarrollo y pruebas, confirmado en Git y validado
+integralmente contra `MEPIA - PRUEBAS`.
 
 Actualmente `ChatGroundingService` relaciona S3 y N14 mediante `business_id` y
 fecha. Si el mismo negocio tiene dos auditorías el mismo día, puede seleccionar las
@@ -270,11 +293,14 @@ se agrega `final_report_not_found`.
 
 **Registro Git verificado:**
 
-- Rama: `codex/chat-grounding-step5`.
-- Worktree: `C:\Users\giova\.codex\worktrees\chat-grounding-step5`.
+- Rama del Trabajo 5: `codex/chat-grounding-step5`.
+- Rama actual de continuidad: `codex/chatbot-q4`.
+- Worktree actual:
+  `C:\Users\giova\.codex\worktrees\chatbot-q4\Mepia_clean`.
 - Base: `855151f64797e721ede75d1e627a8e07a820ed98`
   (`docs: sincronizar cierre de correccion 4`).
-- Commit del Trabajo 5: `sin commit`.
+- Commit del Trabajo 5: `48bdbc4`
+  (`feat: add exact S3-to-N14 lineage`).
 
 **Archivos modificados:**
 
@@ -341,18 +367,43 @@ se agrega `final_report_not_found`.
 
 ## C. Mejoras de robustez y validación
 
-Pendientes separados del cierre funcional inmediato:
+Mejoras separadas del cierre funcional inmediato:
 
 1. Fijar una versión compatible de `supabase-py` o agregar un mecanismo de bloqueo
    de dependencias.
-2. Ejecutar una prueba HTTP completa contra el Data API de `MEPIA - PRUEBAS`.
-3. **Siguiente acción obligatoria:** ejecutar una prueba integral del Paso 1;
-   sus prerrequisitos de código (correcciones 3 y 4 y Trabajo 5) ya terminaron.
+2. ✅ Prueba HTTP completa contra el Data API de `MEPIA - PRUEBAS`, ejecutada el
+   24-sep-2026 mediante la prueba integral opt-in.
+3. ✅ Prueba integral del Paso 1 ejecutada y aprobada el 24-sep-2026.
 4. Definir cuándo dejar de aceptar `completed` y `NULL` como estados legacy.
-5. Suite general del proyecto ejecutada: 118/118 pruebas y 17 subpruebas
+5. Suite general del proyecto ejecutada de nuevo después del Paso 2: 131 pruebas
+   aprobadas, 1 prueba de integración omitida por diseño y 17 subpruebas
    aprobadas con el entorno aislado de Python 3.12.14.
 6. Comprobar que ningún cambio aumente innecesariamente las llamadas al LLM ni
-   rompa el enfoque RAG. El Paso 1 actual es determinista y no llama a un LLM.
+   rompa el enfoque RAG. Los Pasos 1 y 2 son deterministas y no llaman a un LLM.
+
+**Cierre de la prueba integral del Paso 1 (24-sep-2026):**
+
+- Se agregó `tests/test_chat_grounding_supabase_integration.py`, una prueba opt-in
+  con guardas para `ENVIRONMENT=dev`, el identificador exacto del proyecto de
+  pruebas y una bandera explícita de ejecución.
+- La conexión de solo lectura confirmó 19 filas iniciales en `audit_results`.
+- La prueba creó únicamente negocios y filas sintéticas con UUID nuevos. Validó
+  dos negocios aislados, dos ejecuciones S3/N14 del mismo día, selección del S3
+  más reciente, coincidencia exacta de `source_s3_result_id`, ausencia de fallback
+  a un N14 anterior, recuperación de una fila `success` detrás de cinco filas
+  `failed`, allowlists y el caso sin auditorías.
+- Resultado real de la integración con Python 3.12.14 y `supabase-py==2.31.0`:
+  `1 passed`, con dos advertencias de deprecación provenientes del cliente;
+  no hubo fallos funcionales.
+- El bloque de limpieza eliminó exactamente los UUID creados. La verificación
+  independiente posterior confirmó 19 filas en `audit_results`, 0 negocios
+  temporales y 0 filas temporales de auditoría.
+- La suite general posterior terminó con `118 passed, 1 skipped, 17 subtests
+  passed in 40.85s`. El `skip` corresponde exclusivamente a esta prueba opt-in
+  cuando no se proporcionan las banderas de integración.
+- La restricción inicial de red del entorno y su resolución mediante permiso
+  acotado quedaron registradas en `INC-20260924-008`.
+- No se consultó ni modificó producción.
 
 ## D. Preparación para producción
 
@@ -377,12 +428,13 @@ Ninguno de estos pasos está autorizado por el estado actual de esta bitácora.
 
 Este plan general no debe confundirse con las correcciones anteriores:
 
-1. Datos verificables y grounding S3/N14 — implementado; las cuatro correcciones
-   iniciales y el Trabajo 5 de linaje están terminados en desarrollo y pruebas.
-2. Herramientas deterministas para consultar métricas, reportes y glosario —
-   pendiente.
-3. Nodo conversacional con respuesta estructurada y rechazo cuando falta evidencia
-   — pendiente.
+1. Datos verificables y grounding S3/N14 — implementado y validado integralmente
+   contra el Data API de `MEPIA - PRUEBAS`; las cuatro correcciones iniciales y
+   el Trabajo 5 de linaje están terminados.
+2. Herramientas deterministas, catálogo completo del motor, glosario acotado y
+   prohibición absoluta de cálculo — implementados y probados localmente.
+3. **Siguiente acción:** nodo conversacional con respuesta estructurada y rechazo
+   cuando falta evidencia.
 4. Evaluación offline de exactitud, ausencia de invención, aislamiento y preguntas
    fuera de alcance — pendiente.
 5. Endpoint autenticado, autorización por negocio, historial controlado e interfaz
@@ -391,6 +443,60 @@ Este plan general no debe confundirse con las correcciones anteriores:
 La **Corrección 3** es un defecto concreto de `_extract_final_report()` dentro del
 Paso 1. No es el **Paso 3 del chatbot**, que corresponde al futuro nodo
 conversacional.
+
+### Paso 2 — herramientas deterministas — terminado en desarrollo
+
+`ChatQueryTools` recibe exclusivamente un `ChatGroundingPacket`; no consulta
+Supabase, no escribe datos y no llama a un proveedor de IA. Expone consultas de
+resultados S3/N14, catálogo de métricas, descripciones, glosario y un rechazo
+determinista de solicitudes de cálculo.
+
+El catálogo cubre por igualdad exacta las 31 entradas de
+`GatekeeperAgent.METRICS` y cuatro cálculos auxiliares reales del motor:
+`contribution_margin`, `waste_analysis`, `burn_rate` y `price_inflation`. Los
+conceptos se limitan a los necesarios para entender esas métricas; no es un
+glosario financiero general. Cada definición declara entradas, unidades, nombres
+reales de `CalcResult`, limitaciones y que el dueño del cálculo es S3.
+
+Cada resultado usa el contrato `ChatToolResult` con estados `ok`, `not_found`,
+`missing_data`, `invalid_request` o `not_allowed`, y declara siempre
+`knowledge_scope="engine_metric_domain"` y `calculation_allowed=false`. Las
+herramientas vuelven a aplicar las
+allowlists y solo exponen métricas con evidencia S3 o reportes con evidencia N14
+de la misma fecha y raíz. Los alias se normalizan por mayúsculas y acentos, pero
+no se permiten coincidencias aproximadas. Catálogo y glosario nunca se presentan
+como evidencia de un negocio.
+
+La regla de producto es absoluta: el chatbot puede recuperar, explicar y
+parafrasear resultados existentes, pero no calcular, recalcular, sumar,
+promediar, agregar, derivar comparaciones numéricas, proyectar ni simular. Las
+fórmulas del catálogo son texto educativo, no una interfaz ejecutable. Si el
+motor no emitió un resultado, se declara ausente y no se reconstruye. El método
+`refuse_calculation()` devuelve `not_allowed` sin evidencia ni valor calculado.
+
+Se documentaron sin reinterpretación tres contratos legados:
+`operative_cost_margin` es costo diario y no margen porcentual; `health_score`
+es margen promedio monetario y no una puntuación compuesta; `inventory_variance`
+puede producir varias salidas de merma con prefijo dinámico.
+
+**Registro Git verificado:** rama `codex/chatbot-q4`; `sin commit`, HEAD
+`48bdbc4`. Archivos principales: `agents/chat_metric_catalog.py`,
+`agents/chat_tools.py`, `agents/chat_grounding.py`,
+`tests/test_chat_tools.py`, `tests/test_chat_grounding.py`,
+`.kiro/specs/mepia/n15_chat_consulta.md`,
+`.kiro/specs/mepia/n15_chat_consulta_tools.md`,
+`.kiro/specs/mepia/n15_chat_consulta_catalogo.md`, `.kiro/specs/mepia/_index.md`,
+`.kiro/specs/mepia/_glossary.md` y documentación de seguimiento.
+
+**Validación ampliada:** la selección de grounding y herramientas terminó con
+`36 passed, 1 skipped, 62 subtests passed`; la omisión es la integración opt-in
+con Supabase. La suite general terminó con `141 passed, 1 skipped, 66 subtests
+passed in 41.84s`. La cobertura comprueba igualdad exacta con el registro del
+Gatekeeper, los 35 contratos, nombres reales y prefijos dinámicos de salida,
+limitaciones legadas, rechazo de finanzas generales y rechazo absoluto de
+cálculos. Se ejecutó con `-p no:cacheprovider` por `INC-20260924-008`. No se
+usaron claves OpenAI/Anthropic, no se accedió a Supabase y no se modificó
+producción. Este paso no incorpora RAG; el catálogo es determinista y versionado.
 
 ## Registro operativo
 
@@ -402,4 +508,7 @@ conversacional.
 | 15-sep-2026 | Corrección 3, cierre documental y bitácora de incidencias | `codex/chat-grounding-step3` | `922ba91` (código y pruebas) | `AGENTS.md`, `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 8/8 grounding y 2/2 migración; 10/10 relacionadas aprobadas (`OK`) |
 | 15-sep-2026 | Corrección 4 y cierre documental | `codex/chat-grounding-step4` | `367ab96` (código y pruebas); `f13e2e8` (cierre documental); base `b1aa4ca` | `.kiro/specs/mepia/n15_chat_consulta.md`, `agents/chat_grounding.py`, `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md`, `tests/test_chat_grounding.py` | 10/10 grounding y 2/2 migración; 12/12 relacionadas aprobadas (`Ran 12 tests in 0.021s`, `OK`) con el runtime de Codex; el intento con `python` no inició (`INC-20260915-002`); `git diff --check` código 0, sin errores de espacios y con advertencias LF→CRLF |
 | 15-sep-2026 | Revisión final y sincronización documental antes del Trabajo 5 | `codex/chat-grounding-step4` | `sin commit`; HEAD `f13e2e8` | `docs/chatbot_corrections.md`, `docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md` | Suite específica: 12/12 aprobadas (`Ran 12 tests in 0.017s`, `OK`). Suite general: 12 pruebas importables aprobadas y 9 módulos no importados por ausencia de `pytest` (`Ran 21 tests in 0.020s`, `FAILED (errors=9)`); incidencia `INC-20260915-002` actualizada. `git diff --check`: código 0, sin errores de espacios y con advertencias LF→CRLF |
-| 15-sep-2026 | Trabajo 5 — linaje exacto S3/N14 | `codex/chat-grounding-step5` | `sin commit`; base `855151f` | Código de S3/N05/N06/Layer 3/N14 y grounding; migración `009`, `APPLY_ALL.sql`, pruebas, entorno reproducible y documentación relacionada; corrección incidental de serialización de `reprints` | Suite completa final: 118/118 pruebas y 17 subpruebas aprobadas en 39.22 s con Python 3.12.14; 21/21 específicas aprobadas. Migración 009 ejecutada dos veces correctamente en `MEPIA - PRUEBAS`: 19/19 filas preservadas, 0 históricos enlazados, FK validada e índice único presente. Primer intento PL/pgSQL fallido y resolución en `INC-20260915-007` |
+| 15-sep-2026 | Trabajo 5 — linaje exacto S3/N14 | `codex/chat-grounding-step5` | `48bdbc4`; base `855151f` | Código de S3/N05/N06/Layer 3/N14 y grounding; migración `009`, `APPLY_ALL.sql`, pruebas, entorno reproducible y documentación relacionada; corrección incidental de serialización de `reprints` | Suite completa final: 118/118 pruebas y 17 subpruebas aprobadas en 39.22 s con Python 3.12.14; 21/21 específicas aprobadas. Migración 009 ejecutada dos veces correctamente en `MEPIA - PRUEBAS`: 19/19 filas preservadas, 0 históricos enlazados, FK validada e índice único presente. Primer intento PL/pgSQL fallido y resolución en `INC-20260915-007` |
+| 24-sep-2026 | Prueba integral del Paso 1 | `codex/chatbot-q4` | `sin commit`; HEAD `48bdbc4` | `tests/test_chat_grounding_supabase_integration.py` y documentación relacionada | Data API real de `MEPIA - PRUEBAS`: 1/1 integración aprobada; limpieza verificada con 19 filas originales, 0 negocios temporales y 0 auditorías temporales. Suite general: 118 aprobadas, 1 integración opt-in omitida y 17 subpruebas aprobadas en 40.85 s. Incidencia de entorno resuelta: `INC-20260924-008` |
+| 24-sep-2026 | Paso 2 y Corrección 5 | `codex/chatbot-q4` | `sin commit`; HEAD `48bdbc4` | `agents/chat_tools.py`, refuerzo de grounding, pruebas y specs N15; detalle en sección E | Focalizadas: 26 aprobadas y 13 subpruebas con pytest; 26/26 con unittest. Suite general: 131 aprobadas, 1 integración opt-in omitida y 17 subpruebas aprobadas en 41.43 s. `INC-20260924-008` actualizada por caché de pytest |
+| 24-sep-2026 | Ampliación del Paso 2: dominio completo y no cálculo | `codex/chatbot-q4` | `sin commit`; HEAD `48bdbc4` | Nuevo catálogo de 35 métricas, glosario acotado, política y rechazo determinista, pruebas y tres specs N15 | Focalizadas: 36 aprobadas, 1 integración opt-in omitida y 62 subpruebas. Suite general: 141 aprobadas, 1 omitida y 66 subpruebas en 41.84 s; sin DB, LLM ni producción |

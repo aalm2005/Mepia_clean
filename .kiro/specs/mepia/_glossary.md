@@ -628,3 +628,57 @@ evidence: ChatEvidenceReference[]
 missing_data: str[]
 built_at: datetime
 ```
+
+### MetricConceptDefinition / ChatGlossaryEntry
+Concepto estrictamente necesario para comprender métricas del motor. El segundo
+nombre es un alias de compatibilidad del contrato inicial.
+```
+term: str
+display_name: str
+definition: str
+aliases: list[str]
+related_metrics: list[str]       # identificadores de MetricDefinition
+```
+
+### MetricDefinition
+Definición explicativa de una métrica cuyo cálculo pertenece únicamente a S3.
+```
+metric_id: str
+display_name: str
+definition: str
+interpretation: str
+formula_explanation: str         # texto educativo; nunca ejecutable
+inputs: list[str]
+units: list[str]
+aliases: list[str]
+result_metric_names: list[str]   # nombres reales posibles de CalcResult
+result_metric_prefixes: list[str]
+related_concepts: list[str]
+limitations: list[str]
+availability: "pipeline" | "engine_support"
+calculation_owner: "deterministic_engine"
+```
+
+### ChatScopePolicy
+Frontera funcional inmutable del chatbot.
+```
+knowledge_scope: "engine_metric_domain"
+calculation_allowed: false
+allowed_operations: ["retrieve_existing_engine_results", "explain_engine_metrics", "paraphrase_verified_results"]
+prohibited_operations: ["calculate", "recalculate", "aggregate", "derive_numeric_comparison", "project", "simulate"]
+```
+
+### ChatToolResult
+Salida común de las herramientas deterministas de N15.
+```
+tool: "list_metrics" | "get_metric" | "get_final_report" | "list_metric_catalog" | "describe_metric" | "lookup_glossary" | "refuse_calculation"
+status: "ok" | "not_found" | "missing_data" | "invalid_request" | "not_allowed"
+business_id: str
+resolved_date: YYYY-MM-DD | null
+source_s3_result_id: str | null
+data: dict                         # payload allowlisted de la herramienta
+evidence: ChatEvidenceReference[] # vacío para catálogo, glosario y rechazo
+missing_data: str[]
+knowledge_scope: "engine_metric_domain"
+calculation_allowed: false
+```

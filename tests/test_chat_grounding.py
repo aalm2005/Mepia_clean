@@ -377,6 +377,38 @@ class ChatGroundingServiceTests(unittest.TestCase):
         self.assertIn("final_report_not_found", packet.missing_data)
         self.assertNotIn("instructions", str(packet.model_dump()))
 
+    def test_report_uses_verified_lineage_column_instead_of_jsonb_copy(self):
+        rows = [
+            _row(
+                "s3-valid-lineage",
+                "biz-a",
+                "2026-09-02",
+                "S3",
+                {"results": [{"metric": "avg_ticket", "value": 125}]},
+                "2026-09-02T20:00:00Z",
+            ),
+            _row(
+                "n14-conflicting-jsonb-lineage",
+                "biz-a",
+                "2026-09-02",
+                "N14",
+                {
+                    "source_s3_result_id": _test_id("unverified-jsonb-copy"),
+                    "executive_summary": "Reporte valido.",
+                },
+                "2026-09-02T20:05:00Z",
+                source_s3_result_id=_test_id("s3-valid-lineage"),
+            ),
+        ]
+
+        packet = ChatGroundingService(_FakeDB(rows)).build_packet("biz-a")
+
+        self.assertEqual(
+            packet.final_report["source_s3_result_id"],
+            _test_id("s3-valid-lineage"),
+        )
+        self.assertNotIn("unverified-jsonb-copy", str(packet.model_dump()))
+
     def test_rejects_invalid_date_before_querying(self):
         with self.assertRaisesRegex(ValueError, "YYYY-MM-DD"):
             ChatGroundingService(_FakeDB([])).build_packet("biz-a", "13-09-2026")

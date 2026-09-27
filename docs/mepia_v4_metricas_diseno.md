@@ -38,6 +38,8 @@
 | 20 | **Validación final: ¿el reporte consolidado de N14 llega al 90-95% de accuracy original?** Nivel 3b había verificado que el reporte pasa control de calidad (sin alucinación, sin desviación de identidad) pero nunca se había comparado su *contenido* contra `esperado_hallazgos` — esa comparación es la que de verdad responde la pregunta con la que arrancó el proyecto ("¿el sistema llega a los hallazgos correctos?"). Se extendió `eval_runner_n3b.py` con `check_report_content()` — mismo patrón de keywords por flag que ya usa el matcher de Nivel 2, pero buscando en el texto libre del reporte final en vez de en `metric_origin` estructurado. Primera corrida: 8/9 (88.9%) — faltaba `stock_bajo` en `caso_08`, que resultó ser una entrada de `esperado_hallazgos` que se había agregado en una sesión anterior pero **nunca se llegó a confirmar en git** (se perdió en un `git reset --hard origin/master` de sincronización) — se volvió a agregar y esta vez sí se subió a git de inmediato. Con eso: 9/10 (90.0%) — pero `caso_08` (el caso con más señales, 5 anomalías reales) seguía sin mencionar `descuentos_cortesias_concentrados` en el reporte final, de forma repetible en 2 corridas seguidas con LLM real (no era ruido aleatorio). Causa encontrada en el prompt de N11: "`pragmatic_actions`: mínimo 1, máximo 3" se estaba acoplando implícitamente a cuántos hallazgos se narraban — con 5 anomalías reales pero tope de 3 acciones, N11 aparentemente solo narraba lo que alcanzaba a cubrir con acciones. Corregido con una regla de cobertura explícita y separada: el tope de 3 acciones es solo para las acciones recomendadas, `operational_narrative` debe mencionar TODAS las anomalías reales sin excepción, agrupando varias en una sola acción si hace falta. Verificado: `caso_08` pasa a 4/4 hallazgos mencionados. **Resultado final: 10/10 (100%) en el chequeo de contenido del reporte consolidado** — por encima del objetivo original de 90-95% con el que arrancó todo el proyecto | ✅ Cerrado |
 | 21 | **Inicio del chatbot fundamentado, fase 1.** Antes de llamar a un LLM se creó `ChatGroundingService`, que arma un paquete determinista solo con métricas S3 y reporte N14 verificables, aplica allowlists de campos, adjunta referencias a `audit_results` y declara fuentes faltantes sin inventar valores. La revisión encontró un prerrequisito de producción: el código persistía en `result_data`, pero las migraciones solo declaraban `raw_result`; además, varios nodos escribían estados fuera del constraint SQL. Se agregó la migración `008_audit_results_runtime_contract.sql`, se corrigió `APPLY_ALL.sql` para instalaciones nuevas y legacy, y se normalizó `node_status` al vocabulario operativo (`success`, `partial`, `failed`, `timeout`, `error`). Las Correcciones 1–4 cerraron la normalización de estados, el filtro previo al límite, el reporte vacío tras allowlist y la validación estructural de métricas. El chat aún no expone endpoint ni usa LLM. | ✅ Cerrado en desarrollo y pruebas para las Correcciones 1–4; sin despliegue en producción |
 | 22 | **Trabajo 5 — linaje exacto S3/N14.** El recorrido S3→N05→N06→Layer 3→N14 confirmó que los identificadores existentes comienzan en etapas diferentes: el ID de S3 se perdía en N05, `sequential_run_id` identifica N05, `layer2_run_id`/`audit_run_id` identifica N06 y `layer3_run_id` identifica Layer 3. Se agregó `source_s3_result_id`, FK nullable a `audit_results(id)`, como raíz explícita. S3 usa su propio ID; N05, N06, N10, N11, N13 y N14 lo propagan y persisten. El grounding elige la S3 válida más reciente y exige coincidencia exacta de negocio, fecha y linaje; nunca usa un N14 de otra ejecución. Los históricos quedan en NULL sin inferencia por fecha. | ✅ Cerrado en desarrollo y pruebas; 118/118 pruebas y 17 subpruebas aprobadas; migración `009` ejecutada dos veces correctamente en `MEPIA - PRUEBAS`, con 19/19 filas preservadas, FK validada e índice presente; sin despliegue en producción |
+| 23 | **Prueba integral del Paso 1.** Se agregó una prueba opt-in contra el Data API real de `MEPIA - PRUEBAS`, protegida por entorno, identificador de proyecto y autorización explícita. Con UUID nuevos verificó aislamiento entre negocios, dos ejecuciones del mismo día, linaje exacto S3/N14, ausencia de fallback a una ejecución anterior, filtro de estados, allowlists y datos faltantes. La limpieza se comprobó por una consulta independiente. | ✅ Cerrado el 24-sep-2026: 1/1 integración aprobada; 19 filas originales preservadas, 0 negocios temporales y 0 auditorías temporales; suite general posterior con 118 aprobadas, 1 integración opt-in omitida y 17 subpruebas aprobadas; sin acceso a producción |
+| 24 | **Paso 2 del chatbot ampliado: consultas, dominio financiero y no cálculo.** `ChatQueryTools` opera solo sobre `ChatGroundingPacket`, reaplica allowlists y exige evidencia de la misma fecha y raíz para S3/N14. `chat_metric_catalog.py` cubre exactamente las 31 métricas del Gatekeeper y cuatro cálculos auxiliares reales, con conceptos limitados al dominio del motor. Todo resultado declara `calculation_allowed=false`; las fórmulas son explicativas y una petición de cálculo, agregación, comparación numérica derivada, proyección o simulación recibe `not_allowed`. También prevalece la columna auditable de linaje sobre cualquier copia JSONB. | ✅ Cerrado en desarrollo el 24-sep-2026; 36 pruebas focalizadas aprobadas, 1 integración opt-in omitida y 62 subpruebas; suite general con 141 aprobadas, 1 omitida y 66 subpruebas; sin LLM, DB ni producción |
 
 ---
 
@@ -254,12 +256,12 @@ siguiente número que salga del eval runner es el que cuenta.
 7. Capa de skills — diseño de ruteo y las 3 skills de dominio (conciliación, PLD, gastos) ya existen (revisar con Axel de dónde salieron, aparecieron ya escritas y sin confirmar en git — ver nota en el chat de sesión). N07/N08 (implementación real) se dejan para otra versión a propósito.
 8. Footer de procedencia/linaje en N14 — sigue sin diseñar.
 9. Pantalla de Configuración — le toca a otro miembro del equipo (frontend). Inputs nuevos que capturar: cortesía permitida por responsable (`business_courtesy_config`).
-10. **Chat con grounding — Paso 1 implementado en desarrollo y pruebas.** El
-    paquete verificable S3/N14, aislamiento por `business_id`, allowlists,
-    procedencia y linaje exacto están implementados; las cuatro correcciones y el
-    Trabajo 5 están terminados. La siguiente acción obligatoria es la prueba
-    integral del Paso 1. Después siguen herramientas de consulta, nodo LLM,
-    evaluación offline y la pestaña "Chat IA".
+10. **Chat con grounding — Pasos 1 y 2 terminados.** El paquete verificable S3/N14
+    está aprobado contra el Data API de `MEPIA - PRUEBAS`. Las herramientas
+    deterministas de métricas, reporte y glosario están implementadas y probadas
+    localmente sin base de datos ni LLM. La siguiente acción es el nodo
+    conversacional estructurado; después siguen la evaluación offline y la
+    pestaña "Chat IA".
 
 ---
 
@@ -273,9 +275,9 @@ sección conserva únicamente el diseño general y las decisiones ya consolidada
 
 | Paso | Entregable | Estado |
 |---|---|---|
-| 1 | Datos verificables: `ChatGroundingPacket` desde S3/N14, contrato real de `audit_results` y linaje exacto | ✅ Implementado y probado localmente; siguiente: prueba integral del Paso 1 |
-| 2 | Herramientas deterministas para consultar métricas, reportes y glosario | Pendiente después de la prueba integral del Paso 1 |
-| 3 | Nodo conversacional con respuesta estructurada y rechazo cuando falta evidencia | Pendiente |
+| 1 | Datos verificables: `ChatGroundingPacket` desde S3/N14, contrato real de `audit_results` y linaje exacto | ✅ Implementado y validado integralmente contra `MEPIA - PRUEBAS` |
+| 2 | Herramientas deterministas para consultar métricas, reportes y glosario | ✅ Implementado y probado localmente |
+| 3 | Nodo conversacional con respuesta estructurada y rechazo cuando falta evidencia | **Siguiente acción** |
 | 4 | Eval offline: exactitud, ausencia de invención, aislamiento y preguntas fuera de alcance | Pendiente |
 | 5 | Endpoint autenticado, historial controlado e integración de la pestaña Chat IA | Pendiente |
 
@@ -364,12 +366,12 @@ Validación de integración del 14-sep-2026:
 
 ### Corrección 3 — reporte N14 vacío después de aplicar la allowlist
 
-Las correcciones 1, 2, 3 y 4 y el Trabajo 5 de linaje exacto entre S3 y N14 están
-terminados en desarrollo y pruebas. La siguiente acción obligatoria es la prueba
-integral del Paso 1 registrada en la bitácora.
+Las correcciones 1–5, el Trabajo 5 de linaje exacto, la prueba integral del Paso
+1 y el Paso 2 de herramientas deterministas están terminados en desarrollo. La
+siguiente acción es el Paso 3: nodo conversacional estructurado.
 
 `ChatGroundingService._extract_final_report()` filtra `result_data` mediante
-`_FINAL_REPORT_FIELDS` y ahora devuelve `None` si ningún campo autorizado
+`CHAT_FINAL_REPORT_FIELDS` y devuelve `None` si ningún campo autorizado
 permanece. En ese caso `build_packet()` incluye `final_report_not_found` en
 `missing_data`; los campos no autorizados nunca se exponen. Los reportes N14 que
 sí contienen campos autorizados conservan su comportamiento.
@@ -386,9 +388,9 @@ No se desplegó ni validó esta corrección en producción.
 
 ### Corrección 4 — validación estructural de métricas S3 persistidas
 
-Las correcciones 1, 2, 3 y 4 y el Trabajo 5 de linaje exacto entre S3 y N14 están
-terminados en desarrollo y pruebas. El Trabajo 5 no equivale a la fase 5 del
-chatbot; la siguiente acción obligatoria es la prueba integral del Paso 1.
+Las correcciones 1–5, el Trabajo 5 de linaje exacto, la prueba integral del Paso
+1 y el Paso 2 de herramientas deterministas están terminados en desarrollo. El
+Trabajo 5 no equivale a la fase 5; la siguiente acción es el Paso 3.
 
 `ChatGroundingService._extract_metrics()` valida explícitamente que `result_data`
 sea un diccionario y que su campo `results` sea una lista. Una lista, texto,
@@ -412,3 +414,28 @@ Validación local del 15-sep-2026 con el runtime de Python incluido con Codex:
 actualizó `INC-20260915-002`. `git diff --check` terminó con código 0, sin errores
 de espacios y con advertencias de normalización futura de LF a CRLF para los seis
 archivos modificados. No se consultó, desplegó ni modificó producción.
+
+### Corrección 5 y Paso 2 — linaje visible y consultas deterministas
+
+La copia de `source_s3_result_id` incluida en el JSONB de N14 ya no puede
+contradecir la columna auditable: si el campo está presente, el grounding expone
+el UUID validado de `audit_results.source_s3_result_id`. Encima de ese paquete,
+`ChatQueryTools` consulta métricas, secciones permitidas del reporte, catálogo y
+glosario sin base de datos ni LLM. El catálogo cubre exactamente las 31 métricas
+del pipeline y cuatro auxiliares del motor. Cada salida declara el alcance
+`engine_metric_domain` y `calculation_allowed=false`, distingue éxito, ausencia,
+falta de evidencia, solicitud inválida o cálculo no permitido, y vuelve a exigir
+fecha y raíz coincidentes.
+
+N15 solo recupera, explica o parafrasea resultados existentes. No calcula,
+recalcula, agrega, deriva comparaciones numéricas, proyecta ni simula; una fórmula
+es únicamente texto educativo. Finanzas generales fuera de las métricas quedan
+fuera de alcance. `operative_cost_margin`, `health_score` e
+`inventory_variance` conservan explicaciones alineadas con el comportamiento
+real del código y documentan sus limitaciones legadas.
+
+Validación ampliada del 24-sep-2026: 36 pruebas aprobadas, 1 integración opt-in
+omitida y 62 subpruebas en la selección focalizada. La suite general terminó con
+141 aprobadas, 1 omitida y 66 subpruebas en 41.84 s. Rama `codex/chatbot-q4`, sin
+commit, HEAD `48bdbc4`. No se consultó ni modificó producción. Este paso no es
+RAG: usa un catálogo determinista versionado desde el motor.

@@ -113,8 +113,8 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
   `tests/test_audit_results_migration.py`; commit
   `922ba91` para la Corrección 3; commits `367ab96` (código y pruebas) y
   `f13e2e8` (cierre documental) para la Corrección 4 en la rama
-  `codex/chat-grounding-step4`; Trabajo 5 `sin commit`, base `855151f`, en
-  `codex/chat-grounding-step5`.
+  `codex/chat-grounding-step4`; Trabajo 5 en commit `48bdbc4`, base `855151f`,
+  rama `codex/chat-grounding-step5`.
 
 ## INC-20260915-003 — Push de step2 rechazado con HTTP 403
 
@@ -181,16 +181,21 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
 - **Impacto:** No pudo comprobarse el recorrido HTTP completo.
 - **Causa:** Confirmada: las credenciales necesarias no estaban disponibles en el
   entorno local. No se documenta una causa más específica.
-- **Solución o alternativa:** PostgreSQL y la construcción de la consulta se
-  validaron por separado; la llamada HTTP completa quedó pendiente.
-- **Evidencia de resolución:** No existe resolución end-to-end. Las validaciones
-  separadas están registradas, pero no sustituyen la llamada HTTP pendiente.
-- **Estado:** pendiente externo.
+- **Solución o alternativa:** Inicialmente PostgreSQL y la construcción de la
+  consulta se validaron por separado. El 24-sep-2026 se configuraron credenciales
+  locales del proyecto aislado y se ejecutó la integración opt-in con guardas de
+  entorno y proyecto.
+- **Evidencia de resolución:** La prueba contra el Data API real de
+  `MEPIA - PRUEBAS` terminó `1 passed`; verificó aislamiento, linaje, estados,
+  allowlists y faltantes. La limpieza independiente confirmó 19 filas originales,
+  0 negocios temporales y 0 auditorías temporales.
+- **Estado:** resuelta el 24-sep-2026.
 - **Acción preventiva:** Preparar credenciales de prueba con alcance mínimo en el
   entorno autorizado antes de planear la validación HTTP, sin copiarlas a la
   bitácora ni al repositorio.
 - **Archivos o commits relacionados:** `agents/chat_grounding.py`, commit
-  `abd165b`.
+  `abd165b`; `tests/test_chat_grounding_supabase_integration.py`, sin commit,
+  HEAD `48bdbc4` en `codex/chatbot-q4`.
 
 ## INC-20260915-006 — Prueba de reimpresiones desfasada respecto al modelo vigente
 
@@ -221,7 +226,7 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
   actualizar simultáneamente fixtures y pruebas de serialización, no solo las
   anotaciones del modelo.
 - **Archivos o commits relacionados:** `agents/api_ingest.py`,
-  `tests/test_persist_ingestion.py`; sin commit, base `855151f`.
+  `tests/test_persist_ingestion.py`; commit `48bdbc4`, base `855151f`.
 
 ## INC-20260915-007 — DDL directo no válido dentro del bloque PL/pgSQL de la migración 009
 
@@ -254,4 +259,48 @@ Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
 - **Archivos o commits relacionados:**
   `supabase/migrations/009_audit_results_s3_lineage.sql`,
   `supabase/migrations/APPLY_ALL.sql`,
-  `tests/test_audit_results_migration.py`; sin commit, base `855151f`.
+  `tests/test_audit_results_migration.py`; commit `48bdbc4`, base `855151f`.
+
+## INC-20260924-008 — El entorno restringido bloqueó la primera conexión al Data API
+
+- **Fecha:** 24-sep-2026.
+- **Trabajo o corrección relacionada:** Prueba integral del Paso 1 y pruebas del
+  Paso 2 del chatbot.
+- **Rama:** `codex/chatbot-q4`.
+- **Categoría:** entorno y red.
+- **Severidad:** bloqueante para el primer intento; sin impacto en datos.
+- **Acción:** Ejecutar una consulta mínima de solo lectura contra el Data API de
+  `MEPIA - PRUEBAS` desde el entorno local de pruebas.
+- **Síntoma:** El primer intento fue rechazado por el sistema operativo con un
+  error de acceso a socket. Una comprobación de compilación con `py_compile`
+  tampoco pudo crear `tests/__pycache__` dentro del worktree aislado. Durante el
+  Paso 2, pytest terminó los casos pero quedó intentando crear `.pytest_cache`
+  en `pytest_sessionfinish`.
+- **Impacto:** La consulta HTTP y la primera forma de validación de sintaxis no
+  podían continuar dentro del sandbox predeterminado. No se alcanzó Supabase y
+  no se insertó ni modificó ninguna fila en esos intentos.
+- **Causa:** Confirmada: las restricciones del entorno impedían acceso de red y
+  escritura de artefactos de caché en ese worktree; no era un error de las
+  credenciales ni del código del chatbot.
+- **Solución o alternativa:** La sintaxis se validó mediante `compile()` sin
+  generar archivos. La conexión y la prueba integral se ejecutaron con permiso
+  de red acotado al Python del entorno virtual y con guardas explícitas para el
+  proyecto de pruebas. Las pruebas del Paso 2 se ejecutaron con
+  `-p no:cacheprovider`.
+- **Evidencia de resolución:** La consulta de solo lectura confirmó 19 filas en
+  `audit_results`; la prueba integral terminó `1 passed`; su limpieza dejó 19
+  filas originales, 0 negocios temporales y 0 auditorías temporales. La suite
+  general posterior terminó con 118 pruebas aprobadas, 1 integración opt-in
+  omitida y 17 subpruebas aprobadas. Para el Paso 2, un volcado con
+  `faulthandler` ubicó el bloqueo en `_pytest.cacheprovider._make_cachedir`; al
+  desactivar ese proveedor, las pruebas focalizadas terminaron con 26 aprobadas
+  y 13 subpruebas aprobadas en 1.55 s. La suite general posterior terminó con
+  131 aprobadas, 1 integración opt-in omitida y 17 subpruebas aprobadas en
+  41.43 s.
+- **Estado:** resuelta.
+- **Acción preventiva:** Ejecutar futuras integraciones externas con permiso de
+  red explícito y acotado; mantener `PYTHONDONTWRITEBYTECODE=1`, desactivar la
+  caché de pytest y conservar las guardas de entorno y proyecto.
+- **Archivos o commits relacionados:**
+  `tests/test_chat_grounding_supabase_integration.py`; sin commit, HEAD
+  `48bdbc4`.
