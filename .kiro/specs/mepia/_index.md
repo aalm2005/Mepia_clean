@@ -73,7 +73,7 @@
 | AUTH | Autenticación y Autorización | Transversal | `_auth_strategy.md`   | ✅ req done |
 | ONB  | Onboarding de Identidad | Transversal| `n10_onboarding_identidad.md` | ✅ req done |
 | EVAL | Set de Evaluación Offline | Transversal | `eval_offline.md`       | 🔧 in dev — placeholder |
-| N15  | Chat de consulta fundamentada | Aplicación | `n15_chat_consulta.md` | 🔧 in dev — fases 1 y 2 ampliadas completas |
+| N15  | Chat de consulta fundamentada | Aplicación | `n15_chat_consulta.md` | 🔧 in dev — fases 1–3 completas localmente; Paso 4 validado offline el 9-oct-2026 con 28 casos/36 partes, 22/22 respondibles, 548/548 controles y 36/36 juicios independientes favorables; autenticación, autorización y acceso público en Paso 5; seguimiento adicional de consistencia autorizado y pendiente (tres repeticiones con traza, maximo 15 API) |
 
 - **POSIngestResult** → `n01_pos_pdf_input.md`
 - **FacturaIngestResult** → `n02_facturas_input.md`
@@ -102,6 +102,9 @@
 - **MetricDefinition** → `n15_chat_consulta_catalogo.md`
 - **MetricConceptDefinition / ChatGlossaryEntry** → `n15_chat_consulta_catalogo.md`
 - **ChatScopePolicy** → `n15_chat_consulta_catalogo.md`
+- **ChatModelDecision / ChatIntentProvider** → `n15_chat_consulta.md`
+- **ChatAnswer / ChatAnswerPart** → `n15_chat_consulta.md`
+- **ChatSourceFact / ChatModelDraft / ChatReviewResult / ChatValidatedClaim** → `n15_chat_consulta.md`
 
 ## Diseño Frontend (Fase 2)
 
@@ -138,6 +141,11 @@
 | N15 Chat grounding  | `agents/chat_grounding.py`               |
 | N15 Chat tools      | `agents/chat_tools.py`                   |
 | N15 Chat catalog    | `agents/chat_metric_catalog.py`          |
+| N15 Conversation    | `agents/chat_conversation.py`            |
+| N15 Free response   | `agents/chat_response.py`                |
+| N15 Eval Gemini     | `agents/chat_provider_gemini.py`         |
+| N15 Eval OpenAI     | `agents/chat_provider_openai.py`         |
+| N15 Offline eval    | `tests/chat_offline_eval.py`             |
 
 ## Schema de base de datos
 

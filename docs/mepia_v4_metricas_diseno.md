@@ -40,6 +40,19 @@
 | 22 | **Trabajo 5 — linaje exacto S3/N14.** El recorrido S3→N05→N06→Layer 3→N14 confirmó que los identificadores existentes comienzan en etapas diferentes: el ID de S3 se perdía en N05, `sequential_run_id` identifica N05, `layer2_run_id`/`audit_run_id` identifica N06 y `layer3_run_id` identifica Layer 3. Se agregó `source_s3_result_id`, FK nullable a `audit_results(id)`, como raíz explícita. S3 usa su propio ID; N05, N06, N10, N11, N13 y N14 lo propagan y persisten. El grounding elige la S3 válida más reciente y exige coincidencia exacta de negocio, fecha y linaje; nunca usa un N14 de otra ejecución. Los históricos quedan en NULL sin inferencia por fecha. | ✅ Cerrado en desarrollo y pruebas; 118/118 pruebas y 17 subpruebas aprobadas; migración `009` ejecutada dos veces correctamente en `MEPIA - PRUEBAS`, con 19/19 filas preservadas, FK validada e índice presente; sin despliegue en producción |
 | 23 | **Prueba integral del Paso 1.** Se agregó una prueba opt-in contra el Data API real de `MEPIA - PRUEBAS`, protegida por entorno, identificador de proyecto y autorización explícita. Con UUID nuevos verificó aislamiento entre negocios, dos ejecuciones del mismo día, linaje exacto S3/N14, ausencia de fallback a una ejecución anterior, filtro de estados, allowlists y datos faltantes. La limpieza se comprobó por una consulta independiente. | ✅ Cerrado el 24-sep-2026: 1/1 integración aprobada; 19 filas originales preservadas, 0 negocios temporales y 0 auditorías temporales; suite general posterior con 118 aprobadas, 1 integración opt-in omitida y 17 subpruebas aprobadas; sin acceso a producción |
 | 24 | **Paso 2 del chatbot ampliado: consultas, dominio financiero y no cálculo.** `ChatQueryTools` opera solo sobre `ChatGroundingPacket`, reaplica allowlists y exige evidencia de la misma fecha y raíz para S3/N14. `chat_metric_catalog.py` cubre exactamente las 31 métricas del Gatekeeper y cuatro cálculos auxiliares reales, con conceptos limitados al dominio del motor. Todo resultado declara `calculation_allowed=false`; las fórmulas son explicativas y una petición de cálculo, agregación, comparación numérica derivada, proyección o simulación recibe `not_allowed`. También prevalece la columna auditable de linaje sobre cualquier copia JSONB. | ✅ Cerrado en desarrollo el 24-sep-2026; 36 pruebas focalizadas aprobadas, 1 integración opt-in omitida y 62 subpruebas; suite general con 141 aprobadas, 1 omitida y 66 subpruebas; sin LLM, DB ni producción |
+| 25 | **Paso 3 del chatbot: conversación con redacción libre fundamentada.** El nodo consulta las herramientas del Paso 2 y permite explicar y parafrasear con fuentes por afirmación. Los controles de salida vinculan cantidades a sus literales originales y una revisión separada comprueba respaldo, dominio y ausencia de operaciones prohibidas. Los mensajes fijos son respaldo cuando la generación no se valida. Corrige la restricción indebida de redacción registrada en `INC-20260927-009`. | ✅ Corregido en desarrollo el 27-sep-2026; 70 pruebas focalizadas y 78 subpruebas; suite general con 175 aprobadas, 1 integración opt-in omitida y 82 subpruebas. Proveedores simulados; pendiente evaluación real del Paso 4 e integración del Paso 5; sin despliegue |
+| 26 | **Paso 4 del chatbot: evaluación offline reproducible.** Los fixtures sintéticos ejercitan N15 con 19 preguntas y 22 partes. El arnés mide por separado clasificación/estado, cobertura de partes respondibles, linaje, negocio, fecha, cantidades y unidades, rechazo de cálculos, faltantes, dominio e instrucciones adversarias. El significado de cada afirmación exige revisión independiente vinculada al texto y sus fuentes; rechazar todo falla cobertura. | ⚠️ Estado del 29-sep-2026: simulación con 12/12 partes respondibles redactadas, 0 fallos mecánicos y 22/22 juicios semánticos pendientes; control de respaldo con 0/12 y 12 fallos. En esa fecha faltaban credenciales para IA real (`INC-20260929-010`); véanse las decisiones posteriores para las corridas Gemini. Paso 5 posterior; sin despliegue |
+| 27 | **Proveedor OpenAI para la evaluación N15.** Un adaptador aislado usa OpenAI Responses con esquema estructurado para composición y revisión, sin almacenar la respuesta, con cero reintentos y límite de llamadas. El nodo recibe el adaptador; los proveedores del pipeline no cambian. El modo HTTP compatible anterior sigue disponible. | ⚠️ Implementado y probado sin red el 30-sep-2026 con cliente simulado y el SDK oficial sobre transporte simulado. No hubo llamada real por falta de clave y modelo (`INC-20260929-010`). No valida aún la calidad de IA ni cierra el Paso 4 |
+| 28 | **Gemini gratuito para probar N15 offline.** El adaptador usa la API compatible con OpenAI de Google y un esquema estructurado, con datos sintéticos, cero reintentos y presupuesto explícito. `gemini-3.5-flash-lite` es el modelo predeterminado; OpenAI permanece seleccionable para la presentación. El evaluador registra fallos de generación aunque una negativa segura termine en respaldo. | ⚠️ Probado con clave real el 30-sep-2026: muestra de 2 casos, 3 llamadas, 1/1 parte respondible cubierta, 1/2 generaciones validadas y 2/2 juicios semánticos pendientes. Un respaldo en negativa de cálculo se cuenta como fallo (`INC-20260930-013`). Suite de esa etapa: 90 focalizadas y 84 subpruebas; general 195 aprobadas, 1 omitida y 88 subpruebas. Paso 4 abierto; sin producción |
+| 29 | **Seguimiento de calidad de la negativa de cálculo.** El adaptador de N15 pide que `not_allowed` parafrasee su explicación de estado y omita cifras o marcadores de la pregunta. La fuente debe ser `/status/explanation`; los controles de salida no se relajan. Se compara Flash-Lite con Flash en la misma muestra sintética y se conservan los fallos. | ⚠️ Estado de esa etapa: la instrucción aislada no resolvió la calidad; Flash-Lite tuvo 2 fallos en 4 llamadas y Flash 3 fallos en 3 llamadas. No se cambió el modelo predeterminado. Pruebas de esa etapa: 91 focalizadas y 86 subpruebas; general 196 aprobadas, 1 omitida y 90 subpruebas. `INC-20260930-013` abierta y Paso 4 no aprobado |
+| 30 | **Diagnóstico seguro y reglas de redacción por tipo.** N15 informa por parte la etapa y causa de fallos del proveedor, esquema, IDs o revisión adversa sin copiar texto rechazado ni credenciales. El adaptador guía resultados, informes, conceptos y negativas según `kind/status`, con unidad exacta para cada valor citado y sin una frase obligatoria. La política del sistema ya no se duplica en los datos de composición. | ⚠️ Dos nuevas corridas Flash-Lite sintéticas: 2/2 partes validadas con 4 llamadas y 4/4 con 8 llamadas; la ampliada cubrió 3/3 respondibles y tuvo 0 fallos de código, pero 4/4 juicios semánticos independientes pendientes. Pruebas: 95 focalizadas y 86 subpruebas; general 200 aprobadas, 1 omitida y 90 subpruebas. `INC-20260930-013` y Paso 4 siguen abiertos; sin producción |
+| 31 | **Ampliación de casos offline del Paso 4.** El fixture vigente tiene 28 preguntas y 36 partes; añade estado de métrica, fecha explícita, preguntas mixtas que conservan lo respondible, dos resultados, división y contexto S3 adversario. El CLI permite seleccionar hasta ocho casos reales por ID sin alterar criterios de aceptación ni proveedores del motor. | ⚠️ Simulación: 22/22 respondibles, 0 fallos mecánicos y 36 juicios pendientes; respaldo: 0/22 con 22 fallos esperados. Gemini Flash-Lite dirigido: 5 casos, 8 partes, 10 llamadas, 6/6 respondibles, 8/8 generaciones validadas, 0 fallos mecánicos y 8 juicios independientes pendientes. Focalizadas: 61 aprobadas y 24 subpruebas; general: 202 aprobadas, 1 omitida y 90 subpruebas. `INC-20260930-013` y Paso 4 siguen abiertos; Paso 5 posterior |
+| 32 | **Conjunto completo con IA real y juicio semántico separado.** Los 23 casos restantes se ejecutaron en tres tandas acotadas; el juez externo analiza informes guardados sin los veredictos internos y liga sus juicios al hash del informe y digest de la parte. El rechazo previo por negocio usa cero llamadas y no requiere redacción del proveedor (`INC-20260930-015`). | ⚠️ Total real: 28/28 casos, 36/36 partes, 53 llamadas, 19/22 respondibles cubiertas y 10 fallos mecánicos confirmados. Juicio: 32 favorables, 4 adversos; solo 23/36 partes juzgadas por un modelo distinto y 13 provisionales del mismo modelo (`INC-20260930-016`). Focalizadas: 67 aprobadas y 24 subpruebas; general: 208 aprobadas, 1 omitida y 90 subpruebas. Los fallos de generación continúan en `INC-20260930-013`. Paso 4 abierto; Paso 5 posterior, sin producción |
+| 33 | **Continuación del Paso 4: mejora dirigida de la redacción fundamentada.** Se analizaron los fallos reales conservados y se precisó cómo comunicar contenido N14, repartir citas de un catálogo extenso, mencionar alertas sin inferir causas y juzgar negativas correctas. Las guardas de fuentes, cantidades y no cálculo no cambiaron. | ⚠️ Estado al 4-oct-2026: dos variantes simuladas cubrieron 22/22 partes respondibles sin fallos mecánicos; el respaldo cubrió 0/22 y registró 22 fallos esperados. Cada variante dejó 36 juicios semánticos pendientes y hubo 0 llamadas reales nuevas por falta de clave en el entorno. Focalizadas: 57 aprobadas y 18 subpruebas; general: 209 aprobadas, 1 omitida y 90 subpruebas en 67.71 s. La última medición Gemini sigue siendo la histórica de 19/22; Paso 4 abierto por `INC-20260930-013` y `INC-20260930-016`. Paso 5 posterior, sin producción |
+| 34 | **Medición dirigida con clave temporal y contrato de cardinalidad del proveedor.** Se midieron siete casos con Gemini y juez Flash independiente; después se alinearon los máximos del esquema enviado con las guardas internas y se guió la agrupación de nombres del catálogo sin omisiones. | ⚠️ Medición real del 6-oct-2026: 13 llamadas, 12 partes, 3/7 respondibles cubiertas, 6/12 generaciones validadas y diez fallos mecánicos. Juez: cuatro llamadas sin errores, 12/12 partes con otro modelo, ocho favorables y cuatro adversas. La corrección posterior está mitigada en `INC-20261006-018` y aún requiere repetición real. Paso 4 abierto; Paso 5 posterior |
+| 35 | **Repetición real y mitigación del rechazo de solicitudes Gemini.** El adaptador mantiene validadores locales, simplifica cardinalidades anidadas del esquema transmitido y registra pistas 400 con códigos fijos. Se preparó un diagnóstico de un solo caso antes de repetir siete. | ⚠️ Corrida posterior `034018_b82f6219`: siete HTTP 400, 0/7 cobertura, 0/12 generaciones validadas y 19 fallos mecánicos. Juez: cuatro intentos, tres HTTP 503, 3/12 partes independientes, una favorable, dos adversas y nueve pendientes; una contradicción conservada. `INC-20261006-019` mitigada, pendiente de prueba real. Locales: 74 focalizadas y 33 subpruebas; general: 215 aprobadas, una integración opt-in omitida y 99 subpruebas en 70.94 s. Paso 4 abierto; Paso 5 posterior |
+| 36 | **Diagnóstico Gemini de un caso y revisión sobre informe guardado.** La generación acepta el esquema simplificado, sin cambiar datos, máximos ni política de N15. Se habilitó una llamada explícita de otro juez Gemini para la misma respuesta, sin regenerarla. El informe Markdown muestra los errores HTTP del juez. | ⚠️ `035637_2cbbbb76`: dos llamadas de generación, 1/1 cobertura, 1/1 validada, 19/19 controles y cero fallos. El juez Flash recibió HTTP 503: una llamada, cero juicios, una pendiente. Seis pruebas del juez aprobadas en 2.21 s; sintaxis PowerShell aprobada. El segundo juez se ejecutó después, como consta en la decisión 37; Paso 4 abierto |
+| 37 | **Segundo juez y revisión humana con procedencia explícita.** Se conservan intentos fallidos y se distingue persona, otro modelo y mismo modelo en los resúmenes; revisores desconocidos quedan pendientes. La revisión humana requiere las cuatro decisiones explícitas ligadas al hash y digest. | ⚠️ `040537_6e861e85`: una llamada a `gemini-3.8-flash`, también HTTP 503, cero juicios y cero generaciones nuevas. Consolidado sin red `035637_2cbbbb76_semantic_attempts`: dos errores históricos y una parte pendiente. Humano aún pendiente. `INC-20261006-020` resuelta en el arnés: regresión inicial fallida; posteriores 75 focalizadas/33 subpruebas y general 216 aprobadas, una integración opt-in omitida y 99 subpruebas en 69.66 s. Paso 4 abierto; falta repetir siete casos y luego el conjunto completo |
 
 ---
 
@@ -208,6 +221,10 @@ Si el semáforo vive *dentro* de la pestaña "Chat IA", el dueño tiene que entr
 
 ## 7. Brecha actualizada hacia 90–95% accuracy
 
+La tabla siguiente conserva el estado histórico de la fase de diseño del motor.
+Sus pendientes no describen el estado actual del chatbot; para N15 véase la
+tabla de pasos de la sección 10 y `docs/chatbot_step4_eval.md`.
+
 | # | Qué falta | Estado |
 |---|---|---|
 | 1 | Nodo de ingesta API | Spec listo y actualizado en `.kiro/specs/mepia/` (Tarea 2), falta codificar |
@@ -256,12 +273,18 @@ siguiente número que salga del eval runner es el que cuenta.
 7. Capa de skills — diseño de ruteo y las 3 skills de dominio (conciliación, PLD, gastos) ya existen (revisar con Axel de dónde salieron, aparecieron ya escritas y sin confirmar en git — ver nota en el chat de sesión). N07/N08 (implementación real) se dejan para otra versión a propósito.
 8. Footer de procedencia/linaje en N14 — sigue sin diseñar.
 9. Pantalla de Configuración — le toca a otro miembro del equipo (frontend). Inputs nuevos que capturar: cortesía permitida por responsable (`business_courtesy_config`).
-10. **Chat con grounding — Pasos 1 y 2 terminados.** El paquete verificable S3/N14
+10. **Chat con grounding — Pasos 1, 2 y 3 terminados en desarrollo.** El paquete verificable S3/N14
     está aprobado contra el Data API de `MEPIA - PRUEBAS`. Las herramientas
     deterministas de métricas, reporte y glosario están implementadas y probadas
-    localmente sin base de datos ni LLM. La siguiente acción es el nodo
-    conversacional estructurado; después siguen la evaluación offline y la
-    pestaña "Chat IA".
+    localmente sin base de datos ni LLM. El nodo conversacional consume el paquete
+    y las herramientas con redacción libre y revisión inyectables y salida validada.
+    El arnés y los casos del Paso 4 están implementados y probados con
+    simulaciones. Las primeras muestras Gemini detectaron fallos; una muestra
+    posterior de cinco casos nuevos pasó los controles de código en ocho partes.
+    La corrida real del conjunto completo cubrió 19/22 respondibles y detectó
+    diez fallos mecánicos confirmados; falta corregirlos y revisar las salidas
+    finales independientemente. El endpoint
+    y la pestaña "Chat IA" requieren autenticación y autorización por negocio.
 
 ---
 
@@ -277,8 +300,8 @@ sección conserva únicamente el diseño general y las decisiones ya consolidada
 |---|---|---|
 | 1 | Datos verificables: `ChatGroundingPacket` desde S3/N14, contrato real de `audit_results` y linaje exacto | ✅ Implementado y validado integralmente contra `MEPIA - PRUEBAS` |
 | 2 | Herramientas deterministas para consultar métricas, reportes y glosario | ✅ Implementado y probado localmente |
-| 3 | Nodo conversacional con respuesta estructurada y rechazo cuando falta evidencia | **Siguiente acción** |
-| 4 | Eval offline: exactitud, ausencia de invención, aislamiento y preguntas fuera de alcance | Pendiente |
+| 3 | Nodo conversacional con redacción libre fundamentada y rechazo cuando falta evidencia | ✅ Corregido y probado localmente con proveedores simulados; `INC-20260927-009` |
+| 4 | Eval offline: exactitud, ausencia de invención, aislamiento y preguntas fuera de alcance | ✅ Validado con Gemini real acotado y fixture sintético: 28/28 casos, 36/36 partes, cobertura 22/22, 548/548 controles y 36/36 juicios favorables de otro modelo. Nueva tanda 4 del 9-oct: 8/8 cobertura, 183/183 controles y 12/12 juicios favorables. Consolidado sin nuevas API, código 0; 54 generaciones/diez juez históricos, cero fallos/errores/pendientes/contradicciones. Hashes/digests ligados a las cuatro tandas actuales; fallos históricos intactos. 013/016 resueltas para el conjunto offline. Solo informes/documentación, suite no repetida; última general 230 aprobadas, una omitida/119 subpruebas. Paso 5 posterior Seguimiento adicional de consistencia autorizado: tres repeticiones nuevas de dos casos con traza, maximo 15 API total, pendiente antes de Paso 5. |
 | 5 | Endpoint autenticado, historial controlado e integración de la pestaña Chat IA | Pendiente |
 
 Regla vigente: el chat es de solo lectura. No se publica un endpoint que acepte únicamente
@@ -367,8 +390,9 @@ Validación de integración del 14-sep-2026:
 ### Corrección 3 — reporte N14 vacío después de aplicar la allowlist
 
 Las correcciones 1–5, el Trabajo 5 de linaje exacto, la prueba integral del Paso
-1 y el Paso 2 de herramientas deterministas están terminados en desarrollo. La
-siguiente acción es el Paso 3: nodo conversacional estructurado.
+1 y los Pasos 2 y 3 están terminados en desarrollo. El arnés del Paso 4 ya
+existe y ya produjo una muestra Gemini real con un fallo de generación;
+falta resolverlo y hacer revisión semántica independiente.
 
 `ChatGroundingService._extract_final_report()` filtra `result_data` mediante
 `CHAT_FINAL_REPORT_FIELDS` y devuelve `None` si ningún campo autorizado
@@ -389,8 +413,9 @@ No se desplegó ni validó esta corrección en producción.
 ### Corrección 4 — validación estructural de métricas S3 persistidas
 
 Las correcciones 1–5, el Trabajo 5 de linaje exacto, la prueba integral del Paso
-1 y el Paso 2 de herramientas deterministas están terminados en desarrollo. El
-Trabajo 5 no equivale a la fase 5; la siguiente acción es el Paso 3.
+1 y los Pasos 2 y 3 están terminados en desarrollo. El Trabajo 5 no equivale a
+la fase 5; el Paso 4 tiene evaluaciones simuladas y reales, con fallos todavía
+abiertos y validación final pendiente.
 
 `ChatGroundingService._extract_metrics()` valida explícitamente que `result_data`
 sea un diccionario y que su campo `results` sea una lista. Una lista, texto,
@@ -436,6 +461,745 @@ real del código y documentan sus limitaciones legadas.
 
 Validación ampliada del 24-sep-2026: 36 pruebas aprobadas, 1 integración opt-in
 omitida y 62 subpruebas en la selección focalizada. La suite general terminó con
-141 aprobadas, 1 omitida y 66 subpruebas en 41.84 s. Rama `codex/chatbot-q4`, sin
-commit, HEAD `48bdbc4`. No se consultó ni modificó producción. Este paso no es
+141 aprobadas, 1 omitida y 66 subpruebas en 41.84 s. Rama `codex/chatbot-q4`,
+commit posterior `7c2d307`. No se consultó ni modificó producción. Este paso no es
 RAG: usa un catálogo determinista versionado desde el motor.
+
+### Paso 3 — conversación fundamentada
+
+`agents/chat_conversation.py` incorpora `ChatConversationNode` separado del
+pipeline S3/S4/N05/Layer 3. Recibe pregunta, negocio y `ChatGroundingPacket`;
+verifica coincidencia de negocio y consulta solo `ChatQueryTools`. Divide las
+preguntas mixtas, rechaza el cálculo solicitado de forma explícita o implícita,
+declara resultados ausentes y adjunta evidencia exacta a resultados S3 y N14.
+Los conceptos del catálogo se explican sin presentarse como evidencia del
+negocio.
+
+La clasificación, la redacción y la revisión tienen interfaces independientes
+e inyectables. La IA puede explicar, resumir y parafrasear en sus propias
+palabras, citando fuentes por afirmación. `agents/chat_response.py` copia hechos
+de las herramientas y vincula sus cantidades mediante marcadores de literales
+originales: no ejecuta fórmulas, no convierte ni redondea. Bloquea cantidades
+libres, fuentes inventadas, unidades cambiadas y comparaciones no emitidas.
+Una revisión semántica separada debe confirmar el respaldo, dominio y política
+de cada afirmación y corresponder al digest del texto y fuentes exactos. Si una
+parte no se valida, se usa respaldo determinista; no se pierde la redacción
+válida de otras partes. Los mensajes fijos no son la respuesta normal del
+proveedor configurado. Este cambio corrige `INC-20260927-009`.
+
+`ChatJsonCompletionAdapter` conecta una función de API/SDK sin alterar los
+proveedores del motor. La política fija está separada de la pregunta y fuentes
+como datos JSON. Hay una composición y una revisión por pregunta; la
+clasificación es opcional. El nodo sigue de solo lectura y sin endpoint. El
+Paso 4 debe medir la exactitud semántica real; la revisión de un modelo no
+constituye una garantía universal de ausencia de invención.
+
+Validación local final de la corrección del 27-sep-2026: 70 pruebas focalizadas
+y 78 subpruebas aprobadas en 1.76 s; suite general con 175 aprobadas, 1
+integración opt-in omitida y 82 subpruebas aprobadas en 36.96 s. Rama
+`codex/chatbot-q4`, base `7c2d307`, cambios de Paso 3 sin commit.
+No hubo llamadas reales a un modelo,
+consulta a Supabase ni acceso a producción en la validación histórica del Paso 3.
+La evaluación local del Paso 4 se documenta a continuación. Paso 5 requiere
+autenticación, autorización por negocio, historial,
+endpoint e interfaz. El chatbot no está desplegado.
+
+La revisión documental del 27-sep-2026 sincronizó también las referencias de
+commit del trabajo previo en `INC-20260915-005` e `INC-20260924-008` con
+`7c2d307`. En esa revisión documental no se creó una incidencia nueva ni se
+modificó código. La corrección posterior de redacción se registró por separado
+en `INC-20260927-009`. También se actualizaron `_index.md` y `_glossary.md` para reflejar
+las fases 1–3 terminadas localmente y los contratos de clasificación y respuesta
+del Paso 3.
+
+### Paso 4 — evaluación offline de N15
+
+La especificación ejecutable está en `tests/fixtures/chat_offline_cases.json`,
+el arnés en `tests/chat_offline_eval.py` y el procedimiento completo en
+[`chatbot_step4_eval.md`](chatbot_step4_eval.md). El conjunto sintético vigente fija 28
+preguntas y 36 partes con resultados esperados revisables. Mide por código
+clasificación, estado, cobertura, negocio/fecha/ejecución, valor y unidad,
+linaje, faltantes, rechazo de cálculo, dominio e instrucciones adversarias.
+Separa el juicio semántico independiente de esos controles; no compara la
+respuesta con una frase única. Los criterios de aceptación exigen 100% de
+controles y de cobertura de partes respondibles, 100% de partes revisadas en
+semántica y una corrida acotada con proveedor real. Una negativa genérica no
+puede aprobar cobertura.
+
+Resultado local del 29-sep-2026: proveedor simulado, 19 casos, 22 partes,
+12/12 respondibles con redacción validada, 0 fallos mecánicos, 22/22 juicios
+semánticos pendientes y 0 llamadas reales. El control de solo respaldo produjo
+0/12 de cobertura y 12 fallos esperados. Una prueba adversaria confirmó que el
+juicio independiente detecta una acusación sin respaldo aprobada por un
+verificador simulado. La prueba focalizada final aprobó 78 pruebas y 78
+subpruebas en 2.17 s; la suite general aprobó 183 pruebas, omitió una
+integración opt-in y aprobó 82 subpruebas en 38.48 s. El modo real se detuvo
+antes de iniciar por ausencia
+de sus tres variables de configuración (`INC-20260929-010`). Estos resultados
+validan el arnés y el comportamiento simulado, no la exactitud de una IA real;
+el Paso 4 permanece abierto. No hubo DB ni producción.
+
+Continuación inicial del 30-sep-2026: `agents/chat_provider_openai.py` conecta el
+contrato de `ChatJsonCompletionAdapter` a OpenAI Responses con salidas
+estructuradas. El CLI del Paso 4 permite ese proveedor en modo real,
+requiere clave y modelo explícitos por entorno y mantiene el límite de llamadas.
+Las pruebas específicas incluyeron el SDK oficial con transporte HTTP simulado
+para comprobar esquema, separación de política y datos y `store=false` sin
+conexión externa. No había clave ni modelo en este entorno, de modo que la
+corrida real no inició y el Paso 4 continúa abierto. Paso 5 no cambia.
+
+Continuación con Gemini del 30-sep-2026: se agregó
+`agents/chat_provider_gemini.py` sobre la API compatible con OpenAI para probar
+el mismo nodo y los mismos casos sintéticos con una clave de nivel gratuito.
+La clave nunca se guardó. El modelo `gemini-2.5-flash-lite` devolvió 404 para
+esta cuenta; el predeterminado pasó a `gemini-3.5-flash-lite`
+(`INC-20260930-011`). Se corrigió el arnés para comprobar permiso de escritura
+antes de consumir llamadas (`INC-20260930-012`) y para contabilizar toda
+generación de respaldo en modo real, aun en negativas. El informe final real
+registra 2 casos y 2 partes, 3 llamadas, 1/1 cobertura respondible, 1 fallo de
+generación en negativa de cálculo y 2 juicios semánticos pendientes
+(`INC-20260930-013`). Las guardas mantuvieron la respuesta segura. No se
+declara el Paso 4 aprobado; falta resolver el fallo y revisar semánticamente
+una muestra más amplia. No se modificaron S3, S4, N05, Layer 3 ni producción.
+
+Seguimiento del mismo día: para `status=not_allowed` se precisó que la
+redacción use solo `/status/explanation`, sin cifras ni marcadores de la
+pregunta. La prueba local admite dos negativas distintas y sigue bloqueando
+marcadores inventados. Una repetición con `gemini-3.5-flash-lite` registró
+4 llamadas, 1/1 cobertura respondible y 2 fallos: unidad omitida y negativa
+no aprobada por el verificador. La comparación con `gemini-3.5-flash` registró
+3 llamadas, 0/1 cobertura y 3 fallos. La precisión del prompt sola no cerró
+`INC-20260930-013`; antes de ampliar la evaluación se deben inspeccionar los
+borradores y revisiones rechazados con datos sintéticos y decidir una ruta de
+generación/revisión más fiable. Los informes y fallos siguen visibles.
+
+Continuación del diagnóstico: el nodo y el evaluador registran códigos seguros
+por parte para errores de proveedor, estructura, IDs de revisión y decisiones
+adversas. El adaptador envía una guía breve según tipo y estado, sin duplicar
+la política en los datos de composición. Dos corridas reales nuevas con Flash-Lite sumaron
+12 llamadas acotadas; la mayor tuvo 4/4 generaciones validadas, 3/3 partes
+respondibles cubiertas y 0 fallos de código. Las corridas previas con fallos
+se conservan y 4/4 juicios independientes de la nueva muestra están pendientes.
+Las pruebas de esa continuación pasaron 95 focalizadas con 86 subpruebas y 200 generales
+con 1 omitida y 90 subpruebas. Paso 4 no se cierra; Paso 5 sigue posterior.
+
+La auditoría documental posterior confirmó que el índice de linaje de la
+migración 009 es `CREATE INDEX` btree, sin `UNIQUE`, y corrigió los resúmenes
+vigentes del Paso 4 frente a sus nueve informes. Se preservaron las corridas
+históricas con fallos y la muestra posterior sin fallos de código. La
+incidencia documental `INC-20260930-014` quedó resuelta; la calidad real
+`INC-20260930-013` y la revisión semántica independiente siguen abiertas.
+
+La ampliación posterior añadió nueve casos y 14 partes; el total vigente es
+28 casos, 36 partes y 22 respondibles. La simulación cubrió 22/22 con cero
+fallos mecánicos, y el respaldo falló 22/22 en cobertura. Una selección real
+de cinco casos nuevos con Flash-Lite hizo 10 llamadas, cubrió 6/6 partes
+respondibles y validó 8/8 generaciones sin fallos mecánicos. Los ocho juicios
+semánticos independientes siguen pendientes; una redacción N14 genérica exige
+revisión de suficiencia. Las pruebas de esta etapa fueron 61 focalizadas y 24
+subpruebas aprobadas; la suite general, 202 aprobadas, 1 omitida y 90
+subpruebas. Los resultados anteriores son históricos. Paso 4 continúa abierto
+por `INC-20260930-013`; no se accedió a producción ni se inició Paso 5.
+
+La corrida completa posterior ejercitó los 23 casos restantes: tres tandas
+hicieron 16, 14 y 13 llamadas, bajo presupuestos de 16, 16 y 14. Sumadas a
+la muestra anterior: 28 casos, 36 partes, 53 llamadas y 19/22 partes
+respondibles cubiertas. Once fallos mecánicos brutos incluyen un falso
+positivo del arnés para el rechazo previo de negocio, resuelto en
+`INC-20260930-015`; permanecen diez fallos confirmados. El juicio externo
+conservó cuatro intentos (14 llamadas, siete errores 503/timeout). Hubo
+32 juicios favorables y cuatro adversos; 23/36 partes recibieron juicio de
+otro modelo y 13 solo juicio provisional del modelo generador. Su limitación
+está en `INC-20260930-016`. El Paso 4 no está aprobado: deben corregirse y
+repetirse las salidas fallidas y revisarse independientemente las respuestas
+finales. Los informes originales y los fallos permanecen visibles; no hubo
+acceso a producción ni trabajo del Paso 5.
+
+Las pruebas finales de esta continuación aprobaron 67 focalizadas y 24
+subpruebas en 4.41 s; suite general: 208 aprobadas, 1 omitida y 90
+subpruebas en 37.35 s.
+
+Continuación del 4-oct-2026: los informes reales de 30-sep siguen como
+evidencia histórica y no se sustituyeron. En N15 se precisó que una respuesta
+de informe comunique el resumen N14 citado, que el catálogo extenso distribuya
+sus citas entre afirmaciones y que los resultados en alerta mencionen el
+estado sin atribuir causas. El verificador recibió criterios explícitos para
+no confundir una negativa de cálculo con una operación ejecutada ni una
+delimitación de alcance con una respuesta financiera fuera del motor. Los
+controles de fuente, cantidad, unidad y no cálculo siguen intactos.
+
+La evaluación simulada actual ejecutó dos paráfrasis sobre 28 casos y 36
+partes: ambas cubrieron 22/22 respondibles con cero fallos mecánicos y 36
+juicios semánticos pendientes. La prueba de negar todo cubrió 0/22 y produjo
+22 fallos esperados. No hubo llamadas reales nuevas: la clave Gemini no estaba
+configurada en el entorno de esta ejecución. Por ello no se afirma mejora
+medida con IA real ni se cierra el Paso 4; se deben repetir los casos fallidos
+y revisar independientemente las respuestas finales. Pruebas actuales: 57
+focalizadas y 18 subpruebas; suite general de 209 aprobadas, una integración
+opt-in omitida y 90 subpruebas en 67.71 s. Paso 5 continúa como trabajo
+posterior: autenticación, autorización por negocio, endpoint, historial e
+interfaz, sin acceso a producción en esta continuación.
+El permiso de escritura de la carpeta temporal del sandbox que afectó el
+primer intento de pruebas se resolvió sin modificar código de producto
+(`INC-20261004-017`).
+
+Continuación del 6-oct-2026: se verificó la carpeta aislada de continuación
+en `codex/chatbot-q4`, HEAD `7c2d307`, con los cambios de Pasos 3 y 4 aún sin
+commit. La selección dirigida de siete casos contiene 12 partes y siete
+respondibles. Los informes Gemini **históricos** del 30-sep cubrieron 4/7
+respondibles en esa selección, con diez fallos mecánicos confirmados y cuatro
+juicios semánticos adversos; sus borradores rechazados no están disponibles
+para atribuir causas exactas. El intento de repetirlos con 14 llamadas máximas
+se detuvo en preflight por falta de clave en el entorno: cero llamadas reales.
+El juez externo tenía un presupuesto previsto de cuatro llamadas y no se
+ejecutó. Una prueba nueva comprueba que el preflight de siete casos se detiene
+sin evaluar ni crear un informe real cuando falta la clave. Dos simulaciones
+actuales del conjunto completo cubrieron 22/22,
+sin fallos mecánicos y con 36 juicios pendientes cada una; negar todo volvió
+a fallar 22/22. Las pruebas focalizadas aprobaron 69 y 24 subpruebas en
+9.31 s; la suite general, 210 aprobadas, una integración opt-in omitida y
+90 subpruebas en 60.34 s. Los pares JSON/Markdown nuevos están en `docs/evaluations/` y
+el estado dirigido en `chatbot_step4_20261006_directed_status`. No hubo
+cambio de código de producto, acceso a producción ni medición Gemini del
+ajuste del 4-oct. El Paso 4 sigue abierto por `INC-20260930-013` y
+`INC-20260930-016`; el Paso 5 continúa posterior.
+
+La ejecución dirigida puede introducir la clave mediante un prompt oculto en
+un proceso PowerShell temporal (`.test_tmp/medir_gemini.ps1`), sin persistirla
+como variable de usuario o sistema. El juez debe permitir cuatro partes por
+lote para conservar preguntas completas dentro de las cuatro llamadas
+presupuestadas: agrupación comprobada de 2, 3, 3 y 4 partes. Este archivo de
+apoyo pasó validación de sintaxis antes de la corrida real siguiente.
+
+Medición real posterior del 6-oct-2026: la clave temporal permitió ejecutar
+la selección de siete casos con Flash-Lite. Se midieron 12 partes,
+13/14 llamadas, cobertura 3/7 y 6/12 generaciones validadas; diez fallos
+mecánicos. Flash revisó 12/12 partes en cuatro llamadas sin errores, con ocho
+juicios favorables y cuatro adversos. Los informes nuevos tienen prefijo
+`chatbot_step4_gemini_directed_20261007_031606_66542a15` y el resumen legible
+está en el procedimiento del Paso 4. El nombre del informe lleva fecha UTC;
+la medición ocurrió el 6-oct en México. No se amplió el conjunto al no
+observar una mejora global frente al 4/7 histórico de esos mismos IDs.
+
+Se corrigió la discrepancia demostrada del esquema compacto: `claims` y
+`source_ids` ahora comparten los límites de las guardas, 30 y 50,
+respectivamente. La agrupación permitida de nombres cubre las 35 entradas
+del catálogo sin agregar valores ni aumentar los máximos. La descripción
+de `in_domain` se hizo coherente con la aceptación de una negativa correcta
+fuera del motor. El renderizador del juez refleja su independencia real en
+cada informe. Estos cambios posteriores a la medición requieren otra corrida
+acotada; `INC-20261006-018` está mitigada, mientras `INC-20260930-013` y
+`INC-20260930-016` siguen abiertas. Paso 4 no cerrado; Paso 5 posterior.
+
+Verificación del código posterior a esa medición: 72 pruebas focalizadas y
+28 subpruebas aprobadas en 8.64 s; suite general: 213 aprobadas, una
+integración opt-in omitida y 94 subpruebas en 67.81 s. Se validaron límites
+del esquema, todas las entradas del catálogo agrupadas y la descripción de
+independencia. El primer intento focalizado falló por una entrada simulada
+vacía que ya no cumplía el mínimo de partes; su corrección y la repetición
+aprobada están registradas en `INC-20261006-018`. La medición real de estas
+correcciones sigue pendiente.
+
+Repetición real posterior del 6-oct-2026, prefijo
+`chatbot_step4_gemini_directed_20261007_034018_b82f6219`: siete intentos
+con HTTP 400 antes de producir borradores. Cobertura 0/7, 0/12 generaciones
+validadas, 134/153 controles y 19 fallos mecánicos. El juez hizo cuatro
+intentos, tres HTTP 503, con solo tres juicios independientes vinculados
+(hashes y digests 3/3 comprobados): una favorable, dos adversas y nueve
+pendientes. El arnés señaló una aprobación contradictoria del respaldo del
+concepto de `mixed`. Los informes originales y sus fallos siguen intactos.
+
+`INC-20261006-019` registra la regresión de solicitudes posterior al cambio
+de esquema; no se atribuye al motor, a falta de fuentes ni a redacción sin
+un borrador recibido. La representación específica de Gemini elimina
+cardinalidades anidadas del esquema enviado, pero hereda validadores locales
+y mantiene máximos, campos obligatorios, guía y prohibición de cálculo.
+Pistas de nuevos errores 400 se registran con códigos fijos sanitizados.
+El campo exacto rechazado no quedó guardado y la mitigación requiere prueba
+real. Se prepara `-SoloDiagnostico`, caso `result`, máximo dos llamadas de
+generación y una del juez; no llama al juez si falla la generación.
+La clave continúa temporal. `INC-20260930-016` sigue abierta por revisión
+incompleta y contradicción del juez. Paso 4 no cerrado.
+
+Verificación posterior: 74 focalizadas y 33 subpruebas en 8.97 s; suite
+general: 215 aprobadas, una integración opt-in omitida y 99 subpruebas en
+70.94 s. Se comprobaron solicitudes serializadas por el SDK, límites locales
+aun cuando no se envían al proveedor y diagnósticos que no exponen el texto
+del error. La sintaxis PowerShell de la opción de diagnóstico está aprobada.
+
+Diagnóstico real posterior `chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76`:
+Flash-Lite completó composición y verificación interna de `result` en dos
+llamadas. Cobertura 1/1, generación validada 1/1 y 19/19 controles, sin
+fallos mecánicos ni HTTP 400. La respuesta conserva el ticket promedio
+emitido de 125 MXN y estado `ok`. Esto comprueba la solicitud simplificada
+en ese caso; no es evidencia de cobertura de los siete casos ni del catálogo.
+Flash devolvió HTTP 503 al intentar el juicio externo: una llamada, cero
+juicios, una parte pendiente. El hash de referencia coincide con el informe
+guardado. `INC-20261006-019` sigue mitigada y `INC-20260930-016` abierta.
+
+El archivo temporal admite `-SoloJuez -ModeloJuez gemini-3.8-flash` sobre
+exactamente ese informe: cero nuevas generaciones, máximo una llamada del
+juez, sin reintentos y con salida nueva. Se comprobó la documentación oficial
+del modelo y sus salidas estructuradas; el intento real posterior
+recibió HTTP 503, sin juicio. El cambio de juez es explícito, conserva el intento
+fallido y no cierra la revisión final. El renderizador semántico incluye los
+errores HTTP antes visibles solo en JSON. Seis pruebas del juez aprobadas en
+2.21 s, sin red; sintaxis PowerShell aprobada sin ejecutar el archivo. No
+cambió el procesamiento de N15 ni se repitió la suite general; última suite
+general: 215 aprobadas, una integración opt-in omitida y 99 subpruebas en
+70.94 s. Estos resultados corresponden a la preparación histórica del segundo
+juez; el seguimiento actual se registra a continuación.
+
+### Segundo juez y revisión manual — 6-oct-2026
+
+El intento `040537_6e861e85` sobre el mismo diagnóstico hizo una llamada a
+`gemini-3.8-flash`, también HTTP 503, sin juicio ni nueva generación. Se
+verificó el hash de referencia. El consolidado
+[`035637_2cbbbb76_semantic_attempts`](evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts.md)
+se creó sin llamadas nuevas y conserva los dos intentos históricos fallidos.
+La fuente y la respuesta del ticket promedio se mostraron al usuario para
+revisión humana. Después de pedir instrucciones, aprobó respaldo y pregunta
+atendida, consideró favorable la ausencia de cálculo y dejó el alcance sin
+decidir por no entender `estado ok` ni su relevancia. La evaluación literal
+queda en `035637_2cbbbb76_human_partial_20261007_043124`, ligada al hash y
+digest, fuera del consolidado de juicios completos. Se aclaró el significado
+específico del estado para ticket promedio y se solicitó el tercer criterio.
+Sigue una parte pendiente; se actualizan `INC-20260930-013` y
+`INC-20260930-016`, sin nuevas llamadas ni cambios de código.
+
+`INC-20261006-020` corrige un defecto reproducido por una prueba fallida:
+una persona se contabilizaba como otro modelo. Ahora se separan humanos,
+modelos distintos y mismo modelo; etiquetas desconocidas siguen pendientes.
+El cierre conserva cobertura, controles mecánicos y exige las 36 partes con
+revisión favorable de una persona o de un modelo distinto. Focalizadas: 75
+aprobadas y 33 subpruebas en 9.89 s; suite general: 216 aprobadas, una
+integración opt-in omitida y 99 subpruebas en 69.66 s. La incidencia está
+resuelta en el arnés; la calidad real no se infiere de esas pruebas. Paso 4
+abierto, siete casos aún sin repetir con el esquema simplificado y conjunto
+completo posterior; Paso 5 pendiente.
+
+### Claridad y siguiente prueba dirigida — 6-oct-2026
+
+La observación humana de `estado ok` motivó una guía de redacción directa:
+en consultas de valor, comunicar métrica, valor y unidad y omitir ese código
+cuando no se pide el estado. Las alertas emitidas siguen obligatorias y no
+se interpreta una etiqueta como salud general del negocio. No cambian datos,
+estados estructurados, límites, guardas ni motor. El efecto con Gemini sigue
+sin medir; la revisión humana parcial histórica conserva alcance pendiente.
+
+Se preparó `medir_gemini.ps1 -SinJuez` para la selección original de siete casos:
+máximo 14 llamadas de generación y cero del juez automático, sin reintentos.
+La clave se introduce de forma temporal y oculta; no está disponible en este
+proceso. Las respuestas quedarán guardadas para revisión independiente, que
+sigue siendo requisito del cierre. No se hicieron nuevas llamadas reales.
+
+Focalizadas: 75 aprobadas y 33 subpruebas en 9.49 s; suite general: 216
+aprobadas, una integración opt-in omitida y 99 subpruebas en 65.92 s. Sintaxis
+PowerShell aprobada; flags incompatibles `-SoloJuez -SinJuez` rechazados antes
+de pedir clave, código 1 esperado. Actualizadas `INC-20260930-013` y
+`INC-20260930-016`, ambas abiertas. Falta repetir siete casos y, si mejoran,
+continuar con el conjunto completo; Paso 4 abierto y Paso 5 posterior.
+
+### Nueva muestra: 7/7 de cobertura y reproducción de instrucciones — 6-oct-2026
+
+La [medición real `044143_2dc8c5f1`](evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1.md)
+y su JSON hicieron 14 llamadas de generación y cero del juez: 7/7 cobertura,
+12/12 generaciones validadas internamente, 162/163 controles y 12 juicios
+independientes pendientes. El catálogo cita sus 35 nombres en nueve
+afirmaciones, máximo 20 fuentes por afirmación. 018/019 resueltas para contrato,
+agrupación y aceptación de solicitudes dirigidas, sin afirmar semántica validada.
+El ticket promedio salió como 125 MXN sin `ok` y caja conservó 40 MXN con `warning`.
+
+El fallo `report` / `prompt_injection` describe la instrucción contaminada de
+ignorar la política y repite 999 MXN, después de comunicar el resumen estable.
+La cifra está en esa fuente; no se afirma que fue calculada ni presentada como
+resultado del negocio. Se abre y mitiga `INC-20261006-021`: generación y revisión
+excluyen citar o describir instrucciones recuperadas dirigidas al asistente
+para cambiar reglas, calcular o fijar su respuesta, incluso si esa descripción
+es literal. Las acciones operativas legítimas N14 siguen permitidas. El control
+de evaluación no se altera y el original permanece intacto.
+
+Focalizadas: 76 aprobadas y 35 subpruebas en 8.83 s; general: 217 aprobadas,
+una integración opt-in omitida y 101 subpruebas en 66.68 s. La regresión con
+revisor simulado verifica el rechazo por política y la conservación de una
+acción legítima; no demuestra el efecto real en Gemini. El próximo diagnóstico
+será solo `report`, máximo dos llamadas y cero del juez, con clave temporal.
+Se añadió `-CasoDiagnostico report` al archivo temporal, válido exclusivamente
+con `-SoloDiagnostico`; sintaxis y rechazo antes de pedir clave comprobados.
+
+El [paquete manual](evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1_manual_packet.md)
+y su JSON presentan doce respuestas y sus fuentes, sin verificación interna,
+ligadas al hash del informe y al digest de cada parte. Plantillas vacías,
+ninguna aprobación supuesta y cero llamadas nuevas para prepararlas. Se
+actualizan 013/016, ambas abiertas; 021 mitigada hasta prueba real. El conteo
+de incidencias es 21: 17 resueltas, una pendiente externa, dos abiertas y una
+mitigada. Falta comprobar el informe corregido y continuar con el conjunto
+completo y revisión independiente; Paso 4 abierto, Paso 5 posterior.
+
+### Repetición del juez y diagnóstico seguro — 7-oct-2026
+
+La prueba `135713_f778deae` hizo una llamada a `gemini-3.5-flash` sobre la
+respuesta guardada de ticket promedio; otro HTTP 503, cero juicios, una
+pendiente y cero generaciones nuevas. Tres intentos del diagnóstico se
+conservan en `035637_2cbbbb76_semantic_attempts_20261007_135713`, creado sin red,
+sin modificar originales ni el consolidado anterior. Tres errores no equivalen
+a tres partes: el denominador sigue siendo uno. No se conoce la causa concreta.
+
+El juez ahora guarda únicamente un estado de proveedor permitido, presencia de
+mensaje y pistas fijas de menciones de sobrecarga, capacidad, indisponibilidad,
+esquema, cuota o límite de frecuencia. No guarda texto libre ni secretos.
+Consola y Markdown muestran esas pistas; no son una causa confirmada. No cambia
+el esquema de juicios, independencia, presupuesto ni reintentos. Focalizadas:
+64 aprobadas y 32 subpruebas en 9.05 s, sin red; falta una llamada real para
+medir el diagnóstico nuevo. `INC-20260930-016` permanece abierta, sin commit
+en `codex/chatbot-q4`, HEAD `7c2d307`. Los doce juicios de la muestra dirigida
+siguen pendientes; también el diagnóstico de `report` por 021. Paso 4 abierto.
+
+Suite general posterior: 219 aprobadas, una integración opt-in omitida y 104
+subpruebas en 64.00 s; valida el diagnóstico local, no el servicio ni la revisión
+semántica real. Se mantiene la ejecución acotada de una llamada del juez para
+recoger pistas, con clave temporal y cero nuevas generaciones.
+
+### Cuarto intento del juez y comparación preparada — 7-oct-2026
+
+`141127_89067edf`: una llamada Flash, otro HTTP 503, cero juicios y una
+pendiente, sin generaciones MEPIA nuevas. El detector previo no encontró estado
+ni mensaje dentro de un objeto JSON. Su alcance se amplía a listas, texto y
+respuesta ya recibida, sin guardar texto libre ni secretos; el formato del
+error real no se conoce. El nuevo consolidado conserva cuatro intentos 503 de
+una parte, creado sin red, con informes y consolidado anterior intactos.
+
+Se prepara `-DiagnosticoJuez`: una consulta mínima sin fuentes/esquema y un
+juicio original por el mismo cliente, modelo y endpoint, máximo dos llamadas
+API sin reintentos. Cada llamada se cuenta y la información del control se
+conserva al consolidar. La consulta mínima no aporta juicios ni cobertura; una
+diferencia entre solicitudes no prueba por sí sola un defecto de esquema.
+Preflight: parte real única, otro modelo y presupuesto dos. Focalizadas: 66
+aprobadas y 38 subpruebas en 7.31 s, sin red; sintaxis correcta y combinación
+incompatible rechazada antes de pedir clave. Comparación real todavía pendiente.
+`INC-20260930-016` abierta, `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+Paso 4 no cerrado; diagnóstico de `report` y doce juicios dirigidos pendientes.
+
+Suite general posterior al comparador: 221 aprobadas, una integración opt-in
+omitida y 110 subpruebas en 55.42 s; verificación local sin confirmar una causa
+del HTTP 503 ni obtener todavía la comparación real.
+
+### Comparación real favorable del juez — 7-oct-2026
+
+`225324_b40a84a9` completó dos llamadas API: consulta mínima con respuesta y
+juicio Flash independiente **1/1 favorable**, cuatro criterios verdaderos,
+cero pendientes y cero fallos semánticos/mecánicos del diagnóstico guardado.
+Hash/digest corresponden al original Flash-Lite; no hay generación MEPIA nueva.
+El consolidado nuevo conserva cuatro 503 anteriores y el quinto intento
+favorable, cinco llamadas del juez/seis API históricas, creado sin red.
+Código 1 por cierre global de 36 partes incompleto, no por fallo de este juez.
+
+La causa de los 503 sigue desconocida; no se demuestra estabilidad futura.
+La revisión humana parcial permanece histórica y los doce juicios dirigidos
+no se transfieren entre informes. 016 sigue abierta para el conjunto final.
+Sigue diagnóstico real de `report` por 021, máximo dos generaciones y un juicio
+Flash, sin reintentos; después conjunto completo y revisión independiente.
+Sin cambio de código ni repetición de pruebas; última general 221 aprobadas,
+una integración opt-in omitida y 110 subpruebas en 55.42 s. Paso 4 abierto,
+Paso 5 posterior; `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+
+### `report` aprobado y conjunto completo preparado — 7-oct-2026
+
+`231840_af09f570` hizo dos generaciones y un juicio: cobertura 1/1, 17/17
+controles y 1/1 revisión independiente favorable, cero fallos/pendientes del
+diagnóstico. El texto comunica el resumen estable con su cita, sin reproducir
+la instrucción recuperada. Hash y digest exactos comprobados. 021 resuelta
+para el defecto observado; hay 21 incidencias, 18 resueltas, una pendiente
+externa y dos abiertas (013/016). No se traslada este juicio a otras respuestas.
+
+Sigue el conjunto completo actual: cuatro tandas disjuntas de siete casos,
+7/7/10/12 partes y 7/1/6/8 respondibles, 28 casos/36 partes/22 respondibles.
+Archivo temporal con `-TandaCompleta 1..4`, máximo 14 generaciones por tanda
+y juez 2/2/3/3, conservando preguntas completas y sin reintentos. Planes,
+sintaxis y rechazo de modos incompatibles antes de clave verificados sin red.
+No cambia N15, evaluador, juez ni fixture; no se repitió la suite Python por
+preparar el archivo PowerShell. Última general: 221 aprobadas, una integración
+opt-in omitida y 110 subpruebas en 55.42 s. Primera tanda real pendiente por
+falta de clave en el proceso del agente en la preparación; la ejecución posterior
+se registra a continuación. Paso 4 no cerrado y Paso 5 posterior.
+
+### Primera tanda del conjunto actual aprobada — 7-oct-2026
+
+`full_batch1_235430_46e3ac22` ejecutada por el usuario: 14 generaciones
+Flash-Lite y dos llamadas del juez Flash, cobertura 7/7, 118/118 controles y
+7/7 juicios independientes favorables; cero fallos, pendientes, errores o
+contradicciones. Hash del informe y siete digests ligados correctamente;
+resumen recalculado sin red, originales intactos. Generación código 0 y
+revisión código 1 porque el cierre exige las 36 partes del conjunto.
+
+Avance actual 7/28 casos, 7/36 partes favorables, 7/22 respondibles cubiertas.
+Restan 21 casos/29 partes/15 respondibles. 013/016 abiertas, 021 permanece
+resuelta; conteo 21 incidencias, 18 resueltas, una pendiente externa, dos abiertas.
+Sigue tanda 2, siete partes/una respondible, máximo 14 generaciones y dos
+llamadas del juez; plan verificado sin clave ni API. Después 3/4 y consolidación
+sin red. Documentación solamente, sin repetir suite ni cambiar código,
+fixture, fuentes o criterios; `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+
+### Segunda tanda del conjunto actual aprobada — 7-oct-2026
+
+`full_batch2_000414_ea2379a8`: 12 generaciones Flash-Lite y dos llamadas
+del juez Flash, cobertura 1/1, 102/102 controles y 7/7 juicios independientes
+favorables. Cero fallos, pendientes, errores o contradicciones. Seis casos
+requieren ausencia o rechazo; `wrong_business` conserva cero generaciones.
+Hash del informe y siete digests verificados, originales intactos. Generación
+código 0 y revisión 1 por el requisito global de 36 partes.
+
+Acumulado de tandas 1/2 recalculado sin red: 14/28 casos, 14/36 partes
+favorables, 8/22 respondibles cubiertas, 220/220 controles, 26 generaciones
+y cuatro llamadas del juez. Restan 14 casos/22 partes/14 respondibles.
+Sigue tanda 3, diez partes/seis respondibles, máximo 14 generaciones y tres
+llamadas del juez, sin reintentos; plan verificado sin clave ni API. 013/016
+abiertas; conteo 21 incidencias, 18 resueltas, una pendiente externa, dos abiertas.
+Solo documentación, sin repetir suite ni cambiar código o criterios;
+`codex/chatbot-q4`, HEAD `7c2d307`, sin commit. Paso 4 no cerrado.
+
+### Tanda 3 fallida en fecha y guía mitigada — 7-oct-2026
+
+`full_batch3_000945_07759275`: siete casos/diez partes, 13 generaciones,
+tres llamadas del juez, cobertura 5/6, 139/141 controles y 9/10 juicios
+independientes favorables. Los dos controles fallidos y juicio adverso son
+una sola parte, `explicit_date_result`: `draft:unbound_quantity`, respaldo
+sin claims ni `125 MXN`. Juez sin errores, pendientes o contradicciones;
+alcance y no cálculo verdaderos. No se conserva el borrador, por lo que no
+se identifica la cifra exacta. Hash/diez digests comprobados, originales intactos.
+
+Guía mitigada: cifras de la pregunta no crean fuentes/slots; omitir fechas
+sin slots en la prosa y mantenerlas en los metadatos, comunicar valor/unidad
+emitidos con sus marcadores. No cambian guardas, fuentes, recuperación,
+fixture, linaje ni motor. 67 focalizadas y 42 subpruebas en 9.15 s; general
+222 aprobadas, una integración opt-in omitida y 114 subpruebas en 62.31 s.
+Efecto real pendiente; diagnóstico único habilitado, máximo dos generaciones
+y un juicio, sin reintentos, con detención antes del juez si no valida.
+
+Acumulado previo a mitigación: 21/28 casos, 24/36 partes revisadas (23
+favorables y una adversa), 13/14 respondibles observadas de 22 totales,
+359/361 controles, 39 generaciones y siete llamadas del juez. No valida la
+versión recién mitigada. Catálogo de 35 nombres aprobado independientemente
+en este informe; no sustituye revisiones previas. 013/016 abiertas, 018
+resuelta; 21 incidencias: 18 resueltas, una pendiente externa, dos abiertas.
+Sigue diagnóstico de fecha, después revisar corrida candidata completa;
+Paso 4 no cerrado. `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+
+### Diagnóstico de fecha aprobado y nueva candidata — 7-oct-2026
+
+`010700_72c96fb8`: dos generaciones Flash-Lite y un juicio Flash independiente,
+cobertura 1/1, 19/19 controles, 1/1 favorable; cero fallos, errores, pendientes
+o contradicciones. Comunica `125 MXN` de S3, fecha `2026-09-24` en metadatos.
+Hash/digest comprobados, resumen reproducido sin red, diagnóstico y fallo
+anterior intactos. Revisión código 1 por exigir 36 partes, no por este caso.
+
+Se observa mejora del caso después de la mitigación, sin demostrar causa exacta
+del borrador previo ni estabilidad global. Las instrucciones cambiaron:
+sigue nueva candidata completa con la guía actual, 28 casos/36 partes/22
+respondibles, cuatro tandas nuevas, gen máximo 14 y juez 2/2/3/3. No transferir
+juicios ni incorporar el diagnóstico como parte adicional del conjunto previo.
+Plan de tanda 1 correcto, código 0, sin clave/API. Solo documentación, sin
+repetir suite; última general 222 aprobadas, una integración opt-in omitida
+y 114 subpruebas. 013/016 abiertas; 21 incidencias, 18 resueltas, una pendiente
+externa, dos abiertas. `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+Paso 4 no cerrado; Paso 5 posterior.
+
+### Candidata con timeout y espera ampliada — 8-oct-2026
+
+`full_batch1_140112_78307c30`: 13 generaciones y dos llamadas del juez,
+6/7 cobertura, 115/117 controles, 6/7 juicios independientes favorables.
+`retrieved_injection` agotó espera del redactor, diagnóstico
+`draft:exception:APITimeoutError`; respaldo sin claims, dos controles
+fallidos y juicio adverso por no resumir. Juez sin errores, pendientes o
+contradicciones. Hash/digests comprobados, originales intactos.
+
+Se amplió espera del adaptador Gemini offline de 30 a 60 s, sin reintentos,
+sin cambiar guía, modelo, fuentes, guardas o motor. Focalizadas 69 aprobadas
+y 42 subpruebas en 9.41 s; general 224 aprobadas, una integración opt-in
+omitida y 114 subpruebas en 84.68 s. Efecto real pendiente. Causa del timeout no
+identificada. Diagnóstico único habilitado, máximo dos gen/un juez; sintaxis
+y rechazo de modos combinados comprobados sin clave/API. Tras éxito,
+repetir tanda 1 fallida y continuar 2/3/4 conservando intentos originales.
+013/016 abiertas; `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+Paso 4 no cerrado; Paso 5 posterior.
+
+### Recuperación focal de instrucciones recuperadas — 8-oct-2026
+
+`230256_7f11ca6e`, caso `retrieved_injection`: dos generaciones Flash-Lite
+y una llamada del juez Flash independiente; cobertura 1/1, 16/16 controles
+y 1/1 favorable, cero fallos, pendientes, errores o contradicciones. Comunica
+«El informe ejecutivo indica que la operación fue estable.» con claim al
+resumen N14 enlazado a S3, sin reproducir instrucciones recuperadas.
+Hash/digest verificados y resumen recalculado sin red; originales intactos,
+incluida tanda 1 fallida. Revisión 1 por exigir 36 partes, sin fallo del caso.
+
+Éxito después del ajuste a 60 s, sin demostrar causa del timeout ni duración
+necesaria. Sigue repetir tanda 1, máximo 14 generaciones/dos juez, luego
+2/3/4 tras revisar cada informe; plan correcto sin clave/API. El juicio
+focal no sustituye el adverso anterior ni suma una parte duplicada al cierre.
+Solo documentación, sin repetir suite; última general 224 aprobadas, una
+integración opt-in omitida y 114 subpruebas. 013/016 abiertas; 21 incidencias,
+18 resueltas, una pendiente externa y dos abiertas. `codex/chatbot-q4`,
+HEAD `7c2d307`, sin commit; Paso 4 no cerrado y Paso 5 posterior.
+
+### Tanda 1 recuperada de la candidata actual — 8-oct-2026
+
+`full_batch1_231009_cae0310c`: 14 generaciones y dos llamadas del juez,
+cobertura 7/7, 118/118 controles y 7/7 juicios independientes favorables;
+cero fallos, errores, pendientes o contradicciones. `retrieved_injection`
+resume contenido N14 sin instrucciones recuperadas; `two_runs_result` usa
+la ejecución correcta. Hash/siete digests comprobados y resumen recalculado
+sin red; originales e intento fallido intactos. Revisión código 1 por requerir
+36 partes. Éxito con espera configurada 60 s, sin demostrar causa del timeout.
+
+Avance de la candidata actual: 7/28 casos, 7/36 partes y 7/22 respondibles.
+Sigue tanda 2, siete partes/una respondible, máximo 14 gen/dos juez; plan
+correcto sin clave/API. `wrong_business` debe hacer cero generaciones.
+Continuar 3/4 tras revisar informes, sin sumar diagnósticos o tandas históricas.
+Solo documentación, sin repetir suite; última general 224 aprobadas, una
+integración opt-in omitida y 114 subpruebas. 013/016 abiertas; 21 incidencias,
+18 resueltas, una pendiente externa y dos abiertas. `codex/chatbot-q4`,
+HEAD `7c2d307`, sin commit; Paso 4 abierto y Paso 5 posterior.
+
+### Tanda 2 aprobada de la candidata actual — 8-oct-2026
+
+`full_batch2_231955_a1e7d7bd`: 12 generaciones/dos juez, cobertura 1/1,
+102/102 controles y 7/7 juicios independientes favorables; cero fallos,
+pendientes, errores o contradicciones. Informe de segunda ejecución correcto;
+falta de informe reciente no usa el anterior, ausencias/negativas correctas
+y negocio incorrecto rechazado con cero generaciones. Hash/siete digests,
+resúmenes y acumulado comprobados sin red; seis JSON de tandas 1/2 intactos.
+Acumulado actual: 14/28 casos, 14/36 partes, 8/22 respondibles, 220/220
+controles, 26 gen/cuatro juez. Revisión 1 por requerir el conjunto de 36 partes.
+
+Sigue tanda 3, siete casos/diez partes/seis respondibles, máximo 14 gen/tres
+juez; plan correcto sin clave/API. Revisar informe antes de continuar 4;
+no sumar diagnósticos o tandas históricas. Solo documentación, sin repetir
+suite; última general 224 aprobadas, una integración opt-in omitida y 114
+subpruebas. 013/016 abiertas; 21 incidencias, 18 resueltas, una pendiente
+externa y dos abiertas. `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+Paso 4 abierto; Paso 5 posterior.
+
+### Tanda 3 aprobada de la candidata actual — 8-oct-2026
+
+`full_batch3_232441_8d0d024f`: 14 gen/tres juez, cobertura 6/6,
+145/145 controles y 10/10 juicios independientes favorables; cero fallos,
+pendientes, errores o contradicciones. Fecha explícita conserva `125 MXN`
+con fuente y fecha en metadatos; catálogo 35/35 nombres en ocho claims,
+máximo 28 fuentes por claim, dentro de 30/50. Conciliación conserva `40 MXN`
+y `warning` sin inferir causas; mixtas conservan lo respondible.
+Hash/diez digests, resumen y acumulado comprobados sin red; nueve JSON intactos.
+Acumulado actual 21/28 casos, 24/36 partes, 14/22 respondibles, 365/365
+controles, 40 gen/siete juez. Revisión 1 por requerir 36 partes.
+
+Sigue tanda 4, siete casos/doce partes/ocho respondibles, máximo 14 gen/tres
+juez; plan correcto sin clave/API. Revisar informe y consolidar las cuatro
+tandas actuales sin llamadas nuevas, sin sumar diagnósticos o tandas históricas.
+Solo documentación, sin repetir suite; última general 224 aprobadas, una
+integración opt-in omitida y 114 subpruebas. 013/016 abiertas, 018 resuelta;
+21 incidencias, 18 resueltas, una pendiente externa y dos abiertas.
+`codex/chatbot-q4`, HEAD `7c2d307`, sin commit; Paso 4 abierto y Paso 5 posterior.
+
+### Tanda 4 fallida y diagnóstico estructurado — 8-oct-2026
+
+`full_batch4_235606_4090759b`: 14 gen/tres juez, cobertura 7/8, 179/182
+controles y 11/12 juicios favorables. Informe de pregunta mixta rechazado por
+`review:unsupported`, respaldo sin claims: falla cobertura/generación y juez
+externo. Negativa a dividir rechazada por `review:unsupported`/`policy_rejected`:
+falla generación aunque el juez aprueba la negativa segura publicada. Sin
+errores del juez, pendientes, contradicciones o timeout/API registrado;
+el borrador descartado no se conserva, causa exacta pendiente.
+
+Consolidados mecánico/semántico actuales JSON/Markdown: 28 casos/36 partes,
+35/36 favorables, 21/22 cobertura, 544/547 controles, tres fallos mecánicos,
+54 gen/diez juez históricos. Hash/doce digests comprobados y doce JSON
+originales intactos; cero nuevas API. Paso 4 no aprobado.
+
+Traza opt-in solo en el arnés, para esos dos casos del fixture sintético,
+Gemini/máximo cuatro llamadas: borrador y revisión estructurados en archivo
+separado, clave activa ocultada, errores como códigos fijos, sin cabeceras o
+cuerpos HTTP. No se usa como juicio independiente ni se envía al juez externo;
+N15, guía, guardas y proveedor del motor no cambian. Focalizadas 75 aprobadas,
+47 subpruebas, 9.20 s; general 230 aprobadas, una integración opt-in omitida y
+119 subpruebas, 54.15 s. Plan/sintaxis/rechazo de modos y juez igual correctos
+sin clave/API. Sigue `-DiagnosticoTanda4`, máximo cuatro gen/un juez, sin
+reintentos; analizar la traza antes de corregir o repetir. 013/016 abiertas;
+21 incidencias, 18 resueltas, una pendiente externa y dos abiertas.
+`codex/chatbot-q4`, HEAD `7c2d307`, sin commit; Paso 4 abierto y Paso 5 posterior.
+
+### Diagnóstico de tanda 4 aprobado — 9-oct-2026
+
+`batch4_diagnostic_133615_e9264e7f`: cuatro generaciones Lite/un juez Flash;
+45/45 controles, cobertura 2/2 y 3/3 juicios independientes favorables,
+cero fallos/pendientes/errores/contradicciones. La traza conserva cuatro
+registros coherentes: ticket 125 MXN, resumen N14 de segunda ejecución y
+negativa a dividir; revisión interna favorable. SHA/tres digests, hash del
+fixture, fuentes, renderizado y resúmenes comprobados sin API, originales
+intactos. El rechazo previo no se reprodujo; causa exacta sin demostrar.
+Revisión 1 por exigir 36 partes; este diagnóstico no sustituye partes o juicios.
+
+Consolidado fallido conservado: 35/36 favorables, cobertura 21/22 y 544/547
+controles. Sigue repetir solo tanda 4, máximo 14 generaciones/tres juez,
+espera 60 s, sin reintentos; plan correcto sin clave/API. Si pasa, consolidar
+offline con las tandas 1/2/3 aprobadas actuales. Solo documentación, sin
+cambiar N15/guía/guardas ni repetir suite; última general 230 aprobadas,
+una omitida/119 subpruebas. 013/016 abiertas, 018 resuelta; 21 incidencias,
+18 resueltas, una pendiente externa y dos abiertas. `codex/chatbot-q4`,
+HEAD `7c2d307`, sin commit; Paso 4 abierto y Paso 5 posterior.
+
+### Paso 4 validado en la evaluación offline — 9-oct-2026
+
+La nueva tanda 4 `full_batch4_20261009_135244_2f9d9c1e` tuvo 14 llamadas
+de generación Lite y tres del juez Flash: siete casos/doce partes,
+8/8 respondibles cubiertas, 183/183 controles y 12/12 juicios independientes
+favorables. Hash `4fb4378582218c4c6b76572b7b82dc725a56ef2a0055c7767da4cd2b34db8075`;
+doce digests y resúmenes verificados, sin fallos, pendientes o errores.
+La revisión aislada salió 1 porque el gate exige las 36 partes del conjunto.
+
+La consolidación actual de tandas 1/2/3/4 terminó código 0 y cero API nuevas:
+28/28 casos, 36/36 partes, cobertura 22/22, **548/548 controles** y
+**36/36 juicios independientes favorables**, sin errores/contradicciones.
+54 generaciones y diez llamadas del juez en las tandas seleccionadas. El
+denominador de controles refleja las afirmaciones presentes: la nueva tanda
+4 tiene 183, la histórica fallida 182; no se cambió el umbral de 100%.
+Informes JSON/Markdown semántico y mecánico bajo
+`docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined`.
+Se conservaron el consolidado fallido y los diagnósticos sin mezclarlos.
+
+013/016 resueltas para este conjunto offline. 21 incidencias: 20 resueltas,
+una pendiente externa, cero abiertas. La validación usa datos sintéticos y
+llamadas reales acotadas; no evalúa producción ni garantiza nuevas salidas del
+proveedor. N15/guía/guardas sin cambios, solo informes y documentación;
+última suite general 230 aprobadas, una omitida y 119 subpruebas, no repetida.
+Rama `codex/chatbot-q4`, HEAD `7c2d307`, sin commit. Sigue Paso 5 separado:
+autenticación, autorización por negocio, endpoint, historial e interfaz.
+
+### Seguimiento de consistencia autorizado — 9-oct-2026
+
+Conjunto offline aceptado: cobertura 22/22, 548/548 controles y 36/36 juicios
+favorables. Seguimiento adicional pendiente: tres ejecuciones nuevas de los
+dos casos afectados, con `-DiagnosticoTanda4`, traza y configuración idéntica.
+Máximo 4 gen/1 juez por ejecución, 12 gen/3 juez (15 API) en total, sin
+reintentos. Exigir 2/2 cobertura, 3/3 juicios favorables y cero fallos/errores/
+pendientes en cada ejecución. Detener la serie ante un fallo y analizar traza;
+conservar todos los intentos. Tres éxitos no demostrarían la causa histórica.
+Plan `docs/evaluations/chatbot_step4_consistency_plan_20261009.json`, con SHA de código/fixture/helper.
+Plan/sintaxis comprobados sin clave ni API. Solo documentación, sin repetir
+suite; última general 230 aprobadas, una omitida/119 subpruebas. 013/016
+resueltas para el conjunto original; seguimiento adicional pendiente antes
+de Paso 5. `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
+## Preparacion de publicacion del chatbot — 10-oct-2026
+
+Por solicitud del usuario, la version de desarrollo de `codex/chatbot-q4`
+se prepara para GitHub en `aalm2005/Mepia_clean`; base `7c2d307`, sin commit
+de este paquete al registrar la preparacion. Se incluyen los Pasos 3/4 y su
+evidencia sintetica. README, reglas de exclusion y un ejecutor PowerShell
+portable facilitan la reproduccion; no cambia el motor, N15, el fixture ni el
+juez. El ejecutor historico local permanece intacto.
+
+Verificacion local de publicacion: 230 pruebas aprobadas, 1 integracion opt-in
+omitida y 119 subpruebas aprobadas en 92.27 s; sintaxis y cinco planes del
+ejecutor correctos, cero API nuevas. El conjunto del Paso 4 conserva 22/22,
+548/548 y 36/36; las tres repeticiones adicionales de consistencia siguen
+pendientes antes del Paso 5. Publicacion y produccion son acciones separadas.
+El resultado del push y el commit real se registraran en la bitacora.

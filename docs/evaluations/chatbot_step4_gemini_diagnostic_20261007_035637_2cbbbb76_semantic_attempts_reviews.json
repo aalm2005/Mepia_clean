@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T04:16:38.297359+00:00",
+  "reviewer_model": "multiple",
+  "judge_calls": 2,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+      "sha256": "d4f91743f08369cc3d14df461449f0cc6c1b1a5f790ef4d7ca1435c65bb0ce92"
+    }
+  ],
+  "reviews": [],
+  "batch_errors": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_only_20261007_040537_6e861e85_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    }
+  ]
+}

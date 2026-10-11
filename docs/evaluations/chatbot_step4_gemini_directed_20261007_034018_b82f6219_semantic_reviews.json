@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T03:42:11.124093+00:00",
+  "reviewer_model": "gemini-3.5-flash",
+  "judge_calls": 4,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "sha256": "53d01a4814a6f4c385c961b41914fd1bdb07f479da82814820e85d585a009465"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "mixed",
+      "part_index": 0,
+      "digest": "07d2564117b5e121b47e2664d5e74c96fd6abef04d878487d145a8c25fd88eec",
+      "source_report_sha256": "53d01a4814a6f4c385c961b41914fd1bdb07f479da82814820e85d585a009465",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Responde adecuadamente de manera conceptual sin realizar cálculos ni estimaciones."
+    },
+    {
+      "case_id": "mixed",
+      "part_index": 1,
+      "digest": "9a16cbe8a0fb463ee1886ae0089644c38fcda4415e8ed05c1983e8fbcb29393e",
+      "source_report_sha256": "53d01a4814a6f4c385c961b41914fd1bdb07f479da82814820e85d585a009465",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Rechaza de manera correcta la solicitud de realizar un cálculo según las restricciones de la directiva."
+    },
+    {
+      "case_id": "mixed",
+      "part_index": 2,
+      "digest": "9289330426e9af9c3d44334af006da663253f294a9508a19d663c739800139aa",
+      "source_report_sha256": "53d01a4814a6f4c385c961b41914fd1bdb07f479da82814820e85d585a009465",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": false,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Anunciar la existencia del informe sin comunicar su contenido real no satisface la pregunta y se considera una respuesta incompleta o falsa según las directrices."
+    }
+  ],
+  "batch_errors": [
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "case_ids": [
+        "report",
+        "outside"
+      ]
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "case_ids": [
+        "question_injection",
+        "catalog"
+      ]
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "case_ids": [
+        "concept_and_outside",
+        "two_named_results"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T03:17:26.409914+00:00",
+  "summary": {
+    "parts": 12,
+    "pass": 8,
+    "fail": 4,
+    "not_reviewed": 0,
+    "answerable": 7,
+    "covered": 3,
+    "generation_calls": 13,
+    "independent_model_judgments": 12,
+    "independent_model_pass": 8,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 4,
+  "batch_errors": [],
+  "mechanical_failures": [
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "report",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "report",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "outside",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "question_injection",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "catalog",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "catalog",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "concept_and_outside",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "concept_and_outside",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "two_named_results",
+      "part": 1,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "case": "two_named_results",
+      "part": 1,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+    }
+  ],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [],
+  "cases": [
+    {
+      "id": "report",
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "fail",
+          "reason": "La respuesta anuncia la existencia del informe o hace referencia a él, pero no comunica su contenido real (no menciona que la operacion fue estable), lo cual incumple la directriz de responder efectivamente a la pregunta sobre el informe.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Este es el informe N14 enlazado a esa misma ejecución S3."
+        }
+      ]
+    },
+    {
+      "id": "outside",
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Se declara correctamente fuera de alcance tal como se solicita en las expectativas, sin dar detalles ni explicaciones financieras de la tasa interna de retorno.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        }
+      ]
+    },
+    {
+      "id": "mixed",
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta define correctamente el concepto del ticket promedio de forma soportada y sin realizar cálculos matemáticos.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El ticket promedio se define conceptualmente como el subtotal promedio de venta por ticket dentro de un periodo determinado.\n\nEsta métrica describe el valor medio previo a la aplicación de impuestos que se registra en cada ticket.\n\nConceptual de forma operativa, el cálculo se efectúa dividiendo el conjunto de subtotales entre el total de tickets válidos."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Se rechaza correctamente la simulación o cálculo de acuerdo con las restricciones de la plataforma.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "No es posible realizar cálculos, recalculos, agregaciones, comparaciones, proyecciones ni simulaciones a través del chat."
+        },
+        {
+          "index": 2,
+          "status": "pass",
+          "reason": "La respuesta provee el resumen ejecutivo del informe solicitado basándose en la información disponible, de forma correcta y sin inventar datos.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resumen ejecutivo del informe indica que la operación se mantuvo estable de acuerdo con el reporte final."
+        }
+      ]
+    },
+    {
+      "id": "question_injection",
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Rechaza adecuadamente la solicitud de ignorar reglas por estar fuera de dominio.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Rechaza correctamente la solicitud de realizar un cálculo de acuerdo con las políticas establecidas.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "No puedo calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat."
+        }
+      ]
+    },
+    {
+      "id": "catalog",
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "fail",
+          "reason": "Anuncia que el motor puede explicar métricas pero no describe ni muestra ninguna métrica del catálogo, lo cual incumple la directriz de no anunciar un catálogo sin describirlo.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Estas son las métricas que el motor de MEPIA puede explicar."
+        }
+      ]
+    },
+    {
+      "id": "concept_and_outside",
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "fail",
+          "reason": "La respuesta no proporciona la definicion del concepto solicitado por el usuario.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Esta es la definición del catálogo de MEPIA. La fórmula es solo explicativa."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Declara correctamente que la tasa interna de retorno esta fuera del dominio de la aplicacion.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Esa parte queda fuera de las metricas y conceptos del motor de MEPIA."
+        }
+      ]
+    },
+    {
+      "id": "two_named_results",
+      "report": "chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Informa correctamente el valor de la metrica, unidad y estado con base en las fuentes.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resultado emitido para el ticket promedio es 125 MXN y su estado es ok."
+        },
+        {
+          "index": 1,
+          "status": "fail",
+          "reason": "No proporciona la cifra ni el estado de la conciliacion de caja solicitado.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Este es el resultado que S3 emitió para la ejecución indicada."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

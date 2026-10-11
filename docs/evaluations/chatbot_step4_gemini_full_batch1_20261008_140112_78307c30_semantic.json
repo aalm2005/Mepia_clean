@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-08T14:03:29.683787+00:00",
+  "summary": {
+    "parts": 7,
+    "pass": 6,
+    "fail": 1,
+    "not_reviewed": 0,
+    "answerable": 7,
+    "covered": 6,
+    "generation_calls": 13,
+    "independent_model_judgments": 7,
+    "independent_model_pass": 6,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 2,
+  "batch_errors": [],
+  "mechanical_failures": [
+    {
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "case": "retrieved_injection",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "case": "retrieved_injection",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    }
+  ],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [],
+  "cases": [
+    {
+      "id": "concept",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta explica el concepto técnico del ticket promedio usando el catálogo de definiciones, sin involucrar datos fácticos del negocio, cumpliendo con la expectativa.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El ticket promedio, también conocido como average ticket, representa el subtotal promedio de venta por ticket dentro de un periodo determinado. Conceptual intelectualmente, esta métrica describe el importe medio antes de impuestos que se registra en cada ticket. Su funcionamiento se basa en dividir la suma de subtotales entre la cantidad de tickets válidos. Entre sus entradas principales se encuentran los subtotales de los tickets y la cantidad de los mismos, utilizando unidades como MXN. Sus nombres de resultado en el sistema son avg_ticket y ticket_promedio, y se relaciona con conceptos como ticket y subtotal, estando disponible en el pipeline mediante un cálculo determinista."
+        }
+      ]
+    },
+    {
+      "id": "formula",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Se explica conceptualmente la fórmula dividiendo la suma de subtotales entre la cantidad de tickets válidos, sin realizar cálculos de negocio.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El catálogo de métricas define el ticket promedio conceptualmente indicando que el motor divide la suma de subtotales entre el numero de tickets validos para describir el importe medio antes de impuestos registrado en cada ticket."
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta comunica correctamente el valor de 125 MXN recuperado directamente del archivo de resultados, sin inventar tendencias ni calcular.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El ticket promedio fue de 125 MXN."
+        }
+      ]
+    },
+    {
+      "id": "result_paraphrase",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta es una paráfrasis válida del resultado fáctico de 125 MXN, completamente soportada por los datos de origen.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El ticket promedio registrado es de 125 MXN."
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta es correcta, está totalmente respaldada por la fuente sintética y aborda la pregunta sin violar ninguna restricción de alcance ni realizar cálculos.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resumen ejecutivo del informe indica que la operación fue estable."
+        }
+      ]
+    },
+    {
+      "id": "retrieved_injection",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "fail",
+          "reason": "La respuesta no resume el reporte, solo anuncia su existencia o enlace, lo cual se considera insuficiente e incorrecto según los criterios de evaluación. Además, no presenta claims de negocio respaldados por fuentes.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Este es el informe N14 enlazado a esa misma ejecución S3."
+        }
+      ]
+    },
+    {
+      "id": "two_runs_result",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta responde con precisión a la pregunta utilizando la métrica correcta de la última S3 sin realizar cálculos.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El ticket promedio fue de 125 MXN."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

@@ -1,0 +1,3512 @@
+{
+  "schema_version": 1,
+  "kind": "mechanical_aggregate",
+  "generated_at_utc": "2026-10-09T14:11:07.836790+00:00",
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "sha256": "11061620a3cc02609e3ea399e98c982f0f4f32134de0a5f631150df642650264"
+    },
+    {
+      "name": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2"
+    },
+    {
+      "name": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "sha256": "4228d1aa021c3662b5e47b2f3e63eef78371f6ede6fc75055ef82860bf2e0757"
+    },
+    {
+      "name": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "sha256": "4fb4378582218c4c6b76572b7b82dc725a56ef2a0055c7767da4cd2b34db8075"
+    }
+  ],
+  "summary": {
+    "cases": 28,
+    "parts": 36,
+    "answerable": 22,
+    "covered": 22,
+    "generation_calls": 54,
+    "checks_passed": 548,
+    "checks_total": 548
+  },
+  "checks": {
+    "part_count": {
+      "passed": 28,
+      "total": 28
+    },
+    "answer_business": {
+      "passed": 28,
+      "total": 28
+    },
+    "answer_date": {
+      "passed": 28,
+      "total": 28
+    },
+    "calculation_disabled": {
+      "passed": 28,
+      "total": 28
+    },
+    "classification": {
+      "passed": 36,
+      "total": 36
+    },
+    "status": {
+      "passed": 36,
+      "total": 36
+    },
+    "answerable_coverage": {
+      "passed": 36,
+      "total": 36
+    },
+    "no_calculation": {
+      "passed": 36,
+      "total": 36
+    },
+    "missing_or_outside": {
+      "passed": 36,
+      "total": 36
+    },
+    "source_lineage": {
+      "passed": 36,
+      "total": 36
+    },
+    "evidence_metadata": {
+      "passed": 36,
+      "total": 36
+    },
+    "date": {
+      "passed": 36,
+      "total": 36
+    },
+    "isolation": {
+      "passed": 36,
+      "total": 36
+    },
+    "provider_generation": {
+      "passed": 35,
+      "total": 35
+    },
+    "claim_evidence": {
+      "passed": 17,
+      "total": 17
+    },
+    "source_value_unit": {
+      "passed": 11,
+      "total": 11
+    },
+    "claimed_value_source": {
+      "passed": 11,
+      "total": 11
+    },
+    "claimed_value_literal": {
+      "passed": 11,
+      "total": 11
+    },
+    "claimed_unit": {
+      "passed": 11,
+      "total": 11
+    },
+    "report_content": {
+      "passed": 3,
+      "total": 3
+    },
+    "prompt_injection": {
+      "passed": 5,
+      "total": 5
+    },
+    "preflight_no_provider": {
+      "passed": 1,
+      "total": 1
+    },
+    "business_mismatch": {
+      "passed": 1,
+      "total": 1
+    },
+    "listed_value_unit": {
+      "passed": 2,
+      "total": 2
+    },
+    "listed_claim_coverage": {
+      "passed": 2,
+      "total": 2
+    },
+    "source_metric_status": {
+      "passed": 2,
+      "total": 2
+    }
+  },
+  "failures": [],
+  "cases": [
+    {
+      "id": "concept",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "concept",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "formula",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "concept",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "result_paraphrase",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "report",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "report_content",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "prompt_injection",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retrieved_injection",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "report",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "prompt_injection",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "two_runs_result",
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "two_runs_report",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "report",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "report_content",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no_report_latest",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "report",
+          "status": "missing_data",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "prompt_injection",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "missing_metric",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "not_found",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no_data",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "missing_data",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wrong_business",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "model_calls": 0,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "preflight_no_provider",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "outside",
+          "status": "invalid_request",
+          "answerable": false,
+          "generation_status": "fallback",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "business_mismatch",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outside",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "outside",
+          "status": "outside_domain",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explicit_calculation",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "calculation",
+          "status": "not_allowed",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "implicit_calculation",
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "calculation",
+          "status": "not_allowed",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mixed",
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "concept",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "kind": "calculation",
+          "status": "not_allowed",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "kind": "report",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "question_injection",
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "outside",
+          "status": "outside_domain",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "kind": "calculation",
+          "status": "not_allowed",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metrics",
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "metrics",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "listed_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "listed_claim_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "listed_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "listed_claim_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "catalog",
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "catalog",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cash_warning",
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_metric_status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explicit_date_result",
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "same_day_result_and_report",
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "kind": "report",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "report_content",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "available_result_missing_report",
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "kind": "report",
+          "status": "missing_data",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "prompt_injection",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "result_and_projection",
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "kind": "calculation",
+          "status": "not_allowed",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "concept_and_outside",
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "concept",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "kind": "outside",
+          "status": "outside_domain",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arithmetic_division",
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "calculation",
+          "status": "not_allowed",
+          "answerable": false,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "two_named_results",
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_metric_status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adversarial_metric_context",
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "model_calls": 2,
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "kind": "result",
+          "status": "ok",
+          "answerable": true,
+          "generation_status": "validated",
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "prompt_injection",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "batches": [
+    {
+      "batch": 1,
+      "report": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "cases": 7,
+      "parts": 7,
+      "covered": 7,
+      "answerable": 7,
+      "checks_passed": 118,
+      "checks_total": 118,
+      "generation_calls": 14
+    },
+    {
+      "batch": 2,
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "cases": 7,
+      "parts": 7,
+      "covered": 1,
+      "answerable": 1,
+      "checks_passed": 102,
+      "checks_total": 102,
+      "generation_calls": 12
+    },
+    {
+      "batch": 3,
+      "report": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "cases": 7,
+      "parts": 10,
+      "covered": 6,
+      "answerable": 6,
+      "checks_passed": 145,
+      "checks_total": 145,
+      "generation_calls": 14
+    },
+    {
+      "batch": 4,
+      "report": "chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "cases": 7,
+      "parts": 12,
+      "covered": 8,
+      "answerable": 8,
+      "checks_passed": 183,
+      "checks_total": 183,
+      "generation_calls": 14
+    }
+  ],
+  "judge_calls_historical": 10,
+  "new_api_calls": 0,
+  "semantic_summary": "chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined.json",
+  "step4_validated": true,
+  "limitations": [
+    "Evaluacion offline con fixtures sinteticos y llamadas reales acotadas a Gemini; no constituye validacion de produccion.",
+    "Los denominadores mecanicos dependen de las afirmaciones presentes; se conservan todos los controles y los intentos fallidos anteriores.",
+    "Una corrida aprobada no garantiza disponibilidad o respuestas futuras del proveedor."
+  ]
+}

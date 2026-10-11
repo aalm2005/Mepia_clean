@@ -616,7 +616,7 @@ source_s3_result_id: str | null  # raíz S3 compartida por la evidencia
 ```
 
 ### ChatGroundingPacket
-Paquete determinista permitido como evidencia del futuro chatbot.
+Paquete determinista permitido como evidencia del nodo de consulta N15.
 ```
 business_id: str
 requested_date: YYYY-MM-DD | null
@@ -681,4 +681,100 @@ evidence: ChatEvidenceReference[] # vacío para catálogo, glosario y rechazo
 missing_data: str[]
 knowledge_scope: "engine_metric_domain"
 calculation_allowed: false
+```
+
+### ChatModelDecision / ChatIntentProvider
+Contrato de clasificación del Paso 3. El proveedor inyectable recibe un
+fragmento de pregunta y los selectores del catálogo encontrados en él, sin datos
+del negocio. Solo puede devolver los campos siguientes; cualquier campo
+adicional o selector ajeno al fragmento se descarta.
+```
+kind: "concept" | "result" | "report" | "metrics" | "catalog" | "outside"
+selector: str | null
+```
+
+### ChatAnswerPart
+Respuesta independiente para una parte de la pregunta. La IA puede redactar
+libremente después de validar fuentes, cantidades y revisión semántica. Los
+mensajes fijos son solo respaldo cuando no se publica generación validada.
+```
+question_part: str                 # pregunta del usuario como dato
+kind: "concept" | "result" | "report" | "metrics" | "catalog" | "calculation" | "outside"
+status: "ok" | "not_found" | "missing_data" | "not_allowed" | "outside_domain" | "invalid_request"
+message: str                      # redacción libre verificada o respaldo
+data: dict                        # vacío salvo cuando status="ok"
+evidence: ChatEvidenceReference[]  # referencias exactas de las herramientas
+missing_data: str[]
+claims: ChatValidatedClaim[]       # afirmaciones y referencias de la redacción
+generation_status: "fallback" | "validated"
+generation_issues: str[]          # códigos de rechazo, sin prosa del proveedor
+generation_diagnostics: str[]     # etapa y causa seguras; sin texto rechazado ni claves
+```
+Un cálculo solicitado siempre se rechaza y no contiene datos ni evidencia.
+
+### ChatAnswer
+Salida completa del nodo local, sin endpoint público ni historial todavía.
+```
+business_id: str
+resolved_date: YYYY-MM-DD | null
+parts: ChatAnswerPart[]
+calculation_allowed: false
+knowledge_scope: "engine_metric_domain"
+```
+
+### ChatSourceFact / ChatNumberSlot
+Hecho copiado de la salida de una herramienta con ruta de campo. No es una
+inferencia del modelo. Las cantidades son literales de la fuente.
+```
+source_id: str
+scope: "business" | "catalog" | "policy" | "availability"
+path: str
+label: str
+value: JSON
+unit: str | null
+numbers: [{slot_id: str, literal: str}]
+evidence: ChatEvidenceReference[]
+```
+
+### ChatModelDraft / ChatDraftClaim
+Redacción libre propuesta. Debe cubrir todas las partes sin alterar su estado.
+```
+parts: [{part_id: str, claims: [{text: str, source_ids: str[]}]}]
+```
+Cada cantidad se escribe con el valor de `slot_id` entre llaves dobles: si el
+ID vale `abc`, se escribe `{{abc}}`. El nodo
+sustituye el literal original; no admite cantidades generadas o redondeadas.
+
+### ChatResponseWriter / ChatResponseVerifier
+Interfaces inyectables `compose(ChatWritingRequest)` y
+`verify(ChatReviewRequest)`. `ChatJsonCompletionAdapter` conecta funciones de
+API/SDK sin cambiar los proveedores de otros agentes. La revisión semántica es
+una llamada separada. El arnés offline del Paso 4 está implementado y probado
+con proveedores simulados y Gemini real. Su revisión interna se distingue del
+juicio de otro modelo sobre la respuesta publicada. Las corridas históricas
+registraron fallos de generación y cobertura (`INC-20260930-013`); se
+conservan en sus informes. El conjunto completo vigente del 9-oct-2026 cubrió
+22/22 respondibles, aprobó 548/548 controles y obtuvo 36/36 juicios
+independientes favorables en 28 casos/36 partes. El conjunto offline está
+aceptado. Se autorizó un seguimiento adicional de consistencia de tres
+repeticiones nuevas de los dos casos afectados, con traza, pendiente. La causa
+del rechazo histórico sigue sin determinarse. Paso 5 de autenticación,
+autorización e interfaz continúa pendiente.
+
+### ChatReviewResult
+Juicios ligados mediante digest al borrador renderizado y sus fuentes exactas.
+Una respuesta parcial, repetida o malformada no autoriza publicar.
+```
+request_id: str
+judgments: [{claim_id: str, supported: bool, in_domain: bool,
+             calculation_performed: bool, follows_policy: bool}]
+```
+
+### ChatValidatedClaim
+Texto publicado después de controles deterministas y revisión separada.
+```
+text: str
+source_ids: str[]
+sources: ChatSourceFact[]           # ruta y valor disponibles para auditoría
+evidence: ChatEvidenceReference[]
 ```

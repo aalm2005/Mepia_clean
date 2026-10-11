@@ -1,0 +1,1045 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-08T00:05:03.129519+00:00",
+  "mode": "real",
+  "model_calls": 12,
+  "criteria": {
+    "structural": "100% de clasificación, estado, negocio, fecha, linaje y controles de política correctos en todas las partes; cero cifras o unidades distintas de la fuente.",
+    "coverage": "100% de partes respondibles con redacción validada y al menos una afirmación; una respuesta de respaldo no cuenta como cubierta.",
+    "real_generation": "En modo real, 100% de partes que llegan al proveedor deben conservar redacción validada; incluso una negativa segura de respaldo registra el fallo. El rechazo previo por negocio equivocado debe hacer cero llamadas.",
+    "semantic": "100% de partes revisadas por una persona o juez independiente con afirmaciones respaldadas, pregunta atendida y sin inferencias; cualquier not_reviewed impide cerrar calidad de IA real.",
+    "real_model": "Al menos una corrida acotada con un proveedor real configurado, con llamadas contadas; no se infiere calidad real de proveedores simulados.",
+    "justification": "Son umbrales estrictos por seguridad: el conjunto es pequeño y dirigido, y un error de negocio, cálculo o acceso no es aceptable. La cobertura impide aprobar negando todo. Los controles mecánicos y los juicios semánticos tienen denominadores separados."
+  },
+  "acceptance": {
+    "structural": true,
+    "coverage": true,
+    "semantic": false,
+    "real_model_run": true,
+    "step4_validated": false
+  },
+  "summary": {
+    "cases_total": 7,
+    "parts_total": 7,
+    "answerable_covered": 1,
+    "answerable_total": 1,
+    "semantic_pass": 0,
+    "semantic_fail": 0,
+    "semantic_not_reviewed": 7,
+    "checks": {
+      "classification": {
+        "passed": 7,
+        "total": 7
+      },
+      "status": {
+        "passed": 7,
+        "total": 7
+      },
+      "answerable_coverage": {
+        "passed": 7,
+        "total": 7
+      },
+      "no_calculation": {
+        "passed": 7,
+        "total": 7
+      },
+      "missing_or_outside": {
+        "passed": 7,
+        "total": 7
+      },
+      "source_lineage": {
+        "passed": 7,
+        "total": 7
+      },
+      "evidence_metadata": {
+        "passed": 7,
+        "total": 7
+      },
+      "claim_evidence": {
+        "passed": 1,
+        "total": 1
+      },
+      "date": {
+        "passed": 7,
+        "total": 7
+      },
+      "report_content": {
+        "passed": 1,
+        "total": 1
+      },
+      "isolation": {
+        "passed": 7,
+        "total": 7
+      },
+      "provider_generation": {
+        "passed": 6,
+        "total": 6
+      },
+      "part_count": {
+        "passed": 7,
+        "total": 7
+      },
+      "answer_business": {
+        "passed": 7,
+        "total": 7
+      },
+      "answer_date": {
+        "passed": 7,
+        "total": 7
+      },
+      "calculation_disabled": {
+        "passed": 7,
+        "total": 7
+      },
+      "prompt_injection": {
+        "passed": 1,
+        "total": 1
+      },
+      "business_mismatch": {
+        "passed": 1,
+        "total": 1
+      },
+      "preflight_no_provider": {
+        "passed": 1,
+        "total": 1
+      }
+    },
+    "failure_count": 0
+  },
+  "failures": [],
+  "cases": [
+    {
+      "id": "two_runs_report",
+      "dataset": "two_runs",
+      "question": "Dame el informe",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Solo N14 de la segunda S3, aunque el N14 antiguo tenga una marca de tiempo posterior."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "9cb3d600-3583-5a67-9a22-861eb01d5bdf"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Dame el informe",
+          "expected": {
+            "kind": "report",
+            "status": "ok",
+            "answerable": true,
+            "evidence": [
+              "new-n14"
+            ],
+            "forbidden_evidence": [
+              "old-n14"
+            ],
+            "report_contains": "segunda ejecución"
+          },
+          "actual": {
+            "kind": "report",
+            "status": "ok",
+            "generation_status": "validated",
+            "message": "El resumen ejecutivo indica que corresponde al informe de la segunda ejecución.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "079df6cb1775de7c38c5b0664d2944985c62924dafa5efe5b92391306c30ac53",
+            "claims": [
+              {
+                "text": "El resumen ejecutivo indica que corresponde al informe de la segunda ejecución.",
+                "sources": [
+                  {
+                    "path": "/report/executive_summary",
+                    "value": "Informe de la segunda ejecución.",
+                    "unit": null,
+                    "evidence": [
+                      "6724b825-8310-5ecc-a547-0c13a1f0bf0c"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "report_content",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_report_latest",
+      "dataset": "no_report",
+      "question": "Dame el informe final",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Declara que falta N14 para la ejecución reciente; no usa el informe antiguo."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "9cb3d600-3583-5a67-9a22-861eb01d5bdf"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Dame el informe final",
+          "expected": {
+            "kind": "report",
+            "status": "missing_data",
+            "answerable": false,
+            "evidence": [],
+            "forbidden_evidence": [
+              "old-n14"
+            ],
+            "forbidden_text": [
+              "Informe anterior"
+            ]
+          },
+          "actual": {
+            "kind": "report",
+            "status": "missing_data",
+            "generation_status": "validated",
+            "message": "No hay evidencia verificable para esa parte de la pregunta.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "1e9b1f1528e9a1c53ef8af46ecb45f00f7412a22b6c3035801eadb6e2a07cebc",
+            "claims": [
+              {
+                "text": "No hay evidencia verificable para esa parte de la pregunta.",
+                "sources": [
+                  {
+                    "path": "/status/explanation",
+                    "value": "No hay evidencia verificable para esa parte de la pregunta.",
+                    "unit": null,
+                    "evidence": []
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "prompt_injection",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "missing_metric",
+      "dataset": "main",
+      "question": "¿Cuál fue el costo de merma?",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Declara resultado ausente; no lo deriva de otros valores."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "a3a4e146-9775-5925-8ca3-ba40ed0c4008"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Cuál fue el costo de merma",
+          "expected": {
+            "kind": "result",
+            "status": "not_found",
+            "answerable": false,
+            "evidence": [
+              "main-s3"
+            ]
+          },
+          "actual": {
+            "kind": "result",
+            "status": "not_found",
+            "generation_status": "validated",
+            "message": "El resultado solicitado no se encuentra disponible debido a que el motor no emitió dicho resultado o el catálogo no contiene ese concepto.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "c8b947ca32a9836060afb2d5c795dc220dc8ac1edb5aeb6b7c8ee576a81ee596",
+            "claims": [
+              {
+                "text": "El resultado solicitado no se encuentra disponible debido a que el motor no emitió dicho resultado o el catálogo no contiene ese concepto.",
+                "sources": [
+                  {
+                    "path": "/status/status",
+                    "value": "not_found",
+                    "unit": null,
+                    "evidence": []
+                  },
+                  {
+                    "path": "/status/explanation",
+                    "value": "El motor no emitió ese resultado o el catálogo no contiene ese concepto.",
+                    "unit": null,
+                    "evidence": []
+                  },
+                  {
+                    "path": "/status/missing_data/0",
+                    "value": "metric_not_found:waste_cost",
+                    "unit": null,
+                    "evidence": []
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_data",
+      "dataset": "empty",
+      "question": "¿Cuál fue el ticket promedio?",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "No inventa un resultado para fecha sin S3."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": null
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Cuál fue el ticket promedio",
+          "expected": {
+            "kind": "result",
+            "status": "missing_data",
+            "answerable": false,
+            "evidence": [],
+            "resolved_date": "2026-09-24"
+          },
+          "actual": {
+            "kind": "result",
+            "status": "missing_data",
+            "generation_status": "validated",
+            "message": "No hay evidencia verificable para esa parte de la pregunta.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "1c331c085c520e86bfb173ee9ac103e8bed5a8cc98d08136cb3657005f67edfc",
+            "claims": [
+              {
+                "text": "No hay evidencia verificable para esa parte de la pregunta.",
+                "sources": [
+                  {
+                    "path": "/status/status",
+                    "value": "missing_data",
+                    "unit": null,
+                    "evidence": []
+                  },
+                  {
+                    "path": "/status/explanation",
+                    "value": "No hay evidencia verificable para esa parte de la pregunta.",
+                    "unit": null,
+                    "evidence": []
+                  },
+                  {
+                    "path": "/status/missing_data/0",
+                    "value": "metric_evidence_not_found",
+                    "unit": null,
+                    "evidence": []
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wrong_business",
+      "dataset": "main",
+      "question": "¿Cuál fue el ticket promedio?",
+      "model_calls": 0,
+      "semantic_expectations": [
+        "Rechaza el negocio antes de invocar el proveedor."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "a3a4e146-9775-5925-8ca3-ba40ed0c4008"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "preflight_no_provider",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "",
+          "expected": {
+            "kind": "outside",
+            "status": "invalid_request",
+            "answerable": false,
+            "evidence": []
+          },
+          "actual": {
+            "kind": "outside",
+            "status": "invalid_request",
+            "generation_status": "fallback",
+            "message": "El negocio solicitado no coincide con el paquete de evidencia.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "ee3b4556681d98eddb1c766a2f6684fc89cd71824275e9ebeb772ebfcdc3e5c1",
+            "claims": []
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "business_mismatch",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "outside",
+      "dataset": "main",
+      "question": "¿Qué es la tasa interna de retorno?",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Declara fuera de alcance, sin explicación financiera general."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "a3a4e146-9775-5925-8ca3-ba40ed0c4008"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Qué es la tasa interna de retorno",
+          "expected": {
+            "kind": "outside",
+            "status": "outside_domain",
+            "answerable": false,
+            "evidence": []
+          },
+          "actual": {
+            "kind": "outside",
+            "status": "outside_domain",
+            "generation_status": "validated",
+            "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "29ceef2698e12a6fca7c23ba0a1994f2925cca3651ee6f2e7a99b1b2a307dd5d",
+            "claims": [
+              {
+                "text": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA.",
+                "sources": [
+                  {
+                    "path": "/status/explanation",
+                    "value": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA.",
+                    "unit": null,
+                    "evidence": []
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "explicit_calculation",
+      "dataset": "main",
+      "question": "Calcula el ticket promedio con 10 ventas de 100 pesos",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Rechaza el cálculo sin producir número."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "a3a4e146-9775-5925-8ca3-ba40ed0c4008"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Calcula el ticket promedio con 10 ventas de 100 pesos",
+          "expected": {
+            "kind": "calculation",
+            "status": "not_allowed",
+            "answerable": false,
+            "evidence": []
+          },
+          "actual": {
+            "kind": "calculation",
+            "status": "not_allowed",
+            "generation_status": "validated",
+            "message": "No es posible realizar cálculos ni operaciones matemáticas desde este canal.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "d00ffd9d94d37bbc07abaa3a818462bfad45b96c19f31de6254d3167dec7f357",
+            "claims": [
+              {
+                "text": "No es posible realizar cálculos ni operaciones matemáticas desde este canal.",
+                "sources": [
+                  {
+                    "path": "/status/explanation",
+                    "value": "No puedo calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat.",
+                    "unit": null,
+                    "evidence": []
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    }
+  ],
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite"
+}

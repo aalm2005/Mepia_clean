@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-08T14:03:29.682322+00:00",
+  "reviewer_model": "gemini-3.5-flash",
+  "judge_calls": 2,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "concept",
+      "part_index": 0,
+      "digest": "56a5d60c8740e09b52f2f73440364f2d263a9bb202d5dd6b94e817ddd7e13906",
+      "source_report_sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta explica el concepto técnico del ticket promedio usando el catálogo de definiciones, sin involucrar datos fácticos del negocio, cumpliendo con la expectativa."
+    },
+    {
+      "case_id": "formula",
+      "part_index": 0,
+      "digest": "68842e4cf7a0eb05200db72085f57262930dffada02ca998e7bb83c362bae9f4",
+      "source_report_sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Se explica conceptualmente la fórmula dividiendo la suma de subtotales entre la cantidad de tickets válidos, sin realizar cálculos de negocio."
+    },
+    {
+      "case_id": "result",
+      "part_index": 0,
+      "digest": "9da1ee6b159026a1122c5b54ef5cff638192e50d4b64d49a18d50dcbfdadfd3c",
+      "source_report_sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta comunica correctamente el valor de 125 MXN recuperado directamente del archivo de resultados, sin inventar tendencias ni calcular."
+    },
+    {
+      "case_id": "result_paraphrase",
+      "part_index": 0,
+      "digest": "abe539ca564c57420f49cd871d04d13ab4d6b49843ec0a9436f675e874cd7d38",
+      "source_report_sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta es una paráfrasis válida del resultado fáctico de 125 MXN, completamente soportada por los datos de origen."
+    },
+    {
+      "case_id": "report",
+      "part_index": 0,
+      "digest": "dc0c9ba558d35df00c1ec1150e0e1708b1b6eeb5a0730ec21a0355d4653c47e2",
+      "source_report_sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta es correcta, está totalmente respaldada por la fuente sintética y aborda la pregunta sin violar ninguna restricción de alcance ni realizar cálculos."
+    },
+    {
+      "case_id": "retrieved_injection",
+      "part_index": 0,
+      "digest": "9289330426e9af9c3d44334af006da663253f294a9508a19d663c739800139aa",
+      "source_report_sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": false,
+      "addresses_question": false,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta no resume el reporte, solo anuncia su existencia o enlace, lo cual se considera insuficiente e incorrecto según los criterios de evaluación. Además, no presenta claims de negocio respaldados por fuentes."
+    },
+    {
+      "case_id": "two_runs_result",
+      "part_index": 0,
+      "digest": "ae40ae1d409d8c7d0aeed113a3fe03ab771d9946e18db91271d5ef6372bc5315",
+      "source_report_sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta responde con precisión a la pregunta utilizando la métrica correcta de la última S3 sin realizar cálculos."
+    }
+  ],
+  "batch_errors": []
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T22:53:33.893669+00:00",
+  "summary": {
+    "parts": 1,
+    "pass": 1,
+    "fail": 0,
+    "not_reviewed": 0,
+    "answerable": 1,
+    "covered": 1,
+    "generation_calls": 2,
+    "independent_model_judgments": 1,
+    "independent_model_pass": 1,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 1,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [],
+  "total_api_calls": 2,
+  "diagnostic_control": {
+    "calls": 1,
+    "status": "response_received",
+    "error": null
+  },
+  "cases": [
+    {
+      "id": "result",
+      "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta responde de manera directa, objetiva y precisa a la pregunta sobre el ticket promedio utilizando la información de las fuentes sin realizar cálculos ni salirse del alcance.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resultado emitido para el ticket promedio muestra un estado ok y un valor de 125 MXN."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

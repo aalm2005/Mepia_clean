@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T23:18:58.473097+00:00",
+  "summary": {
+    "parts": 1,
+    "pass": 1,
+    "fail": 0,
+    "not_reviewed": 0,
+    "answerable": 1,
+    "covered": 1,
+    "generation_calls": 2,
+    "independent_model_judgments": 1,
+    "independent_model_pass": 1,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 1,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [],
+  "cases": [
+    {
+      "id": "report",
+      "report": "chatbot_step4_gemini_diagnostic_20261007_231840_af09f570.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta sintetiza adecuadamente la información del informe disponible en las fuentes, confirmando que la operación fue estable, sin incurrir en cálculos ni desvíos de alcance.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resumen ejecutivo del informe indica que la operación se mantuvo estable."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

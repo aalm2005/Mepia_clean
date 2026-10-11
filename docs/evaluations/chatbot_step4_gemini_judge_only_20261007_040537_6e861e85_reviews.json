@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T04:05:46.423928+00:00",
+  "reviewer_model": "gemini-3.8-flash",
+  "judge_calls": 1,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+      "sha256": "d4f91743f08369cc3d14df461449f0cc6c1b1a5f790ef4d7ca1435c65bb0ce92"
+    }
+  ],
+  "reviews": [],
+  "batch_errors": [
+    {
+      "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "case_ids": [
+        "result"
+      ]
+    }
+  ]
+}

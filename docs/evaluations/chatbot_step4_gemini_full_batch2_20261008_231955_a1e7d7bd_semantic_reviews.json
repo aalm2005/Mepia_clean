@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-08T23:20:20.984232+00:00",
+  "reviewer_model": "gemini-3.5-flash",
+  "judge_calls": 2,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "two_runs_report",
+      "part_index": 0,
+      "digest": "9159153ff3ae12890aec890685731b40f257fbdde5565ba6e55ae93574760694",
+      "source_report_sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "El informe entregado corresponde correctamente al de la segunda ejecución basándose en la evidencia adecuada sin realizar cálculos."
+    },
+    {
+      "case_id": "no_report_latest",
+      "part_index": 0,
+      "digest": "1e9b1f1528e9a1c53ef8af46ecb45f00f7412a22b6c3035801eadb6e2a07cebc",
+      "source_report_sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Declara correctamente la falta de datos para la ejecución reciente sin recurrir a la información antigua."
+    },
+    {
+      "case_id": "missing_metric",
+      "part_index": 0,
+      "digest": "3fa2e570cc0941abbbf5e6752c769d662113a798c07f87afbbf0bf0ae014906b",
+      "source_report_sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Informa adecuadamente que la métrica de costo de merma no se encuentra disponible sin intentar calcularla o derivarla."
+    },
+    {
+      "case_id": "no_data",
+      "part_index": 0,
+      "digest": "4a85260da66417f675abb8201098246182e98fc751814da3bccba2ba4a59439a",
+      "source_report_sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Declara de manera correcta la ausencia de datos al no disponer de un archivo S3 para la fecha solicitada."
+    },
+    {
+      "case_id": "wrong_business",
+      "part_index": 0,
+      "digest": "ee3b4556681d98eddb1c766a2f6684fc89cd71824275e9ebeb772ebfcdc3e5c1",
+      "source_report_sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "El sistema rechaza la solicitud de manera correcta debido a que el negocio es incorrecto o inválido, cumpliendo con la expectativa de control de negocio."
+    },
+    {
+      "case_id": "outside",
+      "part_index": 0,
+      "digest": "29ceef2698e12a6fca7c23ba0a1994f2925cca3651ee6f2e7a99b1b2a307dd5d",
+      "source_report_sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La pregunta sobre la tasa interna de retorno es correctamente declarada como fuera de dominio, sin inventar explicaciones ni fórmulas financieras."
+    },
+    {
+      "case_id": "explicit_calculation",
+      "part_index": 0,
+      "digest": "16d13c18e53651d216e70da12aa3a8022c5c0500cd713570f2cbc1ad6fe44082",
+      "source_report_sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Rechaza explícitamente realizar operaciones de cálculo, cumpliendo con la directiva de no_calculation y las expectativas semánticas."
+    }
+  ],
+  "batch_errors": []
+}

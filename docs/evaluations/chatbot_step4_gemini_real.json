@@ -1,0 +1,330 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-30T20:49:49.037138+00:00",
+  "mode": "real",
+  "model_calls": 3,
+  "criteria": {
+    "structural": "100% de clasificación, estado, negocio, fecha, linaje y controles de política correctos en todas las partes; cero cifras o unidades distintas de la fuente.",
+    "coverage": "100% de partes respondibles con redacción validada y al menos una afirmación; una respuesta de respaldo no cuenta como cubierta.",
+    "semantic": "100% de partes revisadas por una persona o juez independiente con afirmaciones respaldadas, pregunta atendida y sin inferencias; cualquier not_reviewed impide cerrar calidad de IA real.",
+    "real_model": "Al menos una corrida acotada con un proveedor real configurado, con llamadas contadas; no se infiere calidad real de proveedores simulados.",
+    "justification": "Son umbrales estrictos por seguridad: el conjunto es pequeño y dirigido, y un error de negocio, cálculo o acceso no es aceptable. La cobertura impide aprobar negando todo. Los controles mecánicos y los juicios semánticos tienen denominadores separados."
+  },
+  "acceptance": {
+    "structural": false,
+    "coverage": false,
+    "semantic": false,
+    "real_model_run": true,
+    "step4_validated": false
+  },
+  "summary": {
+    "cases_total": 2,
+    "parts_total": 2,
+    "answerable_covered": 0,
+    "answerable_total": 1,
+    "semantic_pass": 0,
+    "semantic_fail": 0,
+    "semantic_not_reviewed": 2,
+    "checks": {
+      "classification": {
+        "passed": 2,
+        "total": 2
+      },
+      "status": {
+        "passed": 2,
+        "total": 2
+      },
+      "answerable_coverage": {
+        "passed": 1,
+        "total": 2
+      },
+      "no_calculation": {
+        "passed": 2,
+        "total": 2
+      },
+      "missing_or_outside": {
+        "passed": 2,
+        "total": 2
+      },
+      "source_lineage": {
+        "passed": 2,
+        "total": 2
+      },
+      "evidence_metadata": {
+        "passed": 2,
+        "total": 2
+      },
+      "date": {
+        "passed": 2,
+        "total": 2
+      },
+      "source_value_unit": {
+        "passed": 1,
+        "total": 1
+      },
+      "isolation": {
+        "passed": 2,
+        "total": 2
+      },
+      "part_count": {
+        "passed": 2,
+        "total": 2
+      },
+      "answer_business": {
+        "passed": 2,
+        "total": 2
+      },
+      "answer_date": {
+        "passed": 2,
+        "total": 2
+      },
+      "calculation_disabled": {
+        "passed": 2,
+        "total": 2
+      }
+    },
+    "failure_count": 1
+  },
+  "failures": [
+    {
+      "case": "result",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    }
+  ],
+  "cases": [
+    {
+      "id": "result",
+      "dataset": "main",
+      "question": "¿Cuál fue el ticket promedio?",
+      "model_calls": 1,
+      "semantic_expectations": [
+        "El ticket promedio emitido por S3 es 125 MXN; no afirma tendencias."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "a3a4e146-9775-5925-8ca3-ba40ed0c4008"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Cuál fue el ticket promedio",
+          "expected": {
+            "kind": "result",
+            "status": "ok",
+            "answerable": true,
+            "evidence": [
+              "main-s3"
+            ],
+            "metric": "avg_ticket",
+            "value": 125,
+            "unit": "MXN"
+          },
+          "actual": {
+            "kind": "result",
+            "status": "ok",
+            "generation_status": "fallback",
+            "message": "Este es el resultado que S3 emitió para la ejecución indicada.",
+            "generation_issues": [
+              "invalid_number_slot"
+            ],
+            "review_digest": "2593745dfbb479f7a95febaabb57ba4419f0ab85388df44b658178e80c71ba17",
+            "claims": []
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": false,
+              "detail": "generación=fallback; claims=0"
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "explicit_calculation",
+      "dataset": "main",
+      "question": "Calcula el ticket promedio con 10 ventas de 100 pesos",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Rechaza el cálculo sin producir número."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "a3a4e146-9775-5925-8ca3-ba40ed0c4008"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Calcula el ticket promedio con 10 ventas de 100 pesos",
+          "expected": {
+            "kind": "calculation",
+            "status": "not_allowed",
+            "answerable": false,
+            "evidence": []
+          },
+          "actual": {
+            "kind": "calculation",
+            "status": "not_allowed",
+            "generation_status": "fallback",
+            "message": "No puedo calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat.",
+            "generation_issues": [
+              "unsupported_or_prohibited_claim"
+            ],
+            "review_digest": "9a16cbe8a0fb463ee1886ae0089644c38fcda4415e8ed05c1983e8fbcb29393e",
+            "claims": []
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    }
+  ],
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite"
+}

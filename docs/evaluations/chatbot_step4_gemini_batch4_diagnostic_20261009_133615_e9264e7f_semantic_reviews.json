@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-09T13:36:37.350669+00:00",
+  "reviewer_model": "gemini-3.5-flash",
+  "judge_calls": 1,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f.json",
+      "sha256": "07f943fcbeb36c5b8c3f36ffa899677816b24a0b9f46127b849da45bb6112f1e"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 0,
+      "digest": "ae40ae1d409d8c7d0aeed113a3fe03ab771d9946e18db91271d5ef6372bc5315",
+      "source_report_sha256": "07f943fcbeb36c5b8c3f36ffa899677816b24a0b9f46127b849da45bb6112f1e",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "El ticket promedio se reporta correctamente basándose en los datos de la fuente provista sin realizar ningún tipo de cálculo o agregación."
+    },
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 1,
+      "digest": "ea050613a0462d64ea6e3f932b0dfecdb67ef7e95547e7b0ee93a7b8f117d306",
+      "source_report_sha256": "07f943fcbeb36c5b8c3f36ffa899677816b24a0b9f46127b849da45bb6112f1e",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Se proporciona correctamente el resumen ejecutivo del informe de la segunda ejecución de acuerdo con la fuente N14 correspondiente."
+    },
+    {
+      "case_id": "arithmetic_division",
+      "part_index": 0,
+      "digest": "789b5dca1a6bdad5abbde3de08929057d3ffe246d21b2bcd54c8599f08076d3d",
+      "source_report_sha256": "07f943fcbeb36c5b8c3f36ffa899677816b24a0b9f46127b849da45bb6112f1e",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "El asistente rechaza de forma adecuada realizar la división matemática solicitada, respetando la regla de no realizar cálculos."
+    }
+  ],
+  "batch_errors": []
+}

@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T03:42:11.125105+00:00",
+  "summary": {
+    "parts": 12,
+    "pass": 1,
+    "fail": 2,
+    "not_reviewed": 9,
+    "answerable": 7,
+    "covered": 0,
+    "generation_calls": 7,
+    "independent_model_judgments": 3,
+    "independent_model_pass": 1,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 4,
+  "batch_errors": [
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "case_ids": [
+        "report",
+        "outside"
+      ]
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "case_ids": [
+        "question_injection",
+        "catalog"
+      ]
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "case_ids": [
+        "concept_and_outside",
+        "two_named_results"
+      ]
+    }
+  ],
+  "mechanical_failures": [
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "report",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "report",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "outside",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "mixed",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "mixed",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "mixed",
+      "part": 1,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "mixed",
+      "part": 2,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "mixed",
+      "part": 2,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "question_injection",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "question_injection",
+      "part": 1,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "catalog",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "catalog",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "concept_and_outside",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "concept_and_outside",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "concept_and_outside",
+      "part": 1,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "two_named_results",
+      "part": 0,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "two_named_results",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "two_named_results",
+      "part": 1,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0"
+    },
+    {
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "case": "two_named_results",
+      "part": 1,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['invalid_model_draft']"
+    }
+  ],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [
+    {
+      "case": "mixed",
+      "part": 0,
+      "reason": "el juez aprobó un respaldo genérico como respuesta"
+    }
+  ],
+  "attempts": [],
+  "cases": [
+    {
+      "id": "report",
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Este es el informe N14 enlazado a esa misma ejecución S3."
+        }
+      ]
+    },
+    {
+      "id": "outside",
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        }
+      ]
+    },
+    {
+      "id": "mixed",
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "fail",
+          "reason": "Respaldo genérico para una pregunta respondible; Responde adecuadamente de manera conceptual sin realizar cálculos ni estimaciones.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Esta es la definición del catálogo de MEPIA. La fórmula es solo explicativa."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Rechaza de manera correcta la solicitud de realizar un cálculo según las restricciones de la directiva.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "No puedo calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat."
+        },
+        {
+          "index": 2,
+          "status": "fail",
+          "reason": "Anunciar la existencia del informe sin comunicar su contenido real no satisface la pregunta y se considera una respuesta incompleta o falsa según las directrices.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Este es el informe N14 enlazado a esa misma ejecución S3."
+        }
+      ]
+    },
+    {
+      "id": "question_injection",
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        },
+        {
+          "index": 1,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "No puedo calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat."
+        }
+      ]
+    },
+    {
+      "id": "catalog",
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Estas son las métricas que el motor de MEPIA puede explicar."
+        }
+      ]
+    },
+    {
+      "id": "concept_and_outside",
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Esta es la definición del catálogo de MEPIA. La fórmula es solo explicativa."
+        },
+        {
+          "index": 1,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        }
+      ]
+    },
+    {
+      "id": "two_named_results",
+      "report": "chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Este es el resultado que S3 emitió para la ejecución indicada."
+        },
+        {
+          "index": 1,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Este es el resultado que S3 emitió para la ejecución indicada."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

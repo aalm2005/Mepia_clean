@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "record_type": "partial_human_assessment",
+  "recorded_at_utc": "2026-10-07T04:31:24+00:00",
+  "reviewer": "human:user",
+  "source_report": {
+    "name": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+    "sha256": "d4f91743f08369cc3d14df461449f0cc6c1b1a5f790ef4d7ca1435c65bb0ce92"
+  },
+  "case_id": "result",
+  "part_index": 0,
+  "digest": "9294ff993aed2620f68721bdaa9c6fc7e58cd4ef3283cecbaabcca6318d8c941",
+  "question": "¿Cuál fue el ticket promedio?",
+  "source": {"metric": "avg_ticket", "value": 125, "unit": "MXN", "status": "ok"},
+  "answer": "El resultado emitido para el ticket promedio muestra un estado ok y un valor de 125 MXN.",
+  "decisions": {
+    "supported": true,
+    "addresses_question": true,
+    "correct_scope": null,
+    "no_calculation": true
+  },
+  "user_comments": {
+    "supported": "Si conserva los datos de la fuente",
+    "addresses_question": "Si comunica cuál fue el ticket promedio",
+    "correct_scope": "No estoy seguro de si se limita ya que menciona algo de que el estado es ok y no estoy seguro de a qué se refiere con eso ni por qué es relevante",
+    "no_calculation": "Me parece que cumple ya que solo toma en cuenta el cálculo consultado y no calcula nada por su cuenta"
+  },
+  "observations": [
+    {
+      "category": "clarity",
+      "text": "El usuario no entiende qué significa el estado ok ni su relevancia en esta respuesta."
+    }
+  ],
+  "review_status": "not_reviewed",
+  "reason": "Evaluación humana parcial: tres criterios favorables y alcance pendiente; no se sustituye la duda por un Sí o un No.",
+  "new_generation_calls": 0,
+  "new_judge_calls": 0,
+  "step4_validated": false
+}

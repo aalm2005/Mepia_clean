@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T22:55:02.246091+00:00",
+  "summary": {
+    "parts": 1,
+    "pass": 1,
+    "fail": 0,
+    "not_reviewed": 0,
+    "answerable": 1,
+    "covered": 1,
+    "generation_calls": 2,
+    "independent_model_judgments": 1,
+    "independent_model_pass": 1,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 5,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_only_20261007_040537_6e861e85_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_only_20261007_135713_f778deae_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_only_20261007_141127_89067edf_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": null,
+          "provider_message_present": false,
+          "diagnostic_hints": [],
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [],
+      "diagnostic_control": {
+        "calls": 1,
+        "status": "response_received",
+        "error": null
+      },
+      "total_api_calls": 2
+    }
+  ],
+  "total_api_calls": 6,
+  "cases": [
+    {
+      "id": "result",
+      "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta responde de manera directa, objetiva y precisa a la pregunta sobre el ticket promedio utilizando la información de las fuentes sin realizar cálculos ni salirse del alcance.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resultado emitido para el ticket promedio muestra un estado ok y un valor de 125 MXN."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

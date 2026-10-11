@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-08T23:20:20.984232+00:00",
+  "summary": {
+    "parts": 7,
+    "pass": 7,
+    "fail": 0,
+    "not_reviewed": 0,
+    "answerable": 1,
+    "covered": 1,
+    "generation_calls": 12,
+    "independent_model_judgments": 7,
+    "independent_model_pass": 7,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 2,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [],
+  "cases": [
+    {
+      "id": "two_runs_report",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "El informe entregado corresponde correctamente al de la segunda ejecución basándose en la evidencia adecuada sin realizar cálculos.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resumen ejecutivo del informe corresponde a la segunda ejecución."
+        }
+      ]
+    },
+    {
+      "id": "no_report_latest",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Declara correctamente la falta de datos para la ejecución reciente sin recurrir a la información antigua.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "No hay evidencia verificable para esa parte de la pregunta."
+        }
+      ]
+    },
+    {
+      "id": "missing_metric",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Informa adecuadamente que la métrica de costo de merma no se encuentra disponible sin intentar calcularla o derivarla.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El resultado solicitado no se encuentra disponible porque el motor no emitió ese resultado o el catálogo no contiene ese concepto."
+        }
+      ]
+    },
+    {
+      "id": "no_data",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Declara de manera correcta la ausencia de datos al no disponer de un archivo S3 para la fecha solicitada.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "No hay evidencia verificable para esa parte de la pregunta."
+        }
+      ]
+    },
+    {
+      "id": "wrong_business",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "El sistema rechaza la solicitud de manera correcta debido a que el negocio es incorrecto o inválido, cumpliendo con la expectativa de control de negocio.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El negocio solicitado no coincide con el paquete de evidencia."
+        }
+      ]
+    },
+    {
+      "id": "outside",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La pregunta sobre la tasa interna de retorno es correctamente declarada como fuera de dominio, sin inventar explicaciones ni fórmulas financieras.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        }
+      ]
+    },
+    {
+      "id": "explicit_calculation",
+      "report": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Rechaza explícitamente realizar operaciones de cálculo, cumpliendo con la directiva de no_calculation y las expectativas semánticas.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "No es posible realizar operaciones de cálculo, recálculo, agregación, comparación, proyección ni simulación desde el chat."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

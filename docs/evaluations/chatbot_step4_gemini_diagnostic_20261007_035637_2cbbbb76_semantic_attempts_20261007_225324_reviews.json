@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-07T22:55:02.245091+00:00",
+  "reviewer_model": "multiple",
+  "judge_calls": 5,
+  "total_api_calls": 6,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+      "sha256": "d4f91743f08369cc3d14df461449f0cc6c1b1a5f790ef4d7ca1435c65bb0ce92"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "result",
+      "part_index": 0,
+      "digest": "9294ff993aed2620f68721bdaa9c6fc7e58cd4ef3283cecbaabcca6318d8c941",
+      "source_report_sha256": "d4f91743f08369cc3d14df461449f0cc6c1b1a5f790ef4d7ca1435c65bb0ce92",
+      "reviewer": "independent-model:gemini-3.5-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta responde de manera directa, objetiva y precisa a la pregunta sobre el ticket promedio utilizando la información de las fuentes sin realizar cálculos ni salirse del alcance."
+    }
+  ],
+  "batch_errors": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_only_20261007_040537_6e861e85_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_only_20261007_135713_f778deae_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_only_20261007_141127_89067edf_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": null,
+          "provider_message_present": false,
+          "diagnostic_hints": [],
+          "case_ids": [
+            "result"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [],
+      "diagnostic_control": {
+        "calls": 1,
+        "status": "response_received",
+        "error": null
+      },
+      "total_api_calls": 2
+    }
+  ]
+}

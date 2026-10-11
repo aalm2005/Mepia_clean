@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "kind": "mechanical_aggregate",
+  "generated_at_utc": "2026-10-09T00:07:21.407814+00:00",
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "sha256": "11061620a3cc02609e3ea399e98c982f0f4f32134de0a5f631150df642650264"
+    },
+    {
+      "name": "chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2"
+    },
+    {
+      "name": "chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "sha256": "4228d1aa021c3662b5e47b2f3e63eef78371f6ede6fc75055ef82860bf2e0757"
+    },
+    {
+      "name": "chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.json",
+      "sha256": "086c77a137fae1c2ad91dd9cc7ffe1d80b5206af507780a16f2e9fc9e85a9b18"
+    }
+  ],
+  "summary": {
+    "cases": 28,
+    "parts": 36,
+    "answerable": 22,
+    "covered": 21,
+    "generation_calls": 54,
+    "checks_passed": 544,
+    "checks_total": 547
+  },
+  "checks": {
+    "classification": {
+      "passed": 36,
+      "total": 36
+    },
+    "status": {
+      "passed": 36,
+      "total": 36
+    },
+    "answerable_coverage": {
+      "passed": 35,
+      "total": 36
+    },
+    "no_calculation": {
+      "passed": 36,
+      "total": 36
+    },
+    "missing_or_outside": {
+      "passed": 36,
+      "total": 36
+    },
+    "source_lineage": {
+      "passed": 36,
+      "total": 36
+    },
+    "evidence_metadata": {
+      "passed": 36,
+      "total": 36
+    },
+    "date": {
+      "passed": 36,
+      "total": 36
+    },
+    "isolation": {
+      "passed": 36,
+      "total": 36
+    },
+    "provider_generation": {
+      "passed": 33,
+      "total": 35
+    },
+    "part_count": {
+      "passed": 28,
+      "total": 28
+    },
+    "answer_business": {
+      "passed": 28,
+      "total": 28
+    },
+    "answer_date": {
+      "passed": 28,
+      "total": 28
+    },
+    "calculation_disabled": {
+      "passed": 28,
+      "total": 28
+    },
+    "claim_evidence": {
+      "passed": 16,
+      "total": 16
+    },
+    "source_value_unit": {
+      "passed": 11,
+      "total": 11
+    },
+    "claimed_value_source": {
+      "passed": 11,
+      "total": 11
+    },
+    "claimed_value_literal": {
+      "passed": 11,
+      "total": 11
+    },
+    "claimed_unit": {
+      "passed": 11,
+      "total": 11
+    },
+    "report_content": {
+      "passed": 3,
+      "total": 3
+    },
+    "prompt_injection": {
+      "passed": 5,
+      "total": 5
+    },
+    "business_mismatch": {
+      "passed": 1,
+      "total": 1
+    },
+    "preflight_no_provider": {
+      "passed": 1,
+      "total": 1
+    },
+    "listed_value_unit": {
+      "passed": 2,
+      "total": 2
+    },
+    "listed_claim_coverage": {
+      "passed": 2,
+      "total": 2
+    },
+    "source_metric_status": {
+      "passed": 2,
+      "total": 2
+    }
+  },
+  "failures": [
+    {
+      "case": "same_day_result_and_report",
+      "part": 1,
+      "check": "answerable_coverage",
+      "detail": "generación=fallback; claims=0",
+      "report": "chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.json"
+    },
+    {
+      "case": "same_day_result_and_report",
+      "part": 1,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']",
+      "report": "chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.json"
+    },
+    {
+      "case": "arithmetic_division",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']",
+      "report": "chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.json"
+    }
+  ],
+  "acceptance": {
+    "structural": false,
+    "coverage": false,
+    "step4_validated": false
+  },
+  "new_api_calls": 0,
+  "independent_semantic_summary": "chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined.json"
+}

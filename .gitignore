@@ -15,3 +15,10 @@ api/.env
 __pycache__/
 *.pyc
 .venv/
+
+# Archivos locales de pruebas y configuracion
+.test_tmp/
+.pytest_cache/
+.hypothesis/
+.env.*
+!.env.example

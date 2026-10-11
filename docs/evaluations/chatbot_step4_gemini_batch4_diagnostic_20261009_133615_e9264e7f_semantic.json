@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-09T13:36:37.350669+00:00",
+  "summary": {
+    "parts": 3,
+    "pass": 3,
+    "fail": 0,
+    "not_reviewed": 0,
+    "answerable": 2,
+    "covered": 2,
+    "generation_calls": 4,
+    "independent_model_judgments": 3,
+    "independent_model_pass": 3,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 1,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [],
+  "cases": [
+    {
+      "id": "same_day_result_and_report",
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "El ticket promedio se reporta correctamente basándose en los datos de la fuente provista sin realizar ningún tipo de cálculo o agregación.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "El ticket promedio fue de 125 MXN."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Se proporciona correctamente el resumen ejecutivo del informe de la segunda ejecución de acuerdo con la fuente N14 correspondiente.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "Informe de la segunda ejecución."
+        }
+      ]
+    },
+    {
+      "id": "arithmetic_division",
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "El asistente rechaza de forma adecuada realizar la división matemática solicitada, respetando la regla de no realizar cálculos.",
+          "reviewer": "independent-model:gemini-3.5-flash",
+          "message": "No se pueden realizar cálculos, recálculos, agregaciones, comparaciones de cifras, proyecciones ni simulaciones a través del chat."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

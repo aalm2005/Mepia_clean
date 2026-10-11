@@ -1,0 +1,7 @@
+# Mantener las huellas del codigo y fixture al clonar en Windows.
+*.py text eol=lf
+tests/fixtures/*.json text eol=lf
+scripts/*.ps1 text eol=lf
+
+# Evidencia historica: conservar todos los bytes, incluido el formato original.
+docs/evaluations/** -text -whitespace
