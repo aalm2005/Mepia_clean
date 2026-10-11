@@ -1202,4 +1202,9 @@ omitida y 119 subpruebas aprobadas en 92.27 s; sintaxis y cinco planes del
 ejecutor correctos, cero API nuevas. El conjunto del Paso 4 conserva 22/22,
 548/548 y 36/36; las tres repeticiones adicionales de consistencia siguen
 pendientes antes del Paso 5. Publicacion y produccion son acciones separadas.
-El resultado del push y el commit real se registraran en la bitacora.
+Publicacion posterior verificada en la bitacora: commit
+`a57686ffe853c52a51fe8c1cd4d0d4321d516f31` en `aalm2005/Mepia_clean`, rama
+`codex/chatbot-q4`; push codigo 0 y SHA remoto coincidente. Los 182 informes
+quedaron intactos en Git. `INC-20260915-003` resuelta para este intento;
+21 incidencias resueltas, cero abiertas o pendientes externas. `master` conserva
+`de37755`; produccion y el seguimiento pendiente no cambian.

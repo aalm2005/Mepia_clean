@@ -22,6 +22,11 @@ descubre nueva evidencia, actualizar la incidencia existente en vez de duplicarl
 
 Estados permitidos: `abierta`, `mitigada`, `resuelta` y `pendiente externo`.
 
+**Estado vigente al 10-oct-2026:** 21 incidencias, 21 resueltas, cero abiertas
+y cero pendientes externas. `INC-20260915-003` se resolvio para la publicacion
+actual de `a57686f` en GitHub. El seguimiento adicional de consistencia sigue
+pendiente; no hay una nueva incidencia de ese seguimiento sin ejecutar.
+
 **Resumen histórico al 30-sep-2026:** 16 incidencias registradas: 13 resueltas
 (algunas solo en desarrollo), 1 pendiente externa y 2 abiertas. La publicación
 rechazada por permisos sigue como `INC-20260915-003` (sin nuevo intento de
@@ -462,15 +467,15 @@ de 21 incidencias: 20 resueltas, una pendiente externa.
 - **Impacto:** La rama no pudo publicarse en `aalm2005/Mepia_clean`.
 - **Causa:** Confirmada: la cuenta utilizada no tiene permiso de escritura sobre
   ese repositorio. El identificador se omite por sanitización.
-- **Solución o alternativa:** Pendiente: obtener permiso de escritura o publicar
-  mediante un fork.
-- **Evidencia de resolución:** No existe evidencia de resolución; el bloqueo de
-  publicación continúa.
-- **Estado:** pendiente externo.
+- **Solución o alternativa:** La publicacion de la version actual se completo
+  el 10-oct-2026 en el repositorio original, con autorizacion explicita del usuario.
+- **Evidencia de resolución:** Push real de `codex/chatbot-q4` y consulta remota
+  posterior: SHA `a57686ffe853c52a51fe8c1cd4d0d4321d516f31` en GitHub.
+- **Estado:** resuelta para la publicacion actual; no garantiza permisos futuros.
 - **Acción preventiva:** Verificar permisos de escritura del remoto antes de
   iniciar una publicación y acordar previamente si se utilizará un fork.
-- **Archivos o commits relacionados:** commit `abd165b`; no hay archivos locales
-  que resuelvan el permiso externo.
+- **Archivos o commits relacionados:** commit historico `abd165b`; version actual
+  publicada `a57686f`, rama `codex/chatbot-q4`. El codigo local no cambia permisos externos.
 
 ### Nuevo intento autorizado — 10-oct-2026
 
@@ -482,6 +487,22 @@ El primer `push --dry-run` no alcanzo el servidor: fallo de conexion al puerto
 Este error no confirma que persista el 403 historico. Se conserva el estado
 pendiente externo hasta verificar una publicacion real; sigue un intento
 acotado de conexion/publicacion. No se expusieron credenciales.
+
+### Publicacion verificada — 10-oct-2026
+
+La segunda comprobacion `push --dry-run` funciono. La revision automatica
+bloqueo inicialmente el push real por faltar autorizacion del destino concreto;
+el usuario confirmo explicitamente `aalm2005/Mepia_clean`, rama
+`codex/chatbot-q4`. El push real posterior termino con codigo 0 y creo esa rama.
+`git ls-remote` confirmo `a57686ffe853c52a51fe8c1cd4d0d4321d516f31`;
+`master` sigue en `de377554fe6926714ecb6b9ffd9ea2b608bd1baa`.
+
+El commit contiene 210 archivos modificados, incluidos 182 informes/planes.
+Se verificaron sus bytes contra el contenido Git, sin diferencias, y se
+comprobaron exclusiones y credenciales ficticias de pruebas. INC-003 resuelta
+para este intento; conteo actual: **21 incidencias, 21 resueltas, cero pendientes
+externas y cero abiertas**. 013/016 conservan su resolucion para el conjunto
+offline; las tres repeticiones adicionales siguen pendientes. Produccion sin cambios.
 
 ## INC-20260915-004 — Error de sintaxis al cargar la migración 008 en Supabase
 

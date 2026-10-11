@@ -278,6 +278,32 @@ juicios independientes favorables. Las tres repeticiones de consistencia siguen
 pendientes antes del Paso 5; la publicacion no las sustituye. Siguiente accion:
 crear el commit, publicar y verificar el SHA remoto; registrar el resultado real.
 
+## Publicacion verificada en GitHub — 10-oct-2026
+
+Codigo y evidencia publicados en `aalm2005/Mepia_clean`, rama
+`codex/chatbot-q4`, commit **`a57686ffe853c52a51fe8c1cd4d0d4321d516f31`**
+(`feat: complete grounded chatbot and offline evaluation`). Push codigo 0;
+consulta remota posterior con el mismo SHA. La rama principal `master` conserva
+`de377554fe6926714ecb6b9ffd9ea2b608bd1baa`; no hubo despliegue.
+
+El commit incluye 210 archivos, con 182 informes/planes byte por byte y ningun
+archivo temporal o secreto real detectado. Los diez SHA del plan original y
+los cuatro informes aceptados coinciden con su evidencia previa. Se conservan
+los fallos historicos; no se hicieron nuevas llamadas Gemini ni del juez.
+
+La revision automatica exigio confirmar el destino y el usuario lo autorizo
+explicitamente antes del push. `INC-20260915-003` resuelta para esta publicacion;
+conteo vigente: 21 incidencias, 21 resueltas, cero pendientes externas y cero
+abiertas. Pruebas de publicacion: 230 aprobadas, una integracion opt-in omitida
+y 119 subpruebas en 92.27 s; sintaxis y cinco planes correctos. No se repite
+la suite por este registro documental.
+
+Estos registros de publicacion actualizan `docs/chatbot_corrections.md`,
+`docs/chatbot_incidents.md`, `docs/mepia_v4_metricas_diseno.md` y
+`docs/chatbot_step4_eval.md`; se guardan en un commit documental posterior
+(sin commit de este registro al redactarlo). Siguiente trabajo de desarrollo:
+las tres nuevas repeticiones de consistencia, pendientes antes del Paso 5.
+
 ## A. Correcciones de defectos del Paso 1
 
 ### Corrección 1 — terminada en desarrollo y pruebas
@@ -1970,6 +1996,7 @@ original; seguimiento adicional pendiente antes de continuar con Paso 5.
 
 | Fecha | Trabajo | Rama | Commit | Archivos | Pruebas y resultado |
 |---|---|---|---|---|---|
+| 10-oct-2026 | Publicacion de version actual en GitHub | `codex/chatbot-q4` | `a57686f`; registro documental posterior | 210 archivos del paquete, 182 informes/planes y cuatro documentos de cierre | 230 aprobadas, una integracion opt-in omitida y 119 subpruebas en 92.27 s; sintaxis y cinco planes correctos, cero API nuevas. Push y SHA remoto verificados; informes intactos, archivos locales/secretos excluidos. INC-003 resuelta para este intento; tres repeticiones de consistencia siguen pendientes |
 | 14-sep-2026 | Corrección 1 | `codex/chat-grounding-step1` | `ca96ba9` | 15 archivos; detalle en la sección A | 8/8 locales; validación doble de migración en `MEPIA - PRUEBAS` correcta |
 | 14-sep-2026 | Corrección 2 | `codex/chat-grounding-step2` | `abd165b` | `agents/chat_grounding.py`, `tests/test_chat_grounding.py`, `docs/mepia_v4_metricas_diseno.md` | 9/9 relacionadas; regresión e integración en `MEPIA - PRUEBAS` correctas |
 | 15-sep-2026 | Continuidad documental | `codex/chat-grounding-step2` | `10562ea` (commit posterior verificado); base `abd165b` | `AGENTS.md`, `docs/chatbot_corrections.md`, `docs/mepia_v4_metricas_diseno.md`, `.kiro/specs/mepia/n15_chat_consulta.md` | No se ejecutaron pruebas unitarias porque no cambió código; `git diff --check` sin errores |

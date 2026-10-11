@@ -19,6 +19,13 @@ limites, y `.gitignore` excluye archivos temporales, caches y variables locales.
 Python, fixtures y el ejecutor portable; no se reescriben informes historicos.
 Esta publicacion es del codigo de desarrollo; no activa el Paso 5 ni produccion.
 
+Publicacion real verificada: commit `a57686ffe853c52a51fe8c1cd4d0d4321d516f31`,
+GitHub `aalm2005/Mepia_clean`, rama `codex/chatbot-q4`; push codigo 0 y SHA
+remoto coincidente. Los 182 informes/planes coinciden byte por byte con sus
+originales. INC-003 resuelta para este intento; 21 incidencias resueltas,
+cero abiertas o pendientes externas. Las tres repeticiones adicionales
+permanecen pendientes, sin nuevas llamadas del proveedor.
+
 ## Objetivo y alcance
 
 El conjunto de `tests/fixtures/chat_offline_cases.json` contiene filas sintéticas
