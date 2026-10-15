@@ -1,5 +1,14 @@
 # N15 — Chat de consulta fundamentada
 
+**Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
+inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
+`49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
+coincidente. INC-042/043 resueltas localmente y publicadas; INC-041 sigue pendiente
+externa. [Evidencia de publicación](../../../docs/evaluations/github_access_greetings_verified_20261015.json).
+Este registro se guarda en un commit documental posterior. Las menciones previas
+«sin commit/push» describen su validación original. Producción sin cambios.
+
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](../../../docs/estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.

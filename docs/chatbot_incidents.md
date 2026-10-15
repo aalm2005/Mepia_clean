@@ -1,6 +1,19 @@
 # Bitácora oficial de incidencias del chatbot de MEPIA
 
+**Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
+inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
+`49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
+coincidente. INC-042/043 resueltas localmente y publicadas; INC-041 sigue pendiente
+externa. [Evidencia de publicación](evaluations/github_access_greetings_verified_20261015.json).
+Este registro se guarda en un commit documental posterior. Las menciones previas
+«sin commit/push» describen su validación original. Producción sin cambios.
+
+
 ## INC-20261015-043 — Un saludo se rechaza como fuera del dominio
+
+- **Commit publicado:** `49a5d05184a6e3f50c4353cafd84092df1e9b285`, rama `codex/chatbot-q4`;
+  push verificado el 15-oct-2026. El HEAD y «sin commit» de la validación
+  original que figuran debajo se conservan como evidencia histórica.
 
 - **Estado:** resuelta localmente; 112 pruebas y 41 subpruebas aprobadas,
   dos advertencias, 9.07 s, código 0; Edge 25/25, cero errores, código 0;
@@ -65,6 +78,10 @@ Ver [ejecutor, resultados y revisión](chatbot_step5_automation.md).
 
 
 ## INC-20261015-042 — Inicio redirige al Dashboard después de ver la bienvenida
+
+- **Commit publicado:** `49a5d05184a6e3f50c4353cafd84092df1e9b285`, rama `codex/chatbot-q4`;
+  push verificado el 15-oct-2026. El HEAD y «sin commit» de la validación
+  original que figuran debajo se conservan como evidencia histórica.
 
 - **Estado:** resuelta localmente; Edge 24/24 y cero errores, helper 3/3,
   build/tipos código 0. El usuario eligió sesión por pestaña con recarga conservada

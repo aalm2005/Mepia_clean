@@ -1,5 +1,14 @@
 # MEPIA v4 — Documento Maestro de Diseño
 
+**Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
+inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
+`49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
+coincidente. INC-042/043 resueltas localmente y publicadas; INC-041 sigue pendiente
+externa. [Evidencia de publicación](evaluations/github_access_greetings_verified_20261015.json).
+Este registro se guarda en un commit documental posterior. Las menciones previas
+«sin commit/push» describen su validación original. Producción sin cambios.
+
+
 **Saludos del chat — 15-oct-2026, validado localmente:** se separa la
 bienvenida social de las consultas factuales (`kind=greeting`); no publica datos
 ni fuentes y no consume generación. Consultas mixtas, cálculo prohibido y acceso

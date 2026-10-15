@@ -1,5 +1,14 @@
 # Paso 5 — Integración local del chatbot
 
+**Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
+inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
+`49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
+coincidente. INC-042/043 resueltas localmente y publicadas; INC-041 sigue pendiente
+externa. [Evidencia de publicación](evaluations/github_access_greetings_verified_20261015.json).
+Este registro se guarda en un commit documental posterior. Las menciones previas
+«sin commit/push» describen su validación original. Producción sin cambios.
+
+
 **Saludos — 15-oct-2026:** `kind=greeting` separa la bienvenida social de las
 respuestas factuales, sin modelo ni fuentes para el saludo. Seguridad e historial
 protegido conservados; consultas mixtas mantienen guardas. INC-043 resuelta
