@@ -20,10 +20,18 @@ from agents.chat_response import (
 )
 
 
-PartKind = Literal["concept", "result", "report", "metrics", "catalog", "calculation", "outside"]
+PartKind = Literal["concept", "result", "report", "metrics", "catalog", "calculation", "outside", "greeting"]
 PartStatus = Literal["ok", "not_found", "missing_data", "not_allowed", "outside_domain", "invalid_request"]
 
+_GREETING_MESSAGE = "¡Hola! Puedo ayudarte a entender los resultados de tu negocio y explicar conceptos. ¿Qué te gustaría consultar?"
+_GREETINGS = frozenset({
+    "hola", "hola mepia", "buenas", "buen dia", "buenos dias", "buenas tardes",
+    "buenas noches", "hola buen dia", "hola buenos dias", "hola buenas tardes",
+    "hola buenas noches", "que tal", "hola que tal", "como estas", "hola como estas",
+})
+
 _FALLBACK_MESSAGES = frozenset({
+    _GREETING_MESSAGE,
     "El negocio solicitado no coincide con el paquete de evidencia.",
     "Escribe una pregunta sobre las métricas de MEPIA.",
     "Esta es la definición del catálogo de MEPIA. La fórmula es solo explicativa.",
@@ -68,6 +76,14 @@ class ChatAnswerPart(BaseModel):
 
     @model_validator(mode="after")
     def validate_published_part(self) -> "ChatAnswerPart":
+        if self.kind == "greeting":
+            if (self.status != "ok" or self.message != _GREETING_MESSAGE
+                    or self.generation_status != "fallback" or self.data or self.evidence
+                    or self.missing_data or self.claims or self.generation_issues
+                    or self.generation_diagnostics):
+                raise ValueError("Un saludo solo puede publicar la respuesta social fija, sin datos ni fuentes")
+        elif self.message == _GREETING_MESSAGE:
+            raise ValueError("La respuesta social solo corresponde a un saludo")
         if self.generation_status == "fallback":
             if self.message not in _FALLBACK_MESSAGES or self.claims:
                 raise ValueError("El respaldo determinista no puede introducir texto generado")
@@ -215,6 +231,10 @@ class ChatConversationNode:
                 parts.append(self._from_tool(fragment, "calculation", tools.refuse_calculation()))
                 previous_concept_selector = None
                 continue
+            if _normalize(fragment) in _GREETINGS:
+                parts.append(ChatAnswerPart(question_part=fragment, kind="greeting",
+                    status="ok", message=_GREETING_MESSAGE))
+                continue
             candidates = _candidate_selectors(fragment)
             kind = _intent_from_words(fragment, bool(candidates))
             # Una conjunción puede omitir el verbo: "qué es X y Y".
@@ -254,10 +274,15 @@ class ChatConversationNode:
             parts.append(ChatAnswerPart(question_part="", kind="outside", status="invalid_request",
                 message="Escribe una pregunta sobre las métricas de MEPIA."))
         answer = ChatAnswer(business_id=business_id, resolved_date=packet.resolved_date, parts=parts)
-        request = build_writing_request([part.model_dump(mode="json") for part in answer.parts])
+        # Los saludos son interacción social fija, nunca afirmaciones del negocio.
+        # Se excluyen del redactor y revisor sin cambiar sus contratos factuales.
+        domain_indexes = [index for index, part in enumerate(answer.parts) if part.kind != "greeting"]
+        if not domain_indexes:
+            return answer
+        request = build_writing_request([answer.parts[index].model_dump(mode="json") for index in domain_indexes])
         request.history = list(history or [])[-4:]
         narrations = ChatResponseGuard().narrate(request, self._writer, self._verifier)
-        for index, narration in enumerate(narrations):
+        for index, narration in zip(domain_indexes, narrations):
             data = answer.parts[index].model_dump()
             data["generation_issues"] = narration.issues
             data["generation_diagnostics"] = narration.diagnostics

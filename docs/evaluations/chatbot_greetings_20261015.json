@@ -1,0 +1,264 @@
+{
+  "date": "2026-10-15",
+  "branch": "codex/chatbot-q4",
+  "base_head": "6d7cabc1c1cdb8889649900bec496e5156a2368a",
+  "commit": null,
+  "push": false,
+  "scope": "local_step5_greetings",
+  "incident": {
+    "id": "INC-20261015-043",
+    "status": "resolved_locally"
+  },
+  "incident_totals": {
+    "total": 43,
+    "resolved": 40,
+    "mitigated": 2,
+    "pending_external": 1,
+    "open": 0
+  },
+  "before": {
+    "kind": "outside",
+    "status": "outside_domain",
+    "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+  },
+  "behavior": {
+    "part_kind": "greeting",
+    "generation_status": "fallback",
+    "fixed_social_message_only": true,
+    "no_data_claims_or_sources": true,
+    "greeting_skips_intent_writer_verifier": true,
+    "mixed_queries_keep_original_domain_and_calculation_guards": true,
+    "social_only_turns_omitted_from_writing_context": true,
+    "greeting_has_no_fallback_notice_or_sources_panel": true,
+    "date_and_sources_labels_changed": false,
+    "onboarding_changes": false
+  },
+  "validation": {
+    "regression": {
+      "files": [
+        "tests/test_chat_conversation.py",
+        "tests/test_chat_response.py",
+        "tests/test_chat_api.py",
+        "tests/test_chat_app.py",
+        "tests/test_chat_auth_es256.py"
+      ],
+      "passed": 112,
+      "subtests_passed": 41,
+      "warnings": 2,
+      "seconds": 9.07,
+      "exit_code": 0,
+      "log_sha256": "36c346049f4541950d6cc89da8047bd037c9e7a62979617e05ae78b05dbceda1"
+    },
+    "edge": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "Proxy anónimo: 401, cero DB y modelo",
+          "passed": true
+        },
+        {
+          "name": "Entrada general: todas las páginas privadas requieren login",
+          "passed": true
+        },
+        {
+          "name": "Cookie inventada no permite entrar a MEPIA",
+          "passed": true
+        },
+        {
+          "name": "Una cookie antigua válida tampoco sustituye la sesión de la pestaña",
+          "passed": true
+        },
+        {
+          "name": "Una sesión manipulada en almacenamiento no permite mostrar MEPIA ni llamar la API",
+          "passed": true
+        },
+        {
+          "name": "Inicio de sesión y solo negocios propios",
+          "passed": true
+        },
+        {
+          "name": "API legada verifica Bearer y no confunde sesión válida con acceso anónimo",
+          "passed": true
+        },
+        {
+          "name": "Dashboard es el inicio único, sin bienvenida y conserva sesión al recargar",
+          "passed": true
+        },
+        {
+          "name": "Otra pestaña exige login y no cierra la sesión de la pestaña original",
+          "passed": true
+        },
+        {
+          "name": "Chat desde el menú común, sin un segundo login",
+          "passed": true
+        },
+        {
+          "name": "Salud y Reportes comparten sesión y menú de Chat IA",
+          "passed": true
+        },
+        {
+          "name": "Dashboard presenta métricas sintéticas sin alterar porcentaje y separa unidades",
+          "passed": true
+        },
+        {
+          "name": "Saludo natural sin llamadas de generación ni fuentes vacías",
+          "passed": true
+        },
+        {
+          "name": "Pregunta con cifra/unidad, fuentes y linaje",
+          "passed": true
+        },
+        {
+          "name": "Continuación conceptual e historial recuperable",
+          "passed": true
+        },
+        {
+          "name": "Cambio de negocio limpia historial visible",
+          "passed": true
+        },
+        {
+          "name": "Negocio ajeno: 403 sin evidencia ni modelo",
+          "passed": true
+        },
+        {
+          "name": "Rechazo de cálculo y eliminación del historial",
+          "passed": true
+        },
+        {
+          "name": "Cambio de usuario sin conversaciones ajenas",
+          "passed": true
+        },
+        {
+          "name": "C07: respuestas tardías descartadas por negocio, fecha y usuario",
+          "passed": true
+        },
+        {
+          "name": "C04 y S08: nueva conversación, aviso de respaldo y teclado",
+          "passed": true
+        },
+        {
+          "name": "S05: proxy rechaza cuerpo excesivo antes del proveedor",
+          "passed": true
+        },
+        {
+          "name": "Menú móvil, Salud, Reportes y chat utilizables sin desbordamiento",
+          "passed": true
+        },
+        {
+          "name": "Cerrar sesión devuelve al login y bloquea enlaces directos",
+          "passed": true
+        },
+        {
+          "name": "Cerrar y abrir de nuevo la pestaña exige credenciales",
+          "passed": true
+        }
+      ],
+      "extended_checks": [
+        "C07",
+        "C08",
+        "S10_busy",
+        "C04",
+        "S08_notice",
+        "P06_keyboard_partial",
+        "S05_proxy_size"
+      ],
+      "page_errors": [],
+      "external_api_calls": 0,
+      "exit_code": 0,
+      "attempts": 1,
+      "report_sha256": "61e56c23fd0ff2213955757e45406972deac9b55a7c162dbb5ce468a82a2bd88"
+    },
+    "workspace_helper": {
+      "passed": 3,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "6bd1c8076f6319aa16594afebb0e798ecac4b67c54354390424c21270ea300ea"
+    },
+    "typescript": {
+      "command": "tsc --noEmit --incremental false",
+      "exit_code": 0,
+      "output_empty": true,
+      "tool_chunk_id": "c7bf71",
+      "note": "Tee-Object did not create a log because the successful compiler emitted no output. Result copied from the actual completed tool call; compiler not rerun.",
+      "result_sha256": "a81e1223be3be8124fb988422f48335d826d4ad24ed0b6a913298572499f6419"
+    },
+    "production_build_repeated": false,
+    "preview": {
+      "chat_server_restarts": 1,
+      "port": 8016,
+      "openapi_http_status": 200,
+      "real_authenticated_question_tested": false,
+      "temporary_history_reset": true,
+      "greeting_kind_in_running_openapi_schema": true,
+      "schema_check_tool_chunk_id": "8068c1"
+    }
+  },
+  "audit": {
+    "tracked_historical_artifacts_unchanged": 428,
+    "prior_tracked_workspace_edits_outside_scope_unchanged": true,
+    "tsconfig_and_next_env_restored": true,
+    "documents_checked": 60,
+    "local_links_checked": 246,
+    "broken_links": [],
+    "new_spec_words": 275,
+    "evidence_capture_attempts": [
+      {
+        "attempt": 1,
+        "exit_code": 1,
+        "cause": "Successful empty compiler output produced no Tee-Object log; evidence helper expected a file."
+      },
+      {
+        "attempt": 2,
+        "correction": "Recorded actual compiler tool result c7bf71, exit 0, empty output; no compiler rerun."
+      }
+    ],
+    "earlier_42_incident_and_24_edge_counts_are_dated_historical_records": true,
+    "git_diff_check": {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "tool_chunk_id": "442d33"
+    },
+    "nondefault_crlf_diagnostic": {
+      "command": "git -c core.autocrlf=false diff --check",
+      "exit_code": 2,
+      "assessment": "Nondefault comparison treats existing Windows CRLF as trailing whitespace; discarded that override. Default repository check passed. No files or persistent Git configuration changed by the diagnostic."
+    },
+    "validated_source_hashes_unchanged_at_completion": true
+  },
+  "real_gemini_calls": 0,
+  "new_agent_supabase_queries": 0,
+  "production_changes": 0,
+  "new_accounts_or_sql_changes": 0,
+  "limitations": [
+    "Synthetic browser/database/auth/provider validation, not a new real-account approval.",
+    "Existing API node-factory/configuration, ownership and grounding prerequisites remain.",
+    "INC-20261014-041 remains pending_external; no real Gemini evaluation repeated.",
+    "Onboarding simplification and clearer date/source labels remain proposals."
+  ],
+  "modified_this_task": [
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/n15_chat_consulta_saludos.md",
+    "agents/chat_conversation.py",
+    "api/core/chat_history.py",
+    "components/chat/ChatPanel.tsx",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_greetings.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/estado_actual_mepia.md",
+    "docs/evaluations/chatbot_greetings_20261015.json",
+    "docs/mepia_v4_metricas_diseno.md",
+    "tests/chat_step5_e2e.cjs",
+    "tests/test_chat_api.py",
+    "tests/test_chat_conversation.py"
+  ],
+  "validated_source_sha256": {
+    "agents/chat_conversation.py": "33fac8474dda66f77dbb8d52144b6317721a08120981f70a8dc6b0e07baa56da",
+    "api/core/chat_history.py": "ec13b0042facd0b1a268544d9bf196e2239fb101c736aef6d7f7850f5f252bc9",
+    "components/chat/ChatPanel.tsx": "d85260d0d81c9722cec75a3b8c104f122f4ca572111932f1b2e34a9be127811b",
+    "tests/chat_step5_e2e.cjs": "4f609246c24ff1c1aed92e8d503bb89cf0bf35a49e7a6526fc2053180572b50b",
+    "tests/test_chat_api.py": "0cbbda447916ca7fd9c098337298d9cd9f5bae6061e58b3a6e5e709eed8fcb31",
+    "tests/test_chat_conversation.py": "14c366687df467e9d33deed4c625c265156388e3db943eb047d16934ae9a6ad9"
+  }
+}

@@ -21,14 +21,37 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let alive = true;
+    let revision = 0;
+    let verificationTimer: ReturnType<typeof setTimeout> | undefined;
     try {
       const { data } = getSupabaseBrowser().auth.onAuthStateChange((_event, next) => {
         if (!alive) return;
-        if (activeUser.current !== next?.user.id) { setBusinesses([]); setBusiness(""); setError(""); }
+        const current = ++revision;
+        if (verificationTimer !== undefined) clearTimeout(verificationTimer);
+        if (activeUser.current !== next?.user.id) {
+          setSession(null); setBusinesses([]); setBusiness(""); setError(""); setReady(false);
+        }
         activeUser.current = next?.user.id;
-        setSession(next); setReady(true);
+        if (!next) { setSession(null); setReady(true); return; }
+        // Ejecutar fuera de la notificación del SDK, una vez liberado su bloqueo.
+        verificationTimer = setTimeout(() => {
+        verificationTimer = undefined;
+        if (!alive || current !== revision) return;
+        void getSupabaseBrowser().auth.getUser(next.access_token).then(({ data: { user }, error: failure }) => {
+          if (!alive || current !== revision) return;
+          if (failure || !user || user.is_anonymous || user.aud !== "authenticated" || user.id !== next.user.id) {
+            activeUser.current = undefined; setSession(null); setBusinesses([]); setBusiness("");
+            setError("No fue posible comprobar tu sesión. Inicia sesión de nuevo.");
+          } else { setSession({ ...next, user }); }
+          setReady(true);
+        }).catch(() => {
+          if (!alive || current !== revision) return;
+          activeUser.current = undefined; setSession(null); setBusinesses([]); setBusiness("");
+          setError("Inicio de sesión no disponible. Intenta más tarde."); setReady(true);
+        });
+        }, 0);
       });
-      return () => { alive = false; data.subscription.unsubscribe(); };
+      return () => { alive = false; if (verificationTimer !== undefined) clearTimeout(verificationTimer); data.subscription.unsubscribe(); };
     } catch { setError("Inicio de sesión no disponible. Intenta más tarde."); setReady(true); }
     return () => { alive = false; };
   }, []);

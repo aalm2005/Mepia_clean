@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { authenticatedFetch } from "@/utils/authenticated-fetch";
 
 interface ReviewAlertProps {
   documentType: "pos" | "factura";
@@ -63,7 +64,7 @@ export default function ReviewAlert({
 
     try {
       const reviewPayload = buildReviewPayload();
-      const res = await fetch("/api/upload", {
+      const res = await authenticatedFetch("/api/upload", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

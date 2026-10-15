@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
+import { authenticatedFetch } from "@/utils/authenticated-fetch";
 import type { Archetype } from "../AuditTable";
 import ArchetypeSelector from "./ArchetypeSelector";
 import DocumentDropzone from "./DocumentDropzone";
@@ -40,7 +41,7 @@ async function uploadSingleFile(
   formData.append("type", type);
   formData.append("business_id", business);
 
-  const res = await fetch("/api/upload", { method: "POST", body: formData });
+  const res = await authenticatedFetch("/api/upload", { method: "POST", body: formData });
   const data = await res.json().catch(() => null);
   return { ok: res.ok, status: res.status, data };
 }
@@ -210,7 +211,7 @@ export default function UploadForm() {
     setIsAnalyzing(true);
 
     try {
-      const res = await fetch("/api/audit", {
+      const res = await authenticatedFetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

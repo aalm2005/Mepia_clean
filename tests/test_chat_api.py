@@ -166,6 +166,49 @@ def test_end_to_end_sources_quantities_lineage_and_two_calls(setup):
     assert not any(secret in res.text for secret in [SECRET, "synthetic-chat-key", "synthetic-model"])
 
 
+def test_greeting_is_saved_without_gemini_and_still_requires_access(setup):
+    client, db, sdk, _, factory = setup
+    assert client.post(f"/business/{BIZ_A}/chat", json={"question": "Hola"}).status_code == 401
+    assert send(client, question="Hola", bid=BIZ_B).status_code == 403
+    assert sdk.calls == factory == []
+    db.rows = []
+    res = send(client, question="Hola")
+    assert res.status_code == 200
+    part = res.json()["answer"]["parts"][0]
+    assert (part["kind"], part["status"]) == ("greeting", "ok")
+    assert part["data"] == {} and part["claims"] == part["evidence"] == []
+    assert part["generation_issues"] == [] and sdk.calls == []
+    cid = res.json()["conversation_id"]
+    saved = client.get(f"/business/{BIZ_A}/chat/{cid}", headers=headers()).json()
+    assert saved["turns"][0]["answer"]["parts"][0] == part
+
+
+def test_greeting_between_metric_and_follow_up_preserves_reference(setup):
+    client, _, sdk, _, _ = setup
+    cid = send(client).json()["conversation_id"]
+    assert len(sdk.calls) == 2
+    assert send(client, question="Hola", conversation_id=cid).status_code == 200
+    assert len(sdk.calls) == 2
+    response = send(client, question="¿Qué significa eso?", conversation_id=cid)
+    assert response.status_code == 200
+    assert response.json()["answer"]["parts"][0]["kind"] == "concept"
+    data = json.loads(sdk.calls[2]["messages"][1]["content"])["untrusted_data"]
+    assert len(data["history"]) == 1 and data["history"][0]["question"] != "Hola"
+
+
+def test_mixed_greeting_keeps_model_sources_mapped_to_the_business_query(setup):
+    client, _, sdk, _, _ = setup
+    res = send(client, question="Hola y ¿cuál fue el ticket promedio?")
+    assert res.status_code == 200
+    greeting, metric = res.json()["answer"]["parts"]
+    assert greeting["kind"] == "greeting" and greeting["claims"] == []
+    assert metric["kind"] == "result" and metric["generation_status"] == "validated"
+    assert "125" in metric["message"] and "MXN" in metric["message"]
+    assert metric["evidence"] and len(sdk.calls) == 2
+    data = json.loads(sdk.calls[0]["messages"][1]["content"])["untrusted_data"]
+    assert len(data["parts"]) == 1 and data["parts"][0]["kind"] == "result"
+
+
 @pytest.mark.parametrize("question,status", [("Divide 100 entre 2", "not_allowed"), ("¿Cuál fue el costo de merma?", "not_found")])
 def test_no_calculation_and_missing_result(setup, question, status):
     client, _, _, _, _ = setup

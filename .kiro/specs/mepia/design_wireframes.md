@@ -1,5 +1,7 @@
 # Diseño Frontend — Wireframing Lógico
 
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
 
 **Referenciado desde:** `design.md`
@@ -7,8 +9,9 @@
 ## Acceso general y Chat IA integrado
 
 Sin sesión: pantalla de bienvenida MEPIA, correo/contraseña e Iniciar sesión.
-Después del acceso: bienvenida del equipo y menú lateral común (Inicio,
-Dashboard, Documentos, Chat IA, Salud del Negocio, Reportes, Configuración), selector de negocio en cabecera y cierre de sesión en el menú.
+Después del acceso: Dashboard y menú común (Dashboard, Documentos, Chat IA,
+Salud del Negocio, Reportes, Configuración), negocio y cierre de sesión. La
+bienvenida independiente y el enlace Inicio duplicado se retiraron el 15-oct.
 Chat IA ocupa el área central: bienvenida/sugerencias al estar vacío, mensajes
 de usuario a la derecha y respuestas MEPIA con fuentes a la izquierda;
 compositor redondeado inferior y nueva conversación/fecha en cabecera.

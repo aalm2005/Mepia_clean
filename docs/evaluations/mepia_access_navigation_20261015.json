@@ -1,0 +1,281 @@
+{
+  "date": "2026-10-15",
+  "artifact_kind": "tab_session_and_home_validation",
+  "branch": "codex/chatbot-q4",
+  "head": "6d7cabc1c1cdb8889649900bec496e5156a2368a",
+  "commit": "sin commit",
+  "push": false,
+  "exit_code": 0,
+  "user_decision": {
+    "session": "per_tab_reload_preserved",
+    "home": "dashboard_without_independent_welcome"
+  },
+  "evidence_mode": "synthetic_auth_database_provider_loopback_only",
+  "real_supabase_access": 0,
+  "real_model_calls": 0,
+  "production_changes": 0,
+  "preview_restarts": 0,
+  "browser": {
+    "passed": true,
+    "controls_completed": 24,
+    "page_errors": [],
+    "checks": [
+      {
+        "name": "Proxy anónimo: 401, cero DB y modelo",
+        "passed": true
+      },
+      {
+        "name": "Entrada general: todas las páginas privadas requieren login",
+        "passed": true
+      },
+      {
+        "name": "Cookie inventada no permite entrar a MEPIA",
+        "passed": true
+      },
+      {
+        "name": "Una cookie antigua válida tampoco sustituye la sesión de la pestaña",
+        "passed": true
+      },
+      {
+        "name": "Una sesión manipulada en almacenamiento no permite mostrar MEPIA ni llamar la API",
+        "passed": true
+      },
+      {
+        "name": "Inicio de sesión y solo negocios propios",
+        "passed": true
+      },
+      {
+        "name": "API legada verifica Bearer y no confunde sesión válida con acceso anónimo",
+        "passed": true
+      },
+      {
+        "name": "Dashboard es el inicio único, sin bienvenida y conserva sesión al recargar",
+        "passed": true
+      },
+      {
+        "name": "Otra pestaña exige login y no cierra la sesión de la pestaña original",
+        "passed": true
+      },
+      {
+        "name": "Chat desde el menú común, sin un segundo login",
+        "passed": true
+      },
+      {
+        "name": "Salud y Reportes comparten sesión y menú de Chat IA",
+        "passed": true
+      },
+      {
+        "name": "Dashboard presenta métricas sintéticas sin alterar porcentaje y separa unidades",
+        "passed": true
+      },
+      {
+        "name": "Pregunta con cifra/unidad, fuentes y linaje",
+        "passed": true
+      },
+      {
+        "name": "Continuación conceptual e historial recuperable",
+        "passed": true
+      },
+      {
+        "name": "Cambio de negocio limpia historial visible",
+        "passed": true
+      },
+      {
+        "name": "Negocio ajeno: 403 sin evidencia ni modelo",
+        "passed": true
+      },
+      {
+        "name": "Rechazo de cálculo y eliminación del historial",
+        "passed": true
+      },
+      {
+        "name": "Cambio de usuario sin conversaciones ajenas",
+        "passed": true
+      },
+      {
+        "name": "C07: respuestas tardías descartadas por negocio, fecha y usuario",
+        "passed": true
+      },
+      {
+        "name": "C04 y S08: nueva conversación, aviso de respaldo y teclado",
+        "passed": true
+      },
+      {
+        "name": "S05: proxy rechaza cuerpo excesivo antes del proveedor",
+        "passed": true
+      },
+      {
+        "name": "Menú móvil, Salud, Reportes y chat utilizables sin desbordamiento",
+        "passed": true
+      },
+      {
+        "name": "Cerrar sesión devuelve al login y bloquea enlaces directos",
+        "passed": true
+      },
+      {
+        "name": "Cerrar y abrir de nuevo la pestaña exige credenciales",
+        "passed": true
+      }
+    ],
+    "extended_checks": [
+      "C07",
+      "C08",
+      "S10_busy",
+      "C04",
+      "S08_notice",
+      "P06_keyboard_partial",
+      "S05_proxy_size"
+    ]
+  },
+  "cleanup_helper": {
+    "passed": 3,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "build": {
+    "exit_code": 0,
+    "signal": null,
+    "duration_ms": 84218,
+    "tsconfig_restored": true,
+    "next_env_restored": true,
+    "synthetic_public_configuration": true
+  },
+  "audits": {
+    "documentation_files_scanned": 59,
+    "local_links_valid": 237,
+    "broken_links": [],
+    "secret_matches": 0,
+    "personal_email_candidates": 0,
+    "historical_artifacts_preserved": 431,
+    "historical_artifacts_changed": [],
+    "diff_check_exit_code": 0,
+    "status_search_matches": 2464
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "passed": false,
+      "controls_completed": 1,
+      "page_errors": [],
+      "classification": "harness_initial_next_expectation",
+      "sha256": "9291fe3c61a448dac03c5b597593e81348d1a8c1e2d96eb22a5416bdeb8dcc53"
+    },
+    {
+      "attempt": 2,
+      "passed": false,
+      "controls_completed": 5,
+      "page_errors": [
+        "Rendered more hooks than during the previous render."
+      ],
+      "classification": "root_component_redirect_hooks",
+      "sha256": "a987ac52fd0c42f4f7cffdd30bc4b6fc096bc13b1a4008c8fda394116aa7e208"
+    },
+    {
+      "attempt": 3,
+      "passed": false,
+      "controls_completed": 4,
+      "page_errors": [],
+      "classification": "harness_single_page_context",
+      "sha256": "2e548ecf2c14788e99e13b735ce8a7a0081a39a2e6599eee5a8f0dd875c6d886"
+    },
+    {
+      "attempt": 4,
+      "passed": false,
+      "controls_completed": 7,
+      "page_errors": [],
+      "classification": "loopback_origin_change",
+      "sha256": "a4974598663466d327d21e2d8eaddcbe290ed06c7f0d374049c8a330d0148110"
+    },
+    {
+      "attempt": 5,
+      "passed": false,
+      "controls_completed": 7,
+      "page_errors": [],
+      "classification": "loopback_origin_change",
+      "sha256": "7e921a01476a02c67d0cafa5d925badf707978a413267b7cf518739ff935be0a"
+    },
+    {
+      "attempt": 6,
+      "passed": false,
+      "controls_completed": 17,
+      "page_errors": [],
+      "classification": "harness_counted_dashboard_kpis",
+      "sha256": "9162bf5dc34d76d78e847d8a26d46d91cc1d2436ff8a734d9146da60f7f1461f"
+    },
+    {
+      "attempt": 7,
+      "passed": true,
+      "controls_completed": 24,
+      "page_errors": [],
+      "classification": "passed",
+      "sha256": "68639be0854158c1f8802618cbdb258820accf7427832a5a60f8508699c2a481"
+    }
+  ],
+  "source_hashes": {
+    "app/page.tsx": "832b647cd752da7f0ad0313ca426a04bfd851d972467bb003294a99b4caefde7",
+    "components/auth/MepiaAuthProvider.tsx": "26fc66aa5453b66401db7e761c60630ceb6a8dbdb52ee0e453d212ff3ece36bb",
+    "components/auth/MepiaLogin.tsx": "911a316c025d0f38df2b9c78ff476bdb01f8f0969ad08f38f5cef8c063e0e0f0",
+    "components/layout/MepiaShell.tsx": "a61d702193642863253a0128ce80062172e2b922831cf3903d08741594a88421",
+    "components/onboarding/OnboardingForm.tsx": "6486fbab89297fd02e669774b1c7ea45a98d8b130ad5d1cc1ddd69cd77c256b4",
+    "components/upload/OnboardingGate.tsx": "07c5584cff79cc33e4ced20560b8f9a411928a8f2569616f9d754d6a258d8a76",
+    "components/upload/ReviewAlert.tsx": "22040df08fdf0d568dabc72f8bc596ff2cd872bcede7b5d177ffd72be1fe0238",
+    "components/upload/UploadForm.tsx": "d21e0a2cd9a76d0b03abe1834693adb2f9f13712a26e4b64113c264d1f312690",
+    "hooks/useAuditPolling.ts": "3db2b5f93fd187259b4cab246a0f327e35f1ccfc9ae5539af0e51688894de703",
+    "middleware.ts": "9d4b2f95c6b63dce267e405f672565bd46f87addb5ccdad7ac28f8ce5c58df93",
+    "next.config.js": "76e8a315e0b7a12e9379daabbcde46c4074fc32727b2d867199c887e796dd252",
+    "tests/chat_step5_e2e.cjs": "f6ec9d44e0e5eaaf83db7a6de847ee3f84cdb0adaeb1a9ccb55ada868a0597f5",
+    "utils/authenticated-fetch.ts": "45433d53f60967522cba3581f4caa0f74f55ee2331d8a987fc4a2aaaa4b433cb",
+    "utils/login-destination.ts": "51df6225eb59acc53d3cfe4a998833ae4f05792b838e5c40e701df54472355fd",
+    "utils/supabase-browser.ts": "42060bea19e4462971a1ce926a5876174b2885bc6843f545b3d3ea9cb2ce50d3"
+  },
+  "files_changed": [
+    ".env.example",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/design.md",
+    ".kiro/specs/mepia/design_components.md",
+    ".kiro/specs/mepia/design_components_tree.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/design_flows_main.md",
+    ".kiro/specs/mepia/design_wireframes.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    "README.md",
+    "app/page.tsx",
+    "components/auth/MepiaAuthProvider.tsx",
+    "components/auth/MepiaLogin.tsx",
+    "components/layout/MepiaShell.tsx",
+    "components/onboarding/OnboardingForm.tsx",
+    "components/splash/WelcomeSplash.tsx",
+    "components/upload/OnboardingGate.tsx",
+    "components/upload/ReviewAlert.tsx",
+    "components/upload/UploadForm.tsx",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_frontend_merge.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_step5_automation.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/estado_actual_mepia.md",
+    "docs/evaluations/mepia_access_navigation_20261015.json",
+    "docs/mepia_access_navigation.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "hooks/useAuditPolling.ts",
+    "middleware.ts",
+    "next.config.js",
+    "tests/chat_step5_e2e.cjs",
+    "utils/authenticated-fetch.ts",
+    "utils/login-destination.ts",
+    "utils/supabase-browser.ts"
+  ],
+  "incident_resolved": "INC-20261015-042",
+  "incident_pending_external": "INC-20261014-041",
+  "limits": [
+    "No real-account confirmation attributed",
+    "No full Python regression rerun",
+    "No Gemini evaluation rerun",
+    "Ordinary close/new tab tested; browser restore/duplicate mechanisms not certified",
+    "Legacy FastAPI resource authorization remains a production gate"
+  ],
+  "private_originals": ".test_tmp/navigation_session_20261015",
+  "next_action": "Reload preview, sign in under the new policy; keep model evaluations paused."
+}

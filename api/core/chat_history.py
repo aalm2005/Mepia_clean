@@ -77,4 +77,5 @@ class ChatHistoryStore:
             part["message"] for part in turn["answer"]["parts"]
             if part["generation_status"] == "validated")[:4000]}
             for turn in conversation.turns
-            if turn["answer"]["resolved_date"] == resolved_date][-4:]
+            if turn["answer"]["resolved_date"] == resolved_date
+            and any(part["kind"] != "greeting" for part in turn["answer"]["parts"])][-4:]

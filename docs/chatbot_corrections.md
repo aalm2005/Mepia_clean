@@ -1,10 +1,29 @@
 # Bitácora oficial del chatbot de MEPIA
 
+**Saludos del chat — 15-oct-2026, validada localmente:** corrección de
+experiencia del Paso 5 solicitada por el usuario; no reabre Pasos 1–4.
+`Hola` reproducido como `outside/outside_domain`. Se incorpora bienvenida social
+sin datos/claims ni llamadas de generación; consultas mixtas y seguridad intactas.
+Rama `codex/chatbot-q4`, HEAD `6d7cabc1c1cdb8889649900bec496e5156a2368a`,
+sin commit/push. Archivos: `agents/chat_conversation.py`, `api/core/chat_history.py`,
+`components/chat/ChatPanel.tsx`, pruebas de conversación/HTTP y E2E; documentación
+de continuidad, diseño, contrato N15 y glosario. Regresión: 112 aprobadas,
+41 subpruebas, dos advertencias, 9.07 s, código 0. Edge 25/25 y cero errores,
+helper 3/3; tipos código 0. Servidor local 8016 reiniciado, OpenAPI HTTP 200;
+cero nuevas consultas a Supabase/Gemini. INC-043 resuelta localmente.
+43 incidencias: 40 resueltas, dos mitigadas y una pendiente externa, cero abiertas.
+[Detalle](chatbot_greetings.md) e [informe](evaluations/chatbot_greetings_20261015.json).
+Sigue completar únicamente las capas funcionales/revisión humana pendientes del
+Paso 5; INC-041 conserva su estado. Los conteos anteriores son históricos.
+No se implementa todavía la simplificación de configuración pospuesta.
+
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
-**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+**Automatización del 14-oct-2026 (histórica, anterior al acceso por pestaña):** ejecutor por capas implementado.
 Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
 código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
 y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
@@ -2623,6 +2642,88 @@ hash de ese registro se obtiene del historial de Git, sin autorreferencia.
 Siguiente trabajo funcional: respetar la pausa solicitada; tutorial, móvil,
 simplificación del selector, revisión humana y disponibilidad/C02 siguen
 pendientes según `docs/estado_actual_mepia.md`. El push no los declara cerrados.
+
+
+## Revisión de entrada, sesión e Inicio — 15-oct-2026
+
+El usuario reporta recuperación de sesión entre visitas, llegada a Dashboard
+y enlace Inicio que no permite quedarse en la bienvenida. Se pausa la explicación
+del video para atender este reporte; no se reinician las tandas de Gemini.
+Rama `codex/chatbot-q4`, HEAD `6d7cabc1c1cdb8889649900bec496e5156a2368a`;
+sin commit de este registro, sin push nuevo.
+
+Lectura confirma que WelcomeSplash redirige con el marcador de bienvenida
+ya vista y que la biblioteca SSR instalada persiste la sesión en cookies.
+La prueba de menú existente no cubre el regreso después del botón Iniciar.
+INC-20261015-042 creada abierta, distinta de la animación resuelta INC-037.
+Se solicitan dos aclaraciones: cuándo volver a pedir credenciales y si quitar
+la bienvenida en favor del Dashboard o permitir volver a ella desde Inicio.
+No se modifican rutas, sesión ni texto de producto antes de resolverlas.
+
+Verificaciones: lectura de archivos y búsqueda local de código/biblioteca;
+no pruebas funcionales nuevas. Dos rutas asumidas de fuentes de la biblioteca
+no existían; se localizó su distribución instalada con rg y se leyó esa versión.
+No representa fallo del producto ni cambia los conteos de pruebas anteriores.
+Archivos de este registro: las dos bitácoras, documento maestro, spec N15 y
+estado actual. 42 incidencias: 38 resueltas, dos mitigadas, una pendiente externa
+y una abierta. Siguiente acción: aplicar el flujo que el usuario precise y
+probar su navegación/ciclo de sesión. Cero secretos, modelos, SQL o producción.
+
+
+## Cierre local de sesión por pestaña e inicio único — 15-oct-2026
+
+Categoría: corrección de navegación adicional del Paso 5 y cambio de política
+de sesión solicitado expresamente. El usuario eligió cerrar/abrir pestaña con
+nuevo login, conservar recargas y usar Dashboard sin bienvenida duplicada.
+Rama `codex/chatbot-q4`, HEAD `6d7cabc1c1cdb8889649900bec496e5156a2368a`;
+**sin commit del cambio ni push nuevo**. No se reabren los Pasos 1–4 ni INC-037.
+
+Cambios: utils/supabase-browser (sessionStorage, clave por pestaña), proveedor
+(verificación remota diferida y descarte de validaciones antiguas), login sin
+verificación redundante, guard/menú y destinos seguros. Middleware verifica Bearer
+para APIs y retira cookies anteriores; Chat conserva permisos de FastAPI.
+authenticatedFetch añade credenciales a configuración, documentos y polling.
+next.config.js redirige `/` de forma relativa, app/page conserva destino y se
+elimina WelcomeSplash. No se altera motor, datos, propietario, modelos ni cuotas.
+Listado completo de archivos/digests en el informe de esta corrección.
+
+Intento 1: 1 control, expectativa de `next` fallida. Intento 2: 5 controles,
+error de hooks al redirigir desde componente raíz. Intento 3: 4 controles,
+contexto Playwright incompatible con varias páginas. Intentos 4/5: 7 controles,
+login no recuperado tras cambiar de origen. Diagnósticos 1/2 con secuencia mínima
+aprobados; diagnóstico 3 reproduce origen localhost antes y 127.0.0.1 después,
+con sesión solo en el primero. Distribución Next instalada confirma normalización.
+Redirección relativa conserva origen. Intento 6: 17 controles; ejecutor cuenta
+cinco KPI de Dashboard como conversaciones. Se entra al chat antes de comprobar
+mensajes, conforme al destino nuevo, sin cambiar comportamiento para esa aserción.
+
+**Intento 7 final:** 24/24 controles Edge, cero errores, código 0. Incluye login,
+cookies/sesiones manipuladas, Bearer, Dashboard y origen estables, recarga,
+independencia de pestañas/cuentas, chat/fuentes/historial/rechazo de cálculo,
+respuestas tardías, teclado/móvil, logout y cierre/reapertura ordinarios.
+Helper de limpieza 3/3, código 0. Build Next 15.5.27 y tipos código 0, 84218 ms;
+tsconfig/next-env restaurados exactamente. Build muestra avisos de caché Webpack
+y datos Browserslist antiguos; no se actualizan dependencias en esta corrección.
+Sintaxis del ejecutor y TypeScript iniciales código 0. Sin nuevas suites Python
+ni tandas Gemini: pruebas anteriores conservadas como históricas, sin trasladar
+sus aprobaciones a una ejecución nueva. No se probaron restauraciones especiales
+de pestañas del navegador ni se usaron credenciales/cuentas reales.
+
+Documentación sincronizada: bitácoras, maestro, N15, auth, glosario/índice,
+diseño/componentes/flujos, README, integración, ejecutor, entrega histórica y
+estado actual; guía `docs/mepia_access_navigation.md`. Plan v1 y evidencia previa
+intactos. Un parche inicial no se aplicó por dos operaciones sobre la misma ruta;
+se corrigió el formato antes de modificar fuentes, sin fallo del producto.
+Los intentos y diagnósticos originales se conservan en `.test_tmp/navigation_session_20261015`.
+
+**INC-20261015-042 resuelta localmente.** 42 incidencias: 39 resueltas,
+dos mitigadas, una pendiente externa (INC-041), cero abiertas. Informe
+`docs/evaluations/mepia_access_navigation_20261015.json`. Siguiente acción:
+recargar el preview e iniciar sesión en el nuevo flujo; confirmación con cuenta
+propia separada de las pruebas sintéticas. Mantener pausa de pruebas Gemini.
+Tutorial, móvil completo, selector de un negocio y producción siguen pendientes.
+Commit/push separados, sin ejecutar en esta corrección. Cero llamadas IA reales,
+cero nuevos accesos a Supabase/SQL y sin reiniciar los servicios 3016/8016.
 
 ## A. Correcciones de defectos del Paso 1
 

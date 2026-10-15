@@ -6,7 +6,7 @@ import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import { MepiaIcon, type MepiaIconName } from "@/components/ui/MepiaIcon";
 
 const navigation: { href: string; label: string; icon: MepiaIconName }[] = [
-  { href: "/", label: "Inicio", icon: "home" }, { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
+  { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
   { href: "/upload", label: "Documentos", icon: "upload" }, { href: "/chat", label: "Chat IA", icon: "chat" },
   { href: "/salud", label: "Salud del Negocio", icon: "health" }, { href: "/reportes", label: "Reportes", icon: "reports" },
   { href: "/onboarding", label: "Configuración", icon: "settings" },
@@ -20,7 +20,7 @@ export function MepiaShell({ children }: { children: React.ReactNode }) {
   const [logoutError, setLogoutError] = useState("");
   useEffect(() => { setMenu(false); }, [path]);
   useEffect(() => {
-    if (path !== "/login" && ready && !session && !leaving) router.replace(`/login?next=${encodeURIComponent(path)}`);
+    if (path !== "/login" && ready && !session && !leaving) router.replace(`/login?next=${encodeURIComponent(path + window.location.search)}`);
   }, [path, ready, session, leaving, router]);
   if (path === "/login") return <>{children}</>;
   if (!ready || !session) return <div className="grid min-h-dvh place-items-center text-sm text-zinc-400">Cargando MEPIA…</div>;
@@ -33,7 +33,7 @@ export function MepiaShell({ children }: { children: React.ReactNode }) {
   return <div className="relative min-h-dvh">
     {menu && <button aria-label="Cerrar menú" className="fixed inset-0 z-30 bg-black/60 md:hidden" onClick={() => setMenu(false)} />}
     <aside className={`sidebar-glass fixed inset-y-0 left-0 z-40 w-64 flex-col px-3 py-5 ${menu ? "flex" : "hidden md:flex"}`} aria-label="Menú de MEPIA">
-      <Link href="/" className="mb-8 flex items-center gap-3 px-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-400/15 text-emerald-300 font-semibold">M</span><span className="text-lg font-semibold tracking-wide">MEPIA</span></Link>
+      <Link href="/dashboard" className="mb-8 flex items-center gap-3 px-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-400/15 text-emerald-300 font-semibold">M</span><span className="text-lg font-semibold tracking-wide">MEPIA</span></Link>
       <p className="px-3 pb-3 text-[11px] uppercase tracking-widest text-zinc-500">Tu espacio</p>
       <nav aria-label="Navegación principal" className="space-y-1">
         {navigation.map(item => <Link key={item.href} href={item.href} aria-current={path === item.href ? "page" : undefined}

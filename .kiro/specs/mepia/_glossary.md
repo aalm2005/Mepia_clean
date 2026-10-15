@@ -1,5 +1,7 @@
 # MEPIA — Glosario Compartido
 
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **Continuidad al 15-oct-2026:** [estado actual](../../../docs/estado_actual_mepia.md).
 Los Pasos 1–4 están aceptados; el Paso 5 está implementado con validación
 funcional pendiente. Las cifras fechadas conservan su alcance original.
@@ -702,10 +704,11 @@ selector: str | null
 ### ChatAnswerPart
 Respuesta independiente para una parte de la pregunta. La IA puede redactar
 libremente después de validar fuentes, cantidades y revisión semántica. Los
-mensajes fijos son solo respaldo cuando no se publica generación validada.
+mensajes fijos son respaldo cuando no se publica generación validada, salvo
+la bienvenida social `greeting` descrita en [N15 saludos](n15_chat_consulta_saludos.md).
 ```
 question_part: str                 # pregunta del usuario como dato
-kind: "concept" | "result" | "report" | "metrics" | "catalog" | "calculation" | "outside"
+kind: "concept" | "result" | "report" | "metrics" | "catalog" | "calculation" | "outside" | "greeting"
 status: "ok" | "not_found" | "missing_data" | "not_allowed" | "outside_domain" | "invalid_request"
 message: str                      # redacción libre verificada o respaldo
 data: dict                        # vacío salvo cuando status="ok"
@@ -717,6 +720,9 @@ generation_issues: str[]          # códigos de rechazo, sin prosa del proveedor
 generation_diagnostics: str[]     # etapa y causa seguras; sin texto rechazado ni claves
 ```
 Un cálculo solicitado siempre se rechaza y no contiene datos ni evidencia.
+Un saludo usa exclusivamente el mensaje social fijo, `status=ok` y
+`generation_status=fallback`; todos sus datos, fuentes, claims y diagnósticos
+permanecen vacíos. No requiere ni recibe generación del modelo.
 
 ### ChatAnswer
 Salida del nodo N15, también expuesta por el endpoint autenticado del Paso 5.

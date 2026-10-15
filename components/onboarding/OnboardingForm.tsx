@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
+import { authenticatedFetch } from "@/utils/authenticated-fetch";
 import BrandIdentityStep, { type BrandIdentityData } from "./BrandIdentityStep";
 import AuditTolerancesStep, { type AuditTolerancesData } from "./AuditTolerancesStep";
 import CostStructureStep, { type CostStructureItem } from "./CostStructureStep";
@@ -84,7 +85,7 @@ export default function OnboardingForm() {
     };
 
     try {
-      let response = await fetch("/api/onboarding", {
+      let response = await authenticatedFetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -92,7 +93,7 @@ export default function OnboardingForm() {
 
       // 409 Conflict — already exists, retry with PUT
       if (response.status === 409) {
-        response = await fetch("/api/onboarding", {
+        response = await authenticatedFetch("/api/onboarding", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),

@@ -40,6 +40,58 @@ def packet(*, report=True, metrics=True):
 
 
 class ChatConversationTests(unittest.TestCase):
+    def test_greetings_are_social_without_model_calls_or_business_claims(self):
+        class ForbiddenModel:
+            def __init__(self):
+                self.calls = []
+            def classify(self, *_args):
+                self.calls.append("classify")
+                raise AssertionError("Un saludo no se clasifica con el modelo")
+            def compose(self, *_args):
+                self.calls.append("compose")
+                raise AssertionError("Un saludo no se redacta con el modelo")
+            def verify(self, *_args):
+                self.calls.append("verify")
+                raise AssertionError("Un saludo no se revisa con el modelo")
+        model = ForbiddenModel()
+        node = ChatConversationNode(model, writer=model, verifier=model)
+        for question in ("Hola", "¡HOLA! 👋", "Hola MEPIA", "Buenos días", "Buenas tardes", "Hola, ¿cómo estás?"):
+            with self.subTest(question=question):
+                answer = node.answer(question, packet(), business_id="biz-a")
+                self.assertEqual(len(answer.parts), 1)
+                part = answer.parts[0]
+                self.assertEqual((part.kind, part.status), ("greeting", "ok"))
+                self.assertIn("¡Hola!", part.message)
+                self.assertEqual((part.data, part.evidence, part.claims, part.generation_issues), ({}, [], [], []))
+                self.assertFalse(answer.calculation_allowed)
+                self.assertEqual(model.calls, [])
+
+    def test_greeting_does_not_consume_or_hide_a_real_query(self):
+        for question, expected in (
+            ("Hola y ¿qué es el ticket promedio?", [("greeting", "ok"), ("concept", "ok")]),
+            ("Hola, ¿qué es el ticket promedio?", [("concept", "ok")]),
+            ("Hola y calcula 10+10", [("greeting", "ok"), ("calculation", "not_allowed")]),
+            ("Hola, calcula 10+10", [("calculation", "not_allowed")]),
+            ("Hola y ¿qué es la tasa interna de retorno?", [("greeting", "ok"), ("outside", "outside_domain")]),
+        ):
+            with self.subTest(question=question):
+                answer = ChatConversationNode().answer(question, packet(), business_id="biz-a")
+                self.assertEqual([(part.kind, part.status) for part in answer.parts], expected)
+
+    def test_greeting_does_not_bypass_business_scope_or_require_s3_results(self):
+        node = ChatConversationNode()
+        self.assertEqual(node.answer("Hola", packet(), business_id="biz-b").parts[0].status, "invalid_request")
+        empty = ChatGroundingService(_FakeDB([])).build_packet("biz-a")
+        self.assertEqual(node.answer("Hola", empty, business_id="biz-a").parts[0].kind, "greeting")
+
+    def test_greeting_contract_rejects_data_sources_or_generated_text(self):
+        part = ChatConversationNode().answer("Hola", packet(), business_id="biz-a").parts[0].model_dump()
+        for change in ({"data": {"amount": 999}}, {"message": "Ganaste 999 pesos."},
+                       {"status": "outside_domain"}, {"generation_status": "validated"},
+                       {"kind": "result"}, {"generation_issues": ["generation_not_configured"]}):
+            with self.subTest(change=change), self.assertRaises(ValidationError):
+                ChatAnswerPart.model_validate({**part, **change})
+
     def test_plural_concept_question_preserves_domain_and_calculation_gate(self):
         node = ChatConversationNode()
         answer = node.answer("¿Qué son los costos fijos?", packet(), business_id="biz-a")

@@ -1,8 +1,10 @@
 # MEPIA — Estrategia de autenticación y autorización
 
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](../../../docs/estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
-**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+**Automatización del 14-oct-2026 (histórica, anterior al acceso por pestaña):** ejecutor por capas implementado.
 Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
 código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
 y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
@@ -66,16 +68,17 @@ la API. Sin despliegue. Acceso real en `MEPIA - PRUEBAS` aprobado: 29/29.
 
 ## Estrategia implementada
 
-Supabase Auth genera una sesión en el frontend. Se usa únicamente la clave
-pública; Authorization: Bearer se reenvía por Next.js a FastAPI.
-La cuenta entra una vez por `/login`, antes de las páginas de MEPIA. Cliente
-SSR instalado 0.3.0 guarda sesión en cookies; el middleware Next 15 llama
-`getUser` remoto para verificarla. No confía en usuario leído de cookie ni
-usa `getSession` en servidor. Propaga cookies renovadas al request/response,
-no-store y Secure en producción en ambas direcciones. Dev HTTP queda en loopback.
-Cookies inventadas/usuario anónimo no permiten página privada. Destino de login
-limitado a rutas internas; navegación completa en entrada/salida evita refresh
-simultáneo de otra ruta. MepiaAuthProvider mantiene selección de negocio común.
+Supabase Auth genera una sesión guardada solo en sessionStorage de la pestaña.
+Recargar conserva acceso; abrir otra exige login. Una clave por pestaña aísla
+los eventos del SDK. No se recuperan cookies/localStorage anteriores.
+
+AuthProvider verifica al usuario remoto antes de mostrar MEPIA/cargar negocios.
+El HTML inicial es un marco sin datos; el guard del cliente redirige páginas
+sin sesión. El middleware valida Bearer con getUser para APIs legadas; Chat
+conserva verificación y permisos en FastAPI. Cookies antiguas se eliminan y
+no autorizan peticiones. Cache-Control private/no-store; secretos solo servidor.
+Dashboard es inicio único y `/` redirige allí; destinos internos seguros se
+conservan tras login. La bienvenida independiente y el enlace Inicio se retiran.
 
 `AuthService`
 en `api/core/auth.py` verifica el algoritmo explícito SUPABASE_JWT_ALGORITHM:
@@ -129,8 +132,8 @@ endpoints FastAPI legados; la verificación de recursos en servidor sigue pendie
 
 | Endpoint | Control implementado |
 |---|---|
-| Páginas MEPIA (excepto /login) | Cookie de sesión verificada en servidor con getUser; redirección al login previo |
-| Proxies Next legados | Sesión verificada antes de leer payload/llamar backend; permisos por recurso aún pendientes en FastAPI legado |
+| Páginas MEPIA | Marco inicial sin datos; proveedor verifica usuario remoto y guard exige sesión de la pestaña |
+| Proxies Next legados | Bearer obligatorio validado con getUser antes del proxy; cookies no bastan; permisos por recurso aún pendientes en FastAPI legado |
 | GET /me/businesses | Sesión; solo negocios propios |
 | POST /business/{business_id}/chat | Sesión, propiedad y ámbito de conversación antes de evidencia/modelo |
 | GET/DELETE /business/{business_id}/chat/{conversation_id} | Sesión, propiedad revalidada y combinación usuario/negocio/conversación |

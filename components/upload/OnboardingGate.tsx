@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
+import { authenticatedFetch } from "@/utils/authenticated-fetch";
 
 export default function OnboardingGate({ children }: { children: React.ReactNode }) {
   const { business } = useMepiaAuth();
@@ -10,7 +11,7 @@ export default function OnboardingGate({ children }: { children: React.ReactNode
     if (!business) return;
     const abort = new AbortController();
     setComplete(null);
-    fetch("/api/onboarding?business_id=" + encodeURIComponent(business), { cache: "no-store", signal: abort.signal })
+    authenticatedFetch("/api/onboarding?business_id=" + encodeURIComponent(business), { signal: abort.signal })
       .then(async response => {
         if (abort.signal.aborted) return;
         if (response.ok) { const data = await response.json(); if (!abort.signal.aborted) setComplete(data.onboarding_complete === true); }

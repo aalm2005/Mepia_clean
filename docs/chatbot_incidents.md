@@ -1,10 +1,53 @@
 # Bitácora oficial de incidencias del chatbot de MEPIA
 
+## INC-20261015-043 — Un saludo se rechaza como fuera del dominio
+
+- **Estado:** resuelta localmente; 112 pruebas y 41 subpruebas aprobadas,
+  dos advertencias, 9.07 s, código 0; Edge 25/25, cero errores, código 0;
+  helper 3/3 y tipos código 0. Sin confirmación con la cuenta real del usuario.
+- **Categoría:** defecto de conversación y claridad del Paso 5. No reabre los
+  Pasos 1–4; la simplificación de configuración sigue pospuesta por el usuario.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD
+  `6d7cabc1c1cdb8889649900bec496e5156a2368a`; sin commit.
+- **Evidencia:** el usuario informa que «Hola» recibe «Esa parte queda fuera de
+  las métricas y conceptos del motor de MEPIA». Reproducción local con paquete
+  sintético: `kind=outside`, `status=outside_domain`, mismo mensaje, código 0.
+  No se observa una excepción: el enrutamiento no contempla saludos.
+- **Causa:** la clasificación determinista solo contempla consultas del motor,
+  solicitudes de cálculo y fuera de alcance. El contrato exige fuentes para
+  redacción factual; no hay una respuesta social separada.
+- **Corrección:** `kind=greeting` contiene solo la bienvenida social fija, con
+  datos/claims/fuentes vacíos. No se envía a clasificación/redacción/revisión.
+  Las consultas mixtas conservan su ruteo, guardas y correspondencia de fuentes.
+  La interfaz omite aviso amarillo/fuentes en el saludo; el historial visible lo
+  conserva, pero los turnos exclusivamente sociales no sustituyen referencias
+  anteriores en el contexto del redactor.
+- **Comprobación:** autenticación/propiedad exigidas también al saludar;
+  preguntas mixtas y rechazo de cálculo, paquete ajeno, ausencia de resultados,
+  contrato de salida, continuación conceptual e historial y navegación probados.
+  Servidor local 8016 reiniciado para cargar el código; OpenAPI HTTP 200. La
+  configuración inicial simplificada y el cambio de etiquetas fecha/fuentes
+  siguen como propuestas, sin implementación.
+- **Estado global:** 43 incidencias: 40 resueltas, dos mitigadas (023/031),
+  una pendiente externa (041), cero abiertas. Sigue completar las pruebas
+  funcionales/revisión humana pendientes del Paso 5, sin repetir lo ya cerrado.
+- **Registro auxiliar:** el primer armado del informe terminó con código 1 al
+  buscar un log de TypeScript que Tee-Object no creó porque el compilador no
+  emitió salida. El resultado real ya disponible fue código 0; se guarda ese
+  resultado de herramienta en metadatos, sin repetir ni atribuir una prueba nueva.
+  No fue un fallo del compilador ni del producto.
+- **Límites:** sin nuevas consultas Gemini, SQL administrativo, cuentas,
+  producción, commit ni push. Evidencia privada inicial:
+  `.test_tmp/chat_greeting_20261015/before.json`; informe público:
+  [validación de saludos](evaluations/chatbot_greetings_20261015.json).
+
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
-**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+**Automatización del 14-oct-2026 (histórica, anterior al acceso por pestaña):** ejecutor por capas implementado.
 Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
 código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
 y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
@@ -19,6 +62,65 @@ sin commit/push. Los avisos siguientes conservan sus registros históricos;
 el diseño v1 y su plantilla permanecen intactos, anteriores al ejecutor.
 Sigue disponibilidad/C02, revisión humana y ampliar solo lo pendiente.
 Ver [ejecutor, resultados y revisión](chatbot_step5_automation.md).
+
+
+## INC-20261015-042 — Inicio redirige al Dashboard después de ver la bienvenida
+
+- **Estado:** resuelta localmente; Edge 24/24 y cero errores, helper 3/3,
+  build/tipos código 0. El usuario eligió sesión por pestaña con recarga conservada
+  y Dashboard como inicio único. No se atribuye una prueba con su cuenta real.
+- **Categoría:** defecto de coherencia de navegación/experiencia del Paso 5.
+  No reabre los Pasos 1–4 ni INC-037 (animación de título ya corregida).
+- **Rama/commit:** `codex/chatbot-q4`, HEAD
+  `6d7cabc1c1cdb8889649900bec496e5156a2368a`; este registro, sin commit.
+- **Evidencia:** el usuario informa que Inicio no permanece abierto y que al
+  volver a entrar llegó a Dashboard. `WelcomeSplash.tsx` comprueba
+  `sessionStorage.mepia_splash_seen`; con valor `1` ejecuta `replace('/dashboard')`.
+  El botón Iniciar fija ese marcador. `MepiaShell` sigue ofreciendo Inicio en `/`.
+  `MepiaLogin` respeta un destino interno seguro, que después pasa por esa lógica.
+- **Cobertura previa:** el E2E comprueba primera bienvenida, acceso al chat y
+  recarga autenticada; no comprueba volver a Inicio después de pulsar Iniciar.
+  No se atribuye una regresión nueva a las verificaciones aprobadas de otro alcance.
+- **Acción realizada:** decisión recibida e implementada: sesión en
+  sessionStorage por pestaña, con clave propia de eventos del SDK; no recupera
+  cookies/localStorage. Usuario verificado antes del marco/datos; APIs requieren
+  Bearer en servidor. Formularios y polling usan authenticatedFetch. `/` conserva
+  origen y redirige por configuración a Dashboard; se retiran bienvenida e Inicio
+  duplicado. Cerrar sesión limpia la sesión local; no hay logout al recargar.
+- **Límites:** cero llamadas IA, cero acceso nuevo a datos/Supabase, cero cambios
+  a producción. INC-041 sigue pendiente externa. El push previo conserva su estado.
+
+- **Intentos de validación conservados (anteriores al cierre):** intento 1 conserva un fallo de
+  expectativa del ejecutor sobre `next` en `/`; intento 2 aprueba cinco controles
+  y encuentra `Rendered more hooks than during the previous render` al volver
+  a `/`. Se mueve la redirección raíz al middleware HTTP. Intento 3 se detiene
+  por usar un contexto Playwright de una sola página para probar varias;
+  se corrige el ejecutor con contexto explícito. Intentos 4/5 aprueban siete
+  controles, incluidas sesiones manipuladas y Bearer de APIs legadas, y se
+  detienen al no recuperar la sesión al visitar `/login`. El intento 5 guarda
+  solo metadatos: identificador de pestaña presente y sesión ausente, sin
+  errores de página. Causa de esa pérdida aún en diagnóstico; no se declara
+  cerrado el flujo. Un diagnóstico mínimo separado confirmó login, recarga y
+  regreso al Dashboard con sesión presente. Se difiere la verificación fuera
+  del callback del SDK y se elimina la verificación redundante del login;
+  esas medidas no se atribuyen como solución comprobada de la pérdida.
+  Todos los intentos se conservan en `.test_tmp/navigation_session_20261015`.
+
+
+
+- **Causa y cierre verificados:** diagnóstico 3 reproduce el cambio de origen
+  `127.0.0.1` a `localhost` al redirigir con NextURL, y la ausencia posterior de
+  la sesión al consultar el origen anterior. La distribución instalada normaliza
+  loopback en NextURL. Se usa una redirección relativa en next.config.js; el
+  intento 6 ya aprueba recarga, origen, otra pestaña e independencia de cuentas.
+  Ese intento se detiene por contar los cinco KPI del Dashboard como si fueran
+  mensajes del chat; se adapta el ejecutor entrando a Chat IA antes de contarlos.
+  Intento 7: 24/24 controles, cero errores, código 0, incluido cierre/reapertura
+  ordinarios de pestaña. Build 0 en 84218 ms y restauración exacta de configuración.
+  Se conservan 431 artefactos históricos por hash; informe público en
+  `docs/evaluations/mepia_access_navigation_20261015.json`. No se atribuye a la
+  verificación diferida del SDK la solución del cambio de origen. Sin commit/push.
+
 
 ## INC-20261014-041 — Gemini limita la primera tanda automática con HTTP 429
 

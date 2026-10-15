@@ -1,5 +1,14 @@
 # MEPIA — Flujo y estado actual
 
+**Saludos — 15-oct-2026:** bienvenida breve sin generación ni fuentes vacías,
+INC-043 resuelta localmente. 112 pruebas/41 subpruebas, dos advertencias, código 0;
+Edge 25/25 y cero errores; helper 3/3 y tipos código 0. 43 incidencias:
+40 resueltas, dos mitigadas y una pendiente externa (041). Sin commit/push;
+los registros de acceso y conteos siguientes describen su ejecución anterior.
+[Contrato e informe](chatbot_greetings.md).
+
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **Actualización documental: 15-oct-2026. Rama: `codex/chatbot-q4`.**
 Este resumen distingue implementación, evidencia de pruebas y trabajo pendiente.
 La [bitácora del chatbot](chatbot_corrections.md) conserva la fuente de verdad
@@ -9,7 +18,9 @@ Publicar código en GitHub no despliega MEPIA ni cierra sus pendientes de produc
 ## Recorrido del usuario
 
 1. **Iniciar sesión.** `/login` precede a las páginas privadas de MEPIA. La
-   sesión identifica al usuario y el servidor consulta únicamente los negocios
+   sesión vive en la pestaña: recargar conserva el acceso; cerrar y abrir una
+   nueva exige login. El proveedor verifica al usuario antes de mostrar MEPIA y
+   el servidor consulta únicamente los negocios
    asociados a su `owner_id`. El chat verifica además la propiedad antes de
    consultar datos o invocar el modelo.
 2. **Identificar el negocio automáticamente.** La interfaz carga un negocio
@@ -51,13 +62,15 @@ Publicar código en GitHub no despliega MEPIA ni cierra sus pendientes de produc
    su limitación/respaldo. Es de solo lectura: no calcula nuevos resultados del
    negocio ni modifica auditorías. El historial es temporal: ocho turnos, treinta
    minutos de inactividad y límite global de 256 conversaciones por proceso.
+   Los saludos reciben una bienvenida social breve, sin fuentes ni aviso de
+   generación fallida; corrección validada localmente. Ver [saludos](chatbot_greetings.md).
 
 ## Avance y pendientes
 
 | Área | Implementado o demostrado | Pendiente / límite del alcance |
 |---|---|---|
 | Acceso | Login común, sesión Supabase, lista propia, selección automática y permisos del chat | Simplificar selector con un negocio; registro/invitaciones de clientes; autorización por recurso de endpoints FastAPI legados |
-| Diseño | Frontend azul del equipo integrado con bienvenida, menú, KPI, gráficas, Salud, Reportes y chat | Completar experiencia integral de resultados e historial entre periodos |
+| Diseño | Frontend azul, Dashboard como inicio único, menú, KPI, gráficas, Salud, Reportes y chat; bienvenida independiente eliminada | Completar experiencia integral de resultados e historial entre periodos |
 | Motor | Ingesta, validación, cálculo, interpretación, escalación y revisión implementados; evaluaciones del motor documentadas | Validar recorrido completo con datos representativos y servidor completo en el entorno de presentación; módulos omitidos de v1 separados |
 | Chat Pasos 1–4 | Grounding, herramientas, conversación y evaluación offline aceptados en desarrollo; seguimiento cerrado el 12-oct | No reabrirlos por pendientes de integración o publicación |
 | Chat Paso 5 | API, Auth/propiedad, historial, interfaz y ejecutor de pruebas implementados; acceso y pregunta conceptual confirmados por el usuario | Completar capas funcionales pendientes, pruebas reales y revisión humana de claridad |
@@ -65,7 +78,24 @@ Publicar código en GitHub no despliega MEPIA ni cierra sus pendientes de produc
 | Celulares | Menú desplegable, chat y distribuciones adaptables; verificaciones sintéticas acotadas | Adaptación y pruebas completas de formularios, tablas, gráficas, teclado y tamaños/dispositivos |
 | Producción | Código y controles locales; entorno `MEPIA - PRUEBAS` usado en validaciones previas | Despliegue autorizado, migraciones/control de acceso, revisión de dependencias, límites/observabilidad e historial compartido si hay varias réplicas |
 
-## Evidencia más reciente del chatbot
+
+## Acceso y navegación validados el 15-oct-2026
+
+Dashboard es el inicio único. La sesión vive en la pestaña, conserva recargas y
+no se recupera de cookies antiguas en una pestaña nueva. AuthProvider verifica
+al usuario antes de mostrar datos; APIs verifican Bearer en servidor. La raíz
+redirige con la configuración de Next, conservando origen. Bienvenida retirada.
+
+Edge **24/24**, cero errores; helper **3/3**; build y tipos **código 0**.
+Son pruebas con datos/Auth/modelo simulados: no una nueva validación de cuenta,
+Supabase o Gemini reales. **42 incidencias: 39 resueltas, dos mitigadas y una
+pendiente externa**. INC-042 resuelta localmente; INC-041 pendiente externo.
+Código nuevo **sin commit/push** sobre HEAD `6d7cabc`; publicación anterior
+conservada. Ver [contrato y límites](mepia_access_navigation.md) e
+[informe verificable](evaluations/mepia_access_navigation_20261015.json).
+
+
+## Evidencia de la automatización del 14-oct (anterior a esta corrección)
 
 Las ejecuciones siguientes son del **14-oct-2026**; esta sincronización no las
 convierte en pruebas nuevas ni en certificación de producción:

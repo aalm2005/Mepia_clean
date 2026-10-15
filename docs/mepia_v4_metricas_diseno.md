@@ -1,10 +1,22 @@
 # MEPIA v4 — Documento Maestro de Diseño
 
+**Saludos del chat — 15-oct-2026, validado localmente:** se separa la
+bienvenida social de las consultas factuales (`kind=greeting`); no publica datos
+ni fuentes y no consume generación. Consultas mixtas, cálculo prohibido y acceso
+por negocio conservados. [Contrato y evidencia](chatbot_greetings.md).
+INC-043 resuelta localmente: 112 pruebas/41 subpruebas, dos advertencias,
+9.07 s, código 0; Edge 25/25 y cero errores; helper 3/3 y tipos código 0.
+43 incidencias: 40 resueltas, dos mitigadas y una pendiente externa. Sin commit,
+push o producción; configuración inicial pospuesta por el usuario. Los conteos
+fechados anteriores conservan su alcance histórico.
+
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
-**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+**Automatización del 14-oct-2026 (histórica, anterior al acceso por pestaña):** ejecutor por capas implementado.
 Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
 código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
 y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
@@ -317,8 +329,10 @@ Formulados en detalle en `mepia_ground_truth_8_escenarios.md`: día limpio, falt
 
 ### 6.2 Decisión
 
-Híbrido, implementado en desarrollo. Login previo y menú común: Inicio,
-Dashboard, Documentos, Chat IA, Salud del Negocio, Reportes y Configuración.
+Híbrido, implementado en desarrollo. Login previo, sesión por pestaña y menú
+común: Dashboard, Documentos, Chat IA, Salud del Negocio, Reportes y Configuración.
+Dashboard es el inicio único; `/` redirige allí. La bienvenida independiente y
+el enlace Inicio duplicado se retiran por indicación del usuario el 15-oct-2026.
 Dashboard/Salud presentan indicadores y gráficas; Reportes reutiliza hallazgos.
 Chat IA contiene conversación, fuentes y compositor, sin un segundo login.
 El negocio autorizado se carga automáticamente. El selector con un único

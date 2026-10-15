@@ -1,5 +1,7 @@
 # Diseño Frontend — Árbol de Componentes
 
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
 
 **Referenciado desde:** `design.md`
@@ -8,12 +10,14 @@
 ## Acceso y navegación común de MEPIA (Paso 5)
 
 `MepiaAuthProvider` comparte sesión, negocios propios y selección; `MepiaShell`
-contiene menú común responsive, selector y cierre de sesión. Middleware verifica
-sesión antes de páginas privadas. `MepiaLogin` en `/login` precede a toda MEPIA;
+contiene menú común adaptable, selector y cierre de sesión. El proveedor verifica
+al usuario de la pestaña antes de mostrar páginas; middleware verifica Bearer
+para APIs legadas y Chat mantiene sus permisos de servidor. `MepiaLogin` en `/login` precede a toda MEPIA;
 `ChatPanel` dentro de `/chat` consume contexto y presenta conversación/compositor
 inferior, sin formulario propio de login. Iconos SVG de MepiaIcon conservan
 identidad MEPIA. Dataset/turnos siguen con permisos/guardas del motor.
-Frontend del equipo integrado el 14-oct: GlassBackground/WelcomeSplash y
+Frontend del equipo integrado el 14-oct; al 15-oct se retira WelcomeSplash.
+Se mantienen GlassBackground y
 AuditReportView/KpiGrid/MetricsCharts en Dashboard, Salud y Reportes, bajo el
 MepiaShell común. Hook cancela datos anteriores y verifica negocio/corrida.
 E2E final 15/15, presentación 12/12, cero errores, build final código 0.

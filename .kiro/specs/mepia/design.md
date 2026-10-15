@@ -1,12 +1,14 @@
 # Diseño Frontend — MEPIA Dashboard & Upload
 
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **Estado:** frontend integrado en desarrollo al 15-oct-2026; validación integral y publicación pendientes
 **Stack:** Next.js App Router · TypeScript · Tailwind CSS · Supabase · FastAPI
 
 ## Visión
 
 Interfaz de auditoría financiera para restaurantes. El frontend azul del equipo
-integra superficies de vidrio, bienvenida, indicadores, gráficas y conversación
+integra superficies de vidrio, indicadores, gráficas y conversación
 Chat IA. La jerarquía conserva alertas, cifras y unidades del análisis.
 
 ## Rutas cubiertas
@@ -14,7 +16,7 @@ Chat IA. La jerarquía conserva alertas, cifras y unidades del análisis.
 | Ruta | Componente raíz | Propósito |
 |------|-----------------|-----------|
 | `/login` | `MepiaLogin` | Acceso único previo a MEPIA |
-| `/` | `WelcomeSplash` | Bienvenida de sesión |
+| `/` | Redirección | Lleva a `/dashboard`, inicio único |
 | `/upload` | `UploadPage` | POS/facturas, fecha y enfoque |
 | `/dashboard` | `AuditReportView` | Indicadores, gráficas y hallazgos por corrida |
 | `/salud` | `SaludPage` | Indicadores y gráficas |
@@ -50,7 +52,7 @@ Este documento es el índice. El detalle está distribuido en archivos hermanos:
 - Server Components por defecto; auth/shell/chat y formularios de upload/onboarding usan `"use client"`
 - Dashboard consume `OrchestratorResult` por polling y requiere `run_id`; tendencias históricas aún sin conexión
 - `AuditTable.tsx` soporta `AuditInsight[]` (N05) y `AgentResult[]` (paralelos)
-- **Acceso vigente — Paso 5:** `/login` previo a MEPIA, cookie verificada en servidor y menú común con Chat IA. La interfaz usa negocios propios/selección común, sin `NEXT_PUBLIC_BUSINESS_ID`. Permisos directos de FastAPI legado siguen pendientes antes de publicar.
+- **Acceso vigente:** sesión por pestaña, usuario validado antes de mostrar MEPIA y Bearer verificado para APIs. Dashboard como inicio; sin bienvenida duplicada. Negocios propios y permisos directos de FastAPI legado con sus alcances previos.
 
 ## Contratos de UI relevantes
 
@@ -77,7 +79,7 @@ Ver `_glossary.md` para los contratos completos.
 | `/app/onboarding` inexistente | Ruta, componentes, wireframe y flujo agregados |
 | Selector de arquetipo CEO | `ArchetypeSelector` en `/app/upload` antes del CTA |
 | Layer 2 sin representación | `Layer2Banner` + nodo `[L2]` en `PipelineStatusBar` |
-| Auth vigente (Paso 5) | Login único antes de MEPIA; chat desde menú común; sesión/negocio compartidos. 15/15 E2E sintético del frontend combinado, presentación 12/12, build final código 0. |
+| Auth vigente (Paso 5) | Sesión por pestaña y Dashboard como inicio. Edge 24/24, cero errores, build/tipos código 0 el 15-oct. La integración original del 14-oct conserva sus 15/15 y presentación 12/12 como históricos. |
 
 ## Pendientes de experiencia
 

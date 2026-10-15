@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { OrchestratorResult, PipelineStatus } from "@/types/audit";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
+import { authenticatedFetch } from "@/utils/authenticated-fetch";
 
 /**
  * Response from GET /api/audit/status/{run_id}
@@ -117,7 +118,7 @@ export function useAuditPolling(
      */
     const fetchFinalResult = async () => {
       try {
-        const res = await fetch(`/api/audit/result/${runId}`, { signal: abort.signal });
+        const res = await authenticatedFetch(`/api/audit/result/${runId}`, { signal: abort.signal });
         if (!res.ok) {
           throw new Error(
             `Error fetching result: ${res.status} ${res.statusText}`
@@ -140,7 +141,7 @@ export function useAuditPolling(
 
           const pollLayer3 = async () => {
             try {
-              const l3Res = await fetch(
+              const l3Res = await authenticatedFetch(
                 `/api/audit/layer3/status/${layer2RunId}`, { signal: abort.signal }
               );
               if (!l3Res.ok) {
@@ -195,7 +196,7 @@ export function useAuditPolling(
      */
     const pollStatus = async () => {
       try {
-        const res = await fetch(`/api/audit/status/${runId}`, { signal: abort.signal });
+        const res = await authenticatedFetch(`/api/audit/status/${runId}`, { signal: abort.signal });
         if (!res.ok) {
           throw new Error(
             `Error fetching status: ${res.status} ${res.statusText}`

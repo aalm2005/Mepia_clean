@@ -1,8 +1,17 @@
 # Paso 5 — Integración local del chatbot
 
+**Saludos — 15-oct-2026:** `kind=greeting` separa la bienvenida social de las
+respuestas factuales, sin modelo ni fuentes para el saludo. Seguridad e historial
+protegido conservados; consultas mixtas mantienen guardas. INC-043 resuelta
+localmente: 112 pruebas/41 subpruebas, dos advertencias, código 0; Edge 25/25,
+cero errores; helper 3/3 y tipos código 0. Sin commit/push; 43 incidencias:
+40 resueltas, dos mitigadas y una pendiente externa. [Contrato y evidencia](chatbot_greetings.md).
+
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
-**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+**Automatización del 14-oct-2026 (histórica, anterior al acceso por pestaña):** ejecutor por capas implementado.
 Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
 código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
 y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
@@ -146,8 +155,8 @@ Abrir `http://localhost:3016/`, escribir correo y contraseña en el login genera
 y pulsar «Iniciar sesión». Entrar a MEPIA y abrir **Chat IA** desde su menú.
 Visitar `/chat` sin sesión también dirige al login general y conserva ese
 destino. La contraseña la introduce el usuario. La cuenta ya existente se reutiliza;
-al migrar la sesión anterior de localStorage a cookies hay que entrar una vez
-en el nuevo flujo. El perfil
+al migrar las cookies anteriores al almacenamiento por pestaña hay que
+iniciar sesión una vez en el nuevo flujo. El perfil
 `api.chat_app` reutiliza los permisos existentes, valida configuración en
 lifespan, no exige claves del pipeline y solo registra rutas de Chat IA/listado.
 Los servidores actuales se conservan activos para el acceso local. Al cerrar
@@ -171,17 +180,19 @@ OpenAI/Anthropic del pipeline no son necesarias para este perfil.
 
 ## Contrato de acceso y consulta
 
-Supabase Auth inicia sesión con correo/contraseña en `/login`. El frontend
-solo usa URL y clave pública; reenvía el JWT mediante los proxies de Next.js.
-`@supabase/ssr` instalado (0.3.0) comparte la sesión mediante cookies. Middleware
-Next 15 verifica `getUser` en servidor antes de home/dashboard/upload/onboarding/
-chat; rechaza cookies inventadas y usuarios anónimos, propaga cookies renovadas
-y aplica `private, no-store`. Cookies Secure en producción en cliente y servidor;
-dev local permite HTTP loopback. `getSession` queda limitado al cliente.
-`MepiaAuthProvider` mantiene negocios propios y selección común; formularios
-anteriores usan ese negocio, sin `NEXT_PUBLIC_BUSINESS_ID`. Proxies Next legados
-exigen sesión; autorización por recurso en FastAPI legado sigue pendiente antes
-de publicar. Chat API conserva Bearer y permisos existentes incluso sin cookies.
+Supabase Auth inicia sesión en `/login` y guarda credenciales de sesión en
+sessionStorage, aisladas por pestaña y por clave de eventos del SDK. Recargar
+conserva el acceso; una pestaña nueva exige credenciales. Las cookies de la
+versión anterior se retiran y no se usan para autenticar. La contraseña no se
+guarda.
+
+MepiaAuthProvider verifica getUser antes de mostrar la interfaz/cargar negocios.
+El HTML inicial solo es el marco sin datos; el guard redirige al login. APIs del
+pipeline requieren Bearer y verificación de servidor; los formularios y polling
+lo añaden con authenticatedFetch. Chat conserva Bearer y permisos en FastAPI.
+El login normal y `/` llevan a Dashboard; no hay bienvenida ni enlace Inicio
+duplicado. Destinos internos explícitos seguros permanecen. Permisos por recurso
+de FastAPI legado siguen pendientes antes de publicar.
 FastAPI verifica el algoritmo configurado (HS256 con secreto privado o ES256 con
 claves públicas JWKS del proyecto), expiración, `iat`, emisor del proyecto,
 audiencia `authenticated`, rol `authenticated` y `sub` UUID. No acepta

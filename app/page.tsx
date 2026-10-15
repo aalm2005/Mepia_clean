@@ -1,5 +1,5 @@
-import WelcomeSplash from "@/components/splash/WelcomeSplash";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return <WelcomeSplash />;
+  redirect("/dashboard");
 }

@@ -1,10 +1,12 @@
 # N15 — Chat de consulta fundamentada
 
+**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+
 **GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](../../../docs/estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](../../../docs/estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
-**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+**Automatización del 14-oct-2026 (histórica, anterior al acceso por pestaña):** ejecutor por capas implementado.
 Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
 código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
 y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
@@ -159,15 +161,17 @@ Login/listado propio confirmado no equivale a recorrido completo del modelo.
 
 ### Acceso general y navegación de MEPIA
 
-`MepiaAuthProvider` comparte sesión/negocios y selección en todo MEPIA.
-`MepiaShell` muestra Inicio/Dashboard/Documentos/Chat IA/Configuración y salida
-de sesión, con menú móvil. `ChatPanel` consume ese contexto; no crea otro login.
-La sesión usa cookies de `@supabase/ssr`. Middleware verifica `getUser` en
-servidor antes de las páginas privadas y proxies Next legados; no confía en
-usuario de cookie ni usa `getSession` en servidor. Rechaza anónimos/cookies
-inventadas, propaga renovación con no-store y Secure en producción. Chat API
-conserva verificación Bearer/propiedad anterior; FastAPI legado aún requiere
-permisos por recurso antes de publicar el backend completo.
+`MepiaAuthProvider` verifica al usuario antes de compartir sesión/negocios.
+La sesión se guarda en sessionStorage y una clave por pestaña aísla eventos
+del SDK: recargar conserva; cerrar/abrir exige login. No recupera cookies ni
+localStorage anteriores. Dashboard es el inicio único y `/` redirige allí;
+la bienvenida y el enlace Inicio duplicado se retiran.
+
+MepiaShell no muestra páginas ni carga datos antes de validar sesión; el HTML
+inicial es solo un marco. APIs Next legadas verifican Bearer en servidor antes
+del proxy; formularios/polling lo envían con authenticatedFetch. Chat mantiene
+verificación Bearer/propiedad en FastAPI. Cookies antiguas no autorizan. Los
+permisos por recurso de FastAPI legado siguen pendientes de producción.
 
 Entrada/salida de auth usa navegación completa tras verificar/retirar sesión;
 destino `next` limitado a rutas internas conocidas. Chat usa mensajes separados,
@@ -187,7 +191,9 @@ autorizado, sin constante `NEXT_PUBLIC_BUSINESS_ID`.
   `data`, `evidence`, `missing_data`, `claims`, `generation_status`,
   `generation_issues`, `generation_diagnostics`) y `calculation_allowed=false`.
 - `message` puede contener redacción libre de la IA; `claims` conserva las
-  afirmaciones verificadas y sus referencias. Los textos fijos son respaldo.
+  afirmaciones verificadas y sus referencias. Los textos fijos son respaldo,
+  salvo la bienvenida social acotada `kind=greeting`, sin hechos ni fuentes.
+  Contrato y aceptación: [saludos](n15_chat_consulta_saludos.md).
 - `generation_diagnostics` conserva solo códigos seguros de etapa y causa
   cuando falla la generación o revisión; nunca copia texto rechazado ni claves.
 - Ningún contrato contiene instrucciones ni campos arbitrarios de JSONB.

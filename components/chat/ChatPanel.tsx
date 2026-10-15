@@ -119,16 +119,16 @@ export function ChatPanel() {
               {turn.answer.parts.map((part, p) => <div key={p} className="space-y-3">
                 <p className="whitespace-pre-wrap text-[15px] leading-7 text-zinc-200">{part.message}</p>
                 {(part.kind === "result" || part.kind === "metrics") && <MetricStatuses data={part.data}/>}
-                {part.generation_status === "fallback" && part.status === "ok" && <div>
+                {part.kind !== "greeting" && part.generation_status === "fallback" && part.status === "ok" && <div>
                   <p className="text-xs leading-relaxed text-amber-300">Mostramos los datos disponibles; no se obtuvo una explicación validada.</p>
                   <details className="mt-2 text-xs text-zinc-400"><summary className="cursor-pointer">Ver datos disponibles</summary><pre className="mt-2 overflow-auto whitespace-pre-wrap rounded-lg bg-black/10 p-3">{JSON.stringify(part.data, null, 2)}</pre></details>
                 </div>}
                 {!!part.missing_data.length && <p className="text-sm text-amber-300">Información faltante: {part.missing_data.join(", ")}</p>}
-                <details className="rounded-xl border border-white/5 px-3 py-2 text-xs text-zinc-500"><summary className="cursor-pointer text-zinc-400">Fuentes y trazabilidad</summary>
+                {part.kind !== "greeting" && <details className="rounded-xl border border-white/5 px-3 py-2 text-xs text-zinc-500"><summary className="cursor-pointer text-zinc-400">Fuentes y trazabilidad</summary>
                   <div className="mt-3 space-y-2 break-all"><p>Fecha de la evidencia: {turn.answer.resolved_date ?? "Sin resultados disponibles"}</p><p>Negocio: {turn.answer.business_id}</p>
                   {part.evidence.map(source => <p key={source.audit_result_id}>{source.node_id} · {source.date} · {source.audit_result_id}<br/>Ejecución S3: {source.source_s3_result_id ?? "No disponible"}</p>)}
                   {part.claims.flatMap(claim => claim.sources).map((source, s) => <p key={s}>{source.label} · {source.path}</p>)}</div>
-                </details>
+                </details>}
               </div>)}
             </div>
           </div>

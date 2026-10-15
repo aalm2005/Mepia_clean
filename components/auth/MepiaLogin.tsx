@@ -14,13 +14,8 @@ export function MepiaLogin() {
   const destination = loginDestination(params.get("next"));
   useEffect(() => {
     if (!ready || !session) return;
-    let alive = true;
-    getSupabaseBrowser().auth.getUser().then(({ data: { user }, error: failure }) => {
-      if (!alive) return;
-      if (user && !failure && !user.is_anonymous) window.location.replace(destination);
-      else setError("No fue posible comprobar tu sesión. Inicia sesión de nuevo.");
-    }).catch(() => { if (alive) setError("Inicio de sesión no disponible. Intenta más tarde."); });
-    return () => { alive = false; };
+    // El proveedor solo publica la sesión después de verificar al usuario.
+    window.location.replace(destination);
   }, [ready, session, destination]);
   async function login(event: FormEvent) {
     event.preventDefault(); setBusy(true); setError("");

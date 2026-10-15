@@ -71,11 +71,13 @@ async function requireFreePort(port) {
   });
   browser = await chromium.launch({ headless: true,
     ...(process.env.MEPIA_TEST_BROWSER ? { channel: process.env.MEPIA_TEST_BROWSER } : {}) });
-  page = await browser.newPage({ viewport: { width: 1100, height: 850 } });
+  const context = await browser.newContext({ viewport: { width: 1100, height: 850 } });
+  page = await context.newPage();
+  page.context().setDefaultTimeout(90000);
   page.setDefaultTimeout(90000); // Compilación fría local; rendimiento se mide aparte.
   page.on('response', res => { if (res.url().includes('/auth/v1/')) authResponses.push({ path: new URL(res.url()).pathname, status: res.status() }); });
   page.on('pageerror', e => errors.push(e.message));
-  await page.route('**/*', async route => {
+  await page.context().route('**/*', async route => {
     const req = route.request(); const url = req.url();
     if (url.startsWith(base) || url.startsWith(api) || url.startsWith('http://localhost:3015')) return route.continue();
     return route.abort(); // Sin servicios externos, incluidas fuentes web.
@@ -83,10 +85,13 @@ async function requireFreePort(port) {
   await page.goto(base + '/chat');
   await check('Entrada general: todas las páginas privadas requieren login', async () => {
     for (const route of ['/', '/dashboard', '/upload', '/onboarding', '/chat', '/salud', '/reportes']) {
-      const res = await fetch(base + route, { redirect: 'manual' });
-      assert.equal(res.status, 307);
-      assert.equal(new URL(res.headers.get('location')).pathname, '/login');
-      assert.equal(new URL(res.headers.get('location')).searchParams.get('next'), route);
+      await page.goto(base + route);
+      await page.waitForURL(url => url.pathname === '/login');
+      await page.getByRole('heading', {name: 'Bienvenido a MEPIA', exact: true}).waitFor();
+      const next = new URL(page.url()).searchParams.get('next');
+      if (route === '/') assert(['/', '/dashboard'].includes(next));
+      else assert.equal(next, route);
+      assert.equal(await page.getByRole('navigation', {name: 'Navegación principal'}).count(), 0);
     }
     assert.equal((await fetch(base + '/login')).status, 200);
     for (const path of ['/api/onboarding?business_id=' + state.business_a, '/api/audit/status/' + state.business_a]) {
@@ -96,9 +101,45 @@ async function requireFreePort(port) {
   await check('Cookie inventada no permite entrar a MEPIA', async () => {
     const forged = JSON.stringify({ access_token: 'forged-token', refresh_token: 'forged-refresh',
       expires_at: Math.floor(Date.now()/1000)+3600, user: { id: state.business_a } });
-    const res = await fetch(base + '/dashboard', { redirect: 'manual', headers: { Cookie: 'sb-127-auth-token=' + encodeURIComponent(forged) } });
-    assert.equal(res.status, 307);
-    assert.equal(new URL(res.headers.get('location')).pathname, '/login');
+    const res = await fetch(base + '/api/onboarding?business_id=' + state.business_a, { headers: { Cookie: 'sb-127-auth-token=' + encodeURIComponent(forged) } });
+    assert.equal(res.status, 401);
+    await page.context().addCookies([{name: 'sb-127-auth-token', value: encodeURIComponent(forged), url: base}]);
+    await page.goto(base + '/dashboard');
+    await page.waitForURL(url => url.pathname === '/login');
+    await page.getByLabel('Correo', {exact: true}).waitFor();
+    assert.equal((await page.context().cookies()).some(cookie => cookie.name === 'sb-127-auth-token'), false);
+  });
+  await check('Una cookie antigua válida tampoco sustituye la sesión de la pestaña', async () => {
+    const session = await (await fetch(api + '/__test__/session/a')).json();
+    const cookie = encodeURIComponent(JSON.stringify(session));
+    const res = await fetch(base + '/api/onboarding?business_id=' + state.business_a, {headers: {Cookie: 'sb-127-auth-token=' + cookie}});
+    assert.equal(res.status, 401);
+    await page.context().addCookies([{name: 'sb-127-auth-token', value: cookie, url: base}]);
+    await page.goto(base + '/');
+    await page.waitForURL(url => url.pathname === '/login');
+    await page.getByLabel('Correo', {exact: true}).waitFor();
+  });
+  await check('Una sesión manipulada en almacenamiento no permite mostrar MEPIA ni llamar la API', async () => {
+    const session = await (await fetch(api + '/__test__/session/a')).json();
+    const pieces = session.access_token.split('.');
+    pieces[2] = (pieces[2][0] === 'a' ? 'b' : 'a') + pieces[2].slice(1);
+    session.access_token = pieces.join('.');
+    session.expires_at = Math.floor(Date.now()/1000) + session.expires_in;
+    const res = await fetch(base + '/api/onboarding?business_id=' + state.business_a, {headers: {Authorization:'Bearer ' + session.access_token}});
+    assert.equal(res.status, 401);
+    const other = await page.context().newPage();
+    other.on('pageerror', e => errors.push(e.message));
+    try {
+      await other.addInitScript(session => {
+        const tab = crypto.randomUUID();
+        sessionStorage.setItem('mepia.tab.id', tab);
+        sessionStorage.setItem('mepia.auth.' + tab, JSON.stringify(session));
+      }, session);
+      await other.goto(base + '/dashboard');
+      await other.waitForURL(url => url.pathname === '/login');
+      await other.getByLabel('Correo', {exact: true}).waitFor();
+      assert.equal(await other.getByRole('navigation', {name:'Navegación principal'}).count(), 0);
+    } finally { await other.close(); }
   });
   async function login(who) {
     await page.getByLabel('Correo', { exact: true }).fill(who + '@example.invalid');
@@ -110,16 +151,59 @@ async function requireFreePort(port) {
   }
   await check('Inicio de sesión y solo negocios propios', async () => {
     await login('a');
+    assert.equal(new URL(page.url()).origin, base);
     const values = await page.locator('select option').evaluateAll(options => options.map(o => o.value));
     assert.deepEqual(values.sort(), [state.business_a, state.business_c].sort());
   });
+  await check('API legada verifica Bearer y no confunde sesión válida con acceso anónimo', async () => {
+    const session = await (await fetch(api + '/__test__/session/a')).json();
+    const res = await fetch(base + '/api/onboarding?business_id=' + state.business_a, {headers:{Authorization:'Bearer ' + session.access_token}});
+    assert.equal(res.status, 404); // El upstream sintético no registra onboarding: el proxy sí pasó su guard.
+  });
+  await check('Dashboard es el inicio único, sin bienvenida y conserva sesión al recargar', async () => {
+    await page.goto(base + '/login');
+    await page.waitForURL(url => url.pathname === '/dashboard');
+    await page.getByText('Sesión iniciada', {exact: true}).waitFor();
+    assert.equal(await page.getByRole('link', {name: 'Inicio', exact: true}).count(), 0);
+    assert.equal(await page.getByRole('button', {name: 'Iniciar', exact: true}).count(), 0);
+    await page.reload();
+    await page.getByText('Sesión iniciada', {exact: true}).waitFor();
+    assert.equal(new URL(page.url()).pathname, '/dashboard');
+    await page.goto(base + '/');
+    await page.waitForURL(url => url.pathname === '/dashboard');
+    assert.equal(new URL(page.url()).origin, base);
+    await page.getByText('Sesión iniciada', {exact: true}).waitFor();
+    assert.equal((await page.context().cookies()).some(cookie => /auth-token/.test(cookie.name)), false);
+    assert.equal(await page.evaluate(() => Object.keys(localStorage).some(key => /auth-token|mepia\.auth\./.test(key))), false);
+    assert.equal(await page.evaluate(() => Object.keys(sessionStorage).some(key => key.startsWith('mepia.auth.'))), true);
+  });
+  await check('Otra pestaña exige login y no cierra la sesión de la pestaña original', async () => {
+    const other = await page.context().newPage();
+    try {
+      await other.goto(base + '/dashboard');
+      await other.waitForURL(url => url.pathname === '/login');
+      await other.getByLabel('Correo', {exact: true}).waitFor();
+      assert.equal(await other.getByRole('navigation', {name:'Navegación principal'}).count(), 0);
+      await other.getByLabel('Correo', {exact: true}).fill('b@example.invalid');
+      await other.getByLabel('Contraseña', {exact: true}).fill('synthetic-test-password');
+      await other.getByRole('button', {name:'Iniciar sesión',exact:true}).click();
+      await other.getByText('Sesión iniciada',{exact:true}).waitFor();
+      await other.waitForFunction(() => document.querySelector('select')?.value);
+      assert.equal(await other.getByLabel('Negocio',{exact:true}).inputValue(),state.business_b);
+      assert.notEqual(await page.evaluate(() => sessionStorage.getItem('mepia.tab.id')), await other.evaluate(() => sessionStorage.getItem('mepia.tab.id')));
+      await page.reload();
+      await page.getByText('Sesión iniciada', {exact: true}).waitFor();
+      await page.waitForFunction(() => document.querySelector('select')?.value);
+      assert.notEqual(await page.getByLabel('Negocio',{exact:true}).inputValue(),state.business_b);
+      await other.getByRole('button',{name:'Cerrar sesión',exact:true}).click();
+      await other.waitForURL(url => url.pathname === '/login');
+      await page.reload();
+      await page.getByText('Sesión iniciada',{exact:true}).waitFor();
+    } finally { await other.close(); }
+  });
   await check('Chat desde el menú común, sin un segundo login', async () => {
-    await page.getByRole('navigation', { name: 'Navegación principal' }).getByRole('link', { name: 'Inicio', exact: true }).click();
-    await page.waitForURL(url => url.pathname === '/');
-    await page.getByRole('heading', { name: 'MEPIA', exact: true }).waitFor();
-    await page.waitForFunction(() => ['.splash-title', '.splash-subtitle', '.splash-cta'].every(selector =>
-      Array.from(document.querySelectorAll(selector)).every(el => Number(getComputedStyle(el).opacity) >= 0.99)));
-    await page.screenshot({ path: path.join(output, 'welcome.png'), fullPage: true });
+    await page.getByRole('heading', {name: /Auditoría/i}).waitFor();
+    await page.screenshot({ path: path.join(output, 'home-dashboard.png'), fullPage: true });
     await page.getByRole('navigation', { name: 'Navegación principal' }).getByRole('link', { name: 'Chat IA', exact: true }).click();
     await page.waitForURL('**/chat');
     await page.getByRole('heading', { name: /Chat IA/ }).waitFor();
@@ -188,6 +272,22 @@ async function requireFreePort(port) {
     await page.getByRole('navigation', {name: 'Navegación principal'}).getByRole('link', {name: 'Chat IA', exact: true}).click();
     await page.getByLabel('Pregunta sobre tus métricas').waitFor();
   });
+  await check('Saludo natural sin llamadas de generación ni fuentes vacías', async () => {
+    const before = await (await fetch(api + '/__test__/state')).json();
+    await page.getByLabel('Pregunta sobre tus métricas').fill('Hola');
+    await page.getByRole('button', {name: 'Enviar pregunta'}).click();
+    await page.locator('article').first().waitFor();
+    assert.match(await page.locator('article').innerText(), /¡Hola! Puedo ayudarte/);
+    assert.equal(await page.getByText('Fuentes y trazabilidad', {exact: true}).count(), 0);
+    assert.equal(await page.getByText('Mostramos los datos disponibles; no se obtuvo una explicación validada.', {exact: true}).count(), 0);
+    const after = await (await fetch(api + '/__test__/state')).json();
+    assert.equal(after.model_calls, before.model_calls);
+    await page.getByRole('button', {name: 'Recargar historial'}).click();
+    await page.getByRole('button', {name: 'Enviar pregunta'}).isEnabled();
+    assert.match(await page.locator('article').innerText(), /¡Hola! Puedo ayudarte/);
+    await page.getByRole('button', {name: 'Nueva conversación'}).click();
+    assert.equal(await page.locator('article').count(), 0);
+  });
   await check('Pregunta con cifra/unidad, fuentes y linaje', async () => {
     await page.getByLabel('Pregunta sobre tus métricas').fill('¿Cuál fue el ticket promedio?');
     await page.getByRole('button', { name: 'Enviar pregunta' }).click();
@@ -234,6 +334,8 @@ async function requireFreePort(port) {
     await page.waitForURL(url => url.pathname === '/login' && !url.search);
     await page.getByLabel('Correo', { exact: true }).waitFor();
     await login('b');
+    await page.getByRole('navigation', {name:'Navegación principal'}).getByRole('link', {name:'Chat IA',exact:true}).click();
+    await page.getByLabel('Pregunta sobre tus métricas').waitFor();
     assert.equal(await page.locator('article').count(), 0);
     assert.deepEqual(await page.locator('select option').evaluateAll(options => options.map(o => o.value)), [state.business_b]);
   });
@@ -367,6 +469,22 @@ async function requireFreePort(port) {
     assert.equal(new URL(page.url()).pathname, '/login');
     await login('a');
   });
+  await check('Cerrar y abrir de nuevo la pestaña exige credenciales', async () => {
+    const context = page.context();
+    await page.close();
+    page = await context.newPage();
+    page.on('pageerror', e => errors.push(e.message));
+    page.on('response', res => { if (res.url().includes('/auth/v1/')) authResponses.push({path: new URL(res.url()).pathname, status: res.status()}); });
+    await page.goto(base + '/dashboard');
+    await page.waitForURL(url => url.pathname === '/login');
+    await page.getByLabel('Correo', {exact: true}).waitFor();
+    assert.equal(await page.getByLabel('Correo', {exact: true}).inputValue(), '');
+    assert.equal(await page.getByText('Sesión iniciada', {exact: true}).count(), 0);
+    await login('a');
+    await page.waitForURL(url => url.pathname === '/dashboard');
+    await page.getByRole('link', {name: 'Chat IA', exact: true}).click();
+    await page.getByLabel('Pregunta sobre tus métricas').waitFor();
+  });
   await page.screenshot({ path: path.join(output, 'chat-ui.png'), fullPage: true });
   assert.deepEqual(errors, []);
   fs.writeFileSync(path.join(output, 'e2e.json'), JSON.stringify({ passed: true, checks, extended_checks: extendedChecks, page_errors: errors, external_api_calls: 0 }, null, 2));
@@ -376,6 +494,12 @@ async function requireFreePort(port) {
     try {
       diagnostic.url = page.url(); diagnostic.visible_text = (await page.locator('body').innerText()).slice(0, 2500);
       diagnostic.cookie_metadata = (await page.context().cookies()).map(item => ({ name: item.name, length: item.value.length, secure: item.secure }));
+      diagnostic.tab_session_metadata = await page.evaluate(() => {
+        const tab = sessionStorage.getItem('mepia.tab.id');
+        let stored; try { stored = JSON.parse(sessionStorage.getItem('mepia.auth.' + tab) || 'null'); } catch {}
+        return {tab_present: !!tab, session_present: !!stored, user_present: !!stored?.user,
+          expires_at: stored?.expires_at, now: Math.floor(Date.now()/1000)};
+      });
       await page.screenshot({ path: path.join(output, 'failure.png'), fullPage: true });
     } catch {}
   }
