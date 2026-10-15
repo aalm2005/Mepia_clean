@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-12",
+  "powershell_syntax": "passed",
+  "show_proposal_without_key_or_api": "passed",
+  "supplement_blocked_without_authorization_before_key_and_reservation": "passed",
+  "phase2_still_blocked_before_key_and_reservation": "passed",
+  "no_new_attempt_reserved": true,
+  "protected_original_evaluation_files_unchanged": 274,
+  "new_api_calls": 0,
+  "runner_sha256": "00c4128c05978ca016ec75d22a3f43df63e03705fd3c6e62c0739478716c77a7",
+  "status": "proposed_not_authorized"
+}

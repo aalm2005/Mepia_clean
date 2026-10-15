@@ -2,7 +2,7 @@
 
 **Referenciado desde:** `design.md`
 
-## Propuesta de `tailwind.config.ts`
+## Tokens vigentes de `tailwind.config.ts` — 15-oct-2026
 
 ```typescript
 import type { Config } from "tailwindcss";
@@ -12,67 +12,69 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Base — brutalismo oscuro
-        canvas:   "#0f0f11",   // fondo raíz (más oscuro que zinc-900)
-        surface:  "#18181b",   // zinc-900 — superficies primarias
-        elevated: "#27272a",   // zinc-800 — tarjetas, paneles
-        border:   "#3f3f46",   // zinc-700 — bordes visibles
-        muted:    "#71717a",   // zinc-500 — texto secundario
-
-        // Acento principal
+        canvas:   "#050B18",
+        surface:  "#0C1B33",
+        elevated: "#102744",
+        border:   "#1B3657",
+        muted:    "#A8BED8",
         accent: {
-          DEFAULT: "#34d399",  // emerald-400
-          dim:     "#065f46",  // emerald-900 — fondos de badge
+          DEFAULT: "#1677FF",
+          dim:     "#081426",
         },
-
-        // Semáforo forense
         critical: {
-          DEFAULT: "#ef4444",  // red-500
-          bg:      "#450a0a",  // red-950
-          border:  "#b91c1c",  // red-700
+          DEFAULT: "#ef4444",
+          bg:      "#450a0a",
+          border:  "#b91c1c",
         },
         warning: {
-          DEFAULT: "#f59e0b",  // amber-500
-          bg:      "#451a03",  // amber-950
-          border:  "#b45309",  // amber-700
+          DEFAULT: "#f59e0b",
+          bg:      "#451a03",
+          border:  "#b45309",
         },
         info: {
-          DEFAULT: "#71717a",  // zinc-500
-          bg:      "#27272a",  // zinc-800
+          DEFAULT: "#A8BED8",
+          bg:      "#102744",
         },
-
-        // Arquetipos CEO
         archetype: {
-          operative: { badge: "#065f46", text: "#6ee7b7" }, // emerald
-          purist:    { badge: "#2e1065", text: "#c4b5fd" }, // violet
-          hacker:    { badge: "#451a03", text: "#fcd34d" }, // amber
+          operative: { badge: "#0C1B33", text: "#55C7FF" },
+          purist:    { badge: "#102744", text: "#258BFF" },
+          hacker:    { badge: "#081426", text: "#00E5FF" },
+        },
+        emerald: {
+          50: "#F0F7FF", 100: "#DCEBFA", 200: "#A8BED8", 300: "#55C7FF",
+          400: "#55C7FF", 500: "#258BFF", 600: "#1677FF", 700: "#155CC2",
+          800: "#102744", 900: "#0C1B33", 950: "#081426",
+        },
+        violet: {
+          50: "#F0F7FF", 100: "#DCEBFA", 200: "#A8BED8", 300: "#7ECFFF",
+          400: "#55C7FF", 500: "#258BFF", 600: "#1677FF", 700: "#155CC2",
+          800: "#102744", 900: "#0C1B33", 950: "#081426",
+        },
+        zinc: {
+          50: "#F0F7FF", 100: "#F0F7FF", 200: "#DCEBFA", 300: "#C2D4E8",
+          400: "#A8BED8", 500: "#A8BED8", 600: "#7E9BB8", 700: "#52708F",
+          800: "#1B3657", 900: "#0C1B33", 950: "#050B18",
         },
       },
-
       fontFamily: {
         sans:  ["Inter", "sans-serif"],
         mono:  ["JetBrains Mono", "Fira Code", "monospace"],
       },
-
       fontSize: {
-        // Escala brutalista — pocos tamaños, contraste máximo
         "forensic-xl": ["2.25rem", { lineHeight: "1", fontWeight: "700", letterSpacing: "-0.02em" }],
         "forensic-lg": ["1.5rem",  { lineHeight: "1.2", fontWeight: "600" }],
         "label":       ["0.6875rem", { lineHeight: "1", fontWeight: "500", letterSpacing: "0.1em" }],
       },
-
       spacing: {
-        "panel": "1.5rem",   // padding estándar de paneles
-        "row":   "1.25rem",  // padding vertical de filas de tabla
+        "panel": "1.5rem",
+        "row":   "1.25rem",
       },
-
       borderWidth: {
-        "alert": "2px",  // borde izquierdo de filas críticas
+        "alert": "2px",
       },
-
       boxShadow: {
-        "panel": "0 0 0 1px #3f3f46",  // borde sutil sin elevación
-        "glow-critical": "0 0 12px 0 rgba(239,68,68,0.25)",
+        "panel": "0 0 0 1px #1B3657",
+        "glow-critical": "0 0 12px 0 rgba(37,139,255,0.25)",
       },
     },
   },
@@ -112,13 +114,14 @@ const archetypeBadge = {
 }
 ```
 
-## Reglas brutalistas
+## Aplicación visual actual
 
-- **Sin `rounded-full`** en elementos de datos — solo en badges de texto pequeño
-- **Sin sombras de elevación** — usar `ring` o `border` para separar superficies
-- **Números siempre en `font-mono`** — `quantified_impact`, totales, porcentajes
-- **Bordes visibles** — `border border-zinc-800` en todas las tarjetas y tablas
-- **Fila crítica** — `border-l-2 border-red-500 bg-red-950/20`
+- Diseño azul y superficies de vidrio recibidos del equipo; bordes redondeados y sombras definidos en CSS.
+- Los alias `emerald`, `violet` y `zinc` se mapean a la paleta azul; consultar los tokens, no su nombre histórico.
+- Estados críticos en rojo y advertencias en ámbar: conservan significado, cifras y unidades.
+- Números legibles, gráficas por unidad y estados vacíos sin datos inventados.
+- Menú móvil y distribuciones adaptables existentes; revisión completa de pantallas aún pendiente.
+- Véase [estado actual](../../../docs/estado_actual_mepia.md).
 
 ## Archivos relacionados de este nodo
 

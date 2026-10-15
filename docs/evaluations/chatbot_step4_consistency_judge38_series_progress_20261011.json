@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "series_id": "judge38_20261011",
+  "client_date": "2026-10-11",
+  "generated_at_utc": "2026-10-12T03:08:17.698283+00:00",
+  "plan": "chatbot_step4_consistency_judge38_authorized_plan_20261011.json",
+  "status": "continued_under_separate_authorized_recovery_plan",
+  "user_authorized": true,
+  "authorization": "Sí, tres repeticiones con Gemini 3.8 (máximo 15 llamadas adicionales)",
+  "max_runs": 3,
+  "total_budget": {
+    "generation_max_calls": 12,
+    "judge_max_calls": 3,
+    "api_max_calls": 15
+  },
+  "historical_followup_api_before_series": 8,
+  "new_calls_actual": {
+    "generation": 4,
+    "judge": 1,
+    "total_api": 5
+  },
+  "runs_started": 1,
+  "runs_qualified": 0,
+  "next_run": null,
+  "stop_on_failure": true,
+  "runs": [
+    {
+      "number": 1,
+      "status": "independent_review_recovered_original_error_retained_not_qualified",
+      "independent_audit_passed": false,
+      "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+      "judge_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.json",
+      "attempt_record": "chatbot_step4_consistency_judge38_series_run1_attempt_20261011.json",
+      "generation_audit_passed": true,
+      "generation_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "trace": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_synthetic_trace.json",
+      "audit": "chatbot_step4_consistency_judge38_series_run1_audit_20261011.json",
+      "actual_calls": {
+        "generation": 4,
+        "judge": 1,
+        "total_api": 5
+      },
+      "controls": "45/45",
+      "coverage": "2/2",
+      "parts_validated": "3/3",
+      "independent_pending": 0,
+      "qualified": false,
+      "latest_independent_review_passed": true,
+      "latest_independent_review": {
+        "parts": 3,
+        "independent_judgments": 3,
+        "independent_pass": 3,
+        "independent_fail": 0,
+        "pending": 0,
+        "all_four_criteria_true_per_part": true,
+        "source_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+        "source_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+        "judge_report": "chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.json",
+        "audit": "chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.json",
+        "original_judge503_preserved": true
+      }
+    },
+    {
+      "number": 2,
+      "status": "blocked_after_run1_judge_error",
+      "independent_audit_passed": false,
+      "generation_report": null,
+      "judge_report": null,
+      "attempt_record": "chatbot_step4_consistency_judge38_series_run2_attempt_20261011.json"
+    },
+    {
+      "number": 3,
+      "status": "blocked_after_run1_judge_error",
+      "independent_audit_passed": false,
+      "generation_report": null,
+      "judge_report": null,
+      "attempt_record": "chatbot_step4_consistency_judge38_series_run3_attempt_20261011.json"
+    }
+  ],
+  "runner_sha256": "09df3c8b23d410240e4157f6d01fbabd5f79124cef7b6d39c9686928c77b8d09",
+  "plan_sha256": "a059b8d70545ca3d85062ed6cad81044401f2bd034a0f44abc5f5a931b81b7c7",
+  "unused_budget": {
+    "generation_max_calls": 8,
+    "judge_max_calls": 2,
+    "api_max_calls": 10
+  },
+  "unused_budget_must_not_be_used_while_stopped": true,
+  "stop_reason": {
+    "report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+    "error_type": "InternalServerError",
+    "http_status": 503,
+    "provider_status": "UNAVAILABLE",
+    "provider_message_present": true,
+    "provider_error_body_kind": "array",
+    "diagnostic_hints": [
+      "provider_message_mentions_capacity"
+    ],
+    "case_ids": [
+      "same_day_result_and_report",
+      "arithmetic_division"
+    ]
+  },
+  "new_api_calls_during_audit": 0,
+  "supplemental_judge_run1_retry1": {
+    "user_authorized": true,
+    "authorization": "ok, te parece seguir intentando el paso 4",
+    "status": "executed_independent_pass",
+    "plan": "chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.json",
+    "runner": ".test_tmp/revisar_consistencia_juez38_run1.ps1",
+    "runner_sha256": "b2cb9de863f57f706d227aa6f1e9c35f23f672b7b3d64483bf1d08c69675fc1a",
+    "source_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+    "source_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+    "generation_max_calls": 0,
+    "judge_max_calls": 1,
+    "actual_calls": {
+      "generation": 0,
+      "judge": 1,
+      "total_api": 1
+    },
+    "automatic_retries": 0,
+    "budget_separate_from_original_series": true,
+    "does_not_resume_or_qualify_original_series": true,
+    "inspect_result_before_any_other_call": true,
+    "verification": {
+      "schema_version": 1,
+      "client_date": "2026-10-11",
+      "generated_at_utc": "2026-10-12T04:50:05.002146+00:00",
+      "plan": "chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.json",
+      "plan_sha256": "9fec3a3f68078df7a43a9940e7af00f0a011596b66c7b5fd62a067bb56a0507c",
+      "runner": ".test_tmp/revisar_consistencia_juez38_run1.ps1",
+      "runner_sha256": "b2cb9de863f57f706d227aa6f1e9c35f23f672b7b3d64483bf1d08c69675fc1a",
+      "powershell_syntax": "passed",
+      "verification_environment": "system_windows_powershell_modules_in_child_only",
+      "prior_verification_failures_before_key_or_api": 2,
+      "prior_failure": "GetFileHash_command_not_found_in_python_child_with_inherited_modules",
+      "show_plan_without_key_or_api": "passed",
+      "exclusive_attempt_guard_before_key_and_api": "passed",
+      "verification_marker_removed_no_actual_attempt_reserved": true,
+      "protected_evaluation_files_unchanged": 227,
+      "ten_original_code_hashes_match": true,
+      "new_api_calls": 0,
+      "status": "prepared_not_executed"
+    },
+    "additional_authorized_calls_remaining": 0,
+    "report": "chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.json",
+    "reviews_file": "chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf_reviews.json",
+    "audit": "chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.json",
+    "sha_and_digests_verified": true,
+    "independent_pass": 3,
+    "pending": 0,
+    "judge_errors_this_attempt": 0,
+    "exit_code": 1,
+    "exit1_reason": "global_gate_requires_36_parts_and_36_independent_passes_sample_has_3"
+  },
+  "updated_client_date": "2026-10-11",
+  "updated_at_utc": "2026-10-12T04:58:31.868686+00:00",
+  "original_series_qualified_runs": 0,
+  "whole_followup_historical_calls": {
+    "generation": 8,
+    "judge": 6,
+    "total_api": 14
+  },
+  "protocol_amendment_proposal": {
+    "plan": "chatbot_step4_consistency_judge38_recovery_amendment_proposal_20261011.json",
+    "user_authorized": false,
+    "status": "proposed_not_authorized"
+  },
+  "next_action": "Use the recovery plan runner for run2. Original runner and its original qualification remain stopped and preserved.",
+  "protocol_amendment_authorization": {
+    "user_authorized": true,
+    "authorization": "Sí, aceptar la recuperación y continuar con las dos restantes",
+    "status": "authorized_prepared_remaining_runs_not_started",
+    "plan": "chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.json",
+    "progress": "chatbot_step4_consistency_judge38_recovery_series_progress_20261011.json",
+    "quality_validated_runs": 1,
+    "next_run": 2,
+    "remaining_max_api_calls": 10,
+    "new_api_calls_actual": 0,
+    "original503_preserved": true
+  }
+}

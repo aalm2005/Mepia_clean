@@ -5,14 +5,14 @@ interface AnomalyCardProps {
 }
 
 const severityBadge: Record<AnomalyItem["severity"], string> = {
-  high:   "bg-red-950  text-red-400  border border-red-700",
-  medium: "bg-amber-950 text-amber-400 border border-amber-700",
-  low:    "bg-zinc-800 text-zinc-400  border border-zinc-700",
+  high:   "bg-red-950/40  text-red-400  border border-red-500/30 backdrop-blur",
+  medium: "bg-amber-950/40 text-amber-400 border border-amber-500/30 backdrop-blur",
+  low:    "bg-white/5 text-zinc-300  border border-white/10 backdrop-blur",
 };
 
 export function AnomalyCard({ anomaly }: AnomalyCardProps) {
   return (
-    <div className="bg-elevated border border-border rounded p-4 flex flex-col gap-2">
+    <div className="glass-strong border border-white/10 rounded-xl p-4 flex flex-col gap-2">
       {/* Header: type + severity badge */}
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs text-zinc-500 font-mono uppercase tracking-widest">

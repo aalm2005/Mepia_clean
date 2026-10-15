@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-14",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": "sin commit",
+  "status": "private_key_entry_pending",
+  "user_confirmed_gemini_key_available": true,
+  "manual_key_target": "api/.env",
+  "manual_key_field": "CHAT_GEMINI_API_KEY",
+  "manual_key_line": 5,
+  "initial_effective_model": "gemini-3.5-flash-lite",
+  "initial_effective_key_present": false,
+  "root_env_exists": false,
+  "private_env_ignored": true,
+  "editor_open_status": "queued",
+  "catalog_verified_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+  "catalog_does_not_prove_account_availability": true,
+  "product_code_or_private_configuration_changed": false,
+  "model_requests_by_agent": 0,
+  "code_tests_rerun": false,
+  "previous_evidence_count": 405,
+  "documents_updated": [
+    "docs/chatbot_corrections.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    "docs/chatbot_step5_integration.md"
+  ],
+  "mandatory_source_hashes_before_preparation": {
+    "docs/chatbot_corrections.md": "973e337a7d5500f1582dc723a877b8617a370c5490987dfe54c0e7033535007a",
+    "docs/chatbot_incidents.md": "b4786f64c14ac1d7aa85d6a897d78cf29b69e09001e8d194830800700d953bf1",
+    "docs/mepia_v4_metricas_diseno.md": "157940ee9026b1186990461bfbb3b6e2fd44530d1ced5d4dd09d8f87c94908c2",
+    ".kiro/specs/mepia/n15_chat_consulta.md": "45673b7e2c441c6ea520bebcfeb4d2b577c9d87ffe7f8cfd07e9c9ee03227b47"
+  },
+  "new_incidents": [],
+  "incident_states_changed": false,
+  "sql_executed": false,
+  "production_changed": false,
+  "committed": false,
+  "pushed": false,
+  "pending": [
+    "User enters and saves key privately",
+    "Check presence without exposing key",
+    "Restart only local chat backend",
+    "User confirms chat response in own session"
+  ],
+  "existing_per_request_model_attempt_limit": 2,
+  "sdk_retries": 0,
+  "step4_budget_reused_or_new_offline_run_enabled": false
+}

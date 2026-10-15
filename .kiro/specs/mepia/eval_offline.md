@@ -1,5 +1,11 @@
 # EVAL — Set de Evaluación Offline
 
+**Estado al 15-oct-2026:** harness y fixtures implementados; ya no es un
+placeholder. Las corridas y sus alcances están en el [documento maestro](../../../docs/mepia_v4_metricas_diseno.md).
+Este archivo describe la evaluación del motor; el chatbot N15 tiene su
+[evaluación](../../../docs/chatbot_step4_eval.md) y su [ejecutor de integración](../../../docs/chatbot_step5_automation.md)
+separados. No se repiten aquí las pruebas ni se trasladan sus aprobaciones.
+
 **Capa:** Transversal (Calidad) | **Relación:** Valida S3, S4, N05, N11
 **Archivos relacionados:** `s3_motor_calculo.md`, `s4_auditoria_ia.md`, `n05_ceo_orchestrator.md`, `n11_consultor.md`
 
@@ -142,7 +148,13 @@ Además se imprime resumen agregado en consola: total casos, pasados, fallidos, 
 
 ---
 
-## Pendiente de diseño
+## Preguntas del diseño inicial y ampliaciones futuras
+
+Registro histórico de preguntas anteriores a construir los ocho casos. El
+etiquetado y las condiciones efectivas de los fixtures existentes se consultan
+en cada JSON y en las funciones; la regla de materialidad no se presume universal
+para todas las métricas. Los pendientes de ampliación/CI que siguen no significan
+que falte implementar el harness actual.
 
 ### Método de etiquetado y umbral de aprobación
 

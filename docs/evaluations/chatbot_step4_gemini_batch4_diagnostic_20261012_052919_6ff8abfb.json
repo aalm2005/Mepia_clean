@@ -1,0 +1,520 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T05:29:50.792206+00:00",
+  "mode": "real",
+  "model_calls": 4,
+  "criteria": {
+    "structural": "100% de clasificación, estado, negocio, fecha, linaje y controles de política correctos en todas las partes; cero cifras o unidades distintas de la fuente.",
+    "coverage": "100% de partes respondibles con redacción validada y al menos una afirmación; una respuesta de respaldo no cuenta como cubierta.",
+    "real_generation": "En modo real, 100% de partes que llegan al proveedor deben conservar redacción validada; incluso una negativa segura de respaldo registra el fallo. El rechazo previo por negocio equivocado debe hacer cero llamadas.",
+    "semantic": "100% de partes revisadas por una persona o juez independiente con afirmaciones respaldadas, pregunta atendida y sin inferencias; cualquier not_reviewed impide cerrar calidad de IA real.",
+    "real_model": "Al menos una corrida acotada con un proveedor real configurado, con llamadas contadas; no se infiere calidad real de proveedores simulados.",
+    "justification": "Son umbrales estrictos por seguridad: el conjunto es pequeño y dirigido, y un error de negocio, cálculo o acceso no es aceptable. La cobertura impide aprobar negando todo. Los controles mecánicos y los juicios semánticos tienen denominadores separados."
+  },
+  "acceptance": {
+    "structural": false,
+    "coverage": true,
+    "semantic": false,
+    "real_model_run": true,
+    "step4_validated": false
+  },
+  "summary": {
+    "cases_total": 2,
+    "parts_total": 3,
+    "answerable_covered": 2,
+    "answerable_total": 2,
+    "semantic_pass": 0,
+    "semantic_fail": 0,
+    "semantic_not_reviewed": 3,
+    "checks": {
+      "classification": {
+        "passed": 3,
+        "total": 3
+      },
+      "status": {
+        "passed": 3,
+        "total": 3
+      },
+      "answerable_coverage": {
+        "passed": 3,
+        "total": 3
+      },
+      "no_calculation": {
+        "passed": 3,
+        "total": 3
+      },
+      "missing_or_outside": {
+        "passed": 3,
+        "total": 3
+      },
+      "source_lineage": {
+        "passed": 3,
+        "total": 3
+      },
+      "evidence_metadata": {
+        "passed": 3,
+        "total": 3
+      },
+      "claim_evidence": {
+        "passed": 2,
+        "total": 2
+      },
+      "date": {
+        "passed": 3,
+        "total": 3
+      },
+      "source_value_unit": {
+        "passed": 1,
+        "total": 1
+      },
+      "claimed_value_source": {
+        "passed": 1,
+        "total": 1
+      },
+      "claimed_value_literal": {
+        "passed": 1,
+        "total": 1
+      },
+      "claimed_unit": {
+        "passed": 1,
+        "total": 1
+      },
+      "isolation": {
+        "passed": 3,
+        "total": 3
+      },
+      "provider_generation": {
+        "passed": 2,
+        "total": 3
+      },
+      "report_content": {
+        "passed": 1,
+        "total": 1
+      },
+      "part_count": {
+        "passed": 2,
+        "total": 2
+      },
+      "answer_business": {
+        "passed": 2,
+        "total": 2
+      },
+      "answer_date": {
+        "passed": 2,
+        "total": 2
+      },
+      "calculation_disabled": {
+        "passed": 2,
+        "total": 2
+      }
+    },
+    "failure_count": 1
+  },
+  "failures": [
+    {
+      "case": "arithmetic_division",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+    }
+  ],
+  "cases": [
+    {
+      "id": "same_day_result_and_report",
+      "dataset": "two_runs",
+      "question": "¿Cuál fue el ticket promedio y dame el informe final?",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Atiende ambas partes con la segunda ejecución S3 del día y solo su N14 enlazado."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "9cb3d600-3583-5a67-9a22-861eb01d5bdf"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Cuál fue el ticket promedio",
+          "expected": {
+            "kind": "result",
+            "status": "ok",
+            "answerable": true,
+            "evidence": [
+              "new-s3"
+            ],
+            "forbidden_evidence": [
+              "old-s3",
+              "other-s3"
+            ],
+            "metric": "avg_ticket",
+            "value": 125,
+            "unit": "MXN"
+          },
+          "actual": {
+            "kind": "result",
+            "status": "ok",
+            "generation_status": "validated",
+            "message": "El ticket promedio fue de 125 MXN",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "4e7ee0d692f09ace781717cb8a43f8f6c6f04a0c4ac820e5965c80992c14385c",
+            "claims": [
+              {
+                "text": "El ticket promedio fue de 125 MXN",
+                "sources": [
+                  {
+                    "path": "/metrics/0/value",
+                    "value": 125,
+                    "unit": "MXN",
+                    "evidence": [
+                      "9cb3d600-3583-5a67-9a22-861eb01d5bdf"
+                    ]
+                  },
+                  {
+                    "path": "/metrics/0/unit",
+                    "value": "MXN",
+                    "unit": null,
+                    "evidence": [
+                      "9cb3d600-3583-5a67-9a22-861eb01d5bdf"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_value_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_source",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_value_literal",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claimed_unit",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        },
+        {
+          "index": 1,
+          "question_part": "dame el informe final",
+          "expected": {
+            "kind": "report",
+            "status": "ok",
+            "answerable": true,
+            "evidence": [
+              "new-n14"
+            ],
+            "forbidden_evidence": [
+              "old-n14"
+            ],
+            "report_contains": "segunda ejecución"
+          },
+          "actual": {
+            "kind": "report",
+            "status": "ok",
+            "generation_status": "validated",
+            "message": "El informe de la segunda ejecución presenta el resumen ejecutivo.",
+            "generation_issues": [],
+            "generation_diagnostics": [],
+            "review_digest": "27a30624122a058527bd3ef145d2968871183b46b48fcb6f0c98c24145d2a0ca",
+            "claims": [
+              {
+                "text": "El informe de la segunda ejecución presenta el resumen ejecutivo.",
+                "sources": [
+                  {
+                    "path": "/report/executive_summary",
+                    "value": "Informe de la segunda ejecución.",
+                    "unit": null,
+                    "evidence": [
+                      "6724b825-8310-5ecc-a547-0c13a1f0bf0c"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "claim_evidence",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "report_content",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": true,
+              "detail": ""
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    },
+    {
+      "id": "arithmetic_division",
+      "dataset": "main",
+      "question": "Divide 125 entre 5 para recalcular el ticket promedio",
+      "model_calls": 2,
+      "semantic_expectations": [
+        "Rechaza la operación aunque uno de los números coincida con un resultado S3."
+      ],
+      "packet": {
+        "business_id": "biz-a",
+        "resolved_date": "2026-09-24",
+        "source_s3_result_id": "a3a4e146-9775-5925-8ca3-ba40ed0c4008"
+      },
+      "checks": [
+        {
+          "name": "part_count",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_business",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "answer_date",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation_disabled",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "parts": [
+        {
+          "index": 0,
+          "question_part": "Divide 125 entre 5 para recalcular el ticket promedio",
+          "expected": {
+            "kind": "calculation",
+            "status": "not_allowed",
+            "answerable": false,
+            "evidence": []
+          },
+          "actual": {
+            "kind": "calculation",
+            "status": "not_allowed",
+            "generation_status": "fallback",
+            "message": "No puedo calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat.",
+            "generation_issues": [
+              "unsupported_or_prohibited_claim"
+            ],
+            "generation_diagnostics": [
+              "review:unsupported",
+              "review:policy_rejected"
+            ],
+            "review_digest": "9a16cbe8a0fb463ee1886ae0089644c38fcda4415e8ed05c1983e8fbcb29393e",
+            "claims": []
+          },
+          "checks": [
+            {
+              "name": "classification",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "status",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "answerable_coverage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "no_calculation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "missing_or_outside",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "source_lineage",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "evidence_metadata",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "date",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "isolation",
+              "passed": true,
+              "detail": ""
+            },
+            {
+              "name": "provider_generation",
+              "passed": false,
+              "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+            }
+          ],
+          "semantic": {
+            "status": "not_reviewed",
+            "reason": "requiere revisión independiente del sentido"
+          }
+        }
+      ]
+    }
+  ],
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite"
+}

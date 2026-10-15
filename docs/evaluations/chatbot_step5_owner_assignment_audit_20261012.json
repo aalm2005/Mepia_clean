@@ -1,0 +1,35 @@
+{
+  "scope": "Cuenta propia autorizada en MEPIA - PRUEBAS",
+  "success": true,
+  "auth_users": 1,
+  "confirmed_account": true,
+  "owned_businesses": 1,
+  "audit_count": 19,
+  "owner_matches_authorized_account": true,
+  "private_data_found_in_deliverables": 0,
+  "previous_evaluations_preserved_by_sha256": 375,
+  "links_checked": 40,
+  "broken_links": 0,
+  "git_diff_check_exit_code": 0,
+  "product_tests_repeated": false,
+  "login_with_this_account_tested": false,
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": "sin commit",
+  "production_access": false,
+  "model_calls": 0,
+  "incidents_updated": [
+    "INC-20261012-022"
+  ],
+  "source_sha256": {
+    "docs/chatbot_corrections.md": "18bf20a2d0fb27d70db9fe0d1c129ba1578d3c059c28ab90da92d5ee4199700e",
+    "docs/chatbot_incidents.md": "8f47bc36394a80e0f22ac98c041c04003f5cfe4cd1b7f643a817df4ced6f67c6",
+    "docs/mepia_v4_metricas_diseno.md": "627c8a397f260d87b5a4c25c021995dc47a8b992466a18f33a8f29b0311db14a",
+    "docs/chatbot_step5_integration.md": "042c96b5fd371f576fa34bd450832a9a456218f085fab402e44dfd84310e2f99",
+    "README.md": "7dd512898a1303222b6a675154339d9acb829c7d36486f609fcaef4023cb51c0",
+    ".kiro/specs/mepia/_auth_strategy.md": "39f9ed3c60c9e679e111f82a0023c7ce89ebfd3c42513057396e4ba361da53e9",
+    ".kiro/specs/mepia/n15_chat_consulta.md": "3282cb96b3a447fc69890ea8f700e4134389767eb692c7febc8b84cb6335f3d6",
+    ".kiro/specs/mepia/db_schema.md": "a65eeee459b13aee6da07e33e8f949d8cc0567936f580e6714bcd433459d9c01",
+    ".kiro/specs/mepia/design_flows.md": "08a9efed80df70523cb2a5ee588170129f784f6d408bb7b0efa3192420b9885d"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "purpose": "proposed_new_error_free_directed_consistency_series_with_judge38",
+  "client_date": "2026-10-11",
+  "created_at_utc": "2026-10-12T01:17:08.111993+00:00",
+  "status": "proposed_not_authorized",
+  "user_authorized": false,
+  "original_plan_preserved": "chatbot_step4_consistency_plan_20261009.json",
+  "case_ids": [
+    "same_day_result_and_report",
+    "arithmetic_division"
+  ],
+  "new_runs_requested": 3,
+  "generator_model": "gemini-3.5-flash-lite",
+  "judge_model": "gemini-3.8-flash",
+  "per_run": {
+    "cases": 2,
+    "parts": 3,
+    "answerable": 2,
+    "generation_max_calls": 4,
+    "judge_max_calls": 1
+  },
+  "total_new_budget": {
+    "generation_max_calls": 12,
+    "judge_max_calls": 3,
+    "api_max_calls": 15
+  },
+  "historical_followup_api_calls_before_series": 8,
+  "maximum_followup_api_calls_if_all_new_budget_used": 23,
+  "automatic_retries": 0,
+  "configured_timeout_seconds": 60,
+  "trace_required": true,
+  "stop_on_failure": true,
+  "each_run_inspected_before_next": true,
+  "acceptance": {
+    "all_three_new_runs_required": true,
+    "mechanical_failures_per_run": 0,
+    "coverage_per_run": "2/2",
+    "independent_favorable_judgments_per_run": "3/3",
+    "pending_or_judge_errors_or_conflicts_per_run": 0,
+    "all_attempts_retained": true,
+    "exact_hash_digest_trace_and_code_match": true
+  },
+  "code_sha256": {
+    "agents/chat_grounding.py": "51dc5d2f1dc1dee30eb08554e7268c09aa361b4d7be12eef94cdf5a8fc9c7e24",
+    "agents/chat_tools.py": "ea873d0f01fc14e880498235fb1f7d10ff76a9fe7817459e87a7382bfd2fbc3c",
+    "agents/chat_conversation.py": "f5f9ae6fb0cbc4abd0d1b5583e0c87c2aee1b46b0b553b6c7b9228f667c04b65",
+    "agents/chat_response.py": "7e2dc93dc6089334b83570d750493ab254615d47bcf359fea7cf0bdff254d34b",
+    "agents/chat_provider_gemini.py": "830f5b8499ec5698aa1c9810463d1ce3d7fe259c0e760d3f0bff5e734b14f0f7",
+    "agents/chat_provider_schemas.py": "680521ceaa5fcb0518351f4c0850d9ee25980e78fd804bd0700b19edbec32063",
+    "tests/chat_offline_eval.py": "f4c0b33e2cbda0384a84b81d2a00b7f06d2090eba7cdfd66be4e2be3b6632c35",
+    "tests/chat_semantic_judge.py": "8286eee87cb7f36e6d5d126b3da4b0567ce8e6e6506808eccc9bd6a8e452631b",
+    "tests/fixtures/chat_offline_cases.json": "fe8a97e02bb45727ee105c8aa2b6bb47fa635e3439176cbca116854e53451ba8",
+    ".test_tmp/medir_gemini.ps1": "fd03d14cb5f4d297b113d193dabfea4af996f25c7971b7222bea0ed6cc8875de"
+  },
+  "recovered_original_generation_excluded_from_error_free_series": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+  "recovered_original_review_accepted_as_evidence": "chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df.json",
+  "previous_global_acceptance_unchanged": {
+    "parts": 36,
+    "covered": 22,
+    "answerable": 22,
+    "controls_passed": 548,
+    "controls_total": 548,
+    "independent_pass": 36,
+    "report": "chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined.json"
+  },
+  "preflight_with_judge38_without_key_or_api": "passed",
+  "new_api_calls_during_preparation": 0,
+  "limits": [
+    "The recovered review approves the three saved responses but does not erase the original judge errors.",
+    "Only the two directed cases are repeated; the 28-case accepted set is not regenerated.",
+    "Three new successful repetitions measure this sample only and do not guarantee future model consistency."
+  ],
+  "isolated_judge_exit1_due_to_global36part_gate_is_not_sample_failure": true
+}

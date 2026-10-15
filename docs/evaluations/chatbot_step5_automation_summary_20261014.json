@@ -1,0 +1,180 @@
+{
+  "artifact_kind": "layered_automation_execution_summary",
+  "date": "2026-10-14",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "commit": "sin commit",
+  "local_final": {
+    "attempt": 5,
+    "exit_code": 0,
+    "automatic_case_layers": {
+      "passed": 43,
+      "failed": 0,
+      "not_run": 5
+    },
+    "regression": {
+      "exit_code": 0,
+      "targets": [
+        "tests/test_chat_step5_automation.py",
+        "tests/test_chat_conversation.py",
+        "tests/test_chat_response.py",
+        "tests/test_chat_api.py",
+        "tests/test_chat_auth_es256.py",
+        "tests/test_chat_app.py",
+        "tests/test_chat_provider_gemini.py",
+        "tests/test_chat_offline_eval.py"
+      ],
+      "summary": "154 passed, 2 warnings, 41 subtests passed in 26.49s"
+    },
+    "browser": {
+      "exit_code": 0,
+      "passed": true,
+      "checks_completed": 18,
+      "extended_checks": [
+        "C07",
+        "C08",
+        "S10_busy",
+        "C04",
+        "S08_notice",
+        "P06_keyboard_partial",
+        "S05_proxy_size"
+      ],
+      "page_errors": 0
+    },
+    "load": [
+      {
+        "users": 5,
+        "posts": 10,
+        "p95_ms": 185.725,
+        "elapsed_ms": 295.983
+      },
+      {
+        "users": 10,
+        "posts": 20,
+        "p95_ms": 404.499,
+        "elapsed_ms": 818.552
+      },
+      {
+        "users": 20,
+        "posts": 40,
+        "p95_ms": 620.938,
+        "elapsed_ms": 1438.188
+      }
+    ]
+  },
+  "real_provider": {
+    "attempt": 1,
+    "exit_code": 1,
+    "case_checks": {
+      "passed": 7,
+      "failed": 1,
+      "not_run": 0
+    },
+    "chat_posts": 9,
+    "validated_responses": 8,
+    "calls_used": 17,
+    "ceiling": 18,
+    "unused_attempts": 1,
+    "failing_case": "C02",
+    "diagnostic": "RateLimitError/http_429",
+    "retry_scheduled": false,
+    "auth_database": "synthetic_in_memory",
+    "human_review": "pending",
+    "independent_judge_calls": 0
+  },
+  "incidents": {
+    "created": [
+      "INC-20261014-040",
+      "INC-20261014-041"
+    ],
+    "updated": [
+      "INC-20261014-035"
+    ],
+    "total": 41,
+    "resolved": 38,
+    "mitigated": 2,
+    "pending_external": 1,
+    "open": 0
+  },
+  "full_functional_acceptance": "pending",
+  "production_ready": false,
+  "remaining": [
+    "C02 model generation blocked by provider rate limit",
+    "broader real-provider matrix and factual human review",
+    "two target readers clarity",
+    "specific remaining proxy failure subchecks",
+    "P01/P03/P04/P05/P06 prerequisites"
+  ],
+  "prior_evidence_preserved": 413,
+  "production_changes": false,
+  "supabase_access": false,
+  "sql_or_account_changes": false,
+  "user_preview_restarted": false,
+  "artifacts_sha256": {
+    "docs/evaluations/chatbot_step5_automation_attempt1_20261014.json": "0b0772fecf47ded459ece6e5ea830bd6c2b90d5a3a5a50c649401f7300d9a197",
+    "docs/evaluations/chatbot_step5_automation_attempt2_20261014.json": "4e5ca5dda4040cbc60b65539007c4b8594cbcc344e5bda7b7d1d90e16c95381d",
+    "docs/evaluations/chatbot_step5_automation_attempt3_20261014.json": "a6c411d7bf7f4488d867062e7fa36c82766828871ba0af6487e8d6af1c176f0c",
+    "docs/evaluations/chatbot_step5_automation_attempt4_20261014.json": "97a8e7c5d0cbb30c746ed33b55399fe8d2db80e5312566cbdb0d1c323f6ddf86",
+    "docs/evaluations/chatbot_step5_automation_attempt5_20261014.json": "5fc7ed0642ac1fea076a200a7fd892bc8567541994a72888d56657a28869f39a",
+    "docs/evaluations/chatbot_step5_automation_gemini_attempt1_20261014.json": "db60fce4c35b0af9b797c50921aa0d92aea8c8cdf5ec6f2085122f2293e81eb4",
+    "docs/evaluations/chatbot_step5_human_review_20261014.json": "f2a17931892c76a9d20940f148563f6582377f32b6e5bfe2f79bcbdf397be04e",
+    "docs/evaluations/chatbot_step5_human_review_20261014.html": "8d0373044102ddef9179db0778d888baabbfaccdd703a5b747f78f9077c7b707"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "summary": {
+        "passed": 16,
+        "failed": 1,
+        "not_run": 31
+      },
+      "exit_code": 1,
+      "provider_calls": 0,
+      "retained": true
+    },
+    {
+      "attempt": 2,
+      "summary": {
+        "passed": 18,
+        "failed": 1,
+        "not_run": 29
+      },
+      "exit_code": 1,
+      "provider_calls": 0,
+      "retained": true
+    },
+    {
+      "attempt": 3,
+      "summary": {
+        "passed": 41,
+        "failed": 0,
+        "not_run": 7
+      },
+      "exit_code": 0,
+      "provider_calls": 0,
+      "retained": true
+    },
+    {
+      "attempt": 4,
+      "summary": {
+        "passed": 41,
+        "failed": 0,
+        "not_run": 7
+      },
+      "exit_code": 1,
+      "provider_calls": 0,
+      "retained": true
+    },
+    {
+      "attempt": 5,
+      "summary": {
+        "passed": 43,
+        "failed": 0,
+        "not_run": 5
+      },
+      "exit_code": 0,
+      "provider_calls": 0,
+      "retained": true
+    }
+  ]
+}

@@ -1,62 +1,30 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import { useEffect, useState } from "react";
+import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 
-interface OnboardingGateProps {
-  children: React.ReactNode;
-}
-
-interface OnboardingStatusResponse {
-  onboarding_complete: boolean;
-}
-
-function OnboardingRequiredBanner() {
-  return (
-    <div className="bg-warning-bg border border-warning-border text-warning rounded p-4 flex items-center justify-between">
-      <span className="text-sm font-medium">
-        Configura tu negocio antes de continuar
-      </span>
-      <Link
-        href="/onboarding"
-        className="ml-4 shrink-0 text-sm font-semibold text-warning hover:opacity-80 transition-opacity"
-      >
-        Configurar negocio →
-      </Link>
-    </div>
-  );
-}
-
-async function getOnboardingStatus(): Promise<boolean> {
-  const businessId = process.env.NEXT_PUBLIC_BUSINESS_ID;
-  const agentsUrl =
-    process.env.AGENTS_API_URL ?? "http://localhost:8000";
-
-  try {
-    const res = await fetch(
-      `${agentsUrl}/business/${businessId}/onboarding/status`,
-      { cache: "no-store" }
-    );
-
-    if (!res.ok) {
-      // 404 = negocio no encontrado en DB → onboarding incompleto
-      // Cualquier otro error de red → dejar pasar para no bloquear al usuario
-      if (res.status === 404) return false;
-      return true; // backend caído → no bloquear
-    }
-
-    const data: OnboardingStatusResponse = await res.json();
-    return data.onboarding_complete === true;
-  } catch {
-    // Backend Python no disponible → no bloquear al usuario
-    return true;
-  }
-}
-
-export default async function OnboardingGate({ children }: OnboardingGateProps) {
-  const isComplete = await getOnboardingStatus();
-
-  if (!isComplete) {
-    return <OnboardingRequiredBanner />;
-  }
-
+export default function OnboardingGate({ children }: { children: React.ReactNode }) {
+  const { business } = useMepiaAuth();
+  const [complete, setComplete] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!business) return;
+    const abort = new AbortController();
+    setComplete(null);
+    fetch("/api/onboarding?business_id=" + encodeURIComponent(business), { cache: "no-store", signal: abort.signal })
+      .then(async response => {
+        if (abort.signal.aborted) return;
+        if (response.ok) { const data = await response.json(); if (!abort.signal.aborted) setComplete(data.onboarding_complete === true); }
+        // Conservar el comportamiento previo frente a caída del pipeline; el backend
+        // valida onboarding al operar. 401/403 nunca habilitan el formulario.
+        else setComplete(![401, 403, 404].includes(response.status));
+      }).catch(() => { if (!abort.signal.aborted) setComplete(true); });
+    return () => abort.abort();
+  }, [business]);
+  if (!business) return <p className="text-sm text-zinc-400">Selecciona un negocio para continuar.</p>;
+  if (complete === null) return <p className="text-sm text-zinc-400">Comprobando tu negocio…</p>;
+  if (!complete) return <div className="flex items-center justify-between gap-4 rounded-xl border border-warning-border bg-warning-bg p-4 text-warning">
+    <span className="text-sm font-medium">Configura tu negocio antes de continuar</span>
+    <Link href="/onboarding" className="shrink-0 text-sm font-semibold hover:opacity-80">Configurar negocio →</Link>
+  </div>;
   return <>{children}</>;
 }

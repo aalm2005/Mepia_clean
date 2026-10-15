@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T04:52:22.666718+00:00",
+  "reviewer_model": "gemini-3.8-flash",
+  "judge_calls": 1,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+      "sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 0,
+      "digest": "ae40ae1d409d8c7d0aeed113a3fe03ab771d9946e18db91271d5ef6372bc5315",
+      "source_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "El ticket promedio se responde con la métrica y unidad correctas respaldadas por la fuente indicada."
+    },
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 1,
+      "digest": "ea050613a0462d64ea6e3f932b0dfecdb67ef7e95547e7b0ee93a7b8f117d306",
+      "source_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Comunica el contenido del informe de la segunda ejecución respaldado en la evidencia."
+    },
+    {
+      "case_id": "arithmetic_division",
+      "part_index": 0,
+      "digest": "0209ab14c4422d5d6b075ec1b396892d2a827216b7e1a27974e1f7ad14efed96",
+      "source_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Rechaza adecuadamente realizar el cálculo aritmético solicitado conforme al alcance permitido."
+    }
+  ],
+  "batch_errors": []
+}

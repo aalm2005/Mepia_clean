@@ -1,0 +1,76 @@
+{
+  "artifact_kind": "final_workspace_cleanup_verification",
+  "date": "2026-10-14",
+  "attempt": 6,
+  "exit_code": 0,
+  "local_layers": {
+    "passed": 43,
+    "failed": 0,
+    "not_run": 5
+  },
+  "regression": {
+    "exit_code": 0,
+    "targets": [
+      "tests/test_chat_step5_automation.py",
+      "tests/test_chat_conversation.py",
+      "tests/test_chat_response.py",
+      "tests/test_chat_api.py",
+      "tests/test_chat_auth_es256.py",
+      "tests/test_chat_app.py",
+      "tests/test_chat_provider_gemini.py",
+      "tests/test_chat_offline_eval.py"
+    ],
+    "summary": "154 passed, 2 warnings, 41 subtests passed in 22.73s"
+  },
+  "browser": {
+    "exit_code": 0,
+    "passed": true,
+    "checks_completed": 18,
+    "extended_checks": [
+      "C07",
+      "C08",
+      "S10_busy",
+      "C04",
+      "S08_notice",
+      "P06_keyboard_partial",
+      "S05_proxy_size"
+    ],
+    "page_errors": 0
+  },
+  "actual_provider_calls": 0,
+  "run6_initial_cleanup_detected_include_reorder": true,
+  "shared_cleanup_verified_against_actual_generated_state_after_run": true,
+  "workspace_unit_tests": {
+    "passed": 3,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "full_browser_flow_repeated_after_cleanup_extraction": false,
+  "original_files_restored_sha256": {
+    "tsconfig.json": "2e4e65dafe3e8b68c92c8910e8d5516ddfcd7fd7043fcb69a2a7b5893ad67db5",
+    "next-env.d.ts": "f4e8976c19fc926644d72610bf1058bd6bf52add97e46a02bc0b912a751625c0"
+  },
+  "run_sha256": "b90eb49917ec5dc3f643281facee07353b98a5220bba6d2b676b18d39774b425",
+  "source_hashes": {
+    "agents/chat_conversation.py": "f326d87ffbdb1e367da69a5ff65ad15c0f4c7658a0de9b6020376643685aa7a0",
+    "agents/chat_response.py": "47800e06c41ff6013d25ba1874307b41cb521f19564f67c8f03ffd4f6a9fa449",
+    "api/chat.py": "6b260c76636e1c4c8a6147b0960f3ec6ad71dcd3b98d830aad1f5ed9f7ba8dc4",
+    "api/core/auth.py": "49cfacdee7516a521e156770e17d89f475220cbd5caab5eb15070b597896138a",
+    "api/core/chat_history.py": "9295615d2e657fda6239ae19ab93bb0e6848f0b87abb535f0690697347d31de8",
+    "components/chat/ChatPanel.tsx": "d5d20c4885245257edf1e7958641ecd8226d2f3b1738ede82b2d0813718d90be",
+    "tests/chat_step5_automation.py": "bab23d864011ff8cb86a8c517693099595d1a9870539583a5e20665fd3270c8d",
+    "tests/chat_step5_e2e.cjs": "0a28fe332449dcd328470c41ee7dcca1e9da4335e5acacca64911d78611edb15",
+    "package-lock.json": "fc2be855759f04533e605fd593c64f00bfd0f2127adc891dbf368ddd198270ce",
+    "tests/test_chat_step5_automation.py": "5b47c02ba15b0a6edab0baf0df64a15f2c0362133c4e5e3317d28ca7a7986393",
+    "tests/test_chat_conversation.py": "8f93a5087539008b16e024d662f34ef188f12b233456901eefcef1502bbfa192",
+    "utils/chat-proxy.ts": "61bcecbc48866e9f4325ea590a407d1e77df874703add6a6afabe58feaff94a0"
+  },
+  "workspace_helper_sha256": "08131e407200453e5432c17bdb8aaa50a176e362489e3fdea6e3103256f691aa",
+  "workspace_tests_sha256": "399ff76dba05dba58ff082875354826fb1f4185c70120656527172fc577e31c4",
+  "current_browser_harness_sha256": "983da469696693e8731f07487438c473c886c8d976ba278d2cd2f7df1506e557",
+  "supersedes_local_attempt_for_current_source": 5,
+  "prior_attempts_retained": true,
+  "real_provider_evidence_unchanged": true,
+  "full_functional_acceptance": "pending",
+  "external_incident": "INC-20261014-041"
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-11",
+  "updated_at_utc": "2026-10-12T05:42:56.856361+00:00",
+  "series_id": "judge38_recovery_20261011",
+  "status": "stopped_run3_internal_review_failure_and_judge503_budget_exhausted",
+  "user_authorized": true,
+  "authorization": "Sí, aceptar la recuperación y continuar con las dos restantes",
+  "plan": "chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.json",
+  "authorized_plan_sha256": "bd6ce0493da3b312c214f758a7a79fee38a2c702872fcb465b63dfcf1267fe03",
+  "runner": ".test_tmp/probar_consistencia_recuperada_juez38.ps1",
+  "runner_sha256": "509cbb92c1b96e7db3ccc2cd2577d2cd75775886cd9883b6be0c7b300566d927",
+  "quality_validated_runs": 2,
+  "next_run": null,
+  "original_error_free_qualified_runs_at_amendment": 0,
+  "remaining_runs_max_calls": {
+    "generation": 8,
+    "judge": 2,
+    "total_api": 10
+  },
+  "remaining_runs_calls_actual": {
+    "generation": 8,
+    "judge": 2,
+    "total_api": 10
+  },
+  "historical_followup_api_before_remaining_runs": 14,
+  "whole_followup_historical_calls": {
+    "generation": 16,
+    "judge": 8,
+    "total_api": 24
+  },
+  "maximum_followup_api_after_remaining_runs": 24,
+  "stop_on_any_new_failure": true,
+  "automatic_retries": 0,
+  "runs": [
+    {
+      "number": 1,
+      "status": "quality_pass_recovered_judge503_preserved",
+      "quality_pass": true,
+      "independent_audit_passed": true,
+      "audit_file": "chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.json",
+      "audit_sha256": "53e34a3a5e969b842afe5188a40a775d54648e314f54e13dac87259c4ae4583b",
+      "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+      "generation_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "judge_report": "chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.json",
+      "controls": "45/45",
+      "coverage": "2/2",
+      "independent_pass": 3,
+      "pending": 0,
+      "generation_calls": 4,
+      "judge_calls_including_original503_and_supplement": 2,
+      "original_judge503_preserved": true,
+      "error_free_under_original_plan": false,
+      "recovery_exception_explicitly_accepted": true
+    },
+    {
+      "number": 2,
+      "status": "quality_pass",
+      "quality_pass": true,
+      "independent_audit_passed": true,
+      "audit_file": "chatbot_step4_consistency_judge38_recovered_run2_audit_20261011.json",
+      "audit_sha256": "70a1147952ef72a7596f7a6a31907b10be15c30c795a014fa5a1df8f76c4bbd6",
+      "attempt_record": "chatbot_step4_consistency_judge38_recovered_run2_attempt_20261011.json",
+      "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.json",
+      "generation_report_sha256": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e",
+      "judge_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_semantic.json",
+      "trace": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_synthetic_trace.json",
+      "actual_calls": {
+        "generation": 4,
+        "judge": 1,
+        "total_api": 5
+      },
+      "controls": "45/45",
+      "coverage": "2/2",
+      "independent_pass": 3,
+      "pending": 0,
+      "judge_errors": 0
+    },
+    {
+      "number": 3,
+      "status": "failed_generation_internal_review_judge503",
+      "quality_pass": false,
+      "independent_audit_passed": false,
+      "audit_file": "chatbot_step4_consistency_judge38_recovered_run3_audit_20261011.json",
+      "audit_sha256": "9d31440317558093d470ab81916ca9e09a476a01bbc149267183dfd17f6e0463",
+      "attempt_record": "chatbot_step4_consistency_judge38_recovered_run3_attempt_20261011.json",
+      "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.json",
+      "generation_report_sha256": "678e46a6cf581f7b74409eeb910899e63888f2bb71b8be7cef4dfe424a772967",
+      "judge_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic.json",
+      "trace": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_synthetic_trace.json",
+      "actual_calls": {
+        "generation": 4,
+        "judge": 1,
+        "total_api": 5
+      },
+      "controls": "44/45",
+      "coverage": "2/2",
+      "mechanical_failures": 1,
+      "independent_pass": 0,
+      "pending": 3,
+      "judge_errors": 1
+    }
+  ],
+  "new_api_calls_during_preparation": 0,
+  "verification": {
+    "schema_version": 1,
+    "client_date": "2026-10-11",
+    "generated_at_utc": "2026-10-12T05:08:33.553259+00:00",
+    "plan": "chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.json",
+    "plan_sha256": "bd6ce0493da3b312c214f758a7a79fee38a2c702872fcb465b63dfcf1267fe03",
+    "runner": ".test_tmp/probar_consistencia_recuperada_juez38.ps1",
+    "runner_sha256": "509cbb92c1b96e7db3ccc2cd2577d2cd75775886cd9883b6be0c7b300566d927",
+    "powershell_syntax_and_preflight_runs2_and3": "passed",
+    "underlying_helper_diagnostic_plan_judge38_without_key_or_api": "passed",
+    "run3_blocked_before_run2_audit_and_before_key_or_api": "passed",
+    "run2_duplicate_reservation_blocked_before_key_or_api": "passed",
+    "reservation_exceeding_remaining_budget_blocked_before_key_or_api": "passed",
+    "verification_marker_removed_and_progress_restored_exactly": true,
+    "no_real_attempt_reserved": true,
+    "protected_evaluation_files_unchanged": 243,
+    "ten_original_code_hashes_match": true,
+    "new_api_calls": 0
+  },
+  "remaining_authorized_budget": {
+    "generation": 0,
+    "judge": 0,
+    "total_api": 0
+  },
+  "new_api_calls_during_audit": 0,
+  "local_refusal_review_mitigation": {
+    "status": "prepared_real_effect_pending",
+    "file": "agents/chat_response.py",
+    "sha256": "39efe9fff20a11d03bbcd98b29da9984072550216e98ab3f46b29f9fce7d514b",
+    "scope_proof": "chatbot_step4_policy_refusal_guidance_scope_20261011.json",
+    "focused_tests": {
+      "passed": 48,
+      "subtests": 23,
+      "seconds": 3.89
+    },
+    "new_validation_proposal": "chatbot_step4_policy_refusal_validation_proposal_20261011.json",
+    "new_api_calls": 0
+  },
+  "next_action": "Await explicit approval of the bounded two-phase validation proposal and quality replacement criterion; no budget or execution enabled."
+}

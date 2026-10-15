@@ -1,210 +1,186 @@
-# MEPIA — Estrategia de Autenticación y Autorización
+# MEPIA — Estrategia de autenticación y autorización
 
-**Tipo:** Spec transversal — aplica a todos los endpoints del backend FastAPI
-**Archivo de implementación:** `api/core/auth.py` (a crear)
-**Depende de:** `api/core/config.py` (settings), tabla `businesses` en Supabase
+**Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](../../../docs/estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
----
+**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
+código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
+y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
+controles, cero errores, código 0; carga 70 POST simulados. Gemini real con
+datos/Auth en memoria: siete de ocho casos con controles mecánicos aprobados,
+C02 detenido por HTTP 429; 17/18 intentos, código 1, sin reintentos ni juez.
+Ocho respuestas validadas para revisión humana, aún sin calificaciones.
+INC-040 resuelta localmente, 035 actualizada/resuelta, 041 pendiente externo.
+41 incidencias: 38 resueltas, dos mitigadas, una pendiente externa, cero
+abiertas. Supabase/cuentas/producción y preview del usuario sin cambios;
+sin commit/push. Los avisos siguientes conservan sus registros históricos;
+el diseño v1 y su plantilla permanecen intactos, anteriores al ejecutor.
+Sigue disponibilidad/C02, revisión humana y ampliar solo lo pendiente.
+Ver [ejecutor, resultados y revisión](../../../docs/chatbot_step5_automation.md).
 
-## Principio de Diseño
+**Ajuste de lenguaje — 14-oct-2026 (registro anterior a la automatización):** el usuario pidió respuestas
+comprensibles sin conocimientos financieros y para diversos niveles de lectura.
+Se ajustó la guía común de composición: palabras cotidianas, frases cortas,
+tono respetuoso, respuesta directa y breve por defecto; detalles técnicos según
+la pregunta. Una definición sencilla omite fórmulas, insumos y alias no pedidos,
+conservando condiciones esenciales. Redacción libre, fuentes, cifras/unidades,
+alertas y prohibición de calcular intactas. Backend local reiniciado, código 0.
+115 pruebas y 41 subpruebas aprobadas, dos advertencias, 11.09 s, código 0;
+proveedores simulados. El usuario repitió ticket promedio en una conversación
+nueva y confirmó «Sí, ahora es clara»; Next registra POST 200. Es confirmación
+humana de legibilidad en esa consulta, no un juicio semántico independiente ni
+una medida universal de comprensión. INC-039 resuelta en este alcance;
+INC-035 actualizada por atasco del ejecutor en sandbox y ejecución posterior
+aprobada fuera de él. 39 incidencias: 37 resueltas, dos mitigadas (023/031),
+cero abiertas. Un archivo de producto modificado: `agents/chat_response.py`.
+Sin preguntas del agente al modelo, SQL, datos/usuarios, producción, commit
+ni push. Evidencias anteriores conservadas; general/build/E2E no repetidos.
+Evidencia `docs/evaluations/chatbot_step5_plain_language_20261014.json`.
 
-El backend usa `SUPABASE_SERVICE_ROLE_KEY` (bypass RLS). Esto significa que
-**RLS nativo de Supabase no protege los datos** — la autorización es responsabilidad
-exclusiva del backend Python. Todo endpoint que reciba un `business_id` debe
-verificar que el usuario autenticado tiene permisos sobre ese negocio.
+**Conexión Gemini — 14-oct-2026 (registro anterior al ajuste de lenguaje):** clave Gemini guardada de forma
+privada y backend local reiniciado; `api/.env` ignorado por Git. El usuario
+envió «¿Qué es el ticket promedio?» y confirmó respuesta; Next registra POST
+200 después del 503 previo a configurar. El texto compartido explica el
+concepto y fórmula metodológica, cita diez rutas del catálogo y no incluye
+el aviso de explicación no validada. Por el contrato de publicación, esa
+redacción y sus claims corresponden a generación validada; inferencia desde
+la evidencia visible del usuario, sin inspeccionar su sesión ni el JSON real.
+Conexión de Gemini `gemini-3.5-flash-lite` confirmada para esta consulta
+conceptual; no sustituye la evaluación offline ni valida todos los recorridos
+reales. Fecha 2099 comprobada por lectura en MEPIA - PRUEBAS: procede del
+fixture histórico `chat_grounding_correction2_test`, conservado; no se corrigió
+ni eliminó. Cero preguntas del agente al modelo; una pregunta real del usuario,
+con el límite existente de dos intentos por petición, sin reintentos del SDK.
+38 incidencias: 36 resueltas, dos mitigadas (023/031), cero abiertas;
+INC-035/038 actualizadas y resueltas en su alcance. Sin cambio de código de
+producto, SQL administrativo, usuarios/propiedad, producción, commit ni push.
+Pruebas anteriores conservadas; no se repitieron suites/build.
+Evidencia `docs/evaluations/chatbot_step5_gemini_activation_confirmation_20261014.json`.
 
----
+Estado al 14-oct-2026: login general previo a MEPIA y menú común implementados,
+frontend combinado validado 15/15 E2E, 12/12 presentación y build final código 0. Chat IA/listado conservan permisos
+por negocio. Proxies Next legados exigen sesión; autorización por recurso y
+la incorporación al resto de endpoints FastAPI legados siguen pendientes
+como gate antes de publicar el backend completo. No se declara autenticada toda
+la API. Sin despliegue. Acceso real en `MEPIA - PRUEBAS` aprobado: 29/29.
 
-## Flujo de Autenticación
+## Estrategia implementada
 
-```
-Frontend (Next.js)
-  │  Supabase Auth genera JWT de sesión al hacer login
-  │  Header: Authorization: Bearer <supabase_jwt>
-  ↓
-FastAPI Middleware (verify_token dependency)
-  │  1. Extrae el JWT del header Authorization
-  │  2. Valida la firma con SUPABASE_JWT_SECRET
-  │  3. Verifica expiración (exp claim)
-  │  4. Extrae user_id del claim sub
-  ↓
-FastAPI Authorization (verify_business_access dependency)
-  │  5. Extrae business_id del path param o body
-  │  6. Consulta: SELECT id FROM businesses WHERE id = :bid AND owner_id = :uid
-  │  7. Si no existe → HTTP 403
-  ↓
-Handler del endpoint
-```
+Supabase Auth genera una sesión en el frontend. Se usa únicamente la clave
+pública; Authorization: Bearer se reenvía por Next.js a FastAPI.
+La cuenta entra una vez por `/login`, antes de las páginas de MEPIA. Cliente
+SSR instalado 0.3.0 guarda sesión en cookies; el middleware Next 15 llama
+`getUser` remoto para verificarla. No confía en usuario leído de cookie ni
+usa `getSession` en servidor. Propaga cookies renovadas al request/response,
+no-store y Secure en producción en ambas direcciones. Dev HTTP queda en loopback.
+Cookies inventadas/usuario anónimo no permiten página privada. Destino de login
+limitado a rutas internas; navegación completa en entrada/salida evita refresh
+simultáneo de otra ruta. MepiaAuthProvider mantiene selección de negocio común.
 
----
+`AuthService`
+en `api/core/auth.py` verifica el algoritmo explícito SUPABASE_JWT_ALGORITHM:
+HS256 con SUPABASE_JWT_SECRET privado, o ES256 con claves públicas JWKS del proyecto configurado. Comprueba
+firma, exp/iat, emisor SUPABASE_URL/auth/v1, audiencia authenticated, rol
+authenticated y sub UUID. Rechaza usuarios anónimos, service_role/anon como
+sesión, claims ausentes y algoritmos diferentes. `MEPIA - PRUEBAS` usa ES256
+vigente (ECC P-256), observado en JWT Keys. No hay fallback entre algoritmos ni
+se seleccionan algoritmo/origen desde el JWT. JWKS: caché del conjunto cinco
+minutos, sin caché permanente de claves; timeout cinco segundos. Desconocimiento
+de kid/firma inválida: 401; fallo de conexión/conjunto inválido: 503 cerrado.
 
-## Variables de Entorno Requeridas
+El startup exige origen HTTPS y algoritmo permitido; HS256 exige secreto de al menos 32 bytes. Una ruta sin
+configuración de auth deniega con 503. Credenciales inválidas/ausentes/vencidas
+devuelven 401 con WWW-Authenticate, mensajes fijos y sin excepción privada.
+Referencias: [Supabase JWT](https://supabase.com/docs/guides/auth/jwts),
+[PyJWT](https://pyjwt.readthedocs.io/en/stable/usage.html).
 
-Agregar a `api/.env.example` y `api/core/config.py`:
+## Permisos por negocio
 
-```
-SUPABASE_JWT_SECRET=   # Settings → Project → API → JWT Secret
-                       # Distinto de SUPABASE_SERVICE_ROLE_KEY
-```
+El backend usa service_role (bypass RLS). La dependencia del router verifica
+`db.table("businesses").select("id,owner_id").eq("id", bid).eq("owner_id", uid)`
+mediante el cliente PostgREST real, antes de recuperar auditorías, crear el
+paquete, consultar historial o invocar el modelo. También comprueba que la fila
+devuelta corresponde a usuario/negocio. Ausencia, dueño NULL y negocio ajeno
+devuelven el mismo 403; error de consulta devuelve 503 sin revelar datos.
 
-```python
-# En api/core/config.py — agregar al modelo Settings:
-SUPABASE_JWT_SECRET: str   # para validar firmas de JWT de sesión
-```
+La migración 010 agrega owner_id **nullable** con FK auth.users/ON DELETE SET
+NULL e índice. Se preservan históricos sin inferir dueño; NULL deniega acceso.
+Retira políticas anónimas e instala SELECT autenticado por propietario en
+businesses y audit_results. APPLY_ALL incluye el mismo contrato final. Se
+aplicó 010 dos veces en `MEPIA - PRUEBAS` con autorización: UUID nullable, FK
+ON DELETE SET NULL, índice y políticas verificados; un negocio y 19 auditorías
+conservados, cero propietarios inferidos. Producción no modificada.
 
----
+Cuenta propia posterior: usuario creado con contraseña definida personalmente,
+propiedad del único negocio de pruebas asignada por confirmación explícita y
+verificada por DB/`verify_business_access`, código 0. Auditorías/UUID conservados;
+correo y UUID privados excluidos de documentos. Login/negocio de esta cuenta
+confirmados por el usuario en navegador normal, Auth registra login reciente y
+Next listado 200; cero modelos reales y producción. El esquema admite varias cuentas
+y negocios aislados; registro/invitación en la interfaz requiere trabajo posterior.
 
-## Implementación — `api/core/auth.py`
+El frontend combinado del 14-oct agrega Salud/Reportes bajo el mismo middleware;
+el hook oculta resultados que no coinciden con usuario/negocio/corrida actuales
+y cancela peticiones al cambiar contexto. E2E 15/15 incluye respuesta ajena
+sintética y limpieza de análisis. Este control de presentación no autoriza
+endpoints FastAPI legados; la verificación de recursos en servidor sigue pendiente.
 
-```python
-"""
-MEPIA — Capa de autenticación y autorización.
+## Alcance actual
 
-Dependencias FastAPI reutilizables:
-  - get_current_user_id()  → extrae y valida el JWT, retorna user_id
-  - verify_business_access() → verifica que user_id tiene acceso a business_id
-"""
-import jwt
-from fastapi import Depends, HTTPException, Security
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from core.config import settings
+| Endpoint | Control implementado |
+|---|---|
+| Páginas MEPIA (excepto /login) | Cookie de sesión verificada en servidor con getUser; redirección al login previo |
+| Proxies Next legados | Sesión verificada antes de leer payload/llamar backend; permisos por recurso aún pendientes en FastAPI legado |
+| GET /me/businesses | Sesión; solo negocios propios |
+| POST /business/{business_id}/chat | Sesión, propiedad y ámbito de conversación antes de evidencia/modelo |
+| GET/DELETE /business/{business_id}/chat/{conversation_id} | Sesión, propiedad revalidada y combinación usuario/negocio/conversación |
+| Endpoints legados de ingesta/auditoría/memoria | Incorporación pendiente antes de exposición del backend completo |
 
-bearer_scheme = HTTPBearer()
+E2E original del acceso común 13/13 (12-oct): entrada directa/forja de cookie, login, menú sin segundo login,
+recarga, conversación/fuentes, historial, cambio de usuario/negocio, 403 ajeno,
+rechazo de cálculo, móvil y logout. Sesiones/datos/proveedor sintéticos; cero
+servicios externos. El 13-oct-2026 el usuario confirmó el nuevo ingreso general
+con su cuenta propia y la apertura de Chat IA desde el menú sin otro login.
+Confirmación del usuario, sin inspección independiente del navegador ni prueba
+de respuestas reales. No certificar toda la API por proteger las páginas.
+Modelo real y producción separados; INC-032/033 resueltas localmente.
 
+Historial efímero y acotado, independiente de RAG. Las claves y elección del
+modelo permanecen en servidor. No se autorizan cálculo ni escrituras a métricas
+o auditorías desde el chat. Producción sigue pendiente: migraciones 008/009/010,
+propietarios/sesiones reales, controles de endpoints legados, dependencias y
+historial compartido para múltiples réplicas. Ver
+`docs/chatbot_step5_integration.md`, configuración en `api/.env.example` y
+`api/core/config.py`, schema y spec N15. Para acceso local exclusivo usar
+`api.chat_app:create_app --factory` y `api/core/chat_config.py`: exige Supabase,
+valida auth y clave de servidor al iniciar; no registra rutas legadas ni exige
+claves de agentes. Falta de clave del modelo conserva 503 para preguntas.
 
-async def get_current_user_id(
-    credentials: HTTPAuthorizationCredentials = Security(bearer_scheme),
-) -> str:
-    """
-    Dependencia FastAPI — valida el JWT de Supabase y retorna el user_id.
+## Cierre local original y validaciones posteriores
 
-    Raises:
-        HTTP 401: Token ausente, expirado o con firma inválida.
-    """
-    token = credentials.credentials
-    try:
-        payload = jwt.decode(
-            token,
-            settings.SUPABASE_JWT_SECRET,
-            algorithms=["HS256"],
-            options={"verify_exp": True},
-        )
-        user_id: str = payload.get("sub")
-        if not user_id:
-            raise HTTPException(status_code=401, detail="Token inválido: sub ausente")
-        return user_id
+38 pruebas API; general 268 aprobadas, 1 opt-in omitida y 119 subpruebas;
+navegador 8/8, build Next 15.5.27/tipos código 0. Prueba anónimos, firmas,
+claims, expiración, negocios ajenos/sin dueño, revocación, aislamiento/expiración/
+capacidad/concurrencia de historial, instrucciones/cifras no confiables, errores
+sanitizados, startup sin secreto y recorrido con fuentes. Proveedores, sesiones
+y filas simulados, cero servicios externos. No garantiza seguridad universal
+ni sustituye validación de sesiones/RLS reales.
 
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token expirado")
-    except jwt.InvalidTokenError as e:
-        raise HTTPException(status_code=401, detail=f"Token inválido: {e}")
+Adaptación ES256: 58 pruebas focalizadas aprobadas en 5.23 s; general 288
+aprobadas, 1 omitida, 119 subpruebas y 2 advertencias en 47.18 s. Primera
+focalizada 57 aprobadas/1 fallida por faltar el nuevo campo en la configuración
+sintética del test de startup; corregido. Integración real 29/29: Auth, JWKS,
+RLS, propiedad, historial y revocación; proveedor simulado. Dos usuarios,
+cuatro negocios/seis auditorías temporales eliminados, consulta SQL posterior
+confirma un negocio/19 auditorías/cero usuarios. No valida el modelo ni navegador
+con Auth real. Reloj sincronizado por el usuario, sin leeway adicional.
 
-
-async def verify_business_access(
-    business_id: str,
-    user_id: str = Depends(get_current_user_id),
-    db=Depends(get_db),   # inyección del cliente Supabase
-) -> str:
-    """
-    Dependencia FastAPI — verifica que user_id tiene acceso a business_id.
-
-    Retorna business_id si el acceso es válido.
-
-    Raises:
-        HTTP 403: El usuario no tiene permisos sobre este negocio.
-        HTTP 404: El negocio no existe.
-    """
-    row = await db.fetchone(
-        "SELECT id FROM businesses WHERE id = :bid AND owner_id = :uid",
-        {"bid": business_id, "uid": user_id}
-    )
-    if not row:
-        # Deliberadamente ambiguo: no revelar si el negocio existe pero no pertenece al usuario
-        raise HTTPException(status_code=403, detail="Sin acceso a este negocio")
-    return business_id
-```
-
----
-
-## Uso en Endpoints
-
-```python
-# Endpoint con autenticación + autorización
-@app.post("/ingest/pos")
-async def ingest_pos(
-    file: UploadFile,
-    business_id: str = Form(...),
-    verified_bid: str = Depends(verify_business_access),  # valida JWT + permisos
-):
-    # verified_bid == business_id si el acceso es válido
-    ...
-
-# Endpoint solo con autenticación (sin business_id en path)
-@app.get("/me/businesses")
-async def list_my_businesses(
-    user_id: str = Depends(get_current_user_id),
-):
-    ...
-```
-
----
-
-## Schema — Campo `owner_id` en `businesses`
-
-La tabla `businesses` requiere el campo `owner_id` para la verificación de acceso:
-
-```sql
--- Agregar a 002_hybrid_schema.sql:
-ALTER TABLE businesses ADD COLUMN IF NOT EXISTS
-    owner_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE;
-
-CREATE INDEX IF NOT EXISTS idx_businesses_owner
-    ON businesses (owner_id);
-```
-
-> `auth.users` es la tabla de usuarios de Supabase Auth.
-> El backend usa `service_role_key` → puede leer `auth.users` directamente.
-
----
-
-## Tabla de Endpoints y Nivel de Protección
-
-| Endpoint | Autenticación | Autorización |
-|---|---|---|
-| `POST /ingest/pos` | ✅ JWT | ✅ `business_id` en form |
-| `POST /ingest/factura` | ✅ JWT | ✅ `business_id` en form |
-| `POST /business/{id}/onboarding` | ✅ JWT | ✅ `business_id` en path |
-| `POST /orchestrator/run` | ✅ JWT | ✅ `business_id` en body |
-| `POST /api/audit/layer3/run` | ✅ JWT | ✅ via `audit_run_id` → `business_id` |
-| `GET /api/audit/layer3/status/{id}` | ✅ JWT | ✅ via `layer3_run_id` → `business_id` |
-| `GET /api/audit/layer3/result/{id}` | ✅ JWT | ✅ via `layer3_run_id` → `business_id` |
-| `GET /audit` (demo) | ❌ público | ❌ solo en `ENVIRONMENT=dev` |
-
----
-
-## Acceptance Criteria
-
-- WHEN request sin header `Authorization` → HTTP 401
-- WHEN JWT expirado → HTTP 401 con mensaje "Token expirado"
-- WHEN JWT con firma inválida → HTTP 401
-- WHEN JWT válido pero `business_id` no pertenece al usuario → HTTP 403
-- WHEN JWT válido y `business_id` correcto → request procesado normalmente
-- WHEN `ENVIRONMENT=prod` y endpoint `/audit` (demo) → HTTP 404 o deshabilitado
-- WHEN `SUPABASE_JWT_SECRET` no configurado → error de startup, no silencioso
-
----
-
-## Edge Cases
-
-- Token válido pero `sub` ausente → HTTP 401 (no asumir user_id)
-- `business_id` en path vs body: `verify_business_access` acepta el `business_id` como parámetro — el endpoint decide de dónde lo extrae
-- Layer 3 con `audit_run_id`: verificar `business_id` del run, no del payload directo
-- Modo aislado de Layer 3 (`audit_run_id` ausente): `business_id` viene del body → misma verificación aplica
-
----
-
-## Archivos relacionados
-- `api/core/config.py` — agregar `SUPABASE_JWT_SECRET`
-- `api/.env.example` — agregar `SUPABASE_JWT_SECRET=`
-- `db_schema.md` — agregar `owner_id` a tabla `businesses`
-- `n03_human_input_endpoints.md` — endpoints de input manual que requieren auth
+Perfil exclusivo de acceso local: focalizadas 62 aprobadas/2 advertencias en
+6.02 s; general 292 aprobadas/1 omitida/119 subpruebas/2 advertencias en
+52.36 s, códigos 0. `/chat` 200, API/listado y proxy anónimos 401. Formulario
+con Auth real listo en `127.0.0.1:3016/chat`; login propio confirmado en Edge/Chrome.
+Mensaje de transporte `AuthRetryableFetchError` corregido; SDK con fetch simulado
+3/3 y tipos código 0, sin secretos/errores privados en UI. INC-031 mitigada:
+causa exacta de fallo inicial no demostrada; bloqueo de navegación directa en
+navegador integrado no implica todos los POST. Ninguna protección modificada.
+Servidores locales, cero modelos reales, sin producción.

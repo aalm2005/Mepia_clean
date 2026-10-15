@@ -163,7 +163,7 @@ def _intent_from_words(fragment: str, has_selector: bool) -> PartKind:
     q = _normalize(fragment)
     if re.search(r"\b(?:informe|reporte|resumen ejecutivo|narrativa operativa)\b", q):
         return "report"
-    if re.search(r"\b(?:que es|que significa|define|definicion|explica|formula|como se calcula|como funciona)\b", q):
+    if re.search(r"\b(?:que es|que son|que significa|define|definicion|explica|formula|como se calcula|como funciona)\b", q):
         return "concept"
     if re.search(r"\b(?:catalogo|que metricas existen|lista de metricas)\b", q):
         return "catalog"
@@ -184,7 +184,8 @@ class ChatConversationNode:
         self._writer = writer
         self._verifier = verifier
 
-    def answer(self, question: str, packet: ChatGroundingPacket, *, business_id: str) -> ChatAnswer:
+    def answer(self, question: str, packet: ChatGroundingPacket, *, business_id: str,
+               history: list[dict[str, str]] | None = None) -> ChatAnswer:
         if not business_id or packet.business_id != business_id:
             return ChatAnswer(business_id=business_id, parts=[ChatAnswerPart(
                 question_part="", kind="outside", status="invalid_request",
@@ -197,11 +198,22 @@ class ChatConversationNode:
                     message="Escribe una pregunta sobre las métricas de MEPIA.")])
 
         tools = ChatQueryTools(packet)
+        # Referencias breves solo heredan un selector conocido de una pregunta
+        # previa del mismo ámbito. El historial nunca aporta valores ni fuentes.
+        if history and _normalize(question) in {
+            "que significa", "que significa eso", "explica esa metrica", "cual es la formula"
+        }:
+            metric_ids = {item.metric_id for item in METRIC_CATALOG}
+            candidates = set(_candidate_selectors(history[-1]["question"])) & metric_ids
+            if len(candidates) == 1:
+                question = question.rstrip("?¿ .") + " " + next(iter(candidates))
         parts: list[ChatAnswerPart] = []
         inherited_kind: PartKind | None = None
+        previous_concept_selector: str | None = None
         for fragment in _split_question(question):
             if _calculation_requested(fragment):
                 parts.append(self._from_tool(fragment, "calculation", tools.refuse_calculation()))
+                previous_concept_selector = None
                 continue
             candidates = _candidate_selectors(fragment)
             kind = _intent_from_words(fragment, bool(candidates))
@@ -223,18 +235,27 @@ class ChatConversationNode:
                 # Solo se admite si el texto contiene el disparador correspondiente.
                 kind = _intent_from_words(fragment, False)
             selector = candidates[0] if candidates else None
+            if (kind == "outside" and not candidates and previous_concept_selector
+                    and re.fullmatch(r"(?:explicame|explica) (?:el metodo|la formula)", _normalize(fragment))):
+                kind, selector = "concept", previous_concept_selector
             if decision is not None and decision.selector in candidates:
                 selector = decision.selector
             # Los indicios explícitos en la pregunta prevalecen sobre el modelo.
             if kind == "outside" and candidates:
                 kind = decision.kind if decision and decision.kind in ("concept", "result") else "result"
             parts.append(self._resolve(fragment, kind, selector, tools))
+            if kind == "concept" and selector:
+                metric_candidates = set(candidates) & {item.metric_id for item in METRIC_CATALOG}
+                previous_concept_selector = selector if len(metric_candidates or set(candidates)) <= 1 else None
+            else:
+                previous_concept_selector = None
 
         if not parts:
             parts.append(ChatAnswerPart(question_part="", kind="outside", status="invalid_request",
                 message="Escribe una pregunta sobre las métricas de MEPIA."))
         answer = ChatAnswer(business_id=business_id, resolved_date=packet.resolved_date, parts=parts)
         request = build_writing_request([part.model_dump(mode="json") for part in answer.parts])
+        request.history = list(history or [])[-4:]
         narrations = ChatResponseGuard().narrate(request, self._writer, self._verifier)
         for index, narration in enumerate(narrations):
             data = answer.parts[index].model_dump()

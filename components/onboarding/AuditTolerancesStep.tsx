@@ -17,7 +17,7 @@ interface Props {
 
 // Shared input class for all numeric inputs
 const INPUT_CLASS =
-  "bg-elevated border border-border text-zinc-100 px-3 py-2 text-sm rounded w-24 text-right font-mono focus:outline-none focus:border-accent transition-colors";
+  "glass-input px-3 py-2 text-sm w-24 text-right font-mono";
 
 export default function AuditTolerancesStep({ data, onChange }: Props) {
   // Track which fields have been touched for validation

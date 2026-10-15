@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T01:14:15.573406+00:00",
+  "reviewer_model": "multiple",
+  "judge_calls": 4,
+  "total_api_calls": 4,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+      "sha256": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 0,
+      "digest": "ae40ae1d409d8c7d0aeed113a3fe03ab771d9946e18db91271d5ef6372bc5315",
+      "source_report_sha256": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "La respuesta indica con precisión el ticket promedio respaldado por la evidencia de la segunda ejecución."
+    },
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 1,
+      "digest": "855f9191da126b2b213c023c7ec29a38a96d06d6d9919841a1d89d26e4bcd117",
+      "source_report_sha256": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Comunica el contenido del informe enlazado de la segunda ejecución con soporte documental adecuado."
+    },
+    {
+      "case_id": "arithmetic_division",
+      "part_index": 0,
+      "digest": "0209ab14c4422d5d6b075ec1b396892d2a827216b7e1a27974e1f7ad14efed96",
+      "source_report_sha256": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Rechaza correctamente la solicitud de cálculo aritmético dentro del alcance permitido."
+    }
+  ],
+  "batch_errors": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": []
+    }
+  ]
+}

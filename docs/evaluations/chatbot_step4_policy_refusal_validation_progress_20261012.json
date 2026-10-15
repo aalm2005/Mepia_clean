@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-12",
+  "generated_at_utc": "2026-10-12T06:30:07.831826+00:00",
+  "purpose": "bounded_policy_refusal_guidance_validation_not_global_acceptance",
+  "status": "completed_step4_offline_and_quality_followup_under_accepted_protocol",
+  "user_authorized": true,
+  "authorization": "Sí, validar el ajuste con máximo 18 llamadas adicionales",
+  "plan": "chatbot_step4_policy_refusal_validation_authorized_20261012.json",
+  "plan_sha256": "4724eaa7e55688e3ed5bd29a2f06c3a2633b375deca2ac860f5012a04d2164f0",
+  "next_phase": null,
+  "actual_calls": {
+    "generation": 14,
+    "judge": 2,
+    "total_api": 16
+  },
+  "remaining_max_calls": {
+    "generation": 0,
+    "judge": 0,
+    "total_api": 0
+  },
+  "historical_followup_calls_before_validation": {
+    "generation": 16,
+    "judge": 8,
+    "total_api": 24
+  },
+  "quality_validated_prior_runs": 2,
+  "new_guide_successful_runs": 2,
+  "failed_third_attempt_preserved": true,
+  "step4_closed": true,
+  "phases": [
+    {
+      "number": 1,
+      "status": "quality_recovered_original_timeout_preserved",
+      "independent_audit_passed": true,
+      "audit_file": "chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.json",
+      "audit_sha256": "cff2782ead7ea6acd5ea69f2a13cee7fbb9f7866511c96741f741ae2ce01ffdf",
+      "api_max_calls": 5,
+      "case_ids": [
+        "same_day_result_and_report",
+        "arithmetic_division"
+      ],
+      "generation_pass": true,
+      "audit_integrity_passed": true,
+      "generation_report": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+      "generation_report_sha256": "a134e9d0fad43e8aec482d83ea8248bfe1be49207356548e7d414eed0039a430",
+      "semantic_report": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic.json",
+      "trace": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_synthetic_trace.json",
+      "actual_calls": {
+        "generation": 4,
+        "judge": 1,
+        "total_api": 5
+      },
+      "controls": "45/45",
+      "coverage": "2/2",
+      "independent_pass": 3,
+      "pending": 0,
+      "judge_error": "APITimeoutError",
+      "initial_audit_file": "chatbot_step4_policy_refusal_phase1_audit_20261012.json",
+      "initial_audit_sha256": "c591d0674ba6d250610571b63ee0bb73a2202f9d8066b839c08c28ffb9e5de3e",
+      "original_timeout_preserved": true,
+      "supplemental_semantic_report": "chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7.json",
+      "combined_semantic_report": "chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_combined.json",
+      "actual_calls_with_supplement": {
+        "generation": 4,
+        "judge": 2,
+        "total_api": 6
+      },
+      "quality_pass": true
+    },
+    {
+      "number": 2,
+      "status": "quality_recovered_nine_independent_pass_audited_historical503_preserved",
+      "independent_audit_passed": true,
+      "audit_file": "chatbot_step4_policy_refusal_phase2_final_audit_20261012.json",
+      "audit_sha256": "f886a2382995220d68b4abb3e589c1deda2959609ee6c37c17c32a8afa79263d",
+      "api_max_calls": 13,
+      "case_ids": [
+        "explicit_calculation",
+        "implicit_calculation",
+        "mixed",
+        "question_injection",
+        "result_and_projection"
+      ],
+      "audit_integrity_passed": true,
+      "generation_pass": true,
+      "generation_report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "generation_report_sha256": "d0dd7396e201119439658e0455f05d614908f1a54b65cf748e6a8c72cb89f726",
+      "semantic_report": "chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined.json",
+      "actual_calls": {
+        "generation": 10,
+        "judge": 1,
+        "total_api": 11
+      },
+      "controls": "116/116",
+      "coverage": "3/3",
+      "internally_validated_parts": 9,
+      "independent_pass": 9,
+      "pending": 0,
+      "supplemental_semantic_reports": [
+        "chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947.json",
+        "chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec.json",
+        "chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4.json",
+        "chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46.json",
+        "chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274.json"
+      ],
+      "combined_semantic_report": "chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined.json",
+      "actual_calls_with_supplement": {
+        "generation": 10,
+        "judge": 8,
+        "total_api": 18
+      },
+      "initial_semantic_report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic.json",
+      "quality_pass": true,
+      "historical_judge_errors": 5,
+      "latest_review_errors": 0,
+      "latest_supplemental_report": "chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274.json",
+      "initial_judge_error": "InternalServerError",
+      "initial_judge_http_status": 503,
+      "initial_judge_provider_status": "UNAVAILABLE"
+    }
+  ],
+  "next_action": "Step4 offline and its directed followup are complete. Step5 authentication/authorization by business is separate work; no further evaluation calls are enabled.",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null,
+  "local_runner_preflight": {
+    "file": "chatbot_step4_policy_refusal_authorized_runner_preflight_20261012.json",
+    "sha256": "20a9567740c396ff92db4bb3508117fd32ee2f92b4c5818301b1434416c1e96a",
+    "powershell_controls_passed": 6,
+    "mock_controls_passed": 6,
+    "new_api_calls": 0
+  },
+  "remaining_executable_api_calls_while_stopped": 0,
+  "whole_followup_historical_calls": {
+    "generation": 30,
+    "judge": 18,
+    "total_api": 48
+  },
+  "new_guide_generations_mechanically_passed": 2,
+  "updated_at_utc": "2026-10-12T13:18:33.194786+00:00",
+  "judge_recovery_proposal": {
+    "file": "chatbot_step4_policy_refusal_phase1_judge_recovery_proposal_20261012.json",
+    "sha256": "b85f94a21a1abfb18eeb00b17972d01883b6d2aa5e607442a0f5e755925eea6f",
+    "user_authorized": false,
+    "status": "proposed_not_authorized",
+    "additional_api_max_calls": 1
+  },
+  "phase1_judge_recovery_authorization": {
+    "user_authorized": true,
+    "authorization": "ok entonces hagamos las pruebas",
+    "status": "executed_independent_pass_audited",
+    "plan": "chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_20261012.json",
+    "plan_sha256": "a6440414e82c6933c6fc8634986adcf9099325c9ee182d25684b58f2793f0139",
+    "additional_api_max_calls": 1,
+    "actual_calls": {
+      "generation": 0,
+      "judge": 1,
+      "total_api": 1
+    },
+    "remaining_max_calls": {
+      "generation": 0,
+      "judge": 0,
+      "total_api": 0
+    },
+    "phase2_requires_favorable_supplemental_audit": true,
+    "original_timeout_preserved": true,
+    "recovery_criterion_accepted": "If all three saved phase1 responses independently pass with no new errors or conflicts and their audit passes, accept this generation for phase1 quality while preserving the original timeout as an availability failure. Then phase2 may proceed under its already authorized 13-call budget. Replacement of the failed third quality generation still requires both phases to pass.",
+    "local_preflight": {
+      "file": "chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_preflight_20261012.json",
+      "sha256": "b37ff4a76a848ac19f0c226ac9233809cb123eabe0844ed7181d1c5ff03acd0f",
+      "new_api_calls": 0,
+      "syntax_errors": 0,
+      "show_plan_exit_code": 0,
+      "phase2_expected_block_exit_code": 1,
+      "not_model_quality_evidence": true
+    },
+    "semantic_report": "chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7.json",
+    "semantic_report_sha256": "e90dd42a1dd0df03297b92ed612884415fbe83bb6a8f8013efd55691779600bc",
+    "audit_file": "chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.json",
+    "audit_sha256": "cff2782ead7ea6acd5ea69f2a13cee7fbb9f7866511c96741f741ae2ce01ffdf",
+    "independent_pass": 3,
+    "pending": 0
+  },
+  "maximum_new_validation_api_with_supplement": 24,
+  "remaining_original_validation_phase_executable_api_calls": 0,
+  "maximum_whole_followup_api_if_all_remaining_used": 48,
+  "original_validation_budget_actual_calls": {
+    "generation": 14,
+    "judge": 2,
+    "total_api": 16
+  },
+  "actual_calls_with_supplement": {
+    "generation": 14,
+    "judge": 10,
+    "total_api": 24
+  },
+  "remaining_executable_api_calls": 0,
+  "replacement_counted": true,
+  "phase2_ready_local_preflight": {
+    "file": "chatbot_step4_policy_refusal_phase2_ready_after_recovery_preflight_20261012.json",
+    "sha256": "24d032247a9ecd77709ca4e29f354f11f2dad23e65902713fff67ae6ebc8ce9f",
+    "new_api_calls": 0,
+    "phase2_show_plan_exit_code": 0,
+    "repeat_supplement_expected_block_exit_code": 1
+  },
+  "phase2_judge_recovery_proposal": {
+    "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_20261012.json",
+    "sha256": "70afc6490464b6bdf950e074278ff03234df4078abe9513431293d917b1641fd",
+    "user_authorized": false,
+    "status": "proposed_not_authorized",
+    "judge_max_calls": 3,
+    "unused_previously_authorized_judge_calls": 2,
+    "new_additional_api_required": 1,
+    "proposed_additional_api_max": 20,
+    "local_preflight": {
+      "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_preflight_20261012.json",
+      "sha256": "285d9252efe5abb9dd9c101421ac6afbcf802690ea7ec0f4171f300eac9ef48b",
+      "new_api_calls": 0,
+      "show_plan_exit_code": 0,
+      "unauthorized_recovery_expected_block_exit_code": 1,
+      "stopped_phase2_repeat_expected_block_exit_code": 1
+    }
+  },
+  "phase2_judge_recovery_authorization": {
+    "user_authorized": true,
+    "authorization": "bueno vamos a seguir haciendo mas intentos hasta que todas las pruebas pasen",
+    "status": "executed_independent_pass_audited",
+    "plan": "chatbot_step4_policy_refusal_phase2_judge36_pending_authorized_20261012.json",
+    "plan_sha256": "cc4e9068e05841922b82798da3a64e1afb5708d245ad025a1c2fd3bc801c974b",
+    "judge_model": "gemini-3.6-flash",
+    "generation_max_calls": 0,
+    "judge_max_calls": 1,
+    "prior_independent_pass": 5,
+    "pending_parts": 4,
+    "actual_calls": {
+      "generation": 0,
+      "judge": 1,
+      "total_api": 1
+    },
+    "remaining_max_calls": {
+      "generation": 0,
+      "judge": 0,
+      "total_api": 0
+    },
+    "local_preflight": {
+      "file": "chatbot_step4_policy_refusal_phase2_judge36_pending_preflight_20261012.json",
+      "sha256": "b6fdbb98fef2a139d2c1a3a1d62f0bf868675c30c0ffa04770fee74064d64ab8",
+      "new_api_calls": 0,
+      "show_plan_exit_code": 0,
+      "old_runner_block_exit_code": 1,
+      "mock_controls_passed": 2,
+      "attempt_reserved": false
+    },
+    "independent_pass": 9,
+    "pending": 0,
+    "audit_file": "chatbot_step4_policy_refusal_phase2_final_audit_20261012.json",
+    "audit_sha256": "f886a2382995220d68b4abb3e589c1deda2959609ee6c37c17c32a8afa79263d",
+    "combined_semantic_report": "chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined.json"
+  },
+  "continuation_authorization": {
+    "user_authorized": true,
+    "authorization": "bueno vamos a seguir haciendo mas intentos hasta que todas las pruebas pasen",
+    "authorized_at_utc": "2026-10-12T08:29:02.259803+00:00",
+    "scope": "Continue the outstanding Step4 validation and recover incomplete external judgments; preserve all attempts and existing acceptance criteria.",
+    "further_human_approval_required_for_same_scope_retry": false,
+    "execution_policy": "Each new invocation has an explicit bounded plan and is audited before any following attempt; no unbounded automatic loop or hidden SDK retries.",
+    "provider_failure_policy": "After an audited transient provider failure, prepare the next bounded review of the saved pending responses under this same authorization, with a pause between attempts.",
+    "quality_failure_policy": "Analyze any adverse or contradictory judgment as a possible defect before further testing; do not discard it or simply sample for a favorable answer.",
+    "historical_availability_failures_preserved": true,
+    "generation_already_passed_is_not_repeated": true,
+    "judge_model_change_request": "Y si cambiamos el modelo?? cuál estamos utilizando?",
+    "selected_alternative_judge_model": "gemini-3.6-flash",
+    "authorization_interpretation": "User suggests changing models within the authorized continuing Step4 evaluation; only the independent judge for these saved pending responses is changed.",
+    "production_commit_push_billing_and_generator_model_changes_authorized": false
+  },
+  "maximum_new_validation_api_with_phase2_recovery": 24,
+  "phase2_judge_recovery_history": [
+    {
+      "user_authorized": true,
+      "authorization": "bueno vamos a seguir haciendo mas intentos hasta que todas las pruebas pasen",
+      "status": "executed_judge503_audited",
+      "plan": "chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_20261012.json",
+      "plan_sha256": "d6778b8abc8aceea54d3b0620829766d067c7234ee5e4431c71a17b1a398ffd6",
+      "generation_max_calls": 0,
+      "judge_max_calls": 3,
+      "total_api_max_calls": 3,
+      "unused_previously_authorized_judge_calls": 2,
+      "new_additional_api_required": 1,
+      "actual_calls": {
+        "generation": 0,
+        "judge": 1,
+        "total_api": 1
+      },
+      "remaining_max_calls": {
+        "generation": 0,
+        "judge": 2,
+        "total_api": 2
+      },
+      "maximum_new_validation_api_with_phase2_recovery": 20,
+      "original503_preserved": true,
+      "recovery_criterion_accepted": "Only if all nine saved phase2 parts receive favorable independent judgments, no new errors, no conflicts and a favorable linked audit, accept phase2 recovery for quality while retaining its original503 as availability failure. Then assess both approved phases under the already accepted failed-third replacement criterion. Do not transfer judgments or claim three repetitions with the revised guide.",
+      "local_preflight": {
+        "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_preflight_20261012.json",
+        "sha256": "e093ab98bd83b9ddf55a36fc4fb1268b247e24b436cf2ca1749a2c21176705e0",
+        "new_api_calls": 0,
+        "syntax_errors": 0,
+        "show_plan_exit_code": 0,
+        "original_phase2_repeat_expected_block_exit_code": 1,
+        "supplemental_attempt_reserved": false
+      },
+      "semantic_report": "chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947.json",
+      "audit_file": "chatbot_step4_policy_refusal_phase2_judge_recovery_audit_20261012.json",
+      "audit_sha256": "e62c4475312de97b8091d65c5f11a4e36609ae9f74b1e93598d01e0f560e0b90",
+      "audit_integrity_passed": true,
+      "independent_pass": 0,
+      "pending": 9
+    },
+    {
+      "user_authorized": true,
+      "authorization": "bueno vamos a seguir haciendo mas intentos hasta que todas las pruebas pasen",
+      "status": "executed_judge503_audited",
+      "plan": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_authorized_20261012.json",
+      "plan_sha256": "fec537482216de1c9009e305b7b9ea2c6785d26f50c88efad1eeb20f10f8cc1b",
+      "generation_max_calls": 0,
+      "judge_max_calls": 3,
+      "total_api_max_calls": 3,
+      "unused_previously_authorized_judge_calls": 2,
+      "new_additional_api_required": 1,
+      "actual_calls": {
+        "generation": 0,
+        "judge": 1,
+        "total_api": 1
+      },
+      "remaining_max_calls": {
+        "generation": 0,
+        "judge": 2,
+        "total_api": 2
+      },
+      "maximum_new_validation_api_with_phase2_recovery": 21,
+      "original503_preserved": true,
+      "prior_supplemental503_preserved": true,
+      "recovery_criterion_accepted": "Only if all nine saved phase2 parts receive favorable independent judgments, no new errors, no conflicts and a favorable linked audit, accept phase2 recovery for quality while retaining its original503 as availability failure. Then assess both approved phases under the already accepted failed-third replacement criterion. Do not transfer judgments or claim three repetitions with the revised guide.",
+      "local_preflight": {
+        "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_preflight_20261012.json",
+        "sha256": "81941cd287b6899802a749e1be9f919df506eca9925c11e3f490519fc52c60f5",
+        "new_api_calls": 0,
+        "syntax_errors": 0,
+        "show_plan_exit_code": 0,
+        "old_supplemental_runner_expected_block_exit_code": 1,
+        "attempt_reserved": false
+      },
+      "semantic_report": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec.json",
+      "audit_file": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_audit_20261012.json",
+      "audit_sha256": "a47a8a08a3b66038cc569e94c97b7a7838bf625be7432ea62e9e1adc4971327b",
+      "audit_integrity_passed": true,
+      "independent_pass": 0,
+      "pending": 9
+    },
+    {
+      "user_authorized": true,
+      "authorization": "bueno vamos a seguir haciendo mas intentos hasta que todas las pruebas pasen",
+      "status": "executed_judge503_audited",
+      "plan": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_authorized_20261012.json",
+      "plan_sha256": "ad08e7bae47b78c30fd543474a99940bc3f12322b693ce41ff2fc073a737dcac",
+      "generation_max_calls": 0,
+      "judge_max_calls": 3,
+      "total_api_max_calls": 3,
+      "unused_previously_authorized_judge_calls": 2,
+      "new_additional_api_required": 1,
+      "actual_calls": {
+        "generation": 0,
+        "judge": 1,
+        "total_api": 1
+      },
+      "remaining_max_calls": {
+        "generation": 0,
+        "judge": 2,
+        "total_api": 2
+      },
+      "maximum_new_validation_api_with_phase2_recovery": 22,
+      "original503_preserved": true,
+      "prior_supplemental503_preserved": true,
+      "recovery_criterion_accepted": "Only if all nine saved phase2 parts receive favorable independent judgments, no new errors, no conflicts and a favorable linked audit, accept phase2 recovery for quality while retaining its original503 as availability failure. Then assess both approved phases under the already accepted failed-third replacement criterion. Do not transfer judgments or claim three repetitions with the revised guide.",
+      "local_preflight": {
+        "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_preflight_20261012.json",
+        "sha256": "ba8ac95155e14acceb38b811af6dfab78b5a90578981b7859d28f417f19302a5",
+        "new_api_calls": 0,
+        "syntax_errors": 0,
+        "show_plan_exit_code": 0,
+        "old_supplemental_runner_expected_block_exit_code": 1,
+        "attempt_reserved": false
+      },
+      "semantic_report": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4.json",
+      "audit_file": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_audit_20261012.json",
+      "audit_sha256": "b0c2063c3bb55bfc1f03d5b9495cbfe43a537ce600461fe685da922ad241767b",
+      "audit_integrity_passed": true,
+      "independent_pass": 0,
+      "pending": 9
+    },
+    {
+      "user_authorized": true,
+      "authorization": "bueno vamos a seguir haciendo mas intentos hasta que todas las pruebas pasen",
+      "status": "executed_partial_pass503_audited",
+      "plan": "chatbot_step4_policy_refusal_phase2_judge36_authorized_20261012.json",
+      "plan_sha256": "e25f251bcf8cb5221fc3ac79045fab903c6ca0fd91510757df2eb3a4b75c2ce4",
+      "judge_model": "gemini-3.6-flash",
+      "judge_model_change_request": "Y si cambiamos el modelo?? cuál estamos utilizando?",
+      "generation_max_calls": 0,
+      "judge_max_calls": 3,
+      "total_api_max_calls": 3,
+      "unused_previously_authorized_judge_calls": 2,
+      "new_additional_api_required": 1,
+      "actual_calls": {
+        "generation": 0,
+        "judge": 3,
+        "total_api": 3
+      },
+      "remaining_max_calls": {
+        "generation": 0,
+        "judge": 0,
+        "total_api": 0
+      },
+      "maximum_new_validation_api_with_phase2_recovery": 23,
+      "original503_preserved": true,
+      "prior_supplemental503_preserved": true,
+      "recovery_criterion_accepted": "Only if all nine saved phase2 parts receive favorable independent judgments, no new errors, no conflicts and a favorable linked audit, accept phase2 recovery for quality while retaining its original503 as availability failure. Then assess both approved phases under the already accepted failed-third replacement criterion. Do not transfer judgments or claim three repetitions with the revised guide.",
+      "local_preflight": {
+        "file": "chatbot_step4_policy_refusal_phase2_judge36_preflight_20261012.json",
+        "sha256": "747041a31aedd60424c011fb56352a0007f80d189e04086e16208e31a87f9589",
+        "new_api_calls": 0,
+        "syntax_errors": 0,
+        "show_plan_exit_code": 0,
+        "old_supplemental_runner_expected_block_exit_code": 1,
+        "attempt_reserved": false
+      },
+      "independent_pass": 5,
+      "pending": 4,
+      "audit_file": "chatbot_step4_policy_refusal_phase2_judge36_partial_audit_20261012.json",
+      "audit_sha256": "df7ce254282547c1ddfacfbc7269b3409ef5e8c4c8cac368b668f0e5482681bb",
+      "partial_report": "chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46.json"
+    }
+  ],
+  "quality_followup_completed": true,
+  "quality_validated_slots_under_accepted_protocol": 3,
+  "acceptance": {
+    "file": "chatbot_step4_policy_refusal_validation_acceptance_20261012.json",
+    "sha256": "11db96ca9317c4d127c71ba8800aeaaf5a7aaed4c22b2dc65370afa508f7de39",
+    "quality_followup_completed": true,
+    "accepted_quality_slots": 3,
+    "replacement_counted": true,
+    "different_review_guide_versions_preserved": true,
+    "old_failed_attempt_preserved": true
+  },
+  "historical_plan_and_series_states_are_preserved_snapshots": true,
+  "does_not_claim_three_successful_repetitions_with_revised_guide": true,
+  "closure_local_verification": {
+    "file": "chatbot_step4_policy_refusal_validation_closure_preflight_20261012.json",
+    "sha256": "4c87f35316c6d05ebdcad60d49296a7ab22a42fcaad4c1e88565d71c5d1d44fe",
+    "repeat_block_exit_code": 1,
+    "remaining_executable_api_calls": 0,
+    "new_api_calls": 0
+  }
+}

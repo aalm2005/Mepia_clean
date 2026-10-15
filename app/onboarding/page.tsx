@@ -2,7 +2,7 @@ import OnboardingForm from "@/components/onboarding/OnboardingForm";
 
 export default function OnboardingPage() {
   return (
-    <main className="min-h-screen bg-canvas px-6 py-12">
+    <div className="min-h-[calc(100dvh-4rem)] px-6 py-12">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-forensic-lg font-semibold text-zinc-100 mb-2 uppercase tracking-widest">
           MEPIA — CONFIGURACIÓN INICIAL
@@ -12,6 +12,6 @@ export default function OnboardingPage() {
         </p>
         <OnboardingForm />
       </div>
-    </main>
+    </div>
   );
 }

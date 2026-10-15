@@ -1,0 +1,240 @@
+{
+  "artifact_kind": "test_design_validation_not_functional_execution",
+  "date": "2026-10-14",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "commit": "sin commit",
+  "exit_code": 0,
+  "design_status": "complete",
+  "functional_case_status": "48_not_run",
+  "group_case_counts": [
+    12,
+    10,
+    10,
+    10,
+    6
+  ],
+  "design_checks": [
+    {
+      "check": "48 unique cases in five groups",
+      "passed": true
+    },
+    {
+      "check": "group counts",
+      "passed": true,
+      "counts": [
+        12,
+        10,
+        10,
+        10,
+        6
+      ]
+    },
+    {
+      "check": "all cases have steps and expectations",
+      "passed": true
+    },
+    {
+      "check": "case dependencies resolve without cycles",
+      "passed": true
+    },
+    {
+      "check": "every case occurs once in execution order",
+      "passed": true
+    },
+    {
+      "check": "all dependencies precede their case",
+      "passed": true
+    },
+    {
+      "check": "proposed provider ceilings include setup posts",
+      "passed": true
+    },
+    {
+      "check": "first batch ceiling",
+      "passed": true
+    },
+    {
+      "check": "no execution enabled or claimed",
+      "passed": true
+    },
+    {
+      "check": "results template bound to this manifest",
+      "passed": true
+    },
+    {
+      "check": "blank template contains exactly 48 pending cases",
+      "passed": true
+    },
+    {
+      "check": "no invented observations in template",
+      "passed": true
+    },
+    {
+      "check": "all variants have result slots",
+      "passed": true
+    },
+    {
+      "check": "all source files and prior case references exist",
+      "passed": true
+    },
+    {
+      "check": "fixture dates not in future",
+      "passed": true
+    },
+    {
+      "check": "catalog count consistent with design",
+      "passed": true
+    },
+    {
+      "check": "eight design oracle scenarios consistent",
+      "passed": true
+    },
+    {
+      "check": "pre-existing non-document files preserved",
+      "passed": true
+    },
+    {
+      "check": "412 historical reports preserved by SHA256",
+      "passed": true
+    },
+    {
+      "check": "local Markdown links resolve",
+      "passed": true,
+      "count": 137
+    },
+    {
+      "check": "new artifacts contain no email or bearer credentials",
+      "passed": true
+    },
+    {
+      "check": "private environment values absent from new artifacts",
+      "passed": true
+    },
+    {
+      "check": "known plural-routing risk explicitly pending",
+      "passed": true
+    },
+    {
+      "check": "incident register unchanged with 39 identifiers",
+      "passed": true
+    },
+    {
+      "check": "git diff --check",
+      "passed": true,
+      "exit_code": 0
+    },
+    {
+      "check": "branch and HEAD unchanged",
+      "passed": true
+    }
+  ],
+  "design_check_count": 26,
+  "fixture_oracle_checks": [
+    {
+      "scenario": "base",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only; no conversation, Auth, HTTP, UI or provider"
+    },
+    {
+      "scenario": "missing_metric",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only; no conversation, Auth, HTTP, UI or provider"
+    },
+    {
+      "scenario": "missing_report",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only; no conversation, Auth, HTTP, UI or provider"
+    },
+    {
+      "scenario": "invalid_newer",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only; no conversation, Auth, HTTP, UI or provider"
+    },
+    {
+      "scenario": "precision",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only; no conversation, Auth, HTTP, UI or provider"
+    },
+    {
+      "scenario": "empty",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only; no conversation, Auth, HTTP, UI or provider"
+    },
+    {
+      "scenario": "retrieved_injection",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only; no conversation, Auth, HTTP, UI or provider"
+    },
+    {
+      "scenario": "base_requested_D1",
+      "passed": true,
+      "scope": "in-memory fixture/oracle only"
+    }
+  ],
+  "fixture_oracle_scenarios": 8,
+  "scope_limit": "Only documentary consistency and in-memory grounding/tools of proposed fixtures. Does not execute 48 functional cases or validate real auth, Gemini, UI, clarity, load or deployment.",
+  "actual_provider_calls": 0,
+  "actual_http_requests": 0,
+  "sql_changes": 0,
+  "account_changes": 0,
+  "server_restarts": 0,
+  "production_access": false,
+  "proposed_live_posts_max": 36,
+  "proposed_gemini_attempts_max": 72,
+  "enabled_live_calls": 0,
+  "product_changes_this_task": [],
+  "incidents_created_or_updated": [],
+  "incident_state_preserved": {
+    "total": 39,
+    "resolved": 37,
+    "mitigated": 2,
+    "open": 0
+  },
+  "static_risks": [
+    {
+      "case_id": "L02",
+      "status": "static_risk_not_runtime_confirmed",
+      "observation": "El clasificador determinista enumera «qué es» pero no «qué son». La pregunta natural en plural se conserva deliberadamente para comprobar esa variante, sin asumir que pasa ni cambiar el resultado esperado. No es una regresión demostrada por este diseño."
+    },
+    {
+      "case_id": "P04",
+      "status": "known_gate",
+      "observation": "La auditoría de dependencias debe corresponder al lock final combinado, no reutilizar una auditoría previa de otro lock."
+    }
+  ],
+  "historical_evidence_count_preserved": 412,
+  "historical_evidence_manifest_sha256": "dc4b3181e66cae94b1a6eb631e7f56d4334dfbd2edfba50da33d0ec111b050fa",
+  "documentation_search_matches_reviewed": 38,
+  "documentation_search_review_sha256": "0244990db7f567b4cc2e2ec3906baabfd28687eca6a5c42a8abff137938a1d36",
+  "local_links_checked": 137,
+  "artifacts_and_synced_docs_sha256": {
+    ".kiro/specs/mepia/_index.md": "e8c136bdb61e4fea660a86b491b0ace403a8a1b2a334b2dd0410c1fcf444b963",
+    ".kiro/specs/mepia/design_flows.md": "d2923afd894ed248deb5cc3a3296f86a7ae254fc4617f65a367ebaba33261683",
+    ".kiro/specs/mepia/n15_chat_consulta.md": "a5e4b15a3f418a429c9d700b5b2722fa30f5533de3860d01e662e78e958f7170",
+    "README.md": "9dc0011ed04aa2e95e752ff17465acc49fdbfa5b77c5bf8dd315096610079a8c",
+    "docs/chatbot_corrections.md": "1eedf4212a426949ed95e5b98ed3be2d586503b1155353ab0a974057d8b988fd",
+    "docs/chatbot_frontend_merge.md": "25913d10ae21d1ad7608fc93db3dd4ef389de516964a22ddac2d7b6139fdc425",
+    "docs/chatbot_step4_eval.md": "305c0c63f6b0b58888e86f6000e6575bb09cade4e348a0dd651a2ec6abe01376",
+    "docs/chatbot_step5_integration.md": "4687327b3ff86b244bba1f53e22356b33e68099bf64de37459abd04d1fd230b2",
+    "docs/chatbot_step5_test_plan.json": "67f82b80eeea1059c4cac6a9b9114110bbba0f1afc52d024bd5800361f5dda90",
+    "docs/chatbot_step5_test_plan.md": "8cc93fe59abacc58e7f4961d39ba661dcceeb803d57b22a888f144e21f02c496",
+    "docs/chatbot_step5_test_results_template.json": "1c92f39b246f83c0ec699cadc84148051bb374951c670f163769ca4dea251c87",
+    "docs/mepia_v4_metricas_diseno.md": "da98049a2173e2c338d1c3eacbd6ce1daae541fbf55698d2977bf4b4d96d386f"
+  },
+  "source_contracts_sha256": {
+    "agents/chat_grounding.py": "51dc5d2f1dc1dee30eb08554e7268c09aa361b4d7be12eef94cdf5a8fc9c7e24",
+    "agents/chat_tools.py": "ea873d0f01fc14e880498235fb1f7d10ff76a9fe7817459e87a7382bfd2fbc3c",
+    "agents/chat_metric_catalog.py": "0a814d3cda03916a6530987e79cd2fd891a399d63e76c90b5e7cffc4d33ae182",
+    "agents/chat_conversation.py": "fd966744a5cfb3de41aa17fbeb180f82e6ef5072b9f2aa01fff37edac9af0258",
+    "agents/chat_response.py": "47800e06c41ff6013d25ba1874307b41cb521f19564f67c8f03ffd4f6a9fa449",
+    "api/chat.py": "6b260c76636e1c4c8a6147b0960f3ec6ad71dcd3b98d830aad1f5ed9f7ba8dc4",
+    "api/core/chat_history.py": "9295615d2e657fda6239ae19ab93bb0e6848f0b87abb535f0690697347d31de8",
+    "utils/chat-proxy.ts": "61bcecbc48866e9f4325ea590a407d1e77df874703add6a6afabe58feaff94a0",
+    "components/chat/ChatPanel.tsx": "d5d20c4885245257edf1e7958641ecd8226d2f3b1738ede82b2d0813718d90be",
+    "tests/fixtures/chat_offline_cases.json": "fe8a97e02bb45727ee105c8aa2b6bb47fa635e3439176cbca116854e53451ba8",
+    "docs/chatbot_step5_integration.md": "4687327b3ff86b244bba1f53e22356b33e68099bf64de37459abd04d1fd230b2"
+  },
+  "pytest_build_e2e_repeated": false,
+  "next_action": "Execute first selected batch later with isolated fixtures and bounded provider budget; no publication or OpenAI adoption implied."
+}

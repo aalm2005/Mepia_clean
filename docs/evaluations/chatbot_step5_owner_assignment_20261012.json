@@ -1,0 +1,15 @@
+{
+  "environment": "MEPIA - PRUEBAS",
+  "verified_at": "2026-10-12T18:15:16.607623+00:00",
+  "authorized_account_exists": true,
+  "owner_assigned": true,
+  "ownership_check_passed": true,
+  "business_count": 1,
+  "audit_count": 19,
+  "original_audit_ids_preserved": true,
+  "password_created_by_user": true,
+  "password_handled_by_agent": false,
+  "login_with_this_account_tested": false,
+  "production_access": false,
+  "model_calls": 0
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-12",
+  "generated_at_utc": "2026-10-12T08:36:27.365402+00:00",
+  "purpose": "authorized_saved_response_runner_preflight_not_model_quality",
+  "authorized_plan": "chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_20261012.json",
+  "authorized_plan_sha256": "d6778b8abc8aceea54d3b0620829766d067c7234ee5e4431c71a17b1a398ffd6",
+  "runner_sha256": "a62ddad74970bf7e01f05288b6c546caceedc4cff5a472b8bcd70f33610d0804",
+  "python_runner_sha256": "7b166fa99e83c6bbbee1d923c87a0b911f45b88be76675709ca433957edee942",
+  "verified_hash_counts": {
+    "code_hashes": 10,
+    "original_plan_artifacts": 264,
+    "audit_protected_artifacts": 298
+  },
+  "source_proposal_audit_original_plan_and_runner_hashes_match": true,
+  "progress_matches_authorization_and_budget": true,
+  "powershell_syntax_errors": 0,
+  "python_compile_passed": true,
+  "authorized_show_plan_exit_code": 0,
+  "show_plan_output": "Nueve partes guardadas; lotes 2/3/4; cero generaciones; maximo tres llamadas del juez 3.8, sin reintentos.\nEstado: authorized_prepared_not_executed; cero API en este preflight.",
+  "original_phase2_repeat_expected_block_exit_code": 1,
+  "original_phase2_blocked_before_key_and_reservation": true,
+  "judge_batch_sizes": [
+    2,
+    3,
+    4
+  ],
+  "parts": 9,
+  "supplemental_attempt_reserved": false,
+  "original503_and_phase1_timeout_preserved": true,
+  "additional_api_used_before_recovery": 17,
+  "current_additional_api_maximum": 20,
+  "next_invocation_judge_max_calls": 3,
+  "historical_followup_api_calls": 41,
+  "new_api_calls": 0,
+  "git_diff_check_exit_code": 0,
+  "product_test_suites_repeated": false,
+  "initial_local_preflight_failure": {
+    "stage": "show_plan_before_key_and_reservation",
+    "error_type": "CommandNotFoundException",
+    "missing_command": "Get-FileHash",
+    "failed_local_attempts": 2,
+    "new_api_calls": 0,
+    "resolution": "Child PowerShell explicitly imports Microsoft.PowerShell.Utility using native module search path and TMP/TEMP in writable .test_tmp; original runners remain unchanged.",
+    "incident": "INC-20261004-017"
+  },
+  "local_verification_assertion_corrected": "Original MostrarPlan correctly returns 0 without executing a phase; the pre-key blocked path must be checked without MostrarPlan. This check was corrected and re-executed; no API calls or reservations.",
+  "not_independent_semantic_quality_evidence": true,
+  "incidents_updated": [
+    "INC-20260930-013",
+    "INC-20260930-016",
+    "INC-20261004-017"
+  ],
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

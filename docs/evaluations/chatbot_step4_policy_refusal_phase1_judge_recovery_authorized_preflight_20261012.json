@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-12",
+  "generated_at_utc": "2026-10-12T07:26:59.720587+00:00",
+  "purpose": "authorization_runner_integrity_and_phase2_block_not_model_quality",
+  "authorized_plan": "chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_20261012.json",
+  "authorized_plan_sha256": "a6440414e82c6933c6fc8634986adcf9099325c9ee182d25684b58f2793f0139",
+  "runner_sha256": "00c4128c05978ca016ec75d22a3f43df63e03705fd3c6e62c0739478716c77a7",
+  "verified_hash_counts": {
+    "code_hashes": 10,
+    "original_plan_artifacts": 264,
+    "audit_protected_artifacts": 274
+  },
+  "source_proposal_audit_original_plan_and_runner_hashes_match": true,
+  "progress_matches_authorization_and_budget": true,
+  "powershell_checks_executed": {
+    "runner_syntax_errors": 0,
+    "authorized_show_plan_exit_code": 0,
+    "phase2_block_exit_code": 1,
+    "phase2_block_reason": "phase_not_enabled_before_key_or_reservation"
+  },
+  "git_diff_check_exit_code": 0,
+  "supplemental_attempt_reserved": false,
+  "phase2_attempt_reserved": false,
+  "original_timeout_preserved": true,
+  "phase2_remains_blocked": true,
+  "historical_api_calls": {
+    "generation": 20,
+    "judge": 9,
+    "total_api": 29
+  },
+  "new_api_calls": 0,
+  "product_test_suites_repeated": false,
+  "not_independent_semantic_quality_evidence": true,
+  "incidents_updated": [
+    "INC-20260930-013",
+    "INC-20260930-016"
+  ],
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

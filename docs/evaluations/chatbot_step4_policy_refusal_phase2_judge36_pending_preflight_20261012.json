@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T10:04:44.065842+00:00",
+  "purpose": "pending_only_selection_integrity_and_local_mocks_not_real_model_quality",
+  "plan": "chatbot_step4_policy_refusal_phase2_judge36_pending_authorized_20261012.json",
+  "plan_sha256": "cc4e9068e05841922b82798da3a64e1afb5708d245ad025a1c2fd3bc801c974b",
+  "powershell_syntax_errors": 0,
+  "show_plan_exit_code": 0,
+  "old_full_judge36_runner_block_exit_code": 1,
+  "old_runner_blocked_before_key_and_reservation": true,
+  "mock_controls_passed": 2,
+  "mock_success_only_four_pending_parts_single_call": true,
+  "mock503_preserves_five_approved_parts_and_four_pending": true,
+  "mock_request_payload_equals_original_third_batch": true,
+  "mock_source_report_sha_and_part_digests_preserved": true,
+  "mock_results_are_not_independent_model_evidence": true,
+  "verified_hash_counts": {
+    "code": 10,
+    "original_plan": 264,
+    "partial_audit": 346,
+    "combined_and_audit": 5
+  },
+  "new_api_calls": 0,
+  "attempt_reserved": false,
+  "actual_additional_api_used": 23,
+  "current_maximum": 24,
+  "historical_followup_api": 47,
+  "git_diff_check_exit_code": 0,
+  "product_test_suites_repeated": false,
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

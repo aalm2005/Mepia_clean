@@ -93,7 +93,7 @@ export default function ReviewAlert({
 
   return (
     <div
-      className="bg-amber-950/30 border border-amber-700 rounded p-4 space-y-4"
+      className="glass-strong border border-amber-500/30 rounded-xl p-4 space-y-4"
       role="alert"
     >
       {/* Header */}
@@ -123,7 +123,7 @@ export default function ReviewAlert({
               onChange={(e) => handleFieldChange(field, e.target.value)}
               disabled={isSubmitting}
               placeholder={`Valor para ${field}`}
-              className="bg-zinc-900 border border-zinc-700 rounded px-3 py-1.5 text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-amber-600 disabled:opacity-50 font-mono"
+              className="glass-input px-3 py-1.5 text-sm text-zinc-200 disabled:opacity-50 font-mono"
             />
           </li>
         ))}
@@ -141,7 +141,7 @@ export default function ReviewAlert({
         type="button"
         onClick={handleConfirm}
         disabled={isSubmitting}
-        className="w-full border border-amber-700 bg-amber-950/50 text-amber-400 text-label uppercase tracking-widest font-mono px-4 py-2 rounded-sm hover:bg-amber-950 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full border border-amber-500/40 bg-amber-500/10 text-amber-400 text-label uppercase tracking-widest font-mono px-4 py-2.5 rounded-lg hover:bg-amber-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur"
       >
         {isSubmitting ? "Enviando..." : "Confirmar revisión"}
       </button>

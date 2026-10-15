@@ -1,7 +1,22 @@
 # Diseño Frontend — Árbol de Componentes
 
+**Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
+
 **Referenciado desde:** `design.md`
 **Árbol completo:** `design_components_tree.md`
+
+## Acceso y navegación común de MEPIA (Paso 5)
+
+`MepiaAuthProvider` comparte sesión, negocios propios y selección; `MepiaShell`
+contiene menú común responsive, selector y cierre de sesión. Middleware verifica
+sesión antes de páginas privadas. `MepiaLogin` en `/login` precede a toda MEPIA;
+`ChatPanel` dentro de `/chat` consume contexto y presenta conversación/compositor
+inferior, sin formulario propio de login. Iconos SVG de MepiaIcon conservan
+identidad MEPIA. Dataset/turnos siguen con permisos/guardas del motor.
+Frontend del equipo integrado el 14-oct: GlassBackground/WelcomeSplash y
+AuditReportView/KpiGrid/MetricsCharts en Dashboard, Salud y Reportes, bajo el
+MepiaShell común. Hook cancela datos anteriores y verifica negocio/corrida.
+E2E final 15/15, presentación 12/12, cero errores, build final código 0.
 
 ## Componentes nuevos (v1.1)
 

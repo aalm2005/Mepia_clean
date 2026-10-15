@@ -11,3 +11,5 @@ supabase>=2.4.0
 pydantic-settings>=2.0.0
 tiktoken>=0.7.0
 hypothesis>=6.100.0
+PyJWT[crypto]>=2.15.0,<3.0.0
+openai>=3.19.2,<4.0.0

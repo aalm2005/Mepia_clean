@@ -1,0 +1,23 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "name": "Proxy anÃ³nimo: 401, cero DB y modelo",
+      "passed": true
+    },
+    {
+      "name": "Entrada general: todas las pÃ¡ginas privadas requieren login",
+      "passed": true
+    },
+    {
+      "name": "Cookie inventada no permite entrar a MEPIA",
+      "passed": true
+    }
+  ],
+  "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('SesiÃ³n iniciada', { exact: true }) to be visible\u001b[22m\n",
+  "scope": "Paso 5: sesión, datos y proveedor sintéticos; sin credenciales reales",
+  "attempt": 1,
+  "exit_code": 1,
+  "branch": "codex/chatbot-q4",
+  "commit": "sin commit"
+}

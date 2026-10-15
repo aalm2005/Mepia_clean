@@ -1,8 +1,23 @@
 # Diseño Frontend — Wireframing Lógico
 
+**Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
+
 **Referenciado desde:** `design.md`
 
-## Layout `/app/dashboard`
+## Acceso general y Chat IA integrado
+
+Sin sesión: pantalla de bienvenida MEPIA, correo/contraseña e Iniciar sesión.
+Después del acceso: bienvenida del equipo y menú lateral común (Inicio,
+Dashboard, Documentos, Chat IA, Salud del Negocio, Reportes, Configuración), selector de negocio en cabecera y cierre de sesión en el menú.
+Chat IA ocupa el área central: bienvenida/sugerencias al estar vacío, mensajes
+de usuario a la derecha y respuestas MEPIA con fuentes a la izquierda;
+compositor redondeado inferior y nueva conversación/fecha en cabecera.
+Marco azul y superficies de vidrio del equipo; conversación similar a ChatGPT. En móvil, el menú
+se abre desde su icono y el compositor permanece disponible mientras se desplazan
+mensajes/sugerencias. El chat no presenta otro login. E2E sintético final 15/15; bienvenida visible
+y gráficas por unidad verificadas en la integración del 14-oct.
+
+## Layout `/dashboard`
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -49,7 +64,7 @@ Panel lateral: `low` → solo dormant · `medium` → warnings · `high` → cri
 
 ---
 
-## Layout `/app/upload`
+## Layout `/upload`
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

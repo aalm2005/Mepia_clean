@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-14",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": "sin commit",
+  "audit": {
+    "previous_evidence_unchanged": 410,
+    "plain_language_report_sha256": "2cd48f4566a0f8c822af2b1c66dcdf21fb55c95d08a34ff28272ab797f8c4610",
+    "documents_checked": 10,
+    "current_notices_checked": 10,
+    "broken_links": 0,
+    "private_matches": 0,
+    "incident_identifiers_verified": 39,
+    "only_existing_method_changed": "ChatJsonCompletionAdapter.compose",
+    "factual_policy_and_other_methods_unchanged": true,
+    "git_diff_exit_code": 0,
+    "model_questions_by_agent": 0
+  },
+  "incidents_updated": [
+    "INC-20261014-039",
+    "INC-20261014-035"
+  ],
+  "committed": false,
+  "pushed": false,
+  "production_changed": false
+}

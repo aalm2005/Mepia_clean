@@ -483,18 +483,39 @@ Retorna lista de ingredientes con sus days_remaining.
 
 | Métrica              | warning            | critical                        |
 |----------------------|--------------------|--------------------------------------|
-| Merma                | merma_pct > 5%     | merma_pct > 15%                      |
+| Merma                | merma_pct > 5%     | merma_pct > 10%                      |
 | Inflación precio     | delta_abs 5–15%    | delta_abs > 15%                      |
 | Conciliación caja    | variance < 0       | variance_pct < -1% de ventas         |
 | Margen contribución  | MC_pct < 20%       | MC_pct < 10%                         |
 | Burn rate            | —                  | — (siempre "ok" si hay datos)        |
 | Punto de equilibrio  | —                  | — (siempre "ok" si hay datos)        |
 
-### Métricas nuevas — umbrales pendientes de definir
+### Métricas nuevas — condiciones implementadas al 15-oct-2026
 
-Las siguientes métricas (agregadas en esta sesión) retornan `status: "ok"` por defecto
-hasta que se definan los umbrales numéricos exactos en la sesión de diseño del set de
-evaluación offline (`eval_offline.md`):
+Lectura de las condiciones ejecutables de `agents/calc_engine.py`, sin cambios
+ni nueva ejecución del motor. Se aplica primero el estado más grave y se
+conservan los estados de datos incompletos. Los límites usan comparación estricta:
+
+| Métrica | warning | critical |
+|---|---|---|
+| Descuentos | >10% | Sin corte adicional |
+| Cortesías | Sin corte intermedio | Excedente permitido >5% del subtotal |
+| Cancelaciones | >2% | >5% |
+| Reimpresiones | >5% | >10% |
+| Varianza de caja por turno | Valor absoluto >100 MXN | Valor absoluto >500 MXN |
+| Nómina sobre ventas | >30% | >35% |
+| Costo monetario de merma | Merma/consumo teórico >5% | >10%; conserva el peor ingrediente |
+| Días de inventario | <7 días | <3 días |
+
+El catálogo conceptual del chat explica los resultados emitidos; no recalcula
+estos estados. Los valores propuestos originalmente en el documento maestro
+son criterios de diseño, no sustituyen las condiciones de cada función.
+
+### Tabla inicial de diseño (histórica, anterior a los umbrales implementados)
+
+La tabla siguiente conserva la clasificación inicial y sus preguntas de diseño.
+Sus referencias a umbrales pendientes no describen el comportamiento actual;
+consultar arriba y la función correspondiente antes de modificar un estado.
 
 | Métrica                     | Status default | Notas                                          |
 |-----------------------------|----------------|------------------------------------------------|

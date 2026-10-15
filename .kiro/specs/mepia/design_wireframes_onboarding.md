@@ -1,8 +1,10 @@
 # Diseño Frontend — Wireframe Onboarding
 
+**Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
+
 **Referenciado desde:** `design_wireframes.md`
 
-## Layout `/app/onboarding`
+## Layout `/onboarding`
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

@@ -1,0 +1,60 @@
+{
+  "environment": "MEPIA - PRUEBAS",
+  "started_at": "2026-10-12T17:28:26.961148+00:00",
+  "auth_and_database": "real",
+  "provider": "simulated",
+  "real_model_calls": 0,
+  "checks": [
+    {
+      "name": "password_login_user_0",
+      "passed": true
+    },
+    {
+      "name": "password_login_user_1",
+      "passed": true
+    },
+    {
+      "name": "jwks_signature_and_claims_user_0",
+      "passed": true
+    },
+    {
+      "name": "jwks_signature_and_claims_user_1",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "resource": "audit_results",
+      "success": true
+    },
+    {
+      "resource": "businesses",
+      "success": true
+    },
+    {
+      "resource": "temporary_auth_user",
+      "success": true
+    },
+    {
+      "resource": "temporary_auth_user",
+      "success": true
+    }
+  ],
+  "success": false,
+  "initial_counts": {
+    "businesses": 1,
+    "audit_results": 19
+  },
+  "jwt_algorithm": "ES256",
+  "failure": {
+    "stage": "synthetic_rows",
+    "type": "APIError",
+    "http_status": null
+  },
+  "final_counts": {
+    "businesses": 1,
+    "audit_results": 19
+  },
+  "original_ids_preserved": true,
+  "finished_at": "2026-10-12T17:28:31.330277+00:00"
+}

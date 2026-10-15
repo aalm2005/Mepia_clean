@@ -1,5 +1,7 @@
 # Diseño Frontend — Diagrama de Secuencia Principal
 
+**Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
+
 **Referenciado desde:** `design_flows.md`
 
 ## Flujo completo: onboarding → ingesta → análisis → pantalla
@@ -12,7 +14,8 @@ sequenceDiagram
     participant FA as FastAPI
     participant DB as Supabase
 
-    Note over U,FA: OnboardingGate — al cargar /upload
+    Note over U,FA: Login previo e identificación automática del negocio propio
+    Note over U,FA: OnboardingGate — al abrir /upload desde MEPIA
     UP->>FA: GET /business/{id}/onboarding/status
     alt onboarding_complete: false
         UP->>U: OnboardingRequiredBanner → /onboarding
@@ -34,7 +37,7 @@ sequenceDiagram
     alt needs_human_review: true
         UP->>U: ReviewAlert — campos faltantes
         U->>UP: Corrige campos manualmente
-        UP->>API: PATCH /api/upload/review
+        UP->>API: PATCH /api/upload
         API->>FA: PATCH /ingest/pos/{file_id}/review
     end
 

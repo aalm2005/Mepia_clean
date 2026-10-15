@@ -1,0 +1,156 @@
+{
+  "environment": "MEPIA - PRUEBAS",
+  "started_at": "2026-10-12T17:36:52.019360+00:00",
+  "auth_and_database": "real",
+  "provider": "simulated",
+  "real_model_calls": 0,
+  "checks": [
+    {
+      "name": "password_login_user_0",
+      "passed": true
+    },
+    {
+      "name": "password_login_user_1",
+      "passed": true
+    },
+    {
+      "name": "jwks_signature_and_claims_user_0",
+      "passed": true
+    },
+    {
+      "name": "jwks_signature_and_claims_user_1",
+      "passed": true
+    },
+    {
+      "name": "rls_anonymous_businesses",
+      "passed": true
+    },
+    {
+      "name": "rls_anonymous_audit_results",
+      "passed": true
+    },
+    {
+      "name": "rls_owned_businesses_user_0",
+      "passed": true
+    },
+    {
+      "name": "rls_owned_audits_user_0",
+      "passed": true
+    },
+    {
+      "name": "rls_owned_businesses_user_1",
+      "passed": true
+    },
+    {
+      "name": "rls_owned_audits_user_1",
+      "passed": true
+    },
+    {
+      "name": "http_rejects_anonymous",
+      "passed": true
+    },
+    {
+      "name": "http_rejects_public_key_as_session",
+      "passed": true
+    },
+    {
+      "name": "http_rejects_service_key_as_session",
+      "passed": true
+    },
+    {
+      "name": "http_bad_signature_before_database",
+      "passed": true
+    },
+    {
+      "name": "http_owned_businesses_user_0",
+      "passed": true
+    },
+    {
+      "name": "http_owned_businesses_user_1",
+      "passed": true
+    },
+    {
+      "name": "http_rejects_foreign_before_evidence",
+      "passed": true
+    },
+    {
+      "name": "http_rejects_unowned_before_evidence",
+      "passed": true
+    },
+    {
+      "name": "http_rejects_missing_before_evidence",
+      "passed": true
+    },
+    {
+      "name": "http_owned_chat_real_grounding",
+      "passed": true
+    },
+    {
+      "name": "history_owner_can_read",
+      "passed": true
+    },
+    {
+      "name": "history_rejects_foreign_business",
+      "passed": true
+    },
+    {
+      "name": "history_rejects_other_user_own_business",
+      "passed": true
+    },
+    {
+      "name": "history_rejects_same_user_other_business",
+      "passed": true
+    },
+    {
+      "name": "history_followup_same_scope",
+      "passed": true
+    },
+    {
+      "name": "rls_revocation_immediate",
+      "passed": true
+    },
+    {
+      "name": "http_revocation_get",
+      "passed": true
+    },
+    {
+      "name": "http_revocation_delete",
+      "passed": true
+    },
+    {
+      "name": "http_revocation_post",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "resource": "audit_results",
+      "success": true
+    },
+    {
+      "resource": "businesses",
+      "success": true
+    },
+    {
+      "resource": "temporary_auth_user",
+      "success": true
+    },
+    {
+      "resource": "temporary_auth_user",
+      "success": true
+    }
+  ],
+  "success": true,
+  "initial_counts": {
+    "businesses": 1,
+    "audit_results": 19
+  },
+  "jwt_algorithm": "ES256",
+  "simulated_sdk_calls": 4,
+  "final_counts": {
+    "businesses": 1,
+    "audit_results": 19
+  },
+  "original_ids_preserved": true,
+  "finished_at": "2026-10-12T17:37:02.632651+00:00"
+}

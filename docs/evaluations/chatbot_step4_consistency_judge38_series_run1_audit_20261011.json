@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-11",
+  "generated_at_utc": "2026-10-12T03:04:15.171474+00:00",
+  "series_id": "judge38_20261011",
+  "repetition": 1,
+  "status": "mechanical_pass_independent_review_pending_judge503",
+  "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+  "generation_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+  "judge_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.json",
+  "trace": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_synthetic_trace.json",
+  "actual_calls": {
+    "generation": 4,
+    "judge": 1,
+    "total_api": 5
+  },
+  "mechanical_checks_passed": 45,
+  "mechanical_checks_total": 45,
+  "coverage": "2/2",
+  "parts_validated": "3/3",
+  "independent_pass": 0,
+  "independent_fail": 0,
+  "independent_pending": 3,
+  "judge_error": {
+    "report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+    "error_type": "InternalServerError",
+    "http_status": 503,
+    "provider_status": "UNAVAILABLE",
+    "provider_message_present": true,
+    "provider_error_body_kind": "array",
+    "diagnostic_hints": [
+      "provider_message_mentions_capacity"
+    ],
+    "case_ids": [
+      "same_day_result_and_report",
+      "arithmetic_division"
+    ]
+  },
+  "source_trace_fixture_plan_runner_and_reviews_sha_match": true,
+  "ten_plan_sha_match": true,
+  "local_trace_replay_matches_inputs_outputs_cases_checks_and_digests": true,
+  "replay_callbacks": 4,
+  "trace_replay_is_not_a_new_model_measurement": true,
+  "semantic_summary_recomputed_matches": true,
+  "protected_files_unchanged": {
+    "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+    "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.md": "091d819f6f339c602f0681d2be4899bcd461f31d313aee6cdcdbdc574afc1cc4",
+    "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.json": "fbd0f2e2e7f1b279294ece6d4acdb7d7c6df94cbc76ce2f8d93015d81bbfeffc",
+    "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.md": "5b8cd7257e9396e45630221d3b5325cfd91de86aa98045ade18f4a90810134f2",
+    "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic_reviews.json": "6de3300516b54ae9f151748176ac9f2a3e054ea7f8257b78cd59d12f864f46aa",
+    "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_synthetic_trace.json": "41e99a00dde796e63176312751dbe561acd3102f1c2e9af0dc4342a7d3f29ab4",
+    "chatbot_step4_consistency_judge38_series_run1_attempt_20261011.json": "0f8a7847d106569197339d34376c78d78bfc733e053049a17d46e60d45193328",
+    "chatbot_step4_consistency_judge38_authorized_plan_20261011.json": "a059b8d70545ca3d85062ed6cad81044401f2bd034a0f44abc5f5a931b81b7c7",
+    "chatbot_step4_consistency_judge38_authorized_plan_20261011.md": "3afe3c7e8924f0f67a2226b423dacb76e901e53dd108bfd9a4af89d62534ef5f"
+  },
+  "stop_rule_applied": true,
+  "repetition_qualified": false,
+  "new_api_calls_during_audit": 0,
+  "previous_judgments_not_transferred": true
+}

@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-11T19:40:25.451482+00:00",
+  "summary": {
+    "parts": 3,
+    "pass": 0,
+    "fail": 0,
+    "not_reviewed": 3,
+    "answerable": 2,
+    "covered": 2,
+    "generation_calls": 4,
+    "independent_model_judgments": 0,
+    "independent_model_pass": 0,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 3,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    }
+  ],
+  "total_api_calls": 3,
+  "cases": [
+    {
+      "id": "same_day_result_and_report",
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "El ticket promedio fue de 125 MXN."
+        },
+        {
+          "index": 1,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "El resumen ejecutivo del informe indica que es el informe de la segunda ejecución."
+        }
+      ]
+    },
+    {
+      "id": "arithmetic_division",
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "No es posible realizar cálculos, recálculos, agregaciones, comparaciones numéricas, proyecciones ni simulaciones a través del chat."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

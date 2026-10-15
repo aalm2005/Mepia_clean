@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T09:40:43.699164+00:00",
+  "reviewer_model": "gemini-3.8-flash",
+  "judge_calls": 1,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "sha256": "d0dd7396e201119439658e0455f05d614908f1a54b65cf748e6a8c72cb89f726"
+    }
+  ],
+  "reviews": [],
+  "batch_errors": [
+    {
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "provider_status": "UNAVAILABLE",
+      "provider_message_present": true,
+      "provider_error_body_kind": "array",
+      "diagnostic_hints": [
+        "provider_message_mentions_capacity"
+      ],
+      "case_ids": [
+        "explicit_calculation",
+        "implicit_calculation"
+      ]
+    }
+  ],
+  "stopped_judge_at_first_error": true
+}

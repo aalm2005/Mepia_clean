@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import type { Archetype } from "../AuditTable";
 import ArchetypeSelector from "./ArchetypeSelector";
 import DocumentDropzone from "./DocumentDropzone";
@@ -31,11 +32,13 @@ function getApiErrorMessage(status: number, body: unknown): string {
  */
 async function uploadSingleFile(
   file: File,
-  type: "pos" | "factura"
+  type: "pos" | "factura",
+  business: string
 ): Promise<{ ok: boolean; status: number; data: unknown }> {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("type", type);
+  formData.append("business_id", business);
 
   const res = await fetch("/api/upload", { method: "POST", body: formData });
   const data = await res.json().catch(() => null);
@@ -44,6 +47,7 @@ async function uploadSingleFile(
 
 export default function UploadForm() {
   const router = useRouter();
+  const { business } = useMepiaAuth();
 
   const [archetype, setArchetype] = useState<Archetype>("Operative Genius");
   const [auditDate, setAuditDate] = useState("2024-01-15");
@@ -75,6 +79,7 @@ export default function UploadForm() {
   const noFilesSelected = posFiles.length === 0 && facturaFiles.length === 0;
 
   const isDisabled =
+    !business ||
     noFilesSelected ||
     isAnalyzing ||
     isReviewPending ||
@@ -130,7 +135,7 @@ export default function UploadForm() {
       setProgress(`${i + 1} / ${files.length} archivos`);
 
       try {
-        const { ok, status, data } = await uploadSingleFile(files[i], type);
+        const { ok, status, data } = await uploadSingleFile(files[i], type, business);
 
         if (!ok) {
           const msg = getApiErrorMessage(status, data);
@@ -210,7 +215,7 @@ export default function UploadForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           archetype,
-          business_id: process.env.NEXT_PUBLIC_BUSINESS_ID,
+          business_id: business,
           date: auditDate || latestUploadDate || new Date().toISOString().split("T")[0],
         }),
       });
@@ -272,7 +277,7 @@ export default function UploadForm() {
           type="date"
           value={auditDate}
           onChange={(e) => setAuditDate(e.target.value)}
-          className="bg-zinc-900 border border-zinc-700 rounded px-3 py-1.5 text-sm text-zinc-200 font-mono focus:outline-none focus:border-emerald-600"
+          className="glass-input px-3 py-1.5 text-sm text-zinc-200 font-mono"
         />
       </div>
 
@@ -332,7 +337,7 @@ export default function UploadForm() {
 
       {auditError && (
         <div
-          className="mb-4 px-4 py-3 border border-red-700 bg-red-950/30 rounded text-sm text-red-400 font-mono"
+          className="mb-4 px-4 py-3 border border-red-500/40 bg-red-950/30 backdrop-blur rounded-xl text-sm text-red-400 font-mono"
           role="alert"
         >
           {auditError}
@@ -343,7 +348,7 @@ export default function UploadForm() {
         type="button"
         onClick={handleAnalyze}
         disabled={isDisabled}
-        className="w-full mt-6 py-3 text-sm font-semibold uppercase tracking-widest border border-accent text-accent hover:bg-accent hover:text-canvas transition-colors rounded disabled:opacity-40 disabled:cursor-not-allowed"
+        className="glass-btn-primary w-full mt-6 py-3.5 text-sm font-semibold uppercase tracking-widest"
       >
         {getCtaLabel()}
       </button>

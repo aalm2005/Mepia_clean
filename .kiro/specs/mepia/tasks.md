@@ -3,7 +3,9 @@
 ## Visión general
 
 Implementación incremental de MEPIA. Las fases 1–3 (frontend) están completas.
-Las fases 4–18 cubren el pipeline backend completo.
+Las fases 4–18 tienen implementación y sus tareas registradas como realizadas;
+esto no certifica producción ni la integración completa con cada fuente real.
+El [estado actual](../../../docs/estado_actual_mepia.md) separa código, pruebas y pendientes.
 
 ## Fases
 
@@ -12,11 +14,13 @@ Las fases 4–18 cubren el pipeline backend completo.
 | `tasks_phase1.md` | Design system + componentes base + rutas de onboarding | ✅ Completo |
 | `tasks_phase2.md` | Ruta `/upload`: gate, selector, dropzones, review, form | ✅ Completo |
 | `tasks_phase3.md` | Ruta `/dashboard` + API routes + integración end-to-end | ✅ Completo |
-| `tasks_backend.md` | Pipeline backend completo: S1→S2→S3→S4→N05→N06→N09→Layer3→PBT | 🔧 Pendiente |
+| `tasks_backend.md` | S1→S2→S3→S4→N05→N06→N09→Layer3→PBT | Implementado en desarrollo; publicación y validación integral separadas |
+| `n15_chat_consulta.md` | Chat Pasos 1–5 | 1–4 aceptados; integración implementada, validación funcional del Paso 5 pendiente |
+| `design.md` | Experiencia general | Tutorial guiado pendiente; adaptación móvil parcial; simplificación del selector pendiente |
 
 ## Archivos de diseño de referencia
 
-- `design_system.md` — tokens Tailwind, paleta brutalista
+- `design_system.md` — tokens Tailwind y paleta azul integrada
 - `design_components.md` — props y contratos de componentes
 - `design_components_tree.md` — árbol completo por ruta
 - `design_wireframes.md` — layouts de dashboard y upload

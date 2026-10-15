@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T02:50:59.443179+00:00",
+  "reviewer_model": "gemini-3.8-flash",
+  "judge_calls": 1,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+      "sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06"
+    }
+  ],
+  "reviews": [],
+  "batch_errors": [
+    {
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "provider_status": "UNAVAILABLE",
+      "provider_message_present": true,
+      "provider_error_body_kind": "array",
+      "diagnostic_hints": [
+        "provider_message_mentions_capacity"
+      ],
+      "case_ids": [
+        "same_day_result_and_report",
+        "arithmetic_division"
+      ]
+    }
+  ]
+}

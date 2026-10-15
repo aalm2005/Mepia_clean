@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Porcentaje emitido 0 sin reescalar",
+      "passed": true
+    },
+    {
+      "name": "Porcentaje emitido 0.5 sin reescalar",
+      "passed": true
+    },
+    {
+      "name": "Porcentaje emitido 1 sin reescalar",
+      "passed": true
+    },
+    {
+      "name": "Porcentaje emitido -2 sin reescalar",
+      "passed": true
+    },
+    {
+      "name": "Porcentaje emitido 101 sin reescalar",
+      "passed": true
+    },
+    {
+      "name": "Porcentaje emitido 12.345678 sin reescalar",
+      "passed": true
+    },
+    {
+      "name": "Montos y unidad sin redondear a enteros",
+      "passed": true
+    },
+    {
+      "name": "Costo operativo no presentado como margen",
+      "passed": true
+    },
+    {
+      "name": "Etiqueta conserva la métrica emitida",
+      "passed": true
+    },
+    {
+      "name": "Datos incompletos e incompatibles no muestran cifras",
+      "passed": true
+    },
+    {
+      "name": "Gráficas excluyen nulos, no finitos y datos inválidos",
+      "passed": true
+    },
+    {
+      "name": "Filas de gráficas preservan valor, unidad y estado",
+      "passed": true
+    }
+  ],
+  "external_calls": 0
+}

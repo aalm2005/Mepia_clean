@@ -146,14 +146,14 @@ export default function DocumentDropzone({
 
   const borderClass =
     status === "done"
-      ? "border-emerald-500"
+      ? "border-emerald-500/60"
       : status === "error"
-      ? "border-red-500"
+      ? "border-red-500/60"
       : status === "needs_human_review"
-      ? "border-amber-600"
+      ? "border-amber-500/60"
       : isDragOver
-      ? "border-zinc-500"
-      : "border-dashed border-zinc-700";
+      ? "border-emerald-400/60 bg-emerald-500/5"
+      : "border-dashed border-white/15";
 
   const cursorClass = isInteractive ? "cursor-pointer" : "cursor-default";
   const displayError = mimeError ?? (status === "error" ? errorMessage : null);
@@ -168,7 +168,7 @@ export default function DocumentDropzone({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`border-2 rounded p-6 text-center transition-colors ${borderClass} ${cursorClass} select-none`}
+      className={`glass-strong border-2 rounded-2xl p-6 text-center transition-all duration-300 ${borderClass} ${cursorClass} select-none hover:border-emerald-400/30`}
     >
       <input
         ref={inputRef}

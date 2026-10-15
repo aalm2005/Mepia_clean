@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T06:39:59.560295+00:00",
+  "reviewer_model": "gemini-3.8-flash",
+  "judge_calls": 1,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+      "sha256": "a134e9d0fad43e8aec482d83ea8248bfe1be49207356548e7d414eed0039a430"
+    }
+  ],
+  "reviews": [],
+  "batch_errors": [
+    {
+      "report": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+      "error_type": "APITimeoutError",
+      "http_status": null,
+      "provider_status": null,
+      "provider_message_present": false,
+      "provider_error_body_kind": "absent",
+      "diagnostic_hints": [],
+      "case_ids": [
+        "same_day_result_and_report",
+        "arithmetic_division"
+      ]
+    }
+  ],
+  "stopped_judge_at_first_error": true
+}

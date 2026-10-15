@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import BrandIdentityStep, { type BrandIdentityData } from "./BrandIdentityStep";
 import AuditTolerancesStep, { type AuditTolerancesData } from "./AuditTolerancesStep";
 import CostStructureStep, { type CostStructureItem } from "./CostStructureStep";
@@ -45,6 +46,7 @@ const STEPS = [
 
 export default function OnboardingForm() {
   const router = useRouter();
+  const { business } = useMepiaAuth();
   const [activeStep, setActiveStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
   const [isSaving, setIsSaving] = useState(false);
@@ -62,7 +64,8 @@ export default function OnboardingForm() {
     setIsSaving(true);
     setSaveError(null);
 
-    const business_id = process.env.NEXT_PUBLIC_BUSINESS_ID;
+    const business_id = business;
+    if (!business_id) { setSaveError("Selecciona un negocio para continuar."); setIsSaving(false); return; }
 
     // Mapear campos del formulario al contrato del backend:
     //   amount_per_month  → expected_monthly_amount
@@ -156,9 +159,9 @@ export default function OnboardingForm() {
   }
 
   return (
-    <div className="bg-surface rounded border border-border shadow-panel">
+    <div className="glass-strong rounded-2xl">
       {/* Progress indicator */}
-      <div className="flex items-center gap-0 border-b border-border px-panel py-4">
+      <div className="flex items-center gap-0 border-b border-white/10 px-panel py-4">
         {STEPS.map((step) => {
           const isActive = step.id === activeStep;
           return (
@@ -183,7 +186,7 @@ export default function OnboardingForm() {
       </div>
 
       {/* Navigation */}
-      <div className="flex flex-col gap-3 border-t border-border px-panel py-4">
+      <div className="flex flex-col gap-3 border-t border-white/10 px-panel py-4">
         {saveError && (
           <p className="text-xs text-critical">{saveError}</p>
         )}
@@ -203,7 +206,7 @@ export default function OnboardingForm() {
             <button
               type="button"
               onClick={handleNext}
-              className="px-4 py-2 text-sm bg-elevated border border-border text-zinc-100 hover:border-accent hover:text-accent transition-colors rounded"
+              className="glass-btn-ghost px-4 py-2 text-sm"
             >
               Siguiente →
             </button>
@@ -214,7 +217,7 @@ export default function OnboardingForm() {
               type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="px-4 py-2 text-sm bg-accent-dim border border-accent text-accent hover:bg-accent hover:text-canvas transition-colors rounded font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="glass-btn-primary px-5 py-2 text-sm font-medium"
             >
               {isSaving ? "Guardando..." : "Guardar configuración ✓"}
             </button>

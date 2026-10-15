@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T05:21:16.033024+00:00",
+  "summary": {
+    "parts": 3,
+    "pass": 3,
+    "fail": 0,
+    "not_reviewed": 0,
+    "answerable": 2,
+    "covered": 2,
+    "generation_calls": 4,
+    "independent_model_judgments": 3,
+    "independent_model_pass": 3,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 1,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [],
+  "cases": [
+    {
+      "id": "same_day_result_and_report",
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "El ticket promedio de 125 MXN está respaldado por la ejecución S3 correcta y responde a la pregunta.",
+          "reviewer": "independent-model:gemini-3.8-flash",
+          "message": "El ticket promedio fue de 125 MXN."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "El contenido del informe final está respaldado por el N14 enlazado y comunica su contenido adecuadamente.",
+          "reviewer": "independent-model:gemini-3.8-flash",
+          "message": "El informe de la segunda ejecución indica lo siguiente: Informe de la segunda ejecución."
+        }
+      ]
+    },
+    {
+      "id": "arithmetic_division",
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Rechaza debidamente la solicitud de división y recálculo sin ejecutar operaciones aritméticas.",
+          "reviewer": "independent-model:gemini-3.8-flash",
+          "message": "No es posible realizar cálculos, recálculos, agregaciones, comparaciones numéricas, proyecciones ni simulaciones a través del chat."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

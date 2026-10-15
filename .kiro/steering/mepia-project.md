@@ -11,7 +11,7 @@ Copiloto Financiero para dueños de restaurantes que automatiza la auditoría op
 
 ## Stack Tecnológico
 
-- **Frontend:** Next.js (App Router) + Tailwind CSS — diseño minimalista, oscuro y profesional
+- **Frontend:** Next.js 15.5.27 (App Router) + Tailwind CSS + Recharts — diseño azul integrado del equipo
 - **Backend/DB:** Supabase — Auth, Storage (PDFs), SQL (transacciones)
 - **Agentes IA:** Python — LangChain/LangGraph para flujos multi-agente
 - **Comunicación:** API REST entre Next.js y el backend Python (FastAPI)
@@ -48,13 +48,14 @@ Cada resultado de agente debe acompañarse de una frase explicativa generada por
 
 ### Formato de Output Estándar
 
-El componente principal de resultados siempre renderiza tres columnas:
+La tabla de hallazgos actual renderiza cinco columnas; los indicadores y el chat
+tienen sus propias vistas:
 
 ```
-Módulo | Resultado del Agente | Insight del Copiloto (Frase)
+Módulo | Resultado Forense | Insight CEO | Nivel | Acción
 ```
 
-Ejemplo real:
+Ejemplo ilustrativo:
 - **Módulo:** Salud del Negocio
 - **Resultado:** Margen de utilidad neta: 18%
 - **Insight (Arquetipo Operativo):** "Eres eficiente, pero la inconsistencia en extracciones de espresso está afectando tu recompra."
@@ -72,14 +73,19 @@ Ejemplo real:
 ## Convenciones de Código
 
 - Componentes Next.js en `/app` con Server Components por defecto
-- Tailwind: paleta oscura (`zinc-900`, `zinc-800`), acentos en `emerald-400`
+- Tailwind: paleta azul de `tailwind.config.ts`; los alias `zinc`/`emerald` están remapeados. Rojo/ámbar conservan estados de alerta
 - Python: cada agente es una clase independiente con método `.run(input) -> AgentResult`
-- `AgentResult` siempre incluye: `module`, `raw_result`, `copilot_phrase`, `archetype`
+- `AgentResult` conserva el contrato base; los nodos nuevos usan contratos propios (`CalcResult`, `AuditInsight`, `ChatAnswer`) del glosario
 - Variables y comentarios en español cuando el contexto es de negocio; inglés para código técnico
 
 ---
 
 ## Estructura de Carpetas
+
+Estado y recorrido completos al 15-oct-2026: [resumen actual](../../docs/estado_actual_mepia.md).
+Login previo, negocio propio identificado automáticamente y Chat IA integrado;
+tutorial guiado pendiente y adaptación móvil parcial. El árbol siguiente es un
+resumen de carpetas, no un inventario exhaustivo de los nodos ya implementados.
 
 ```
 mepia/

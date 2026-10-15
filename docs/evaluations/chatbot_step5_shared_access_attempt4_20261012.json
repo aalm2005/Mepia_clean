@@ -1,0 +1,30 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "name": "Proxy anÃ³nimo: 401, cero DB y modelo",
+      "passed": true
+    },
+    {
+      "name": "Entrada general: todas las pÃ¡ginas privadas requieren login",
+      "passed": true
+    },
+    {
+      "name": "Cookie inventada no permite entrar a MEPIA",
+      "passed": true
+    }
+  ],
+  "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('SesiÃ³n iniciada', { exact: true }) to be visible\u001b[22m\n",
+  "diagnostic": {
+    "url": "http://localhost:3015/login?next=%2Fchat",
+    "visible_text": "M\n\nMISE EN PLACE AI\n\nBienvenido a MEPIA\n\nTu negocio, con una perspectiva mÃ¡s clara.\n\nCorreo\nContraseÃ±a\nIniciar sesiÃ³n\n\nNo se pudo conectar con el servicio de inicio de sesiÃ³n. Revisa tu conexiÃ³n y vuelve a intentarlo.\n\nUna sola cuenta para tu dashboard, documentos y asistente.",
+    "cookie_metadata": []
+  },
+  "auth_responses": [],
+  "page_errors": [],
+  "scope": "Paso 5: sesión, datos y proveedor sintéticos; sin credenciales reales",
+  "attempt": 4,
+  "exit_code": 1,
+  "branch": "codex/chatbot-q4",
+  "commit": "sin commit"
+}

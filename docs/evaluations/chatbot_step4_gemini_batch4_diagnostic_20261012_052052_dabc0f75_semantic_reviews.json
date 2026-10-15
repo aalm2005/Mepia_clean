@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T05:21:16.032022+00:00",
+  "reviewer_model": "gemini-3.8-flash",
+  "judge_calls": 1,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.json",
+      "sha256": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e"
+    }
+  ],
+  "reviews": [
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 0,
+      "digest": "ae40ae1d409d8c7d0aeed113a3fe03ab771d9946e18db91271d5ef6372bc5315",
+      "source_report_sha256": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "El ticket promedio de 125 MXN está respaldado por la ejecución S3 correcta y responde a la pregunta."
+    },
+    {
+      "case_id": "same_day_result_and_report",
+      "part_index": 1,
+      "digest": "ab65a888b32d8ccaf44ffa09cd1f0b7a9efbabdb8493a722175a7465d447ac85",
+      "source_report_sha256": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "El contenido del informe final está respaldado por el N14 enlazado y comunica su contenido adecuadamente."
+    },
+    {
+      "case_id": "arithmetic_division",
+      "part_index": 0,
+      "digest": "0209ab14c4422d5d6b075ec1b396892d2a827216b7e1a27974e1f7ad14efed96",
+      "source_report_sha256": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e",
+      "reviewer": "independent-model:gemini-3.8-flash",
+      "supported": true,
+      "addresses_question": true,
+      "correct_scope": true,
+      "no_calculation": true,
+      "reason": "Rechaza debidamente la solicitud de división y recálculo sin ejecutar operaciones aritméticas."
+    }
+  ],
+  "batch_errors": []
+}

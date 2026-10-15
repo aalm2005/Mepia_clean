@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-14",
+  "scope": "Synthetic local browser/frontend/API integration",
+  "attempt": 1,
+  "passed": false,
+  "checks": [],
+  "page_errors": [],
+  "error": "Servidor local no respondió",
+  "exit_code": 1,
+  "external_api_calls": 0,
+  "real_credentials_used": false,
+  "production_changed": false
+}

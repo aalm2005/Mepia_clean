@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { OrchestratorResult, PipelineStatus } from "@/types/audit";
+import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 
 /**
  * Response from GET /api/audit/status/{run_id}
@@ -65,6 +66,8 @@ export function useAuditPolling(
   runId: string | null,
   intervalMs: number = 2000
 ): UseAuditPollingResult {
+  const { session, business } = useMepiaAuth();
+  const user = session?.user.id;
   const [result, setResult] = useState<OrchestratorResult | null>(null);
   const [pipelineStatus, setPipelineStatus] = useState<PipelineStatus | null>(
     null
@@ -82,15 +85,17 @@ export function useAuditPolling(
   const layer3IntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (!runId) return;
-
-    // Reset state when runId changes
+    // Clear even when runId is removed; a business change also removes its query.
     setResult(null);
     setPipelineStatus(null);
     setCurrentNode(null);
     setLayer3Status(null);
     setLayer3DraftStatus(null);
     setError(null);
+    if (!runId || !business || !user) return;
+    const abort = new AbortController();
+    let active = true;
+    const isCurrent = () => active && !abort.signal.aborted;
 
     const clearMainInterval = () => {
       if (mainIntervalRef.current !== null) {
@@ -112,13 +117,17 @@ export function useAuditPolling(
      */
     const fetchFinalResult = async () => {
       try {
-        const res = await fetch(`/api/audit/result/${runId}`);
+        const res = await fetch(`/api/audit/result/${runId}`, { signal: abort.signal });
         if (!res.ok) {
           throw new Error(
             `Error fetching result: ${res.status} ${res.statusText}`
           );
         }
         const data: OrchestratorResult = await res.json();
+        if (!isCurrent()) return;
+        if (data.business_id !== business || data.run_id !== runId) {
+          throw new Error("Este análisis no corresponde al negocio seleccionado.");
+        }
         setResult(data);
 
         // If escalated → start Layer 3 polling using layer2_run_id
@@ -132,7 +141,7 @@ export function useAuditPolling(
           const pollLayer3 = async () => {
             try {
               const l3Res = await fetch(
-                `/api/audit/layer3/status/${layer2RunId}`
+                `/api/audit/layer3/status/${layer2RunId}`, { signal: abort.signal }
               );
               if (!l3Res.ok) {
                 // 404 means Layer 3 hasn't started yet — not an error
@@ -142,6 +151,7 @@ export function useAuditPolling(
                 );
               }
               const l3Data: Layer3StatusResponse = await l3Res.json();
+              if (!isCurrent()) return;
               setLayer3Status(l3Data.status);
               setLayer3DraftStatus(l3Data.draft_status ?? null);
 
@@ -157,6 +167,7 @@ export function useAuditPolling(
                 clearLayer3Interval();
               }
             } catch (err) {
+              if (!isCurrent()) return;
               setError(
                 err instanceof Error
                   ? err.message
@@ -168,9 +179,10 @@ export function useAuditPolling(
 
           // Poll immediately, then on interval
           await pollLayer3();
-          layer3IntervalRef.current = setInterval(pollLayer3, intervalMs);
+          if (isCurrent()) layer3IntervalRef.current = setInterval(pollLayer3, intervalMs);
         }
       } catch (err) {
+        if (!isCurrent()) return;
         setError(
           err instanceof Error ? err.message : "Error fetching audit result"
         );
@@ -183,13 +195,14 @@ export function useAuditPolling(
      */
     const pollStatus = async () => {
       try {
-        const res = await fetch(`/api/audit/status/${runId}`);
+        const res = await fetch(`/api/audit/status/${runId}`, { signal: abort.signal });
         if (!res.ok) {
           throw new Error(
             `Error fetching status: ${res.status} ${res.statusText}`
           );
         }
         const data: StatusResponse = await res.json();
+        if (!isCurrent()) return;
 
         setPipelineStatus(data.pipeline_status);
         setCurrentNode(data.current_node ?? null);
@@ -199,6 +212,7 @@ export function useAuditPolling(
           await fetchFinalResult();
         }
       } catch (err) {
+        if (!isCurrent()) return;
         setError(
           err instanceof Error ? err.message : "Error polling audit status"
         );
@@ -211,13 +225,15 @@ export function useAuditPolling(
     mainIntervalRef.current = setInterval(pollStatus, intervalMs);
 
     return () => {
+      active = false;
+      abort.abort();
       clearMainInterval();
       clearLayer3Interval();
     };
-  }, [runId, intervalMs]);
+  }, [runId, intervalMs, business, user]);
 
   return {
-    result,
+    result: result?.business_id === business && result?.run_id === runId ? result : null,
     pipelineStatus,
     currentNode,
     layer3Status,

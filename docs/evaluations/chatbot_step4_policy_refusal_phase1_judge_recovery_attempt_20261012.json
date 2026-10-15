@@ -1,0 +1,23 @@
+{
+    "schema_version":  1,
+    "status":  "result_saved_pending_audit",
+    "source_report":  "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+    "source_report_sha256":  "a134e9d0fad43e8aec482d83ea8248bfe1be49207356548e7d414eed0039a430",
+    "plan_sha256":  "a6440414e82c6933c6fc8634986adcf9099325c9ee182d25684b58f2793f0139",
+    "runner_sha256":  "00c4128c05978ca016ec75d22a3f43df63e03705fd3c6e62c0739478716c77a7",
+    "started_at_utc":  "2026-10-12T07:29:36.0125819Z",
+    "budget_reserved":  {
+                            "generation":  0,
+                            "judge":  1,
+                            "total_api":  1
+                        },
+    "actual_calls":  {
+                         "generation":  0,
+                         "judge":  1,
+                         "total_api":  1
+                     },
+    "semantic_report":  "chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7.json",
+    "runner_error_type":  null,
+    "judge_exit_code":  1,
+    "finished_at_utc":  "2026-10-12T07:29:55.8056587Z"
+}

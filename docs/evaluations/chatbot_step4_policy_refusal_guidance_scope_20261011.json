@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-11",
+  "verification": "synthetic_fixture_prompt_scope_comparison_not_real_model_measurement",
+  "callbacks_compared": 54,
+  "cases_simulated": 28,
+  "draft_prompts_data_and_schemas_unchanged": true,
+  "business_only_review_prompts_unchanged": true,
+  "all_review_data_and_schemas_unchanged": true,
+  "changed_review_case_ids": [
+    "explicit_calculation",
+    "implicit_calculation",
+    "mixed",
+    "question_injection",
+    "result_and_projection",
+    "arithmetic_division"
+  ],
+  "only_calculation_not_allowed_with_cited_policy_explanation_changes_review_prompt": true,
+  "new_chat_response_sha256": "39efe9fff20a11d03bbcd98b29da9984072550216e98ab3f46b29f9fce7d514b",
+  "new_api_calls": 0,
+  "real_model_effect_pending": true
+}

@@ -36,10 +36,10 @@ export default function ArchetypeSelector({
             key={archetype.name}
             type="button"
             onClick={() => onChange(archetype.name)}
-            className={`flex-1 border rounded p-4 cursor-pointer transition-all text-left ${
+            className={`flex-1 border rounded-xl p-4 cursor-pointer transition-all duration-300 text-left backdrop-blur ${
               isActive
-                ? "border-emerald-500 bg-zinc-800"
-                : "border-zinc-700 opacity-60"
+                ? "border-emerald-400/60 bg-emerald-500/10 shadow-[0_0_24px_rgba(22,119,255,0.24)]"
+                : "border-white/10 bg-white/[0.02] opacity-70 hover:opacity-100 hover:border-emerald-400/30"
             }`}
           >
             <ArchetypeBadge archetype={archetype.name} />

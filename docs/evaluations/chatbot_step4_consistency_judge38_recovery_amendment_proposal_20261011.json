@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-11",
+  "created_at_utc": "2026-10-12T04:58:31.868686+00:00",
+  "status": "proposed_not_authorized",
+  "user_authorized": false,
+  "purpose": "count_recovered_run1_as_quality_pass_preserving_judge503_then_complete_only_runs2_and3",
+  "original_plan_preserved": "chatbot_step4_consistency_judge38_authorized_plan_20261011.json",
+  "original_error_free_qualified_runs_unchanged": 0,
+  "proposed_quality_validated_runs_after_explicit_acceptance": 1,
+  "recovered_run1_generation": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+  "source_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+  "recovered_run1_review": "chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.json",
+  "recovery_audit": "chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.json",
+  "remaining_new_runs": [
+    2,
+    3
+  ],
+  "case_ids": [
+    "same_day_result_and_report",
+    "arithmetic_division"
+  ],
+  "generator_model": "gemini-3.5-flash-lite",
+  "judge_model": "gemini-3.8-flash",
+  "per_run_max_calls": {
+    "generation": 4,
+    "judge": 1,
+    "total_api": 5
+  },
+  "remaining_max_calls": {
+    "generation": 8,
+    "judge": 2,
+    "total_api": 10
+  },
+  "uses_only_remaining_previously_budgeted_series_calls": true,
+  "additional_api_budget_requested_by_proposal": 0,
+  "historical_followup_api_now": 14,
+  "maximum_followup_api_after_remaining_runs": 24,
+  "accounting_note": "The maximum is one above the original 23 because the separately authorized supplemental judge call has already been used.",
+  "automatic_retries": 0,
+  "configured_timeout_seconds": 60,
+  "trace_required": true,
+  "inspect_each_run_before_next": true,
+  "stop_on_any_new_failure": true,
+  "acceptance": {
+    "three_distinct_generation_executions_with_validated_quality": true,
+    "mechanical_failures_per_run": 0,
+    "controls_per_run": "45/45",
+    "coverage_per_run": "2/2",
+    "independent_pass_per_run": "3/3",
+    "pending_or_semantic_failures_or_conflicts_per_run": 0,
+    "source_digest_trace_code_binding_required": true,
+    "run1_judge503_recorded_as_provider_availability_error": true,
+    "only_observed_run1_judge503_exception_proposed": true,
+    "no_error_free_availability_claim": true
+  },
+  "does_not_weaken_grounding_no_calculation_isolation_or_semantic_criteria": true,
+  "all_original_reports_and_errors_preserved": true,
+  "original_series_runner_must_not_be_used_to_bypass_stop": true,
+  "execution_not_enabled_until_explicit_protocol_acceptance": true,
+  "new_api_calls_during_preparation": 0,
+  "code_sha256": {
+    "agents/chat_grounding.py": "51dc5d2f1dc1dee30eb08554e7268c09aa361b4d7be12eef94cdf5a8fc9c7e24",
+    "agents/chat_tools.py": "ea873d0f01fc14e880498235fb1f7d10ff76a9fe7817459e87a7382bfd2fbc3c",
+    "agents/chat_conversation.py": "f5f9ae6fb0cbc4abd0d1b5583e0c87c2aee1b46b0b553b6c7b9228f667c04b65",
+    "agents/chat_response.py": "7e2dc93dc6089334b83570d750493ab254615d47bcf359fea7cf0bdff254d34b",
+    "agents/chat_provider_gemini.py": "830f5b8499ec5698aa1c9810463d1ce3d7fe259c0e760d3f0bff5e734b14f0f7",
+    "agents/chat_provider_schemas.py": "680521ceaa5fcb0518351f4c0850d9ee25980e78fd804bd0700b19edbec32063",
+    "tests/chat_offline_eval.py": "f4c0b33e2cbda0384a84b81d2a00b7f06d2090eba7cdfd66be4e2be3b6632c35",
+    "tests/chat_semantic_judge.py": "8286eee87cb7f36e6d5d126b3da4b0567ce8e6e6506808eccc9bd6a8e452631b",
+    "tests/fixtures/chat_offline_cases.json": "fe8a97e02bb45727ee105c8aa2b6bb47fa635e3439176cbca116854e53451ba8",
+    ".test_tmp/medir_gemini.ps1": "fd03d14cb5f4d297b113d193dabfea4af996f25c7971b7222bea0ed6cc8875de"
+  },
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

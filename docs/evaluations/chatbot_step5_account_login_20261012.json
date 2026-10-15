@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-12",
+  "scope": "Paso 5: acceso local a Chat IA con cuenta propia",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "commit": "sin commit",
+  "environment": "MEPIA - PRUEBAS",
+  "new_source_files": [
+    "api/chat_app.py",
+    "api/core/chat_config.py",
+    "tests/test_chat_app.py"
+  ],
+  "documents_updated": [
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/chatbot_step5_integration.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".env.example",
+    "api/.env.example"
+  ],
+  "tests": {
+    "focused": {
+      "passed": 62,
+      "warnings": 2,
+      "seconds": 6.02,
+      "exit_code": 0
+    },
+    "general": {
+      "passed": 292,
+      "skipped": 1,
+      "subtests_passed": 119,
+      "warnings": 2,
+      "seconds": 52.36,
+      "exit_code": 0
+    },
+    "junit_checked": {
+      "focused": {
+        "tests": 62,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration_xml_seconds": 4.705
+      },
+      "general": {
+        "tests": 412,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1,
+        "duration_xml_seconds": 52.357
+      }
+    }
+  },
+  "http_smoke": {
+    "login_page": 200,
+    "backend_anonymous": 401,
+    "proxy_anonymous": 401
+  },
+  "browser": {
+    "url": "http://127.0.0.1:3016/chat",
+    "real_login_form_visible": true,
+    "account_identifier_prefilled": true,
+    "password_entered_by_agent": false,
+    "permanent_account_login": "pending_user_login_and_visible_verification",
+    "business_visible_after_login": null,
+    "session_token_inspected": false
+  },
+  "server_profile": {
+    "entrypoint": "api.chat_app:create_app --factory",
+    "loopback_only": true,
+    "legacy_pipeline_routes_registered": false,
+    "pipeline_model_keys_required": false,
+    "chat_model_configured": false,
+    "left_running_for_user": true
+  },
+  "checks": {
+    "previous_evidence_count": 382,
+    "previous_evidence_unchanged": true,
+    "private_config_gitignored": {
+      ".env.local": true,
+      "api/.env": true
+    },
+    "documents_links_checked": 9,
+    "broken_local_links": 0,
+    "public_files_checked": 252,
+    "public_development_seed_already_in_head": [
+      "supabase/migrations/APPLY_ALL.sql"
+    ],
+    "private_data_findings": 0,
+    "git_diff_check_exit_code": 0
+  },
+  "incidents_updated": [
+    "INC-20261012-022"
+  ],
+  "new_incidents": [],
+  "real_model_calls": 0,
+  "production_access_or_changes": false,
+  "next_action": "Usuario inicia sesión; verificar sesión y negocio visibles. Modelo real pendiente."
+}

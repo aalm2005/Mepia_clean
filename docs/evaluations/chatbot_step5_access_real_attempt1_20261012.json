@@ -1,0 +1,42 @@
+{
+  "environment": "MEPIA - PRUEBAS",
+  "started_at": "2026-10-12T16:49:21.550010+00:00",
+  "auth_and_database": "real",
+  "provider": "simulated",
+  "real_model_calls": 0,
+  "checks": [
+    {
+      "name": "password_login_user_0",
+      "passed": true
+    },
+    {
+      "name": "password_login_user_1",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "resource": "temporary_auth_user",
+      "success": true
+    },
+    {
+      "resource": "temporary_auth_user",
+      "success": true
+    }
+  ],
+  "success": false,
+  "initial_counts": {
+    "businesses": 1,
+    "audit_results": 19
+  },
+  "failure": {
+    "stage": "temporary_sessions",
+    "type": "HTTPException"
+  },
+  "final_counts": {
+    "businesses": 1,
+    "audit_results": 19
+  },
+  "original_ids_preserved": true,
+  "finished_at": "2026-10-12T16:49:25.427865+00:00"
+}

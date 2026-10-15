@@ -11,6 +11,7 @@
 | Campo            | Tipo        | Notas                              |
 |------------------|-------------|------------------------------------|
 | id               | uuid PK     | gen_random_uuid()                  |
+| owner_id         | uuid nullable FK | → auth.users(id), ON DELETE SET NULL; NULL deniega acceso al chat; migración 010 |
 | business_name    | text        | Nombre del restaurante             |
 | industry_sector  | text        | ej. "cafetería", "restaurante"     |
 | currency         | text        | ISO 4217, default "MXN"            |
@@ -392,3 +393,20 @@ businesses (1) ──< mepia_memory (N)
 - `003_memory.sql` ✅: habilita extensión `vector` + crea `mepia_memory` con FK real a `businesses`, columnas `status`, `source_audit_run_id` nullable, embedding `vector(1536)` para `text-embedding-3-small` (1536 dims — decisión fija V1), índice HNSW coseno
 - `004_deprecate_daily_context.sql` 🔧: marca `daily_context` como deprecated, remueve índices activos
 - `005_api_ingesta_tables.sql` 🔧: crea `shift_audit_events`, `inventory_daily`, `delivery_platform_config` con índices
+
+## Migración 010 — acceso del chat
+Aplicada dos veces en `MEPIA - PRUEBAS` el 12-oct-2026, sin producción.
+FK/índice/políticas verificados y un negocio/19 auditorías conservados; cero
+propietarios inferidos. Auth/RLS/permisos/historial 29/29 aprobados y fixtures
+limpiados. `010_chat_business_access.sql` agrega
+owner_id nullable e índice, conserva históricos sin asignar dueño por inferencia,
+retira anon_read_businesses/anon_read_audit_results e instala SELECT para
+authenticated limitado a auth.uid() propietario. `APPLY_ALL.sql` incluye el
+mismo contrato final. service_role conserva sus privilegios; Python debe
+comprobar propiedad antes de recuperar evidencia. No se persiste historial
+de chat en una tabla: es efímero en el servidor del Paso 5.
+
+12-oct-2026, asignación posterior: owner del único negocio de pruebas vinculado
+a la cuenta expresamente confirmada por el usuario. Actualización condicional
+de NULL, igualdad y `verify_business_access` comprobados, auditorías/UUID
+conservados. Sin identidad personal en esta especificación ni producción.

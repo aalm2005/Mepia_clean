@@ -20,6 +20,8 @@ Variables de entorno:
 """
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import SecretStr
+from typing import Literal
 
 
 class Settings(BaseSettings):
@@ -35,6 +37,12 @@ class Settings(BaseSettings):
     # El frontend Next.js usa ANON_KEY — definida en .env.local, no aquí.
     SUPABASE_URL: str
     SUPABASE_SERVICE_ROLE_KEY: str
+    SUPABASE_JWT_ALGORITHM: Literal["HS256", "ES256"] = "HS256"
+    SUPABASE_JWT_SECRET: SecretStr = SecretStr("")
+
+    # N15: configuración propia; no reutiliza claves ni cambia el resto del pipeline.
+    CHAT_GEMINI_API_KEY: SecretStr = SecretStr("")
+    CHAT_MODEL: str = "gemini-3.5-flash-lite"
 
     # ── Entorno ────────────────────────────────────────────────────────────────
     ENVIRONMENT: str = "dev"  # "dev" | "prod"

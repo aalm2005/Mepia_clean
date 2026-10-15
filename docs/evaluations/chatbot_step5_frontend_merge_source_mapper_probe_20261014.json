@@ -1,0 +1,34 @@
+{
+  "source_snapshot_only": true,
+  "percentages_rescaled": [
+    {
+      "input": {
+        "metric": "margin",
+        "value": 0.5,
+        "unit": "%"
+      },
+      "expected": "0,5%",
+      "actual": "50.0%"
+    },
+    {
+      "input": {
+        "metric": "margin",
+        "value": 1,
+        "unit": "%"
+      },
+      "expected": "1%",
+      "actual": "100.0%"
+    },
+    {
+      "input": {
+        "metric": "margin",
+        "value": -2,
+        "unit": "%"
+      },
+      "expected": "-2%",
+      "actual": "-200.0%"
+    }
+  ],
+  "unrelated_cost_labeled_as_margin": true,
+  "external_calls": 0
+}

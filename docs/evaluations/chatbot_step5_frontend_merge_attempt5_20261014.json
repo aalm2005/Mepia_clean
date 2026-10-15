@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-14",
+  "scope": "Synthetic local browser/frontend/API integration",
+  "attempt": 5,
+  "passed": true,
+  "checks": [
+    {
+      "name": "Proxy anónimo: 401, cero DB y modelo",
+      "passed": true
+    },
+    {
+      "name": "Entrada general: todas las páginas privadas requieren login",
+      "passed": true
+    },
+    {
+      "name": "Cookie inventada no permite entrar a MEPIA",
+      "passed": true
+    },
+    {
+      "name": "Inicio de sesión y solo negocios propios",
+      "passed": true
+    },
+    {
+      "name": "Chat desde el menú común, sin un segundo login",
+      "passed": true
+    },
+    {
+      "name": "Salud y Reportes comparten sesión y menú de Chat IA",
+      "passed": true
+    },
+    {
+      "name": "Dashboard presenta métricas sintéticas sin alterar porcentaje y separa unidades",
+      "passed": true
+    },
+    {
+      "name": "Pregunta con cifra/unidad, fuentes y linaje",
+      "passed": true
+    },
+    {
+      "name": "Continuación conceptual e historial recuperable",
+      "passed": true
+    },
+    {
+      "name": "Cambio de negocio limpia historial visible",
+      "passed": true
+    },
+    {
+      "name": "Negocio ajeno: 403 sin evidencia ni modelo",
+      "passed": true
+    },
+    {
+      "name": "Rechazo de cálculo y eliminación del historial",
+      "passed": true
+    },
+    {
+      "name": "Cambio de usuario sin conversaciones ajenas",
+      "passed": true
+    },
+    {
+      "name": "Menú móvil, Salud, Reportes y chat utilizables sin desbordamiento",
+      "passed": true
+    },
+    {
+      "name": "Cerrar sesión devuelve al login y bloquea enlaces directos",
+      "passed": true
+    }
+  ],
+  "page_errors": [],
+  "error": null,
+  "exit_code": 0,
+  "external_api_calls": 0,
+  "real_credentials_used": false,
+  "production_changed": false
+}

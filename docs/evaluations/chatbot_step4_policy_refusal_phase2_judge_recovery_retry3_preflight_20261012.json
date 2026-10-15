@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-12",
+  "generated_at_utc": "2026-10-12T09:36:40.898677+00:00",
+  "purpose": "next_authorized_saved_response_attempt_preflight_not_model_quality",
+  "authorized_plan": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_authorized_20261012.json",
+  "authorized_plan_sha256": "ad08e7bae47b78c30fd543474a99940bc3f12322b693ce41ff2fc073a737dcac",
+  "runner_sha256": "474e6fa7e118bf9fc6a5e43cb5ceadaf6bfdffdbde21d062c1296a6f6f8d8464",
+  "python_runner_sha256": "2f2ded9251a8935c13a880f6f357e1102acde1cafcdf8a857cd13506162caf7c",
+  "verified_hash_counts": {
+    "code_hashes": 10,
+    "original_plan_artifacts": 264,
+    "latest_audit_protected_artifacts": 322,
+    "new_combined_and_audit_artifacts": 5
+  },
+  "powershell_syntax_errors": 0,
+  "python_compile_passed": true,
+  "show_plan_exit_code": 0,
+  "show_plan_output": "Nueve partes guardadas; lotes 2/3/4; cero generaciones; maximo tres llamadas del juez 3.8, sin reintentos.\nEstado: authorized_prepared_not_executed; cero API en este preflight.",
+  "old_supplemental_runner_expected_block_exit_code": 1,
+  "old_runner_blocked_before_key_or_new_reservation": true,
+  "progress_matches_authorization_and_budget": true,
+  "judge_batch_sizes": [
+    2,
+    3,
+    4
+  ],
+  "parts": 9,
+  "attempt_reserved": false,
+  "three_phase2_errors_and_phase1_timeout_preserved": true,
+  "generation_counted_once": true,
+  "additional_api_used": 19,
+  "current_additional_api_maximum": 22,
+  "next_invocation_max_api_calls": 3,
+  "historical_followup_api": 43,
+  "new_api_calls": 0,
+  "git_diff_check_exit_code": 0,
+  "product_test_suites_repeated": false,
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

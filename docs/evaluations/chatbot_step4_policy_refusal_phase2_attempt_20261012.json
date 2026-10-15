@@ -1,0 +1,26 @@
+{
+    "schema_version":  1,
+    "phase":  2,
+    "status":  "result_saved_pending_audit",
+    "started_at_utc":  "2026-10-12T07:41:33.3196383Z",
+    "output_prefix":  "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d",
+    "plan_sha256":  "4724eaa7e55688e3ed5bd29a2f06c3a2633b375deca2ac860f5012a04d2164f0",
+    "powershell_runner_sha256":  "76b7d8503af40e44c3157d31d5f1974ff4b11343bc31bda66722f5da25ccc4b8",
+    "python_runner_sha256":  "b3ad3d95dbbd02012d9cec9f7789f4a3d5e64af91055dc0f930a9dfca6da8900",
+    "budget_reserved":  {
+                            "generation":  10,
+                            "judge":  3,
+                            "total_api":  13
+                        },
+    "actual_calls":  {
+                         "generation":  10,
+                         "judge":  1,
+                         "total_api":  11
+                     },
+    "generation_report":  "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+    "semantic_report":  "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic.json",
+    "runner_error_type":  null,
+    "phase_exit_code":  1,
+    "generation_report_sha256":  "d0dd7396e201119439658e0455f05d614908f1a54b65cf748e6a8c72cb89f726",
+    "finished_at_utc":  "2026-10-12T07:42:54.3013975Z"
+}

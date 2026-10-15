@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "purpose": "fourth_judge_attempt_alternate_model_on_saved_consistency_responses",
+  "client_date": "2026-10-11",
+  "created_at_utc": "2026-10-12T01:05:37.059947+00:00",
+  "status": "prepared_not_executed",
+  "user_authorized": true,
+  "authorization": "ok hagamoslo",
+  "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+  "generation_report_sha256": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b",
+  "case_ids": [
+    "same_day_result_and_report",
+    "arithmetic_division"
+  ],
+  "parts": 3,
+  "generator_model_of_saved_responses": "gemini-3.5-flash-lite",
+  "requested_judge_model": "gemini-3.8-flash",
+  "generation_max_calls": 0,
+  "judge_max_calls": 1,
+  "max_parts_per_call": 4,
+  "automatic_retries": 0,
+  "configured_timeout_seconds": 60,
+  "previous_judge_calls": 3,
+  "previous_judge_errors": 3,
+  "historical_followup_api_calls_before_execution": 7,
+  "maximum_followup_api_calls_after_this_attempt": 8,
+  "new_api_calls_during_preparation": 0,
+  "previous_attempts_preserved": true,
+  "original_consistency_plan_preserved": true,
+  "does_not_resume_series_or_qualify_first_run": true,
+  "runner": ".test_tmp/revisar_consistencia_juez_38.ps1",
+  "runner_sha256": "98dffed629026b0f0d603faf806cf8bccec05ab1f5b264d690b9aa06ac219122",
+  "output_prefix": "chatbot_step4_consistency_judge_38_fd31f3a2_",
+  "guard_blocks_repeated_execution_after_output_exists": true,
+  "verification": {
+    "powershell_syntax": "passed",
+    "mostrar_plan_without_key_or_api": "passed",
+    "ten_original_code_and_fixture_sha_match": true,
+    "original_generation_sha_match": true,
+    "three_parts_fit_one_judge_call": true
+  },
+  "provider_docs": {
+    "checked_client_date": "2026-10-11",
+    "models_source": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+    "deprecation_source": "https://ai.google.dev/gemini-api/docs/changelog",
+    "gemini_3_5_flash_redirect_announced": "2026-10-08",
+    "live_model_availability": "not_verified"
+  }
+}

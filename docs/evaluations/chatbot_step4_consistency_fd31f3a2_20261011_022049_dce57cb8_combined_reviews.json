@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-11T02:25:22.242486+00:00",
+  "reviewer_model": "multiple",
+  "judge_calls": 2,
+  "total_api_calls": 2,
+  "source_reports": [
+    {
+      "name": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+      "sha256": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b"
+    }
+  ],
+  "reviews": [],
+  "batch_errors": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8_reviews.json",
+      "model": "gemini-3.5-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    }
+  ]
+}

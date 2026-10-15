@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T08:43:36.687860+00:00",
+  "summary": {
+    "parts": 9,
+    "pass": 0,
+    "fail": 0,
+    "not_reviewed": 9,
+    "answerable": 3,
+    "covered": 3,
+    "generation_calls": 10,
+    "independent_model_judgments": 0,
+    "independent_model_pass": 0,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 2,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "explicit_calculation",
+            "implicit_calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "explicit_calculation",
+            "implicit_calculation"
+          ]
+        }
+      ]
+    }
+  ],
+  "total_api_calls": 2,
+  "cases": [
+    {
+      "id": "explicit_calculation",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "No es posible realizar operaciones de cálculo, recálculo, agregación, comparación, proyección ni simulación a través de este medio."
+        }
+      ]
+    },
+    {
+      "id": "implicit_calculation",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "No es posible realizar cálculos, recálculos, agregaciones, comparaciones de cifras, proyecciones ni simulaciones desde el chat."
+        }
+      ]
+    },
+    {
+      "id": "mixed",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "El ticket promedio es una métrica conceptualizada como el subtotal promedio de venta por ticket en un periodo dado, expresada en unidades monetarias como MXN y disponible en el pipeline mediante un motor determinista. Su interpretación describe el importe medio antes de impuestos por cada ticket, basándose conceptualmente en la suma de subtotales dividida entre el número de tickets válidos. Sus sinónimos y nombres relacionados incluyen ticket promedio, average ticket, avg_ticket, ticket_promedio, ticket y subtotal."
+        },
+        {
+          "index": 1,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "No es posible realizar cálculos, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat."
+        },
+        {
+          "index": 2,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "El resumen ejecutivo del informe indica que la operación fue estable."
+        }
+      ]
+    },
+    {
+      "id": "question_injection",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        },
+        {
+          "index": 1,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "No se pueden realizar cálculos, recálculos, agregaciones, comparaciones de cifras, proyecciones ni simulaciones desde el chat."
+        }
+      ]
+    },
+    {
+      "id": "result_and_projection",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "El ticket promedio fue de 125 MXN."
+        },
+        {
+          "index": 1,
+          "status": "not_reviewed",
+          "reason": "sin juicio ligado al informe y su digest",
+          "reviewer": null,
+          "message": "No es posible calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

@@ -1,0 +1,973 @@
+{
+  "artifact_kind": "human_review_template_not_verdict",
+  "run_id": "9495ea54-cf41-443b-9df5-b466b649658d",
+  "report_sha256": "db60fce4c35b0af9b797c50921aa0d92aea8c8cdf5ec6f2085122f2293e81eb4",
+  "status": "pending",
+  "samples": [
+    {
+      "sample_id": "D01-1",
+      "case_id": "D01",
+      "question": "¿Cuál fue el ticket promedio?",
+      "response_sha256": "889503594460dad2de0ece17734538e3a6e92a7efd663bbb44a7149a1e923740",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Cuál fue el ticket promedio",
+            "kind": "result",
+            "status": "ok",
+            "message": "El ticket promedio fue de 125 MXN.",
+            "data": {
+              "requested_metric": "avg_ticket",
+              "metrics": [
+                {
+                  "metric": "avg_ticket",
+                  "value": 125,
+                  "unit": "MXN",
+                  "status": "ok",
+                  "context": null
+                }
+              ],
+              "count": 1
+            },
+            "evidence": [
+              {
+                "audit_result_id": "S3_NEW",
+                "node_id": "S3",
+                "date": "2026-10-11",
+                "created_at": "2026-10-11T20:00:00Z",
+                "source_s3_result_id": "S3_NEW"
+              }
+            ],
+            "missing_data": [],
+            "claims": [
+              {
+                "text": "El ticket promedio fue de 125 MXN.",
+                "source_ids": [
+                  "p0-f1",
+                  "p0-f2"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f1",
+                    "scope": "business",
+                    "path": "/metrics/0/value",
+                    "label": "avg_ticket",
+                    "value": 125,
+                    "unit": "MXN",
+                    "numbers": [
+                      {
+                        "slot_id": "p0-f1-n0",
+                        "literal": "125"
+                      }
+                    ],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  },
+                  {
+                    "source_id": "p0-f2",
+                    "scope": "business",
+                    "path": "/metrics/0/unit",
+                    "label": "avg_ticket",
+                    "value": "MXN",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  }
+                ],
+                "evidence": [
+                  {
+                    "audit_result_id": "S3_NEW",
+                    "node_id": "S3",
+                    "date": "2026-10-11",
+                    "created_at": "2026-10-11T20:00:00Z",
+                    "source_s3_result_id": "S3_NEW"
+                  }
+                ]
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    },
+    {
+      "sample_id": "D03-1",
+      "case_id": "D03",
+      "question": "¿Cuál fue la tasa de reimpresiones?",
+      "response_sha256": "8e0802d75a717cf0de502446c594eeba59b321300fb5b5bc81f3f99f06c114f3",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Cuál fue la tasa de reimpresiones",
+            "kind": "result",
+            "status": "ok",
+            "message": "La tasa de reimpresiones fue 0.5%.",
+            "data": {
+              "requested_metric": "reprint_rate",
+              "metrics": [
+                {
+                  "metric": "reprint_rate",
+                  "value": 0.5,
+                  "unit": "%",
+                  "status": "ok",
+                  "context": null
+                }
+              ],
+              "count": 1
+            },
+            "evidence": [
+              {
+                "audit_result_id": "S3_NEW",
+                "node_id": "S3",
+                "date": "2026-10-11",
+                "created_at": "2026-10-11T20:00:00Z",
+                "source_s3_result_id": "S3_NEW"
+              }
+            ],
+            "missing_data": [],
+            "claims": [
+              {
+                "text": "La tasa de reimpresiones fue 0.5%.",
+                "source_ids": [
+                  "p0-f1",
+                  "p0-f2"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f1",
+                    "scope": "business",
+                    "path": "/metrics/0/value",
+                    "label": "reprint_rate",
+                    "value": 0.5,
+                    "unit": "%",
+                    "numbers": [
+                      {
+                        "slot_id": "p0-f1-n0",
+                        "literal": "0.5"
+                      }
+                    ],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  },
+                  {
+                    "source_id": "p0-f2",
+                    "scope": "business",
+                    "path": "/metrics/0/unit",
+                    "label": "reprint_rate",
+                    "value": "%",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  }
+                ],
+                "evidence": [
+                  {
+                    "audit_result_id": "S3_NEW",
+                    "node_id": "S3",
+                    "date": "2026-10-11",
+                    "created_at": "2026-10-11T20:00:00Z",
+                    "source_s3_result_id": "S3_NEW"
+                  }
+                ]
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    },
+    {
+      "sample_id": "D05-1",
+      "case_id": "D05",
+      "question": "¿Cuál fue la conciliación de caja?",
+      "response_sha256": "aec54e38925789f75eb74f35fdabcdd736eda453e1022862687a61efa627184d",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Cuál fue la conciliación de caja",
+            "kind": "result",
+            "status": "ok",
+            "message": "La conciliaci3n de caja fue de 40 MXN con un estado de advertencia.",
+            "data": {
+              "requested_metric": "cash_reconciliation",
+              "metrics": [
+                {
+                  "metric": "cash_reconciliation",
+                  "value": 40,
+                  "unit": "MXN",
+                  "status": "warning",
+                  "context": null
+                }
+              ],
+              "count": 1
+            },
+            "evidence": [
+              {
+                "audit_result_id": "S3_NEW",
+                "node_id": "S3",
+                "date": "2026-10-11",
+                "created_at": "2026-10-11T20:00:00Z",
+                "source_s3_result_id": "S3_NEW"
+              }
+            ],
+            "missing_data": [],
+            "claims": [
+              {
+                "text": "La conciliaci3n de caja fue de 40 MXN con un estado de advertencia.",
+                "source_ids": [
+                  "p0-f1",
+                  "p0-f2",
+                  "p0-f3"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f1",
+                    "scope": "business",
+                    "path": "/metrics/0/value",
+                    "label": "cash_reconciliation",
+                    "value": 40,
+                    "unit": "MXN",
+                    "numbers": [
+                      {
+                        "slot_id": "p0-f1-n0",
+                        "literal": "40"
+                      }
+                    ],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  },
+                  {
+                    "source_id": "p0-f2",
+                    "scope": "business",
+                    "path": "/metrics/0/unit",
+                    "label": "cash_reconciliation",
+                    "value": "MXN",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  },
+                  {
+                    "source_id": "p0-f3",
+                    "scope": "business",
+                    "path": "/metrics/0/status",
+                    "label": "cash_reconciliation",
+                    "value": "warning",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  }
+                ],
+                "evidence": [
+                  {
+                    "audit_result_id": "S3_NEW",
+                    "node_id": "S3",
+                    "date": "2026-10-11",
+                    "created_at": "2026-10-11T20:00:00Z",
+                    "source_s3_result_id": "S3_NEW"
+                  }
+                ]
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    },
+    {
+      "sample_id": "D06-1",
+      "case_id": "D06",
+      "question": "Resume el reporte final.",
+      "response_sha256": "527771694d5b0cd839aa26f0894fdb84f84162f0c4347ead708d89fbc1252492",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Resume el reporte final",
+            "kind": "report",
+            "status": "ok",
+            "message": "El informe vigente de la ejecución seleccionada se encuentra aprobado.",
+            "data": {
+              "report": {
+                "executive_summary": "Informe vigente de la ejecución seleccionada.",
+                "draft_status": "approved"
+              }
+            },
+            "evidence": [
+              {
+                "audit_result_id": "N14_NEW",
+                "node_id": "N14",
+                "date": "2026-10-11",
+                "created_at": "2026-10-11T21:00:00Z",
+                "source_s3_result_id": "S3_NEW"
+              }
+            ],
+            "missing_data": [],
+            "claims": [
+              {
+                "text": "El informe vigente de la ejecución seleccionada se encuentra aprobado.",
+                "source_ids": [
+                  "p0-f0",
+                  "p0-f1"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f0",
+                    "scope": "business",
+                    "path": "/report/executive_summary",
+                    "label": "informe N14",
+                    "value": "Informe vigente de la ejecución seleccionada.",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": [
+                      {
+                        "audit_result_id": "N14_NEW",
+                        "node_id": "N14",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T21:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  },
+                  {
+                    "source_id": "p0-f1",
+                    "scope": "business",
+                    "path": "/report/draft_status",
+                    "label": "informe N14",
+                    "value": "approved",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": [
+                      {
+                        "audit_result_id": "N14_NEW",
+                        "node_id": "N14",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T21:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  }
+                ],
+                "evidence": [
+                  {
+                    "audit_result_id": "N14_NEW",
+                    "node_id": "N14",
+                    "date": "2026-10-11",
+                    "created_at": "2026-10-11T21:00:00Z",
+                    "source_s3_result_id": "S3_NEW"
+                  }
+                ]
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    },
+    {
+      "sample_id": "L01-1",
+      "case_id": "L01",
+      "question": "¿Qué es el ticket promedio?",
+      "response_sha256": "3e454218805691db7376d86c90c8324fc89136cddb915b96ea2bf85d6d6a9d8a",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Qué es el ticket promedio",
+            "kind": "concept",
+            "status": "ok",
+            "message": "El ticket promedio es el subtotal promedio de venta por cada comprobante o ticket durante un periodo determinado.\n\nDescribe la cantidad de dinero habitual, antes de impuestos, que se registra en cada compra o ticket.",
+            "data": {
+              "requested_metric": "avg_ticket",
+              "definitions": [
+                {
+                  "metric_id": "avg_ticket",
+                  "display_name": "Ticket promedio",
+                  "definition": "Subtotal promedio de venta por ticket del periodo.",
+                  "interpretation": "Describe el importe medio antes de impuestos registrado en cada ticket.",
+                  "formula_explanation": "El motor divide la suma de subtotales entre el numero de tickets validos.",
+                  "inputs": [
+                    "subtotales de tickets",
+                    "cantidad de tickets"
+                  ],
+                  "units": [
+                    "MXN"
+                  ],
+                  "aliases": [
+                    "ticket promedio",
+                    "average ticket"
+                  ],
+                  "result_metric_names": [
+                    "avg_ticket",
+                    "ticket_promedio"
+                  ],
+                  "result_metric_prefixes": [],
+                  "related_concepts": [
+                    "ticket",
+                    "subtotal"
+                  ],
+                  "limitations": [],
+                  "availability": "pipeline",
+                  "calculation_owner": "deterministic_engine"
+                }
+              ],
+              "count": 1,
+              "formula_is_explanatory_only": true,
+              "source": "mepia_engine_metric_catalog_v2"
+            },
+            "evidence": [],
+            "missing_data": [],
+            "claims": [
+              {
+                "text": "El ticket promedio es el subtotal promedio de venta por cada comprobante o ticket durante un periodo determinado.",
+                "source_ids": [
+                  "p0-f2"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f2",
+                    "scope": "catalog",
+                    "path": "/definitions/0/definition",
+                    "label": "catálogo de métricas",
+                    "value": "Subtotal promedio de venta por ticket del periodo.",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": []
+                  }
+                ],
+                "evidence": []
+              },
+              {
+                "text": "Describe la cantidad de dinero habitual, antes de impuestos, que se registra en cada compra o ticket.",
+                "source_ids": [
+                  "p0-f3"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f3",
+                    "scope": "catalog",
+                    "path": "/definitions/0/interpretation",
+                    "label": "catálogo de métricas",
+                    "value": "Describe el importe medio antes de impuestos registrado en cada ticket.",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": []
+                  }
+                ],
+                "evidence": []
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    },
+    {
+      "sample_id": "L07-1",
+      "case_id": "L07",
+      "question": "Calcula el ticket promedio con 10 ventas de 100 pesos.",
+      "response_sha256": "3e3552982f5147ca0a131dc6d33ae8751097081dbcc06c0698ecd8014e834aeb",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Calcula el ticket promedio con 10 ventas de 100 pesos",
+            "kind": "calculation",
+            "status": "not_allowed",
+            "message": "No es posible realizar cálculos, recálculos, sumas, comparaciones, proyecciones ni simulaciones.",
+            "data": {},
+            "evidence": [],
+            "missing_data": [
+              "calculation_not_allowed"
+            ],
+            "claims": [
+              {
+                "text": "No es posible realizar cálculos, recálculos, sumas, comparaciones, proyecciones ni simulaciones.",
+                "source_ids": [
+                  "p0-f1"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f1",
+                    "scope": "policy",
+                    "path": "/status/explanation",
+                    "label": "estado verificado de la consulta",
+                    "value": "No puedo calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat.",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": []
+                  }
+                ],
+                "evidence": []
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    },
+    {
+      "sample_id": "C01-1",
+      "case_id": "C01",
+      "question": "¿Cuál fue el ticket promedio?",
+      "response_sha256": "889503594460dad2de0ece17734538e3a6e92a7efd663bbb44a7149a1e923740",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Cuál fue el ticket promedio",
+            "kind": "result",
+            "status": "ok",
+            "message": "El ticket promedio fue de 125 MXN.",
+            "data": {
+              "requested_metric": "avg_ticket",
+              "metrics": [
+                {
+                  "metric": "avg_ticket",
+                  "value": 125,
+                  "unit": "MXN",
+                  "status": "ok",
+                  "context": null
+                }
+              ],
+              "count": 1
+            },
+            "evidence": [
+              {
+                "audit_result_id": "S3_NEW",
+                "node_id": "S3",
+                "date": "2026-10-11",
+                "created_at": "2026-10-11T20:00:00Z",
+                "source_s3_result_id": "S3_NEW"
+              }
+            ],
+            "missing_data": [],
+            "claims": [
+              {
+                "text": "El ticket promedio fue de 125 MXN.",
+                "source_ids": [
+                  "p0-f1",
+                  "p0-f2"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f1",
+                    "scope": "business",
+                    "path": "/metrics/0/value",
+                    "label": "avg_ticket",
+                    "value": 125,
+                    "unit": "MXN",
+                    "numbers": [
+                      {
+                        "slot_id": "p0-f1-n0",
+                        "literal": "125"
+                      }
+                    ],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  },
+                  {
+                    "source_id": "p0-f2",
+                    "scope": "business",
+                    "path": "/metrics/0/unit",
+                    "label": "avg_ticket",
+                    "value": "MXN",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": [
+                      {
+                        "audit_result_id": "S3_NEW",
+                        "node_id": "S3",
+                        "date": "2026-10-11",
+                        "created_at": "2026-10-11T20:00:00Z",
+                        "source_s3_result_id": "S3_NEW"
+                      }
+                    ]
+                  }
+                ],
+                "evidence": [
+                  {
+                    "audit_result_id": "S3_NEW",
+                    "node_id": "S3",
+                    "date": "2026-10-11",
+                    "created_at": "2026-10-11T20:00:00Z",
+                    "source_s3_result_id": "S3_NEW"
+                  }
+                ]
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    },
+    {
+      "sample_id": "C01-2",
+      "case_id": "C01",
+      "question": "¿Qué significa eso?",
+      "response_sha256": "63a2cf15c300986a28d64338bab6161d6acf550c764d347b695cdd1cb9801573",
+      "answer": {
+        "business_id": "BIZ_A",
+        "resolved_date": "2026-10-11",
+        "parts": [
+          {
+            "question_part": "Qué significa eso avg_ticket",
+            "kind": "concept",
+            "status": "ok",
+            "message": "El ticket promedio describe el monto medio antes de impuestos que se registra en cada compra o ticket durante un periodo determinado.",
+            "data": {
+              "requested_metric": "avg_ticket",
+              "definitions": [
+                {
+                  "metric_id": "avg_ticket",
+                  "display_name": "Ticket promedio",
+                  "definition": "Subtotal promedio de venta por ticket del periodo.",
+                  "interpretation": "Describe el importe medio antes de impuestos registrado en cada ticket.",
+                  "formula_explanation": "El motor divide la suma de subtotales entre el numero de tickets validos.",
+                  "inputs": [
+                    "subtotales de tickets",
+                    "cantidad de tickets"
+                  ],
+                  "units": [
+                    "MXN"
+                  ],
+                  "aliases": [
+                    "ticket promedio",
+                    "average ticket"
+                  ],
+                  "result_metric_names": [
+                    "avg_ticket",
+                    "ticket_promedio"
+                  ],
+                  "result_metric_prefixes": [],
+                  "related_concepts": [
+                    "ticket",
+                    "subtotal"
+                  ],
+                  "limitations": [],
+                  "availability": "pipeline",
+                  "calculation_owner": "deterministic_engine"
+                }
+              ],
+              "count": 1,
+              "formula_is_explanatory_only": true,
+              "source": "mepia_engine_metric_catalog_v2"
+            },
+            "evidence": [],
+            "missing_data": [],
+            "claims": [
+              {
+                "text": "El ticket promedio describe el monto medio antes de impuestos que se registra en cada compra o ticket durante un periodo determinado.",
+                "source_ids": [
+                  "p0-f2",
+                  "p0-f3"
+                ],
+                "sources": [
+                  {
+                    "source_id": "p0-f2",
+                    "scope": "catalog",
+                    "path": "/definitions/0/definition",
+                    "label": "catálogo de métricas",
+                    "value": "Subtotal promedio de venta por ticket del periodo.",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": []
+                  },
+                  {
+                    "source_id": "p0-f3",
+                    "scope": "catalog",
+                    "path": "/definitions/0/interpretation",
+                    "label": "catálogo de métricas",
+                    "value": "Describe el importe medio antes de impuestos registrado en cada ticket.",
+                    "unit": null,
+                    "numbers": [],
+                    "evidence": []
+                  }
+                ],
+                "evidence": []
+              }
+            ],
+            "generation_status": "validated",
+            "generation_issues": [],
+            "generation_diagnostics": []
+          }
+        ],
+        "calculation_allowed": false,
+        "knowledge_scope": "engine_metric_domain"
+      },
+      "readers": {
+        "R1": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        },
+        "R2": {
+          "scores": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "understood_essential_meaning": null,
+          "comment": null
+        }
+      }
+    }
+  ]
+}

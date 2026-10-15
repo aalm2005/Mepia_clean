@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T13:18:38.372726+00:00",
+  "purpose": "closure_progress_consistency_and_duplicate_execution_block_not_new_model_evidence",
+  "acceptance": "chatbot_step4_policy_refusal_validation_acceptance_20261012.json",
+  "acceptance_sha256": "11db96ca9317c4d127c71ba8800aeaaf5a7aaed4c22b2dc65370afa508f7de39",
+  "phase2_audit": "chatbot_step4_policy_refusal_phase2_final_audit_20261012.json",
+  "phase2_audit_sha256": "f886a2382995220d68b4abb3e589c1deda2959609ee6c37c17c32a8afa79263d",
+  "closed_progress_matches_acceptance": true,
+  "remaining_executable_api_calls": 0,
+  "repeat_runner_exit_code": 1,
+  "repeat_blocked_before_key_and_reservation": true,
+  "original_attempt_record_unchanged": true,
+  "protected_previous_evidence_unchanged": 361,
+  "directed_validation_independent_pass": 12,
+  "directed_controls_passed": 161,
+  "baseline_independent_pass": 36,
+  "baseline_controls_passed": 548,
+  "actual_validation_calls": {
+    "generation": 14,
+    "judge": 10,
+    "total_api": 24
+  },
+  "whole_followup_historical_calls": {
+    "generation": 30,
+    "judge": 18,
+    "total_api": 48
+  },
+  "new_api_calls": 0,
+  "git_diff_check_exit_code": 0,
+  "product_test_suites_repeated": false,
+  "incidents_resolved_for_current_scope": [
+    "INC-20260930-013",
+    "INC-20260930-016"
+  ],
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

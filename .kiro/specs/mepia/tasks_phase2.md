@@ -43,7 +43,7 @@
 - [x] 7. Actualizar `app/api/upload/route.ts` y crear `app/api/onboarding/route.ts`
   - `upload/route.ts`: handlers `POST` para POS (`/ingest/pos`) y factura (`/ingest/factura`); `PATCH` para review
   - `onboarding/route.ts`: `GET` status, `POST` crear, `PUT` actualizar
-  - Inyectar `NEXT_PUBLIC_BUSINESS_ID` desde env en ambas rutas
+  - Implementación histórica usaba `NEXT_PUBLIC_BUSINESS_ID`; reemplazada en el Paso 5 por el negocio propio seleccionado en la sesión común de MEPIA (ver `_auth_strategy.md`).
   - _Requirements: design_flows_main.md, requirements.md §9_
 
 - [x] 8. Checkpoint — Verificar compilación de Fase 2

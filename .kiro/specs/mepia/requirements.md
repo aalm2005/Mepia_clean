@@ -11,8 +11,10 @@ MEPIA (Mise En Place Artificial Intelligence) es un copiloto financiero para due
 ## Requirements
 
 ### 1. Ingesta de documentos (S1)
-- El sistema debe aceptar PDFs de POS, facturas de proveedores, recetas (BOM), conteos de caja y contexto del día
-- Cada documento debe ser procesado por OCR y persistido en Supabase Storage y SQL
+- El sistema admite datos estructurados por API, POS PDF, facturas XML/PDF, recetas y conteos de caja
+- La UI actual carga POS PDF y facturas XML/PDF; las conexiones POS externas requieren integración
+- XML/API usan parseo estructurado; PDF usa extracción. Se persisten documentos y datos según el tipo
+- `daily_context` está retirado del pipeline; los endpoints antiguos devuelven 410
 - Ver spec detallado: `s1_ingesta.md`, `n01_pos_pdf_input.md`, `n02_facturas_input.md`, `n03_human_input_endpoints.md`
 
 ### 2. Validación de integridad (S2)
@@ -68,3 +70,11 @@ MEPIA (Mise En Place Artificial Intelligence) es un copiloto financiero para due
 - `db_schema.md` — schema de base de datos híbrido
 - `_auth_strategy.md` — estrategia transversal de autenticación y autorización
 - `n10_onboarding_identidad.md` — prerequisito de Layer 3: onboarding de identidad del negocio
+
+### Experiencia y alcance vigentes — 15-oct-2026
+- Login común e identificación automática del negocio propio implementados.
+- Selector con una sola opción aún visible; simplificación pendiente.
+- Chat IA integrado, de consulta y lenguaje cotidiano; validación del Paso 5 en curso.
+- Tutorial didáctico pendiente, distinto de la configuración inicial existente.
+- Adaptación móvil parcial; revisión integral de pantallas/dispositivos pendiente.
+- Ver [flujo y estado actual](../../../docs/estado_actual_mepia.md).

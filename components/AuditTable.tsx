@@ -27,7 +27,7 @@ function rowAlertLevel(row: AuditInsight | AuditRow): AlertLevel | null {
 
 function rowClassName(row: AuditInsight | AuditRow): string {
   const base =
-    "border-b border-zinc-800 last:border-0 hover:bg-zinc-800/40 transition-colors";
+    "border-b border-white/5 last:border-0 hover:bg-emerald-500/5 transition-colors";
   if (!isAuditInsight(row)) return base;
   switch (row.alert_level) {
     case "critical":
@@ -45,10 +45,10 @@ export default function AuditTable({
   emptyMessage,
 }: AuditTableProps) {
   return (
-    <div className="w-full overflow-x-auto rounded-xl border border-zinc-800">
+    <div className="w-full overflow-x-auto rounded-2xl glass scrollbar-thin">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-zinc-800 text-zinc-400 text-left">
+          <tr className="border-b border-white/10 text-zinc-400 text-left">
             <th className="px-6 py-4 font-medium w-[15%]">Módulo</th>
             <th className="px-6 py-4 font-medium w-[30%]">Resultado Forense</th>
             <th className="px-6 py-4 font-medium w-[35%]">Insight CEO</th>
@@ -60,21 +60,21 @@ export default function AuditTable({
           {isLoading ? (
             <>
               {[0, 1, 2].map((i) => (
-                <tr key={i} className="border-b border-zinc-800 last:border-0">
+                <tr key={i} className="border-b border-white/5 last:border-0">
                   <td className="px-6 py-5">
-                    <div className="bg-zinc-800/50 h-4 rounded animate-pulse" />
+                    <div className="bg-white/10 h-4 rounded animate-pulse" />
                   </td>
                   <td className="px-6 py-5">
-                    <div className="bg-zinc-800/50 h-4 rounded animate-pulse" />
+                    <div className="bg-white/10 h-4 rounded animate-pulse" />
                   </td>
                   <td className="px-6 py-5">
-                    <div className="bg-zinc-800/50 h-4 rounded animate-pulse" />
+                    <div className="bg-white/10 h-4 rounded animate-pulse" />
                   </td>
                   <td className="px-6 py-5">
-                    <div className="bg-zinc-800/50 h-4 rounded animate-pulse" />
+                    <div className="bg-white/10 h-4 rounded animate-pulse" />
                   </td>
                   <td className="px-6 py-5">
-                    <div className="bg-zinc-800/50 h-4 rounded animate-pulse" />
+                    <div className="bg-white/10 h-4 rounded animate-pulse" />
                   </td>
                 </tr>
               ))}

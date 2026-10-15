@@ -1,0 +1,769 @@
+{
+  "date_local": "2026-10-12",
+  "scope": "Acceso real del Paso 5 en MEPIA - PRUEBAS; proveedor simulado",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": "sin commit",
+  "local_focused": {
+    "passed": 58,
+    "warnings": 2,
+    "seconds": 5.23,
+    "exit_code": 0
+  },
+  "local_general": {
+    "passed": 288,
+    "skipped": 1,
+    "subtests_passed": 119,
+    "warnings": 2,
+    "seconds": 47.18,
+    "exit_code": 0
+  },
+  "real_access": {
+    "report": "chatbot_step5_access_real_attempt3_20261012.json",
+    "passed": 29,
+    "failed": 0,
+    "exit_code": 0,
+    "auth_database": "real",
+    "http": "router FastAPI via TestClient",
+    "provider": "simulated",
+    "sdk_calls": 4
+  },
+  "failed_attempts_preserved": [
+    "chatbot_step5_access_real_attempt1_20261012.json",
+    "chatbot_step5_access_real_attempt2_20261012.json"
+  ],
+  "clock_note": "El intento 1 ten\u00eda hora local desincronizada; el usuario corrigi\u00f3 Windows antes del intento 2.",
+  "sql_migration": {
+    "file": "supabase/migrations/010_chat_business_access.sql",
+    "executions": 2,
+    "metadata": {
+      "before": {
+        "rls": [
+          {
+            "table": "audit_results",
+            "enabled": true
+          },
+          {
+            "table": "businesses",
+            "enabled": true
+          }
+        ],
+        "owner_fk": [],
+        "policies": [
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "businesses",
+            "using": "true",
+            "command": "ALL"
+          },
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "audit_results",
+            "using": "true",
+            "command": "ALL"
+          },
+          {
+            "name": "anon_read_businesses",
+            "roles": [
+              "anon"
+            ],
+            "table": "businesses",
+            "using": "true",
+            "command": "SELECT"
+          },
+          {
+            "name": "anon_read_audit_results",
+            "roles": [
+              "anon"
+            ],
+            "table": "audit_results",
+            "using": "true",
+            "command": "SELECT"
+          }
+        ],
+        "audit_count": 19,
+        "owner_index": [],
+        "owner_column": null,
+        "business_count": 1,
+        "auth_user_count": 0,
+        "businesses_with_owner": 0
+      },
+      "after": {
+        "rls": [
+          {
+            "table": "audit_results",
+            "enabled": true
+          },
+          {
+            "table": "businesses",
+            "enabled": true
+          }
+        ],
+        "owner_fk": [
+          "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+        ],
+        "policies": [
+          {
+            "name": "owner_read_audit_results",
+            "roles": [
+              "authenticated"
+            ],
+            "table": "audit_results",
+            "using": "(EXISTS ( SELECT 1\n   FROM businesses b\n  WHERE ((b.id = audit_results.business_id) AND (b.owner_id = ( SELECT auth.uid() AS uid)))))",
+            "command": "SELECT"
+          },
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "audit_results",
+            "using": "true",
+            "command": "ALL"
+          },
+          {
+            "name": "owner_read_businesses",
+            "roles": [
+              "authenticated"
+            ],
+            "table": "businesses",
+            "using": "(owner_id = ( SELECT auth.uid() AS uid))",
+            "command": "SELECT"
+          },
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "businesses",
+            "using": "true",
+            "command": "ALL"
+          }
+        ],
+        "audit_count": 19,
+        "owner_index": [
+          "CREATE INDEX idx_businesses_owner ON public.businesses USING btree (owner_id)"
+        ],
+        "owner_column": [
+          {
+            "type": "uuid",
+            "nullable": "YES"
+          }
+        ],
+        "business_count": 1,
+        "auth_user_count": 0,
+        "businesses_with_owner": 0
+      },
+      "repeat": {
+        "rls": [
+          {
+            "table": "audit_results",
+            "enabled": true
+          },
+          {
+            "table": "businesses",
+            "enabled": true
+          }
+        ],
+        "owner_fk": [
+          "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+        ],
+        "policies": [
+          {
+            "name": "owner_read_audit_results",
+            "roles": [
+              "authenticated"
+            ],
+            "table": "audit_results",
+            "using": "(EXISTS ( SELECT 1\n   FROM businesses b\n  WHERE ((b.id = audit_results.business_id) AND (b.owner_id = ( SELECT auth.uid() AS uid)))))",
+            "command": "SELECT"
+          },
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "audit_results",
+            "using": "true",
+            "command": "ALL"
+          },
+          {
+            "name": "owner_read_businesses",
+            "roles": [
+              "authenticated"
+            ],
+            "table": "businesses",
+            "using": "(owner_id = ( SELECT auth.uid() AS uid))",
+            "command": "SELECT"
+          },
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "businesses",
+            "using": "true",
+            "command": "ALL"
+          }
+        ],
+        "audit_count": 19,
+        "owner_index": [
+          "CREATE INDEX idx_businesses_owner ON public.businesses USING btree (owner_id)"
+        ],
+        "owner_column": [
+          {
+            "type": "uuid",
+            "nullable": "YES"
+          }
+        ],
+        "business_count": 1,
+        "auth_user_count": 0,
+        "businesses_with_owner": 0
+      },
+      "final": {
+        "rls": [
+          {
+            "table": "audit_results",
+            "enabled": true
+          },
+          {
+            "table": "businesses",
+            "enabled": true
+          }
+        ],
+        "owner_fk": [
+          "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+        ],
+        "policies": [
+          {
+            "name": "owner_read_audit_results",
+            "roles": [
+              "authenticated"
+            ],
+            "table": "audit_results",
+            "using": "(EXISTS ( SELECT 1\n   FROM businesses b\n  WHERE ((b.id = audit_results.business_id) AND (b.owner_id = ( SELECT auth.uid() AS uid)))))",
+            "command": "SELECT"
+          },
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "audit_results",
+            "using": "true",
+            "command": "ALL"
+          },
+          {
+            "name": "owner_read_businesses",
+            "roles": [
+              "authenticated"
+            ],
+            "table": "businesses",
+            "using": "(owner_id = ( SELECT auth.uid() AS uid))",
+            "command": "SELECT"
+          },
+          {
+            "name": "service_role_all",
+            "roles": [
+              "service_role"
+            ],
+            "table": "businesses",
+            "using": "true",
+            "command": "ALL"
+          }
+        ],
+        "audit_count": 19,
+        "owner_index": [
+          "CREATE INDEX idx_businesses_owner ON public.businesses USING btree (owner_id)"
+        ],
+        "owner_column": [
+          {
+            "type": "uuid",
+            "nullable": "YES"
+          }
+        ],
+        "business_count": 1,
+        "auth_user_count": 0,
+        "businesses_with_owner": 0
+      }
+    }
+  },
+  "cleanup": {
+    "verified_independently_by_sql": true,
+    "remaining_users": 0,
+    "business_count": 1,
+    "audit_count": 19,
+    "historical_owners_inferred": 0,
+    "original_ids_preserved": true
+  },
+  "real_model_calls": 0,
+  "production_access": false,
+  "deployment": false,
+  "commit": false,
+  "push": false,
+  "evidence_preserved": {
+    "count": 375,
+    "sha256": {
+      "docs/evaluations/chatbot_step4_20261004_fallback.json": "e426990338f0f067d2569edd65855274a9d082395957aa5082d5c9d9eb070803",
+      "docs/evaluations/chatbot_step4_20261004_fallback.md": "56547857275346686fe7099b01fb3f6a06c18b2c966d984e8987186e523c3f86",
+      "docs/evaluations/chatbot_step4_20261004_simulated_a.json": "a519588594b1eb523cb62758ad10f8dff976e89b6355f01e8e48899640dd566c",
+      "docs/evaluations/chatbot_step4_20261004_simulated_a.md": "167b5afeda8746936baac747cc78f2c7d33b21e85acaef71226a073c3c24a19b",
+      "docs/evaluations/chatbot_step4_20261004_simulated_b.json": "7225ab45389785965de0bc67243b1eece67e48f2620f09ec74cec3813320df4e",
+      "docs/evaluations/chatbot_step4_20261004_simulated_b.md": "19d6ab5c74a955582925686c0b2326b5b1adb445e43eb49a7ad27e072804b5ac",
+      "docs/evaluations/chatbot_step4_20261006_directed_status.json": "3923dfd96c618e44ae1b5b3bf1addef18615265616c0a2a07934538837f35508",
+      "docs/evaluations/chatbot_step4_20261006_directed_status.md": "3f59a99cedf1efe7dfcb5c06cfacb5189fecc74d3c93f7826c00266cd51ba0f3",
+      "docs/evaluations/chatbot_step4_20261006_fallback.json": "7208022fd1ae2c1819c0fa620c7ceddd782c079bac6ccc30617de124e366b15f",
+      "docs/evaluations/chatbot_step4_20261006_fallback.md": "56547857275346686fe7099b01fb3f6a06c18b2c966d984e8987186e523c3f86",
+      "docs/evaluations/chatbot_step4_20261006_simulated_a.json": "6322900ee1ca7022040e7b156f718efd8dec8ad1e8857eb5582d8781424fe740",
+      "docs/evaluations/chatbot_step4_20261006_simulated_a.md": "167b5afeda8746936baac747cc78f2c7d33b21e85acaef71226a073c3c24a19b",
+      "docs/evaluations/chatbot_step4_20261006_simulated_b.json": "7fea4f65ebe93e05559aa68831c36d927000b1e3426513b620fa7a561612bb66",
+      "docs/evaluations/chatbot_step4_20261006_simulated_b.md": "19d6ab5c74a955582925686c0b2326b5b1adb445e43eb49a7ad27e072804b5ac",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_022049_dce57cb8_combined.json": "614b027859f53c1586f1efda4e4fc40726d6981d932e518b6a5f1301cf73d4e5",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_022049_dce57cb8_combined.md": "800a445c79653ab34781f33c5aefbfacf39ea5843dafe7a7c7160f1b4913d155",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_022049_dce57cb8_combined_reviews.json": "1fe757fffe320514f392f123b71e83b3939f8b7cc2299f7bf8e0b800d0d8ee8c",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_193719_626f984c_combined.json": "278f1559a2fd8bd58a2223e01d87f1f357daadbc8c4643c9c5aaf5fb94b5e377",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_193719_626f984c_combined.md": "f98988c65589e687b258e8ad78f47d6bb1a440836162c8136369760716685777",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_193719_626f984c_combined_reviews.json": "0cd185465686910cb71651576ed02acdeb16bcd28468766b3d51871602416cf0",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261012_010837_4fc9b3df_combined.json": "40e2adc95c9570053ea6accfaa6c317dcd040353a4ce2b66514d64a7cb73c582",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261012_010837_4fc9b3df_combined.md": "3b41c419bad3af474103f7e3dae027cb7a82b531ae13a1de7aaba3677e7a4dc2",
+      "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261012_010837_4fc9b3df_combined_reviews.json": "28bc2a89bca180e40b363d69fbbf60265f44ccd42686c5fbfa2961b9bb61a0aa",
+      "docs/evaluations/chatbot_step4_consistency_judge38_authorized_plan_20261011.json": "a059b8d70545ca3d85062ed6cad81044401f2bd034a0f44abc5f5a931b81b7c7",
+      "docs/evaluations/chatbot_step4_consistency_judge38_authorized_plan_20261011.md": "3afe3c7e8924f0f67a2226b423dacb76e901e53dd108bfd9a4af89d62534ef5f",
+      "docs/evaluations/chatbot_step4_consistency_judge38_plan_20261011.json": "c939f2d1be0a0b2078ea5079cdc298734178bb61d968ae250cf70164a09ed289",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run2_attempt_20261011.json": "99f8ab5ae4dd843db72458d9c402a6ba12ceb3826c7a6314f76eebb826c3978e",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run2_audit_20261011.json": "70a1147952ef72a7596f7a6a31907b10be15c30c795a014fa5a1df8f76c4bbd6",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run2_audit_20261011.md": "3f455da578e637e3bb78c028b9e06e640bceafdc9814ac54a4134172ab3ed27b",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run3_attempt_20261011.json": "715cbda791a13b36de81b1ac3c71ac9cddd37c578cfd017cb968e9c6745af676",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run3_audit_20261011.json": "9d31440317558093d470ab81916ca9e09a476a01bbc149267183dfd17f6e0463",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run3_audit_20261011.md": "792951860d3bdd701d92d96597ca4a936300732c31b0ab3b90e2be45531da5a0",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovery_amendment_proposal_20261011.json": "9b74fa46050f952961da363f45d8f4d4d85b412735eace3e64a0a8063b4342a5",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovery_amendment_proposal_20261011.md": "d52ebc1718bf2f198f461a349042f0e8f3a04203d7feb4c15903ecf5a0c14901",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.json": "bd6ce0493da3b312c214f758a7a79fee38a2c702872fcb465b63dfcf1267fe03",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.md": "438d7d8d87d885240c16b53bf73125dc45db851bf2322366d28066fc4e66f795",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovery_preflight_20261011.json": "9e511f1d39047a1ecde5917a77de06ed427290d97d3200764adf3d5299ddf4d0",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovery_series_progress_20261011.json": "cf17804cca6cb44ab03610217bf3e0f99ce3e6a0625a56987de1b79ac57d4b17",
+      "docs/evaluations/chatbot_step4_consistency_judge38_recovery_series_progress_20261011.md": "ab300805a24151c0af71d422db24de77c5f2b65833fc77571488060240f6c110",
+      "docs/evaluations/chatbot_step4_consistency_judge38_resume_proposal_20261011.json": "02d916c7158558092f1b27b8939803dd86ec8a9d93b383761650e2327355f192",
+      "docs/evaluations/chatbot_step4_consistency_judge38_resume_proposal_20261011.md": "7b0817ef38043bb6759712d48194ae94c188b0e61c3cb7de1a9ac46092c37fd4",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_20261012_045201_1e1da5bf_combined.json": "1b128a1bcf1b1692177173b9ce8adde7d1a74e6f7b9390bd64d77780264095d4",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_20261012_045201_1e1da5bf_combined.md": "b502a653521edeaed7016078edb8c62a3a7580570b3b3354ee6d0e0a544fbde9",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_20261012_045201_1e1da5bf_combined_reviews.json": "0d5d029b0cd20ff71bca0dc37db87e5fe1bb53b7a0a00215fe9924a200166b9a",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_attempt_20261011.json": "727b24501e8b1917c7c9a63cd4c1f61b9c081a17d69c1e7ead5f3a5a7a3db815",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.json": "53e34a3a5e969b842afe5188a40a775d54648e314f54e13dac87259c4ae4583b",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.md": "78211fda0c1240808412ecbf907c93a613d93333f7e96b35fc4b3cf7ac86decd",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.json": "9fec3a3f68078df7a43a9940e7af00f0a011596b66c7b5fd62a067bb56a0507c",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.md": "3f361305426e426607447fe36c006f78664463cbee026e8ff74251c598c35e49",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_preflight_20261011.json": "bd8661c4981efe9e9243efd85aab2b9c6f07ad83a78af07304e029bf988ea758",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.json": "4f68d0adfc43718e3e9ee98076beae72f5be152c42d6cf394b9c261de178e4bf",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.md": "f7167b8b0eb52ddae7196468712c38adc9d1056defca56891c4d1e329c7124eb",
+      "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf_reviews.json": "c101b239908575ea19e32242b414bcf2c6089f8537eeb6b2996c78a701dd28f3",
+      "docs/evaluations/chatbot_step4_consistency_judge38_series_progress_20261011.json": "81afd78f0e003503252c1981c6f0aefcd6aa71b7a5b0d49de94691e1ba79ba2e",
+      "docs/evaluations/chatbot_step4_consistency_judge38_series_progress_20261011.md": "dccb2af2bcfccb9870ec47fe8c15b8a37158d60f5fb6ab639d8a55a582e10ee7",
+      "docs/evaluations/chatbot_step4_consistency_judge38_series_run1_attempt_20261011.json": "0f8a7847d106569197339d34376c78d78bfc733e053049a17d46e60d45193328",
+      "docs/evaluations/chatbot_step4_consistency_judge38_series_run1_audit_20261011.json": "6438299ae0919b25f99bc55e51a3a4c5d4161a9ba0fc839669b4de14d07ff3ba",
+      "docs/evaluations/chatbot_step4_consistency_judge38_series_run1_audit_20261011.md": "183c826c51d69e722c825d773de08a6175a6ed71d0b42219745eb52d1d891752",
+      "docs/evaluations/chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df.json": "26f1c2feeb8133ce07739968208c873681398331489164de62a7fe689ec74fb8",
+      "docs/evaluations/chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df.md": "3fd9f60911158ceabf8b3bb41bb51084a3ba5bb111176b1c9f14de76dd32077a",
+      "docs/evaluations/chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df_reviews.json": "9c505679bde05c3a69de0d4c7eb47cf0f12732bf680f010b53b4428a6ee20afd",
+      "docs/evaluations/chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8.json": "bb770e9f1414dd97e9ac4159ab1ad3f97e85c602da1731a939fddcb85096a98d",
+      "docs/evaluations/chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8.md": "d4923bac491f65d808b03fa9ff024cc20cad03e46a91f9734eb2ef9cc72ac478",
+      "docs/evaluations/chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8_reviews.json": "e321492b0bf5099b1fa534c1c733acec674ec8bf7bc5a16be026fda1b4fe2859",
+      "docs/evaluations/chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c.json": "89583a3795433473d7dd9ee1b53f3a9e6b72a075216d20c515b1217979ffbd78",
+      "docs/evaluations/chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c.md": "d4923bac491f65d808b03fa9ff024cc20cad03e46a91f9734eb2ef9cc72ac478",
+      "docs/evaluations/chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c_reviews.json": "c4bebc97774b92c62b84adb452d57fa78c9e97d9a6d19a729acaaa3e82070ae4",
+      "docs/evaluations/chatbot_step4_consistency_plan_20261009.json": "7df7f7157a45ffb9ad81ff6466dd4896641b8153eb8dbff268cddab163086970",
+      "docs/evaluations/chatbot_step4_consistency_plan_20261009.md": "ef722ff1994a042fe2351c735f5b1c012ecd211be2f881f1b2278d086a5be3e1",
+      "docs/evaluations/chatbot_step4_consistency_progress_20261010.json": "cf2fb8ca3e9f7d8ffca9579c5d87b01d4dc90eee4790a0823c0b2af7c5f1fdd6",
+      "docs/evaluations/chatbot_step4_consistency_progress_20261010.md": "764b8fe5730a029bf762dc69d0e15ad2f51df0dfce0607e90df84ef76112521d",
+      "docs/evaluations/chatbot_step4_consistency_retry3_plan_20261011.json": "92c7784803381800be2cff5fe6d65c32cbbacaa0d3567c75ca3286bc8cf255f0",
+      "docs/evaluations/chatbot_step4_documentation_sync_audit_20261012.json": "239154045be0d30a28c462e2c1676dded149d7d6792b7aedaadbb247d05e62c1",
+      "docs/evaluations/chatbot_step4_expanded_fallback.json": "4b228289e2a842b6cc2cb54a9bc8a41aab8f17fe644704ff8e552b85ae8d14d5",
+      "docs/evaluations/chatbot_step4_expanded_fallback.md": "fb3aeb9fbdff1449854df0dd8120463d485d1fb708755edacfd19b6c62512d96",
+      "docs/evaluations/chatbot_step4_expanded_gemini.json": "89db652676bea1dc8e55f12b41e56c2b5f80a15b24a5c5de2589203849e6496e",
+      "docs/evaluations/chatbot_step4_expanded_gemini.md": "fb00dc0e8f0c3e31a4c3cfc65d3869808e57e950711617f243192cce93faedc8",
+      "docs/evaluations/chatbot_step4_expanded_simulated.json": "0904c508ab9b4508b128328a84cb63e410aa09cb436aea0be759e590aa2169e9",
+      "docs/evaluations/chatbot_step4_expanded_simulated.md": "046d64ab7486cf1cd4940754219e10a077dfd7c9d4287178769897287845e964",
+      "docs/evaluations/chatbot_step4_fallback.json": "4ebe79cbb0bdbbc895da38bae79ad446841f870746398f44ef93cebca6ef96b2",
+      "docs/evaluations/chatbot_step4_fallback.md": "ba12e211987c0c569f798b8d0177ef8e52d226dfad0cd7e7ec8e5ab028072d05",
+      "docs/evaluations/chatbot_step4_full_real_batch1.json": "67baf0c5b370d4f42a8a440feee6c16dfac6a2e3435b6db57498409ecdb1ceee",
+      "docs/evaluations/chatbot_step4_full_real_batch1.md": "43e9af2e396031bf5766abdbfb701fb9d2d33f3bec5f12c9ab276d8c385c860f",
+      "docs/evaluations/chatbot_step4_full_real_batch2.json": "182ab21e58dea00a45c7cb4da14f17ff3da849eb12ba6b9bd1328216ffd0ce12",
+      "docs/evaluations/chatbot_step4_full_real_batch2.md": "5ad5e88861f0bec4089dfe488cba3d8ab08b753cbfba0db1cca27d7c95ecdfd8",
+      "docs/evaluations/chatbot_step4_full_real_batch3.json": "b5e5faf0b498eb5514b93d5438f9f222072bfd35a68264eb3d7aaf46d125684e",
+      "docs/evaluations/chatbot_step4_full_real_batch3.md": "8b48c894303ae92d6bbfd108fba4bfcecc625d14784c5ec1350d8513f2db2c4c",
+      "docs/evaluations/chatbot_step4_full_semantic.json": "39fc79218a2b3426e9e10fd0960e7c5a4af0f97c32136f1f5691cf1d10fb866c",
+      "docs/evaluations/chatbot_step4_full_semantic.md": "1944e68a2c75d45d3c6d70f39cb67d48b752ee83a1875eead8caccd0016d582e",
+      "docs/evaluations/chatbot_step4_full_semantic_combined.json": "aa14ad0927160a727d1e446d1d8ae99892af2760d57591141443eeb4a6c2b339",
+      "docs/evaluations/chatbot_step4_full_semantic_combined.md": "7db22e4a8205913e247051e6e96904f48f955e88ae4d06dba616a658962ca9cd",
+      "docs/evaluations/chatbot_step4_full_semantic_combined_reviews.json": "d73308e110f2332a8c225d79ec80da4d46a1d19f949544a5160f5c4c45c37d5d",
+      "docs/evaluations/chatbot_step4_full_semantic_lite.json": "e6d3cc201f73a578aecd01501f787830b52b8e4090d34778de376601efa5e171",
+      "docs/evaluations/chatbot_step4_full_semantic_lite.md": "39c78f571462b4194b200ec709659c37889ac947e6f04ecd0e50eccfde62c6ba",
+      "docs/evaluations/chatbot_step4_full_semantic_lite_reviews.json": "6bbae68bdbf67a1690d43bca9bcc31d7e0bc6564809f61753c1130c85675e181",
+      "docs/evaluations/chatbot_step4_full_semantic_retry.json": "36e41ef31fa9a55da3f98aea5ecf8ae818e9388a68e84ac20531ca48f3c240b0",
+      "docs/evaluations/chatbot_step4_full_semantic_retry.md": "888863c28abd1698651ce8775fd748b829d1d4cbe9e088076418a1f557c7acb3",
+      "docs/evaluations/chatbot_step4_full_semantic_retry_reviews.json": "e575e380d9eac40647f4ca8d9e1ab42c235d842c3fe82f64b39ab27b4e99db28",
+      "docs/evaluations/chatbot_step4_full_semantic_reviews.json": "2b38bd321e54d87343fe8c41b966de2d494fa583e9c2ed849c11f7ffbbf2776c",
+      "docs/evaluations/chatbot_step4_full_semantic_small_batches.json": "cb8cd14d00345352e1ecd11125ee7bcd03556bb5a0e34a1f3363bff42f9a654e",
+      "docs/evaluations/chatbot_step4_full_semantic_small_batches.md": "81e1520c1d813f589199a379389892a0a4cc314bad088e91aaa6aa82a9158e97",
+      "docs/evaluations/chatbot_step4_full_semantic_small_batches_reviews.json": "91b5ab5d9f68dda4e8a03ada11bbece0a93766143681265cc22521ce885b8986",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f.json": "07f943fcbeb36c5b8c3f36ffa899677816b24a0b9f46127b849da45bb6112f1e",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f.md": "a8e409819da6ad2cf52c77c468421764f2608b1e6412526960c5504a86da8a1b",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_semantic.json": "824a138c512189081397e19c403e1babaa186ff16caf8545792669be15771f2f",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_semantic.md": "e55ef1db4634bd3aa39293d2399bb2f7a6d714f8ef3681bc0f4046b4125f6822",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_semantic_reviews.json": "140464bf09ed590e84f482f28fa5c9ab1e3922f5260f03536e3ce93c88ee7cf4",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_synthetic_trace.json": "eaed165bffac4bf02cac45931814b31c09cf238583590c2be8f1038d94e80bd9",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.md": "1ad7a89b2aa3580637bc4eed17409110238391de46819e708a62d03e55117dad",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic.json": "a27397fe73062bf2fe73a1b7b697c15cdd8297a437730fe19c1993bc7188466c",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic.md": "d4923bac491f65d808b03fa9ff024cc20cad03e46a91f9734eb2ef9cc72ac478",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic_reviews.json": "b4bbac8e0102bf40e316deedf28d0aa0575cfd28fd412055bf8e91e9142ebe81",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_synthetic_trace.json": "ae6f8467baca3dfdf9f0294cea41c74950b56b886bbbcaf5709e33628546e3d7",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.md": "091d819f6f339c602f0681d2be4899bcd461f31d313aee6cdcdbdc574afc1cc4",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.json": "fbd0f2e2e7f1b279294ece6d4acdb7d7c6df94cbc76ce2f8d93015d81bbfeffc",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.md": "5b8cd7257e9396e45630221d3b5325cfd91de86aa98045ade18f4a90810134f2",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic_reviews.json": "6de3300516b54ae9f151748176ac9f2a3e054ea7f8257b78cd59d12f864f46aa",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_synthetic_trace.json": "41e99a00dde796e63176312751dbe561acd3102f1c2e9af0dc4342a7d3f29ab4",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.json": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.md": "413a804879b8372fdc3a364d4bd7d60544cd42ff4175f52e4a8d8286be43db56",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_semantic.json": "ef079e7e98b409200dba9040e624917fe0d88dbbb681f241a172a2375be26d68",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_semantic.md": "8d529ecb17c425857786d74b2b4e51ad1aca40a38d232f422cf63e01cdeedfdc",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_semantic_reviews.json": "2b28ebd97dee303bc842a185b12dde1b7841fc4916d2379d0dad7e7e67dc8ccb",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_synthetic_trace.json": "b9724ce1fbab30fa08fbba232773bcdaf7e0af0bc3fc17dacba003f25b22e449",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.json": "678e46a6cf581f7b74409eeb910899e63888f2bb71b8be7cef4dfe424a772967",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.md": "902ac46eca86ff4235fde786c2743256f0b0115fc8d5173a3e73f889b577ce00",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic.json": "3ec0cbd94c157dd2edac60e3964b61b33e9f10a82b5d518b44cf127eca854441",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic.md": "154c60aa0fc22cce37fab4891136281dfbb7657cfec0d926f6830276819f319b",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic_reviews.json": "22432994b97827f855c07286ec3007a4fc80c8062f655b41a1cb670822ce3602",
+      "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_synthetic_trace.json": "0797c6995259c46bd91c1da76e0834ec26baa598e5fba6f9e572a3bfe14051f6",
+      "docs/evaluations/chatbot_step4_gemini_diagnostics.json": "9b521b9bbe665f8472e55830f60131b54afb077243e9e7784a6823a4e9684bce",
+      "docs/evaluations/chatbot_step4_gemini_diagnostics.md": "737fa3f0d279dff6c21626af79bf67dee33bc58223b5358fecc5383e6d5312d0",
+      "docs/evaluations/chatbot_step4_gemini_diagnostics_extended.json": "fdeecff0b11bf63647cc0d1f9382a9aad56d4e2237c4c8cec587dca649ee8eff",
+      "docs/evaluations/chatbot_step4_gemini_diagnostics_extended.md": "365c5ad8f566c6a53ebab2b9e387763a50ad74db96e00d8181456d284369b8bd",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json": "d4f91743f08369cc3d14df461449f0cc6c1b1a5f790ef4d7ca1435c65bb0ce92",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.md": "61e5d9048ea00848323bab9f95021797acf442df6db0c304dc1bf0e1b2e638bf",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_human_partial_20261007_043124.json": "0bb5bc072f4ebec65109c8f80d71792dffab8638b4ccc1e2e65b358ab9c57eb1",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_human_partial_20261007_043124.md": "65e5645378aa3d6dac3635bd9d39d30a520f0aa8cae4031c8197728daeb6ba21",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic.json": "a76801c39ee14d70c4e6d1d84f35bf94273d6b5ed33c6aec69ab56c98ea735a5",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic.md": "9b708703f9a6883ae62ba6e0991aa2f7136900f1049854326b236cfb46f8f094",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts.json": "f02d76e77fbe40177713908930403125b9ad6e5c9f109b4be7af6f97c4cf9912",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts.md": "4eb7f8735c838f4db22f80f8bc33d11503f0c0a7d2d6a5ec32b87bc5a6dbb378",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_135713.json": "1d4df43de80e43ac7c0595c045fdbdde56027e5291fe5ff8704ba8130927e3b0",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_135713.md": "5d00db333a93b336b7aba69df87b17ddaf37c2ecf73c553ceff85d7e163ea013",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_135713_reviews.json": "63486169e1edf5b458822111a91458275c962c0e30c0a3673302b718169be02b",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_141127.json": "c64c728789eb36f77e2d1b01446da998250ce40eb40b0cf85c89150445d2bac7",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_141127.md": "f273fdaf7741b75736cf7383c02b2938032f20a0d86e66c0113e41c9bc262b4e",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_141127_reviews.json": "b95f1c965fa41415ff9c7a4fff36f3a350cabb33aaf167a5a75004faacc3b1ef",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_225324.json": "c9abba70caa12cf69b91d4722019176d047332fe9c171cd6b7fcfc2f0978c65e",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_225324.md": "52a2f918568638a014ea7c8b4e9d170b1f6a2a8578678ad5b3a63ebe5bbc6b2a",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_225324_reviews.json": "2fa69f46d46e1864314b8fdaadbb7013f790dc403de6bba80b9d0223e5843978",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_reviews.json": "0f60fec228217a966773bbea40c0f80c680a37128a7a7d58b08671dc2de392e0",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_reviews.json": "d37daca7b0375f45cd54ea2526811af0a7fcc0a080eaa294e13ccde60be14424",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570.json": "d4d4bc53c1ccd271026c5781fe7e3ea0c8d74eba6e7d900ef8e6d989c61d6422",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570.md": "72a6f5c1e359519f0368a2a5d1af114b40442ca981a8802638999546ed90f626",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570_semantic.json": "e485364e0b26ad7e02523bc15f5a88c6deb9a623a4105a956feb35a434a40903",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570_semantic.md": "25f4d88fedb1d3d66a9810fef0687985cfbb285c016f6a0eca2eab20a830732c",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570_semantic_reviews.json": "ffaa4929ad3c38ae8c2a1f9823466362ba04d670829da500533d56aedf2fa870",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8.json": "31ad63cbebae861c33e90378353fdf89de6dafb30b3790630f2b08942d153d57",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8.md": "42c1fc37a857e72474a5556a6da429bce5996a8487e580f470de32f8ba532a8a",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8_semantic.json": "b093449e484816b712a0fd6375457dcc8a62206485cb60c0b77353dfedc9b9f4",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8_semantic.md": "61f0e3be2c7297f18c20218ec2ba90aefa6ac6c07182e8e3774fee761d02e955",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8_semantic_reviews.json": "db2bb8ce62a9d2578f3b9c66c3576888a8379c915a9d50fbecadc6705b5533e0",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e.json": "3e5357516aa2e5497f82a248a4a0385448b0f0861d8bc8d1dec24a49bbe02060",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e.md": "574eb1af247978fb1c01f57a7d333e36302ae89d38004a009ac570ed07276f15",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e_semantic.json": "93bc552a7983789be37f2604b9b2be3510d2120c06562f31ee0cb14ec4f2265f",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e_semantic.md": "da370e710c2eddf08f0f86a0c1ff534b2014b95a4edee3580fd753a6c262dec2",
+      "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e_semantic_reviews.json": "d0c25d43754db49b7bd2b551e635c392532c1ccbf434377b71d6cc314566b8c9",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15.json": "dcb7d271d651a290d11ceb288693b6726a84e43bd381d9f7b174c1604a5b2430",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15.md": "91b4770815419673c8f82061b4c8c6187dd8e1336415d3feb8681f27eca155e7",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15_semantic.json": "73d4ed8b6e57710af40fb4dd3d38196aa0647fffaff4b074e5903cf7cec3f791",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15_semantic.md": "fcbe8b082f791fe28df19ac7e0497ee0c8fea936ab3c4508110b14258477f283",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15_semantic_reviews.json": "e1c1534c3e005ff9775eae35902a9e16ee827698f34adbcc15dbbd892c3423e2",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219.json": "53d01a4814a6f4c385c961b41914fd1bdb07f479da82814820e85d585a009465",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219.md": "28cb0be119c32f80efd09447c2c4233ca1a112a6250209e1d3d8ee99fe607fd4",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219_semantic.json": "3e75f9b71858824769659eb860e59656ba362357614a641642b36651eaed4ede",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219_semantic.md": "c948d1dff36fd702b7a818061d50b2fd39b52fbf072a8127c2f1022861b8f389",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219_semantic_reviews.json": "d8b28d0bd171ba42084e8a37f2cc40fc0209fd012d8f2d5945c0bf8d7dce9205",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1.json": "a4392d906d402e45e21e31f757ae0ba9d4f5ca65e13705e4c613e575193014fd",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1.md": "03213524558c7e58f04683cff452859bf461e45afcbe0b0bebd517e7207cbf80",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1_manual_packet.json": "e330c43254d631847357dcc88a9c2dd0c235ff72ee8cce159b630ff5dbcd6833",
+      "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1_manual_packet.md": "2e8f3acd059d1b0be4dcb98a760bcc1d26b2992ff58db6014adaa604b53c247a",
+      "docs/evaluations/chatbot_step4_gemini_flash_trial.json": "f0b9c26f3d830385be25b696dfb80dc639c12c7cdf8cec7c8374ad8802f6bc51",
+      "docs/evaluations/chatbot_step4_gemini_flash_trial.md": "0a23be6feb5c23943f026da491ed40ed84a127af43174992a2ece6dd3dfd0f73",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22.json": "932ed49403f8019df0576553613c2c3f3e69141f8bd0931f566dee7978ff0f4c",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22.md": "75757a798455f65ae900c87bea67fc065b9ed1ec6ce3b433d64211d341cbf534",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22_semantic.json": "df3b9efc20c0759e0dd06e65bcf302d2d669e2df91442461584b6c58ab3ca650",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22_semantic.md": "2fce4c7d55edec027d36865a31f08a83a7ca8c2ef8c36b11240724c363bdb12b",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22_semantic_reviews.json": "55fa9bae0bb2552d9d017ddbc10b634282f3686b2378ab6ce7a075a200b29e0d",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.md": "496ae9b22409be3eeb85c9ec3ff0d8d0cee926642cdcc9a22b2c7e3ac3ee6988",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30_semantic.json": "db26e8481847a0c08ea881a9682b3419511a978b90db20b939a63ea64c74ce96",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30_semantic.md": "49db0e717f1c5c168e8fd6995227b4aeb093bfb1fa4ce4e42f94ccff76ab6b78",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30_semantic_reviews.json": "b79ef008122fe66d23c9f3baf5086e049b76f36f7fcfb8431694b08e6e72ffb1",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json": "11061620a3cc02609e3ea399e98c982f0f4f32134de0a5f631150df642650264",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.md": "c7fdbe7334266360ecee7572cf81863674416d04d34895a954e34e546b69d93d",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c_semantic.json": "e7bf73f9261452fe03f46f253bb2303a6656e5bdf93259742a6ad0480e393c93",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c_semantic.md": "eea43a55fbfd376939f1b9e2b3cb26133b0a540463de5d18e4eed6b3a892f737",
+      "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c_semantic_reviews.json": "5517a7e32cf63d87f3b48faf2538b8f1c00d7cc74f6945f9dfd4393a3c528484",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8.json": "ed751760548b81a5563e197c5fc36e85a1c3d07eee1be706fbfd4fad0259a375",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8.md": "b96a46ba28403c4fd3fc839bb6b1415030884a1baf274248aa2e59546ccfa9cd",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8_semantic.json": "6c1c6929a05ea6e204ea1ff52733c8b4162cfa76fab041f5ab69070df19afaad",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8_semantic.md": "80748a501f95301aef3a179ae3aaac5fabccf01e2db6a00590a38ac93d7a885b",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8_semantic_reviews.json": "077bfdeb6159780a60d1b144f88f6bb104dfa08e62c0d582a610aa357f8ee093",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.md": "8ab84f927cc496f7a9d9fd41239ccd4ecd45f653b67eca9cfdfb3d6f5b79338f",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd_semantic.json": "b70cc86cbed10d11648a9564d923d56f0a478249e7cc516dbc092a77d34eb613",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd_semantic.md": "e0d57aa2cfdba56291b645cf35a1678301039a45ebeba70c8a6454c569f9d038",
+      "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd_semantic_reviews.json": "636d5a26e63597fbcf3f584aefecbbe070119dc8cb0bbd35769916f0ccbddacc",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275.json": "11b26c527e2d558826a5e55fcfa545d41370d08346ac094345a1adf46423642b",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275.md": "ef8fd529b1239678511becc09b43a68c226bdc92b96aa0b34d864887b1591fb4",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275_semantic.json": "82037fb9c98ac73bcba90a10b6353170011e9e8e2b67af2a7fe6c32f7bc7eef9",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275_semantic.md": "e4566a6d11507679cd87fc753e1123a50fef7b54d21d245d885e69fafe5a877c",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275_semantic_reviews.json": "9b9ee67d6b823f20779c6aaf8a57151710af0c2dc00b75b456a9a645af4fca69",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json": "4228d1aa021c3662b5e47b2f3e63eef78371f6ede6fc75055ef82860bf2e0757",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.md": "840f05ee8c3814ddde67a0f81f9b7353e1ec3a3d6419d9297233c241037806cb",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f_semantic.json": "bc38c0c633e3cae3253f3e9663d7cad6e28beee29a6e58f056fa37727db45926",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f_semantic.md": "42e7de8c845634278f72ad3aabef2b0c0b767fc436be211a25505411f961b74f",
+      "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f_semantic_reviews.json": "2a80c4cff99988d132465adea4ccc8ad52062e7a1f023143064ceee097e58b57",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.json": "086c77a137fae1c2ad91dd9cc7ffe1d80b5206af507780a16f2e9fc9e85a9b18",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.md": "8dae8aee568ce9024f09b764e4073edd267fc35da255db2b2a5ec490239329e2",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b_semantic.json": "05498a6566963b908c5d99b06606b5360034d84e8cfa3e11fca28ae83e6d7ca4",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b_semantic.md": "945a907e8088bfe89a2ed81525237dc2140c0ed4f5d764646cbd9b4c3bad6923",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b_semantic_reviews.json": "0b23ed6d63d66372ac6ab09e480c8490f16aeefa021b1e83ad057e3ba5d56144",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json": "4fb4378582218c4c6b76572b7b82dc725a56ef2a0055c7767da4cd2b34db8075",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.md": "b83bf0c3bc6a24610c7731f8ab38e2ba13b9fffdc6585e09bdf118379c8f2d7d",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e_semantic.json": "66a1575c143aa714beb952e5409313c84d707270e187c30b86e547d121aab495",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e_semantic.md": "faf68e651c31ae9ad0f5ba021b5470c18ea28a2c9a7e9fcb87e2efae8c7d044a",
+      "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e_semantic_reviews.json": "f8f0775d2c402ded068de6494ef80f274510b9f0c27d6194aae33509c2ab1434",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined.json": "7f08cb6caea6cc82b7dd4e746635c926b318c664524a1a9a97d5cf358d28dbe8",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined.md": "81e73a6d6af23f7ad8b14619f5d0ef584560deb82a52200801e12025672f4a3c",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined_mechanical.json": "122c30ab1ffc2cf86ed36ad39df883691bdc74643f0c71744a870cac5a5140c2",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined_mechanical.md": "ce365797516bef993afdfb189dba6b68abd7b7f062eea4e27957eddb1dada84c",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined_reviews.json": "fa4f638c479be994cfd71b07a54fb3cbcc1859e138b519fa31372ebb247c0a74",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined.json": "01693dfe7683011c9b6f856d109880da2ad99255472f053d457f60b07e5235a0",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined.md": "7ad913c395f9bbb2aefa3e2385d0e80b10a5b40008ac808c6749d8c2a43beb8e",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined_mechanical.json": "ab3a20085bd228b6d82455b3a74fdb859ad198dd9b0dd5d8d9300583a3111dfe",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined_mechanical.md": "a4695b5a8af094fde4b980b964ed7be904ecda2cd526e05ed1c919537fc38ab8",
+      "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined_reviews.json": "2f096b62fa3d877d481e94f7a47eb3d519047cad5254bd0044c09bb321842588",
+      "docs/evaluations/chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9.json": "367d2616f33ab35d42a3e8e48f0046849679fb26e2bd12a811c6b7ed867695ff",
+      "docs/evaluations/chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9.md": "6e8ddf6c8dc517ca8b4064410079886620299a06c4e26d1ae511556f3664eda6",
+      "docs/evaluations/chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9_reviews.json": "6fc1cc7243766b2dc1e28e72810b475819177a960d14d82990c97f550811fd20",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_040537_6e861e85.json": "b7506b7f4f30f3b9d70b08679d1aa16a402bc02d4c3bb7536f158f3514888aeb",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_040537_6e861e85.md": "9ab2f5aed457876c3489f0f334ea185570fe42f7a08e536600beb3e1d5cc8342",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_040537_6e861e85_reviews.json": "9b65bd40bee113cc2a140f56491e7a839d97e2a57a1b3d935b5b93e38b09425f",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_135713_f778deae.json": "1523c27d55020994f8506b6632a5632b4ada6f725c8727efb0d804bca9c73768",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_135713_f778deae.md": "365f5721f760c3eaf3ac5d37fd39332db65cc01740441681e28f97b2670fdfaa",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_135713_f778deae_reviews.json": "e98fffcf77c006d7d94a97f9d57ca8f1f17de3e922d1484a5cfefbcef69b3438",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_141127_89067edf.json": "af6ba12a797bb748ac365e98df106c709e6a6d61219a0ff3faac64f1e20eb857",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_141127_89067edf.md": "a7cde4085d8785de08a0640c2cfd9c7309714a9a2efacbd8f0dd19f805bb232d",
+      "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_141127_89067edf_reviews.json": "0e9fc520fefe934884b93112a72e2f44296dfa20536f23bc8c0708fb5d7c5046",
+      "docs/evaluations/chatbot_step4_gemini_real.json": "f0b048dff3db63a1e338a5076c7ef4c2fd17344fe52b4a14df50d601322fd954",
+      "docs/evaluations/chatbot_step4_gemini_real.md": "116aedecd54f87d322c027b79adba3346bd9e31dc762230ed3e5e64a7fd20308",
+      "docs/evaluations/chatbot_step4_gemini_real_calc_prompt.json": "50b0c8a18ee391a6fc550a92f72cca134c0e8e9f78e020ce494a46c39ef6b482",
+      "docs/evaluations/chatbot_step4_gemini_real_calc_prompt.md": "8d1f7a989ec05ec82e4fbf5d2066cb4dce5c855524af2c7af6ca80cfea083663",
+      "docs/evaluations/chatbot_step4_gemini_real_final.json": "a582795ede630409fa162ab361e4011997de4b5c98ce3cd0f0a2bc2c73751ed9",
+      "docs/evaluations/chatbot_step4_gemini_real_final.md": "8b3884889decbc2d52670786c5e7fc070a3d8f4c79b634cec0c0a4bf9283a954",
+      "docs/evaluations/chatbot_step4_gemini_real_retry.json": "61c711e1c403205d0b0a8950f1a92684f35fa305e6798ebd6198553f4887a959",
+      "docs/evaluations/chatbot_step4_gemini_real_retry.md": "ab299ee0b4926376f55ffea2c463856bae4f7cf9cfb0e620d8e72cd09a3985cb",
+      "docs/evaluations/chatbot_step4_policy_refusal_authorized_runner_preflight_20261012.json": "20a9567740c396ff92db4bb3508117fd32ee2f92b4c5818301b1434416c1e96a",
+      "docs/evaluations/chatbot_step4_policy_refusal_guidance_scope_20261011.json": "3621bc13a635553048921d67c61534685295dcc351a3357f31a65a7bb00c96f8",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json": "a134e9d0fad43e8aec482d83ea8248bfe1be49207356548e7d414eed0039a430",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.md": "80c1e9983f8c190d95c93efb3fd658de9960d0575334ba1f65726e4b133b3f9b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic.json": "543886a24eab41b7311b90e6e16490ace63f619ffbdbea454158e77c9b09054f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic.md": "79fbf30e6b950add008c5430be580845b340da216c265bf749d4f785f41ef316",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic_reviews.json": "ca835c5f577da354eb3467a8ad3d00a9f0b053477a4901b5c8bc194afb6c273b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_synthetic_trace.json": "8d6f2fb477f9676454f7977da934bae1d7bc777b28225d57011a2b2b4d56c290",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_attempt_20261012.json": "1697c5b2977fdeb3b00662e87ffb23688828187e371c52e4a4947c767cdcf45b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_audit_20261012.json": "c591d0674ba6d250610571b63ee0bb73a2202f9d8066b839c08c28ffb9e5de3e",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_audit_20261012.md": "d2bb1a5e133ef217c8a0ca2f8eea0bd2c7a7add994844e40552b055a0879e315",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7.json": "e90dd42a1dd0df03297b92ed612884415fbe83bb6a8f8013efd55691779600bc",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7.md": "fe58f3633fc37a912c63ca174aaa58fc9db22905e6ff9c044b9bf41f4682c93a",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_combined.json": "f0c34aed308e6aed71791868e93ccbe629429beba92fb3fdf51d6003f06bb30b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_combined.md": "1f4e738e0c49b9e2907eded1c6db90310cb26cea99e2d0abd0d25092daa3a5a2",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_combined_reviews.json": "b735621aeb6477369c623d60134db232a9e9129e21131921b5fdddeca1560064",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_reviews.json": "96dfc9415ec2f4e95d7452f598c1358a1ba9045f3f6c73092f3ebe0edf979f7b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_attempt_20261012.json": "d9177ea543f7691150ecd9819873fd862dba93b5c6e2878375e5ac94eee2d0d3",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.json": "cff2782ead7ea6acd5ea69f2a13cee7fbb9f7866511c96741f741ae2ce01ffdf",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.md": "1d84d4ae727810abe5b7c73916a6152043cecf3e555a30d85937a0d49e1d5b6f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_20261012.json": "a6440414e82c6933c6fc8634986adcf9099325c9ee182d25684b58f2793f0139",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_20261012.md": "57e77e7d2730478d3291161642a7e59dd74475deedfe7075f53875e6062eb4d4",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_preflight_20261012.json": "b37ff4a76a848ac19f0c226ac9233809cb123eabe0844ed7181d1c5ff03acd0f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_proposal_20261012.json": "b85f94a21a1abfb18eeb00b17972d01883b6d2aa5e607442a0f5e755925eea6f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_proposal_20261012.md": "034b8e018cdc2593f023b30a95f762e5d13044c583997f5af5e9bb07b1a40113",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_proposal_preflight_20261012.json": "a58c4b867f96d1329df1848d863e3d2d4f81dbeaeaf7fff22c13bd24f9745960",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json": "d0dd7396e201119439658e0455f05d614908f1a54b65cf748e6a8c72cb89f726",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.md": "72e51346bdac6655c651f1af2383f89e6dfb38fd9370f54b52820462056b8f88",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic.json": "843179b4bcf4af01a0a68325985bdedb4ab56d7275e7e518afc4f1d5e3c5954a",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic.md": "0c23e6aa53c4aca7dcb1e3fe2cbdabc8e5e05dc12f10c45a3e6dab3ee4fdc75f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic_reviews.json": "035950d03fd291a69dc620ab3e720bf9138cae3b466aba6eb46ec46c1391659b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_attempt_20261012.json": "0b9228bc9a9e8baa226ec6d2c9cb2d5776721541876ee05b6a67aabd11394ab7",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_audit_20261012.json": "d0904e9297180dd803c2123cadb7fdb03d17556bf29e65fd17845b72e42a395f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_audit_20261012.md": "6d3caccbd7ac7ff8433d0aa373feefb6e50ac4e60227a21cf55bb0f3377793f8",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_final_audit_20261012.json": "f886a2382995220d68b4abb3e589c1deda2959609ee6c37c17c32a8afa79263d",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_final_audit_20261012.md": "b40d3665d2e53e58d36a4b86512a0f17b6e82d146a26a56cf5940b6e6e3b8fa4",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46.json": "058e9dd5aea4cf32425ea732c0ccf2cb0597848e83a717f9b117cc975ab193e8",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46.md": "66689b790e5da13a67c38e2624a9453087e69a04209ab2e3ea63ecb67abdff6b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_combined.json": "a1ba79894768b0c18fed51fe916e3b423af290cae0a9b25dac8a5239de750d12",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_combined.md": "eef5250972c00b40752e0e0ef609b8de9545a3ae7535e845ccdf2cd58a74e6f5",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_combined_reviews.json": "f793c2359a6a332b6ed1b428921e56886f4c9cd0897bb2bd685d3c3eacbb1df4",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_reviews.json": "a0cf5b6a643700c98896188fbbb30dd9bc9b2dd769b859ff3c3639828521c4d1",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_attempt_20261012.json": "df6e160ed3c526258e3e78d8db67cbd3fcd052fa657a45fbd09a42e6a8b7b686",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_authorized_20261012.json": "e25f251bcf8cb5221fc3ac79045fab903c6ca0fd91510757df2eb3a4b75c2ce4",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_authorized_20261012.md": "c8df501911a24501155a6348a0f24efab1ed0e625b9770a8dd0a6d07f996aa6a",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_partial_audit_20261012.json": "df7ce254282547c1ddfacfbc7269b3409ef5e8c4c8cac368b668f0e5482681bb",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_partial_audit_20261012.md": "01cd7e5a15b91344042bbab10499a962b8ac9292a56a3bee514404b61c5c4536",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274.json": "a81116f31e187acca7fc452b9e4b335c156e4b417352287e326532e554cbc23b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274.md": "6143287d25ddfaf98e09bdc38dade432a60c36b70170268e387afe54a9cb5821",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined.json": "845da1845d2d107dce0b0391c0625a770d61ab945b40f7e2f37e2b2bbcb2d458",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined.md": "c425e4ba86f70d04fef37602843d9c9112016a2c16a319b0c552eebe25131b1f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined_reviews.json": "c9e0b9c6509561e84f8fd88ddb9a1dcecc39200ac148cd0cbcc133f33e71f99b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_reviews.json": "31cc9324764380bb572cb8ad23489793facff16c7aa4b3e7cc831a3fc84e185a",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_attempt_20261012.json": "7da3ad225d26f9bc8595bfd905282de219287483a06451639429aea885394c1b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_authorized_20261012.json": "cc4e9068e05841922b82798da3a64e1afb5708d245ad025a1c2fd3bc801c974b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_authorized_20261012.md": "7a24e351e259a2b136fb8e57b6aeddf26d0783a3f77d22ee103340fa716f022c",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_preflight_20261012.json": "b6fdbb98fef2a139d2c1a3a1d62f0bf868675c30c0ffa04770fee74064d64ab8",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_preflight_20261012.json": "747041a31aedd60424c011fb56352a0007f80d189e04086e16208e31a87f9589",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947.json": "429697c28db75a444c14f8425f28c9f5047c767dd16a1505229fe07b0c8e848f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947.md": "458a10d8cf175612e75ef5952b7fa473dea2d4a4f8d6ae0b55a43a65d06207da",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_combined.json": "228f2e370a3040ef5968cb50d581cae6ee2101e1c28c93fc934c007982d92abc",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_combined.md": "427a38fe1dbfb8138b5346eb356fde9bbe5093b7908a179e97a8eea8bba08d23",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_combined_reviews.json": "c171d4e97742d28ab8b09e812f1ed3754338f03561fd126576ece4ec5454b42a",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_reviews.json": "db6d1600b46bde523d0141db8d5d744419adf153e9422e76442e78b7ea5c8ace",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_attempt_20261012.json": "1ec2cce3cfc318588acd44f941c79fce35f00ff23b3995969e2265793a57a83f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_audit_20261012.json": "e62c4475312de97b8091d65c5f11a4e36609ae9f74b1e93598d01e0f560e0b90",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_audit_20261012.md": "b7b281aae4b7d621e47a15b0f59a9dbfd24f845824050d5199f86519734fb98b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_20261012.json": "d6778b8abc8aceea54d3b0620829766d067c7234ee5e4431c71a17b1a398ffd6",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_20261012.md": "f55a1a460634c0f8fac7ddaae1132b47e447ebd948011f680c143d4c023f7e1e",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_preflight_20261012.json": "e093ab98bd83b9ddf55a36fc4fb1268b247e24b436cf2ca1749a2c21176705e0",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_20261012.json": "70afc6490464b6bdf950e074278ff03234df4078abe9513431293d917b1641fd",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_20261012.md": "e32bbba165f94b1911749850f5378fa0ff2c4fec2bd2d94020cd32a414b96e34",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_preflight_20261012.json": "285d9252efe5abb9dd9c101421ac6afbcf802690ea7ec0f4171f300eac9ef48b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec.json": "02f6662e9039c8aedcbfd552a8be9367834e48d6ed9415cfe2f961dc019b2814",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec.md": "458a10d8cf175612e75ef5952b7fa473dea2d4a4f8d6ae0b55a43a65d06207da",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_combined.json": "8128870c32b9a4e6242fca4b814e5157200a859b17def479789de5a99fff8579",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_combined.md": "6b677495c267c2d2c82d1a8155c435dd6973f219e0dc45baf0201f9d113402f6",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_combined_reviews.json": "b51581526b37447fe07b75b6e54ac39aaccb5af7352134d47fbda38e1cf74abc",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_reviews.json": "77a5eee7916b4a8203718f88ea9a6b2f000212cc2f644f0f716e813b3ab17014",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_attempt_20261012.json": "8feb3a53bd530e97ec29e6f5f0f327dc21c667353235e5246746a80870df0acf",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_audit_20261012.json": "a47a8a08a3b66038cc569e94c97b7a7838bf625be7432ea62e9e1adc4971327b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_audit_20261012.md": "3204414c886bdc3ab6153cecbfc97aa5c81bd9b6f5c4b2d494a92d56c722e374",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_authorized_20261012.json": "fec537482216de1c9009e305b7b9ea2c6785d26f50c88efad1eeb20f10f8cc1b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_authorized_20261012.md": "b336fcd163ba27736f0f106d3e683a1ac0ff9aa28625833a41c60654b7b8de99",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_preflight_20261012.json": "81941cd287b6899802a749e1be9f919df506eca9925c11e3f490519fc52c60f5",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4.json": "3d7d9d63ada88e700197cfb078515675fa298ff92ff602a742ecfd87acdd7fa4",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4.md": "458a10d8cf175612e75ef5952b7fa473dea2d4a4f8d6ae0b55a43a65d06207da",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_combined.json": "49872aa343f552dc8030e227e9ccb8c255ccd8e700b8fc372a617e9e6279ec5a",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_combined.md": "116bb961b9c06497e05b4a35305988f7f7b238f764734381f3ef4a3eced78180",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_combined_reviews.json": "6aa1bd45b93347acbc54520b161b8b760620e41b2ba9783ccbb10988e5b147fa",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_reviews.json": "06808641abd555b61432b890bb3c99326b3e7eafbb197486dcd849b2f4d3e10f",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_attempt_20261012.json": "57fd1706f8746674a3dc367f927343035c6fccab1c010694cb62f2df9b063088",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_audit_20261012.json": "b0c2063c3bb55bfc1f03d5b9495cbfe43a537ce600461fe685da922ad241767b",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_audit_20261012.md": "21fb820b6bd62632d2630dae592ea96a70cca1ebae74fef0893e36b0670ff03c",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_authorized_20261012.json": "ad08e7bae47b78c30fd543474a99940bc3f12322b693ce41ff2fc073a737dcac",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_authorized_20261012.md": "4fe65590fe77732bd916a6ba9d4961357497145d786591be9287b56ef074df45",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_preflight_20261012.json": "ba8ac95155e14acceb38b811af6dfab78b5a90578981b7859d28f417f19302a5",
+      "docs/evaluations/chatbot_step4_policy_refusal_phase2_ready_after_recovery_preflight_20261012.json": "24d032247a9ecd77709ca4e29f354f11f2dad23e65902713fff67ae6ebc8ce9f",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_20261012_121907_b98e4274_combined.json": "494daf2c0821fc2530647e1f3f2da8ee9bdfb44494adae3b48c5472b18c2f5c9",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_20261012_121907_b98e4274_combined.md": "e9d28e29358bc43e3e2fa62ee4b2b5d66e91a5f586fe604d841837c1cc8ada8d",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_20261012_121907_b98e4274_combined_reviews.json": "401554cdd546bd98dc0167f6e9c5ceff76a284195117be908dc1d39d3ad94300",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_acceptance_20261012.json": "11db96ca9317c4d127c71ba8800aeaaf5a7aaed4c22b2dc65370afa508f7de39",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_acceptance_20261012.md": "73cb951a94c65af52f40d817e1b85aef43648ac269389d317f5691d90763f17d",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_authorized_20261012.json": "4724eaa7e55688e3ed5bd29a2f06c3a2633b375deca2ac860f5012a04d2164f0",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_authorized_20261012.md": "ddb23de85d457ea82bad6f0a9534d38c6049fc65dfb15eb898050d18ed46b0d4",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_closure_preflight_20261012.json": "4c87f35316c6d05ebdcad60d49296a7ab22a42fcaad4c1e88565d71c5d1d44fe",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_preflight_20261012.json": "da0e3d1465cd1638828561bb81b6002c7ab99e2aa18ebc1345c1cbb0544a660a",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_progress_20261012.json": "344d17f89ebabf0c2ded52325e6220bbec356057c94dee618dbf0328da7a9bef",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_progress_20261012.md": "84f7f00d20ab933dd94dc0919baaad6de29c42ed9daa5b4855f61773d6921275",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_proposal_20261011.json": "0ecd4d62aa909b7af6e751033a253f8db336fbe4d4b55b04665704c82cc101de",
+      "docs/evaluations/chatbot_step4_policy_refusal_validation_proposal_20261011.md": "b2ecd1b5307fa518d60c031f383935b1ece65da081d08b250074488c32fe45e9",
+      "docs/evaluations/chatbot_step4_simulated.json": "ade6ef9a87cf3e60a4ed09efa17873778e171387cbffc5fa18ee57fb3ddbe49d",
+      "docs/evaluations/chatbot_step4_simulated.md": "b411d3a7d7fe585b8eb1908d4d24d4bdc72824b895a72a5e17e229f922fb1a52",
+      "docs/evaluations/chatbot_step5_local_validation_20261012.json": "e1653518c8c984dff9dc63db0588ec560222238b051900bb2e14449d9dacfc51"
+    },
+    "changed": []
+  },
+  "existing_agent_sources_preserved": {
+    "agents/chat_conversation.py": "fd966744a5cfb3de41aa17fbeb180f82e6ef5072b9f2aa01fff37edac9af0258",
+    "agents/chat_response.py": "1408dc1d20b278303372deb1ced1a368d102fe28994771b64bb8e1eba4cdc650"
+  },
+  "incidents_created": [
+    "INC-20261012-026",
+    "INC-20261012-027",
+    "INC-20261012-028",
+    "INC-20261012-029",
+    "INC-20261012-030"
+  ],
+  "incidents_updated": [
+    "INC-20261012-022"
+  ],
+  "incident_state": {
+    "resolved": 29,
+    "mitigated": 1,
+    "open": 0
+  },
+  "documentation": {
+    "files": [
+      "README.md",
+      "docs/chatbot_corrections.md",
+      "docs/chatbot_incidents.md",
+      "docs/mepia_v4_metricas_diseno.md",
+      "docs/chatbot_step5_integration.md",
+      "docs/chatbot_step4_eval.md",
+      ".kiro/specs/mepia/_auth_strategy.md",
+      ".kiro/specs/mepia/n15_chat_consulta.md",
+      ".kiro/specs/mepia/db_schema.md",
+      ".kiro/specs/mepia/design_flows.md",
+      ".kiro/specs/mepia/_index.md",
+      ".kiro/specs/mepia/_glossary.md",
+      ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+      ".kiro/specs/mepia/n15_chat_consulta_catalogo.md"
+    ],
+    "local_links_checked": 124,
+    "broken_links": [],
+    "state_matches_reviewed": 33,
+    "historical_states_preserved": true
+  },
+  "source_sha256": {
+    "api/core/auth.py": "49cfacdee7516a521e156770e17d89f475220cbd5caab5eb15070b597896138a",
+    "api/core/config.py": "c4b3809b34715f6a65aba2ee45246a094e4e64004e31e0976f49403aad220d78",
+    "api/main.py": "c9d567f1f313fc692d333fe16121f5cb1efec49debc20cd873e42c8a6728b891",
+    "api/requirements.txt": "33229e157a189d3a71287f01131e3cedfc1bcf98ea03d3500765c2f24657be15",
+    "api/.env.example": "00b336a23ea9b4e82eb4da848f8ecdb0734354a728433d9ebfb35195c232151f",
+    "tests/test_chat_auth_es256.py": "30ca363c1ec6019f39b828650d4db350e0815aceef907285b873bbbd44b44e61",
+    "tests/test_chat_api.py": "bb56cc3504fa9b2d59642f71f76e5b8c7f0550f96091a30e68972488227c80f2",
+    "tests/chat_step5_access_real.py": "29ec03167753aadc5ad11c0bac36fe99861c3ae95802fe2b740ba3e0092dcbeb",
+    "scripts/chat_step5_access_preflight.sql": "efd023793341f374a94946454db69589677ad6e87a41354d7fb44c73f0d43af7",
+    "README.md": "311458cab51f92e6e03fa912038e52f908039dacaf5a5a6f051f7494fd11a675",
+    "docs/chatbot_corrections.md": "f256472ec4b3251035efbb17409233af948353fb987a7931229ae3c3177ceb81",
+    "docs/chatbot_incidents.md": "632218a4c34a8a5b2e9e85558c8b633e24134660ecb36d2089770ab565d13f38",
+    "docs/mepia_v4_metricas_diseno.md": "8b199f2d271daf69dee4811ed85c27e7c29353d2d9cd3202057d8d5fd9922123",
+    "docs/chatbot_step5_integration.md": "902694a07206473775e4ad97b6f4f70c24f67b0c984b04227171f3307970571e",
+    "docs/chatbot_step4_eval.md": "fc7454c001d2f143042adfa0ee70903a82306e47f2712effc7241eb90f157ce1",
+    ".kiro/specs/mepia/_auth_strategy.md": "4a3b34e6ae79de66f379c07e27255220524919c79a8146bf93cdf21c3719c4be",
+    ".kiro/specs/mepia/n15_chat_consulta.md": "153a974327d6f4bbf9d777d3926d3afe074eacda320b841bdc9f92dc964c4c67",
+    ".kiro/specs/mepia/db_schema.md": "70e3b66f678041c7ee99e5f550a27824abb5dc6d5a86133a8d9541e72221513d",
+    ".kiro/specs/mepia/design_flows.md": "49497b51034f5c325c9ee771053bc0563a9ed58bec9701de87383a1137cdbd9b",
+    ".kiro/specs/mepia/_index.md": "52445566273f480c176c2c28a49e9208186613e1f8948e6263bb30b3cac99eaf",
+    ".kiro/specs/mepia/_glossary.md": "d809e9ed381c987b1089b68ae7699150f377824fa88d043b4a6fb309f28754dd",
+    ".kiro/specs/mepia/n15_chat_consulta_tools.md": "53e0d672e0b0710120f15972d05294a7e29683bd19f1e515e249a5745091de6f",
+    ".kiro/specs/mepia/n15_chat_consulta_catalogo.md": "7f318ae7d656e06327315c764d544f01f131ccf5df4b920cb7a83dc6f1470fad"
+  },
+  "git_diff_check_exit_code": 0,
+  "disabled_runner_guard": {
+    "exit_code": 2,
+    "report_created": false,
+    "external_calls": 0
+  },
+  "pending": [
+    "Recorrido de navegador con Auth/modelo reales y presupuesto autorizado",
+    "Propietarios permanentes demostrados para negocio hist\u00f3rico",
+    "Evaluaci\u00f3n e integraci\u00f3n GPT-6 Luna separada",
+    "Controles de publicaci\u00f3n: endpoints legados/dependencias/historial entre r\u00e9plicas"
+  ]
+}

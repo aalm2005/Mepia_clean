@@ -2,9 +2,14 @@
 
 ## Estado del análisis
 
-Las fases 1–3 del frontend están **completas**. Lo que falta es toda la implementación
-del backend Python: el pipeline de ingesta (S1), el gatekeeper (S2), el motor de cálculo
-(S3), el CFO forense (S4), los orquestadores (N05, N06), y el Layer 3 completo (N10–N14).
+Las tareas de implementación siguientes están marcadas como realizadas y sus
+componentes existen en el repositorio: ingesta, gatekeeper, cálculo, diagnóstico,
+orquestación, gastos y Layer 3. N07/N08/N12 se omiten deliberadamente en v1.
+Estos checks son registro de implementación, no una nueva ejecución de pruebas.
+
+Al 15-oct-2026 falta validar el recorrido completo con datos representativos en
+el entorno de presentación y cerrar los controles de producción. El perfil
+exclusivo del chat no sirve carga/auditoría. Véase [estado actual](../../../docs/estado_actual_mepia.md).
 
 ---
 
@@ -119,7 +124,7 @@ del backend Python: el pipeline de ingesta (S1), el gatekeeper (S2), el motor de
   - Unidades incompatibles → `status: "unit_mismatch"`
   - _Spec: s3_motor_calculo.md_
 - [x] 6.3 Implementar umbrales de status por métrica
-  - Merma: warning > 5%, critical > 15%
+  - Merma: warning > 5%, critical > 10% (condiciones vigentes de S3)
   - Inflación precio: warning 5–15%, critical > 15%
   - Conciliación caja: warning < 0, critical < -1% de ventas
   - Margen contribución: warning < 20%, critical < 10%

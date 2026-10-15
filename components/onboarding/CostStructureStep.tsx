@@ -22,7 +22,7 @@ const EXPENSE_BEHAVIOR_OPTIONS: CostStructureItem["expense_behavior"][] = [
 
 // Shared class for inputs and select inside table cells
 const CELL_INPUT_CLASS =
-  "bg-transparent border-0 text-zinc-100 text-sm w-full focus:outline-none focus:bg-elevated px-2 py-1";
+  "bg-transparent border-0 text-zinc-100 text-sm w-full focus:outline-none focus:bg-white/5 px-2 py-1";
 
 function emptyRow(): CostStructureItem {
   return { concept: "", amount_per_month: 0, tolerance_pct: 0, expense_behavior: "FIXED" };
@@ -68,9 +68,9 @@ export default function CostStructureStep({ data, onChange }: Props) {
         Paso 3 — Estructura de Costos Fijos
       </h2>
 
-      <div className="border border-border rounded overflow-hidden">
+      <div className="border border-white/10 rounded-xl overflow-hidden glass-strong">
         {/* Header row */}
-        <div className="grid grid-cols-[1fr_140px_100px_120px_36px] bg-elevated">
+        <div className="grid grid-cols-[1fr_140px_100px_120px_36px] bg-white/5">
           <div className="text-label text-muted uppercase tracking-widest text-xs px-3 py-2">
             Concepto
           </div>
@@ -91,7 +91,7 @@ export default function CostStructureStep({ data, onChange }: Props) {
         {data.map((row, index) => (
           <div
             key={index}
-            className="grid grid-cols-[1fr_140px_100px_120px_36px] border-t border-border items-center"
+            className="grid grid-cols-[1fr_140px_100px_120px_36px] border-t border-white/10 items-center"
           >
             {/* Concepto */}
             <div>
@@ -172,7 +172,7 @@ export default function CostStructureStep({ data, onChange }: Props) {
 
         {/* Empty state row */}
         {data.length === 0 && (
-          <div className="border-t border-border px-3 py-3 text-sm text-muted text-center">
+          <div className="border-t border-white/10 px-3 py-3 text-sm text-muted text-center">
             Sin costos registrados
           </div>
         )}

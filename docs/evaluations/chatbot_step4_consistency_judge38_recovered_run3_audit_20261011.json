@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-11",
+  "generated_at_utc": "2026-10-12T05:42:56.856361+00:00",
+  "status": "failed_mechanical_internal_review_and_external_judge503",
+  "quality_pass": false,
+  "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.json",
+  "generation_report_sha256": "678e46a6cf581f7b74409eeb910899e63888f2bb71b8be7cef4dfe424a772967",
+  "judge_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic.json",
+  "trace": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_synthetic_trace.json",
+  "attempt_record": "chatbot_step4_consistency_judge38_recovered_run3_attempt_20261011.json",
+  "actual_calls": {
+    "generation": 4,
+    "judge": 1,
+    "total_api": 5
+  },
+  "mechanical_controls": "44/45",
+  "coverage": "2/2",
+  "mechanical_failures": [
+    {
+      "case": "arithmetic_division",
+      "part": 0,
+      "check": "provider_generation",
+      "detail": "generación=fallback; motivos=['unsupported_or_prohibited_claim']"
+    }
+  ],
+  "independent_pass": 0,
+  "independent_fail": 0,
+  "pending": 3,
+  "judge_errors": [
+    {
+      "report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.json",
+      "error_type": "InternalServerError",
+      "http_status": 503,
+      "provider_status": "UNAVAILABLE",
+      "provider_message_present": true,
+      "provider_error_body_kind": "array",
+      "diagnostic_hints": [
+        "provider_message_mentions_capacity"
+      ],
+      "case_ids": [
+        "same_day_result_and_report",
+        "arithmetic_division"
+      ]
+    }
+  ],
+  "internal_review_judgment": {
+    "claim_id": "p0-c0",
+    "supported": false,
+    "in_domain": true,
+    "calculation_performed": false,
+    "follows_policy": false
+  },
+  "prior_identical_draft_and_review_request_comparison": [
+    {
+      "trace": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_synthetic_trace.json",
+      "same_draft_output_and_review_request": true,
+      "prior_internal_supported_and_follows_policy": true
+    },
+    {
+      "trace": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_synthetic_trace.json",
+      "same_draft_output_and_review_request": true,
+      "prior_internal_supported_and_follows_policy": true
+    }
+  ],
+  "local_interpretation": "The policy refusal is consistent with its cited application policy; the internal review veto is a false positive. This local diagnosis is not an independent semantic approval.",
+  "internal_model_reason_not_returned": true,
+  "safe_final_refusal_and_no_calculation_preserved": true,
+  "trace_replay_matches_cases_inputs_outputs_checks_and_digests": true,
+  "semantic_summary_recomputed_matches": true,
+  "ten_original_code_hashes_match_at_audit": true,
+  "protected_original_evaluation_files_unchanged": 256,
+  "whole_followup_historical_calls": {
+    "generation": 16,
+    "judge": 8,
+    "total_api": 24
+  },
+  "remaining_runs_calls_actual": {
+    "generation": 8,
+    "judge": 2,
+    "total_api": 10
+  },
+  "remaining_authorized_api_calls": 0,
+  "quality_validated_runs": 2,
+  "new_api_calls_during_audit": 0,
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

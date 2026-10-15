@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-14",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": "sin commit",
+  "status": "real_operation_pending_clock_correction",
+  "incident_reopened": "INC-20261012-029",
+  "user_confirmation": {
+    "global_login_works": true,
+    "chat_menu_works_without_second_login": true,
+    "business_list_failed": true,
+    "messages_not_available": true,
+    "agent_inspected_real_browser_session_or_password": false
+  },
+  "observed_local_proxy_statuses": [
+    200,
+    401,
+    401
+  ],
+  "clock_check": {
+    "http_status": 200,
+    "local_utc": "2026-10-14T14:29:43.323659+00:00",
+    "auth_response_utc": "2026-10-14T17:15:13+00:00",
+    "difference_seconds": -9929.68,
+    "credentials_included_in_report": false
+  },
+  "windows_clock_sync_requested": true,
+  "windows_clock_modified_by_agent": false,
+  "auth_claim_validation_or_leeway_changed": false,
+  "product_code_changed_for_this_followup": false,
+  "local_synthetic_validation_preserved": {
+    "e2e": "15/15",
+    "presentation": "12/12",
+    "build_exit_code": 0,
+    "types_exit_code": 0
+  },
+  "incident_counts": {
+    "total": 37,
+    "resolved_in_scope": 34,
+    "mitigated": 2,
+    "open": 1
+  },
+  "real_model_calls": 0,
+  "sql_executed": false,
+  "production_changed": false,
+  "committed": false,
+  "pushed": false,
+  "pending": [
+    "Synchronize environment clock",
+    "Confirm business load with user account",
+    "Configure/validate real response model with authorized budget"
+  ],
+  "documents_updated": [
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/chatbot_frontend_merge.md",
+    "README.md",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_index.md"
+  ]
+}

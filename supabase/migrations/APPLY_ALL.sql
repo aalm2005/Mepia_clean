@@ -360,8 +360,7 @@ END $$;
 DROP POLICY IF EXISTS anon_read_businesses    ON businesses;
 DROP POLICY IF EXISTS anon_read_audit_results ON audit_results;
 
-CREATE POLICY anon_read_businesses    ON businesses    FOR SELECT TO anon USING (true);
-CREATE POLICY anon_read_audit_results ON audit_results FOR SELECT TO anon USING (true);
+-- La lectura del frontend requiere sesión y propiedad; se instala al final (010).
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- PASO 7: Seed — negocio de desarrollo
@@ -381,3 +380,21 @@ ON CONFLICT (id) DO NOTHING;
 -- UUID fijo para dev: a0000000-0000-0000-0000-000000000001
 -- Ya está en .env.local como NEXT_PUBLIC_BUSINESS_ID=mepia-dev
 -- Actualizar .env.local con este UUID si es necesario.
+-- Paso 5: propiedad explícita y lectura por propietario. Aplicar solo con autorización.
+-- No inferir dueños para negocios históricos: NULL implica acceso denegado.
+BEGIN;
+ALTER TABLE public.businesses ADD COLUMN IF NOT EXISTS owner_id uuid
+    REFERENCES auth.users(id) ON DELETE SET NULL;
+CREATE INDEX IF NOT EXISTS idx_businesses_owner ON public.businesses(owner_id);
+ALTER TABLE public.businesses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.audit_results ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS anon_read_businesses ON public.businesses;
+DROP POLICY IF EXISTS anon_read_audit_results ON public.audit_results;
+DROP POLICY IF EXISTS owner_read_businesses ON public.businesses;
+DROP POLICY IF EXISTS owner_read_audit_results ON public.audit_results;
+CREATE POLICY owner_read_businesses ON public.businesses FOR SELECT TO authenticated
+    USING (owner_id = (SELECT auth.uid()));
+CREATE POLICY owner_read_audit_results ON public.audit_results FOR SELECT TO authenticated
+    USING (EXISTS (SELECT 1 FROM public.businesses b
+                  WHERE b.id = audit_results.business_id AND b.owner_id = (SELECT auth.uid())));
+COMMIT;

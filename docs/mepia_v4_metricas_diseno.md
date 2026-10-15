@@ -1,5 +1,110 @@
 # MEPIA v4 — Documento Maestro de Diseño
+
+**Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
+
+**Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
+Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
+código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas
+y 41 subpruebas, dos advertencias, 22.73 s, código 0. Edge sintético: 18
+controles, cero errores, código 0; carga 70 POST simulados. Gemini real con
+datos/Auth en memoria: siete de ocho casos con controles mecánicos aprobados,
+C02 detenido por HTTP 429; 17/18 intentos, código 1, sin reintentos ni juez.
+Ocho respuestas validadas para revisión humana, aún sin calificaciones.
+INC-040 resuelta localmente, 035 actualizada/resuelta, 041 pendiente externo.
+41 incidencias: 38 resueltas, dos mitigadas, una pendiente externa, cero
+abiertas. Supabase/cuentas/producción y preview del usuario sin cambios;
+sin commit/push. Los avisos siguientes conservan sus registros históricos;
+el diseño v1 y su plantilla permanecen intactos, anteriores al ejecutor.
+Sigue disponibilidad/C02, revisión humana y ampliar solo lo pendiente.
+Ver [ejecutor, resultados y revisión](chatbot_step5_automation.md).
+
+**Diseño original — 14-oct-2026 (histórico, previo al ejecutor):** preparados cinco conjuntos y
+48 casos: datos/fuentes (12), lenguaje/límites (10), conversación/historial
+(10), seguridad/fallos (10) y preparación para publicación (6). Todos pendientes
+de ejecución; no se trasladan aprobaciones anteriores. Primera tanda propuesta:
+D01/D03/D05/D06/L01/L07/C01/C02, nueve POST reales como máximo y hasta 18 intentos
+Gemini. Plan completo: 36 POST, hasta 72 intentos, cero juez y cero reintentos
+SDK; presupuesto habilitado cero. Rúbrica con dos lectores objetivo, oráculos
+sintéticos, aislamiento/limpieza y plantilla vacía. Riesgo estático L02
+(«qué son») pendiente de comprobar; no es una regresión demostrada. Sin cambios
+de producto, modelo, SQL, usuarios, producción, commit o push. Acceso y evaluación
+previos siguen cerrados en su alcance. Ejecución funcional amplia pendiente;
+OpenAI y publicación separados. Ver [plan detallado](chatbot_step5_test_plan.md).
+
+**Ajuste de lenguaje — 14-oct-2026 (registro anterior a la automatización):** el usuario pidió respuestas
+comprensibles sin conocimientos financieros y para diversos niveles de lectura.
+Se ajustó la guía común de composición: palabras cotidianas, frases cortas,
+tono respetuoso, respuesta directa y breve por defecto; detalles técnicos según
+la pregunta. Una definición sencilla omite fórmulas, insumos y alias no pedidos,
+conservando condiciones esenciales. Redacción libre, fuentes, cifras/unidades,
+alertas y prohibición de calcular intactas. Backend local reiniciado, código 0.
+115 pruebas y 41 subpruebas aprobadas, dos advertencias, 11.09 s, código 0;
+proveedores simulados. El usuario repitió ticket promedio en una conversación
+nueva y confirmó «Sí, ahora es clara»; Next registra POST 200. Es confirmación
+humana de legibilidad en esa consulta, no un juicio semántico independiente ni
+una medida universal de comprensión. INC-039 resuelta en este alcance;
+INC-035 actualizada por atasco del ejecutor en sandbox y ejecución posterior
+aprobada fuera de él. 39 incidencias: 37 resueltas, dos mitigadas (023/031),
+cero abiertas. Un archivo de producto modificado: `agents/chat_response.py`.
+Sin preguntas del agente al modelo, SQL, datos/usuarios, producción, commit
+ni push. Evidencias anteriores conservadas; general/build/E2E no repetidos.
+Evidencia `docs/evaluations/chatbot_step5_plain_language_20261014.json`.
+
+### Preparación de la clave Gemini del chat — 14-oct-2026 (histórico, antes del guardado)
+
+El usuario confirmó disponer de una clave Gemini; su ingreso privado en
+`api/.env`, campo `CHAT_GEMINI_API_KEY`, estaba pendiente de confirmar en este registro inicial.
+Modelo previsto `gemini-3.5-flash-lite`, configuración inicial sin clave y
+archivo ignorado por Git; no se cambió código ni se hicieron llamadas al
+modelo. La acción siguiente de este registro era verificar presencia sin imprimir la clave,
+se reiniciará únicamente Chat IA local y se comprobará una pregunta desde
+la sesión del usuario. Máximo dos intentos por petición, sin reintentos del
+SDK; no es una nueva evaluación completa del Paso 4 ni una adopción de OpenAI.
+Rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit/push/SQL/producción.
+Evidencia `docs/evaluations/chatbot_step5_gemini_setup_20261014.json`.
+
+**Conexión Gemini — 14-oct-2026 (registro anterior al ajuste de lenguaje):** clave Gemini guardada de forma
+privada y backend local reiniciado; `api/.env` ignorado por Git. El usuario
+envió «¿Qué es el ticket promedio?» y confirmó respuesta; Next registra POST
+200 después del 503 previo a configurar. El texto compartido explica el
+concepto y fórmula metodológica, cita diez rutas del catálogo y no incluye
+el aviso de explicación no validada. Por el contrato de publicación, esa
+redacción y sus claims corresponden a generación validada; inferencia desde
+la evidencia visible del usuario, sin inspeccionar su sesión ni el JSON real.
+Conexión de Gemini `gemini-3.5-flash-lite` confirmada para esta consulta
+conceptual; no sustituye la evaluación offline ni valida todos los recorridos
+reales. Fecha 2099 comprobada por lectura en MEPIA - PRUEBAS: procede del
+fixture histórico `chat_grounding_correction2_test`, conservado; no se corrigió
+ni eliminó. Cero preguntas del agente al modelo; una pregunta real del usuario,
+con el límite existente de dos intentos por petición, sin reintentos del SDK.
+38 incidencias: 36 resueltas, dos mitigadas (023/031), cero abiertas;
+INC-035/038 actualizadas y resueltas en su alcance. Sin cambio de código de
+producto, SQL administrativo, usuarios/propiedad, producción, commit ni push.
+Pruebas anteriores conservadas; no se repitieron suites/build.
+Evidencia `docs/evaluations/chatbot_step5_gemini_activation_confirmation_20261014.json`.
+
+**Estado vigente del chatbot — 14-oct-2026:** Pasos 1–5 implementados en desarrollo local; Paso 4 y seguimiento aceptados. Paso 5 con acceso real aprobado en MEPIA - PRUEBAS (29/29, proveedor simulado); E2E original 8/8, acceso general inicial 13/13 y frontend combinado final 15/15 simulados; presentación 12/12, build/tipos código 0. Sin despliegue; controles de producción separados.
 *Documento vivo. Consolida todas las decisiones tomadas hasta ahora. Se actualiza cada vez que se cierra una discusión de diseño.*
+
+**Ajuste vigente del Paso 5 indicado por el usuario:** login único previo a MEPIA,
+menú común con icono Chat IA y conversación integrada de apariencia similar a
+ChatGPT. Implementado y validado con 13/13 E2E sintético, cero errores y build
+final código 0; el formulario exclusivo del chat es el flujo
+anterior. Se mantienen las pruebas históricas con su alcance original; modelo
+real y controles de permisos de endpoints legados continúan separados.
+El 13-oct-2026 el usuario confirmó el login general con su cuenta propia y
+la apertura de Chat IA desde el menú sin otro login. Evidencia declarada por el
+usuario, sin inspección independiente del navegador ni prueba del modelo real.
+Configuración/validación del modelo pendientes. Producción sin cambios.
+
+**Integración adicional del 14-oct-2026, terminada localmente:** diseño azul,
+fondo/bienvenida, gráficas, Salud/Reportes y formularios del equipo sobre el
+acceso único/Chat IA. E2E final 15/15, presentación 12/12, cero errores, build y
+tipos finales código 0. INC-034/035/036/037 resueltas; valor/unidad/estado S3
+preservados, gráficos por unidad y análisis ajenos/anteriores ocultos al cambiar
+contexto. Backend/SQL intactos; Next 15.5.27 conservado. Modelo real pendiente.
+La guarda visual de análisis no sustituye permisos por recurso en FastAPI legado.
+Ver `chatbot_frontend_merge.md` y reporte `chatbot_step5_frontend_merge_20261014.json`.
 
 **Documentos relacionados** (este archivo es el punto de entrada, no repite su contenido completo):
 - `mepia_ground_truth_8_escenarios.md` — los 8 casos de ground truth formulados en detalle
@@ -107,6 +212,13 @@ El listado completo, función por función, está en `kiro_prompt_ingesta_api_me
 
 ### Tipo B — Umbral de materialidad (la métrica se calcula sola; el negocio solo ajusta la sensibilidad)
 
+La tabla conserva los valores sugeridos en diseño. Las condiciones ejecutables
+actuales por función se documentan en [S3](../.kiro/specs/mepia/s3_motor_calculo.md):
+no se debe interpretar cada sugerencia como un umbral ya conectado a la UI.
+Lectura documental del 15-oct: reimpresiones usa >5% warning/>10% critical y
+varianza por turno usa >100/>500 MXN absolutos en el código actual. No se
+modifican fórmulas ni se atribuye una nueva ejecución del motor a esta revisión.
+
 | Métrica | Default sugerido |
 |---|---|
 | Tasa de descuento | >10% del subtotal en un turno — fuente: RestaurantOwner.com |
@@ -203,9 +315,14 @@ Formulados en detalle en `mepia_ground_truth_8_escenarios.md`: día limpio, falt
 
 ### 6.2 Decisión
 
-Híbrido, confirmado. Interfaz imaginada: menú lateral (fijo o desplegable) con pestañas — Configuración, Métricas, Gráficas, otras por definir — más una pestaña **"Chat IA"** que contiene el semáforo, el área de prompt, y el área donde el LLM se explaya sobre lo que está pasando en el negocio.
+Híbrido, implementado en desarrollo. Login previo y menú común: Inicio,
+Dashboard, Documentos, Chat IA, Salud del Negocio, Reportes y Configuración.
+Dashboard/Salud presentan indicadores y gráficas; Reportes reutiliza hallazgos.
+Chat IA contiene conversación, fuentes y compositor, sin un segundo login.
+El negocio autorizado se carga automáticamente. El selector con un único
+negocio aún visible, tutorial y adaptación móvil completa son mejoras pendientes.
 
-### 6.3 Mapeo pestañas → tipo de ground truth
+### 6.3 Mapeo original de diseño → tipo de ground truth (histórico)
 
 | Pestaña | Qué muestra | Ground truth necesario | ¿Requiere diseño nuevo? |
 |---|---|---|---|
@@ -213,7 +330,7 @@ Híbrido, confirmado. Interfaz imaginada: menú lateral (fijo o desplegable) con
 | Chat IA — semáforo | Resumen visual de 3–5 `status` | Mismo `status` de arriba | No — mismo dato, sin trabajo extra |
 | Chat IA — narrativa | Texto largo, síntesis multi-señal | Los 8 escenarios | No — tal como están |
 
-### 6.4 Punto abierto — no bloquea nada, pero no olvidar
+### 6.4 Jerarquía propuesta originalmente (histórico; implementación en 6.2)
 
 Si el semáforo vive *dentro* de la pestaña "Chat IA", el dueño tiene que entrar a esa pestaña para su primer vistazo del día — se pierde parcialmente la ventaja de "verlo en 2 segundos sin tocar nada". Puede estar bien si "Chat IA" termina siendo la pantalla de inicio de la app. Es una decisión de jerarquía de pantallas a resolver cuando diseñen las pantallas — no bloquea el trabajo de datos/ground truth de hoy.
 
@@ -265,30 +382,43 @@ siguiente número que salga del eval runner es el que cuenta.
 ## 9. Próximos pasos pendientes
 
 1. ~~Construir el JSON real del Escenario 2 (faltante de caja)~~ — hecho.
-2. Definir los campos exactos de las pestañas Umbrales/Costos en la pantalla de Configuración (ya tienen la lista de qué debe capturarse en la sección 3, falta el detalle de UI).
+2. La configuración general de Identidad/Umbrales/Costos/Reglas ya tiene UI.
+   Queda distinguir y completar los campos avanzados Tipo A de la sección 3;
+   no volver a presentar todo el formulario como pendiente.
 3. ~~Ejecutar el prompt de Kiro (Tareas 1–5) para generar/actualizar los specs~~ — hecho.
 4. ~~Codificar lo que los specs describen~~ — hecho.
 5. ~~Correr los 8 casos y registrar el primer número de accuracy honesto~~ — hecho. Nivel 1: 100% (95/95). Nivel 2 (S3→S4): 90.9% recall (10/11), techo real del harness (ver decisión #15).
 6. **Pipeline lógico validado extremo a extremo, incluyendo el contenido del reporte final.** Nivel 1: 100%. Nivel 2: 90.9% recall (techo explicado). Nivel 3a (decisión de escalar): 8/8. Nivel 3b (control de calidad del reporte): 8/8 sin advertencias. N05→N06 y N06→Layer3 (decisiones #18, #19): conectados de verdad, ya no son stubs. **Contenido del reporte final vs. `esperado_hallazgos` (decisión #20): 10/10 (100%)**. El hueco posterior del contrato de persistencia SQL se corrigió en la decisión #21 y la migración `008` se verificó en una instancia Supabase aislada. El linaje exacto agregó la migración `009`, probada por contrato local; ambas siguen pendientes de despliegue controlado en producción.
 7. Capa de skills — diseño de ruteo y las 3 skills de dominio (conciliación, PLD, gastos) ya existen (revisar con Axel de dónde salieron, aparecieron ya escritas y sin confirmar en git — ver nota en el chat de sesión). N07/N08 (implementación real) se dejan para otra versión a propósito.
 8. Footer de procedencia/linaje en N14 — sigue sin diseñar.
-9. Pantalla de Configuración — le toca a otro miembro del equipo (frontend). Inputs nuevos que capturar: cortesía permitida por responsable (`business_courtesy_config`).
-10. **Chat con grounding — Pasos 1, 2 y 3 terminados en desarrollo.** El paquete verificable S3/N14
-    está aprobado contra el Data API de `MEPIA - PRUEBAS`. Las herramientas
-    deterministas de métricas, reporte y glosario están implementadas y probadas
-    localmente sin base de datos ni LLM. El nodo conversacional consume el paquete
-    y las herramientas con redacción libre y revisión inyectables y salida validada.
-    El arnés y los casos del Paso 4 están implementados y probados con
-    simulaciones. Las primeras muestras Gemini detectaron fallos; una muestra
-    posterior de cinco casos nuevos pasó los controles de código en ocho partes.
-    La corrida real del conjunto completo cubrió 19/22 respondibles y detectó
-    diez fallos mecánicos confirmados; falta corregirlos y revisar las salidas
-    finales independientemente. El endpoint
-    y la pestaña "Chat IA" requieren autenticación y autorización por negocio.
+9. Frontend del equipo integrado: configuración general, Dashboard, Salud,
+   Reportes y Chat IA. Pendientes: inputs avanzados como cortesía por responsable
+   (`business_courtesy_config`), tendencias históricas, tutorial guiado y revisión
+   móvil completa. Identificación automática del negocio ya implementada;
+   simplificación visual del selector con una sola opción pendiente.
+10. **Chat con grounding — Pasos 1–4 completos en desarrollo.** Grounding
+    S3/N14 validado en `MEPIA - PRUEBAS`; herramientas y conversación
+    implementadas. Paso 4 y seguimiento cerrados el 12-oct-2026 bajo el
+    criterio autorizado: base 36/36 independientes, 548/548 controles y
+    cobertura 22/22; validación dirigida 12/12, 161/161 y 5/5, cero
+    pendientes del Paso 4. Paso 5 implementado y probado localmente: autenticación
+    y permisos antes de datos/modelo, endpoint, historial e interfaz Chat IA;
+    268 pruebas generales, 1 omitida, 119 subpruebas y E2E 8/8. Sin despliegue.
 
 ---
 
 ## 10. Implementación incremental del chatbot
+
+**Diseño inicial del Paso 5 — 12-oct-2026 (registro histórico, previo al cierre local):** se implementan sesiones Supabase
+HS256 y propiedad explícita mediante `businesses.owner_id` antes de recuperar
+S3/N14 o llamar al modelo. INC-20261012-022: el esquema previo no declara
+propietario y contiene lectura anónima; la migración 010 preparada elimina esa
+vía, conserva históricos con dueño NULL y deniega su acceso. Historial efímero
+en servidor, aislado por usuario/negocio/conversación, ocho turnos, 30 minutos
+inactivos y 256 conversaciones por proceso. Contexto anterior no citable ni
+fuente de cifras. Interfaz y pruebas de la integración todavía en curso.
+Rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit; cero API/DB reales.
+
 
 La fuente de verdad para continuar este trabajo es
 [`docs/chatbot_corrections.md`](chatbot_corrections.md). Allí se mantiene el orden
@@ -301,12 +431,37 @@ sección conserva únicamente el diseño general y las decisiones ya consolidada
 | 1 | Datos verificables: `ChatGroundingPacket` desde S3/N14, contrato real de `audit_results` y linaje exacto | ✅ Implementado y validado integralmente contra `MEPIA - PRUEBAS` |
 | 2 | Herramientas deterministas para consultar métricas, reportes y glosario | ✅ Implementado y probado localmente |
 | 3 | Nodo conversacional con redacción libre fundamentada y rechazo cuando falta evidencia | ✅ Corregido y probado localmente con proveedores simulados; `INC-20260927-009` |
-| 4 | Eval offline: exactitud, ausencia de invención, aislamiento y preguntas fuera de alcance | ✅ Validado con Gemini real acotado y fixture sintético: 28/28 casos, 36/36 partes, cobertura 22/22, 548/548 controles y 36/36 juicios favorables de otro modelo. Nueva tanda 4 del 9-oct: 8/8 cobertura, 183/183 controles y 12/12 juicios favorables. Consolidado sin nuevas API, código 0; 54 generaciones/diez juez históricos, cero fallos/errores/pendientes/contradicciones. Hashes/digests ligados a las cuatro tandas actuales; fallos históricos intactos. 013/016 resueltas para el conjunto offline. Solo informes/documentación, suite no repetida; última general 230 aprobadas, una omitida/119 subpruebas. Paso 5 posterior Seguimiento adicional de consistencia autorizado: tres repeticiones nuevas de dos casos con traza, maximo 15 API total, pendiente antes de Paso 5. |
-| 5 | Endpoint autenticado, historial controlado e integración de la pestaña Chat IA | Pendiente |
+| 4 | Eval offline: exactitud, ausencia de invención, aislamiento y preguntas fuera de alcance | ✅ Paso 4 offline y seguimiento completados el 12-oct-2026 bajo el criterio de reemplazo autorizado. Base: 28 casos/36 partes, 36/36 independientes, 548/548 controles y cobertura 22/22. Validación dirigida: siete casos/doce partes, 12/12 independientes, 161/161 controles y cobertura 5/5; cero pendientes/fallos/contradicciones. Dos generaciones previas y reemplazo nuevo aceptados; versiones de guía, tercera fallida, timeout y cinco 503 conservados. 24 API adicionales utilizadas, historial 48 API; cero llamadas habilitadas. Suite histórica del cierre del Paso 4: 230 aprobadas, una integración omitida y 119 subpruebas; sin repetición en aquel registro documental. |
+| 5 | Autenticación, autorización por negocio antes de recuperar datos, endpoint, historial controlado e interfaz Chat IA | ✅ Integrado; acceso real aprobado en MEPIA - PRUEBAS: ES256/JWKS/RLS/permisos/historial 29/29 con proveedor simulado. API/auth/arranque 62/62, general 292 aprobadas/1 omitida/119 subpruebas; E2E original 8/8; acceso general inicial 13/13 simulado; frontend del equipo integrado el 14-oct: 15/15 E2E final, 12/12 presentación, build/tipos código 0. Cuenta propia vinculada; login/negocio confirmados por el usuario en navegador normal, Auth registra login y listado 200. Login global antes de MEPIA, menú común con Chat IA y conversación integrada; build final código 0. Ingreso general con cuenta propia y apertura de Chat IA sin segundo login confirmados por el usuario el 13-oct-2026; conexión conceptual Gemini y definición clara confirmadas el 14-oct; ejecutor validado localmente, primera tanda real 7/8 mecánicos y C02 pendiente externo; revisión humana y recorrido amplio pendientes. INC-032/033 resueltas; 031 mitigada. Sin despliegue. Ver procedimiento del Paso 5. |
 
 Regla vigente: el chat es de solo lectura. No se publica un endpoint que acepte únicamente
 `business_id` hasta implementar autenticación y autorización que demuestren que el usuario
 puede consultar ese negocio.
+
+**Continuación acordada:** Paso 5 integrado localmente y acceso real aprobado
+en `MEPIA - PRUEBAS`: ES256/JWKS/RLS/permisos/historial, 29/29, proveedor
+simulado. Gemini y la legibilidad de una definición real confirmados el 14-oct.
+Sigue ejecutar las tandas del plan de pruebas del Paso 5 para ampliar métricas,
+legibilidad e historial según las capas pendientes del ejecutor; la matriz
+local ya se ejecutó y la primera tanda real quedó detenida por cuota (INC-041).
+Producción continúa separada. Desarrollo posterior previsto: integrar OpenAI
+GPT-6 Luna en N15. Su adaptador de evaluación ya existe y fue probado con
+simulaciones; la calidad real de Luna todavía no está validada. Se usarán
+los mismos casos y reglas, revisión independiente y comprobaciones de
+integración, tiempo y costo antes de adoptar la nueva configuración.
+
+**Auditoría documental del 12-oct-2026:** próximos pasos, tabla de fases y
+resúmenes sincronizados con la aceptación existente; INC-20260930-014 resuelta.
+Diez documentos y cuatro archivos de progreso cotejados; 119 enlaces locales,
+cero rotos; 373 evidencias y diez archivos de código/fixture conservados por SHA;
+`git diff --check` código 0, cero API y sin repetir la suite. Rama
+`codex/chatbot-q4`, HEAD `6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c`, sin commit
+ni push. Evidencia: `chatbot_step4_documentation_sync_audit_20261012.json` en
+`docs/evaluations/`. La integración de Luna es un plan posterior al Paso 5.
+
+Los estados pendientes, cantidades y siguientes acciones de los registros
+fechados describen su ejecución histórica; el cierre vigente es el del
+12-oct-2026. No se modifican informes, planes ni juicios anteriores.
 
 ### Corrección 1 — normalización de estados legacy
 
@@ -389,10 +544,10 @@ Validación de integración del 14-sep-2026:
 
 ### Corrección 3 — reporte N14 vacío después de aplicar la allowlist
 
-Las correcciones 1–5, el Trabajo 5 de linaje exacto, la prueba integral del Paso
-1 y los Pasos 2 y 3 están terminados en desarrollo. El arnés del Paso 4 ya
-existe y ya produjo una muestra Gemini real con un fallo de generación;
-falta resolverlo y hacer revisión semántica independiente.
+**Estado vigente al 12-oct-2026:** correcciones 1–5, Trabajo 5 de linaje,
+prueba integral del Paso 1 y Pasos 2–4 terminados en desarrollo. Paso 4
+y seguimiento aceptados; Paso 5 integrado y probado localmente. La validación fechada de esta
+corrección se conserva a continuación.
 
 `ChatGroundingService._extract_final_report()` filtra `result_data` mediante
 `CHAT_FINAL_REPORT_FIELDS` y devuelve `None` si ningún campo autorizado
@@ -412,10 +567,10 @@ No se desplegó ni validó esta corrección en producción.
 
 ### Corrección 4 — validación estructural de métricas S3 persistidas
 
-Las correcciones 1–5, el Trabajo 5 de linaje exacto, la prueba integral del Paso
-1 y los Pasos 2 y 3 están terminados en desarrollo. El Trabajo 5 no equivale a
-la fase 5; el Paso 4 tiene evaluaciones simuladas y reales, con fallos todavía
-abiertos y validación final pendiente.
+**Estado vigente al 12-oct-2026:** correcciones 1–5, Trabajo 5 de linaje,
+prueba integral del Paso 1 y Pasos 2–4 terminados en desarrollo. El Trabajo
+5 es el cierre de linaje; el Paso 5 es la integración autenticada ya probada localmente.
+Paso 4 y seguimiento aceptados; sus fallos anteriores quedan en el historial.
 
 `ChatGroundingService._extract_metrics()` valida explícitamente que `result_data`
 sea un diccionario y que su campo `results` sea una lista. Una lista, texto,
@@ -490,7 +645,8 @@ proveedor configurado. Este cambio corrige `INC-20260927-009`.
 `ChatJsonCompletionAdapter` conecta una función de API/SDK sin alterar los
 proveedores del motor. La política fija está separada de la pregunta y fuentes
 como datos JSON. Hay una composición y una revisión por pregunta; la
-clasificación es opcional. El nodo sigue de solo lectura y sin endpoint. El
+clasificación es opcional. El nodo puro sigue de solo lectura; la integración
+HTTP e historial del Paso 5 se describe en su cierre local. El
 Paso 4 debe medir la exactitud semántica real; la revisión de un modelo no
 constituye una garantía universal de ausencia de invención.
 
@@ -1190,6 +1346,32 @@ resueltas para el conjunto original; seguimiento adicional pendiente antes
 de Paso 5. `codex/chatbot-q4`, HEAD `7c2d307`, sin commit.
 ## Preparacion de publicacion del chatbot — 10-oct-2026
 
+### Seguimiento posterior de consistencia
+
+Primera repeticion `fd31f3a2` (informe UTC 11-oct): cuatro generaciones,
+3/3 partes validadas, 2/2 cobertura y 45/45 controles, cero fallos. El juez
+Flash devolvio 503/UNAVAILABLE con pista de capacidad en una llamada; cero
+juicios y tres partes pendientes. Serie detenida: un intento iniciado, cero
+ejecuciones completas y dos sin iniciar. Replay local de traza, resumen,
+hashes y digests coherentes, cero API nuevas. El conjunto aceptado se conserva.
+
+INC-016 pendiente externo solo para este seguimiento; 21 incidencias,
+20 resueltas y una pendiente externa. El usuario autorizo una llamada adicional
+del juez sobre las respuestas guardadas, sin nuevas generaciones, sin reintentos
+y sin borrar el error original. `.test_tmp/revisar_consistencia_juez.ps1`
+fija el SHA, conserva una salida suplementaria y la serie permanece detenida.
+El juicio adicional ya se ejecuto: `022049_dce57cb8` tambien devolvio
+503/UNAVAILABLE con pista de capacidad, sin generaciones ni reintentos.
+Consolidado `chatbot_step4_consistency_fd31f3a2_20261011_022049_dce57cb8_combined`
+con ambos errores en `attempts`: cuatro generaciones y dos llamadas del juez,
+seis API historicas, cero nuevas al consolidar. Tres partes siguen pendientes;
+cero ejecuciones que cumplen el protocolo, dos sin iniciar. Resumen
+suplementario/consolidado y diez SHA verificados; salida del consolidado 1.
+La autorizacion adicional ya se utilizo; no hay otra llamada aprobada. Serie
+detenida; decidir revision futura de las respuestas guardadas o revision humana
+independiente explicita. Producto, plan y conjunto aceptado intactos.
+Rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit del seguimiento.
+
 Por solicitud del usuario, la version de desarrollo de `codex/chatbot-q4`
 se prepara para GitHub en `aalm2005/Mepia_clean`; base `7c2d307`, sin commit
 de este paquete al registrar la preparacion. Se incluyen los Pasos 3/4 y su
@@ -1208,3 +1390,540 @@ Publicacion posterior verificada en la bitacora: commit
 quedaron intactos en Git. `INC-20260915-003` resuelta para este intento;
 21 incidencias resueltas, cero abiertas o pendientes externas. `master` conserva
 `de37755`; produccion y el seguimiento pendiente no cambian.
+
+### Tercer intento del juez ejecutado con 503 — 11-oct-2026
+
+La nueva llamada Flash autorizada por "volvamos a intentar" se ejecuto:
+`193719_626f984c`, cero generaciones y sin reintentos, HTTP 503/UNAVAILABLE
+con pista de capacidad; tres revisiones pendientes. El consolidado
+`chatbot_step4_consistency_fd31f3a2_20261011_193719_626f984c_combined` conserva
+los tres 503: cuatro generaciones y tres llamadas del juez, siete API historicas.
+SHA, resumen del intento/consolidado y diez huellas coinciden; 18 archivos
+protegidos intactos, cero API nuevas al auditar, salida 1. Ambas llamadas
+adicionales autorizadas utilizadas. Serie detenida, INC-016 pendiente externo;
+plan original, producto y conjunto aceptado intactos. `codex/chatbot-q4`,
+HEAD `6fa66bc`, sin commit; suite no repetida. Sigue decidir como continuar
+el protocolo y revisar las respuestas guardadas cuando el juez responda, o
+acordar revision humana independiente explicita.
+
+### Revision suplementaria con juez 3.8 aprobada — 11-oct-2026
+
+`judge_38_fd31f3a2_20261012_010837_4fc9b3df` (11-oct local), una llamada
+Flash 3.8 y cero generaciones/reintentos: 3/3 juicios independientes favorables,
+cero pendientes/fallos/errores/conflictos. SHA, digests, cuatro criterios por
+juicio y resumen verificados. Salida 1 por criterio global de 36 partes.
+Consolidado `chatbot_step4_consistency_fd31f3a2_20261012_010837_4fc9b3df_combined`
+con cuatro intentos y tres 503 conservados, ocho API historicas (4 gen/4 juez).
+25 archivos protegidos intactos y diez huellas correctas; cero API nuevas.
+INC-016 mitigada para el seguimiento; 20 incidencias resueltas y una mitigada.
+La revision esta completa, pero la serie original sigue detenida. Propuesta
+`chatbot_step4_consistency_judge38_resume_proposal_20261011.json` y Markdown:
+tres repeticiones nuevas, maximo 15 API adicionales, sin reintentos y detencion
+ante fallos; aun sin autorizar. Preflight con 3.8 correcto sin clave ni API.
+No se reetiqueta la ejecucion recuperada. `codex/chatbot-q4`, HEAD `6fa66bc`,
+sin commit; codigo intacto y suite no repetida. Sigue decidir sobre la propuesta.
+
+### Serie nueva con juez 3.8 autorizada — 11-oct-2026
+
+Tres repeticiones de los dos casos autorizadas por el usuario, maximo 15 API
+adicionales (12 gen/3 juez); originales y propuesta conservados. Plan autorizado
+`chatbot_step4_consistency_judge38_authorized_plan_20261011.json` y Markdown;
+estado `chatbot_step4_consistency_judge38_series_progress_20261011.json`.
+Envoltorio `.test_tmp/probar_consistencia_juez38.ps1`, registro exclusivo,
+bloqueo de duplicados/avance sin auditoria y diez huellas obligatorias.
+Sintaxis, tres preflights y bloqueo negativo de posicion 2 correctos sin API.
+Primera lista, cero intentos o llamadas nuevos. Historial ocho API, maximo
+acumulado 23. Sin reintentos; detener ante fallos. La aprobacion cubre toda
+la serie, sin otra confirmacion entre exitos. INC-016 mitigada; codigo original
+y conjunto aceptado intactos. `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit,
+suite no repetida. Sigue ejecutar la primera y auditar antes de la segunda.
+
+### Primera repeticion de la nueva serie detenida — 11-oct-2026
+
+`025040_58b2769d` (UTC del 12-oct): generacion 3/3, 2/2 cobertura y 45/45
+controles, cero fallos, en cuatro llamadas. Juez 3.8: una llamada 503/UNAVAILABLE,
+pista de capacidad, tres revisiones pendientes y cero juicios adversos.
+SHA y diez huellas correctos; replay de cuatro registros, resumen recalculado
+y nueve archivos protegidos coherentes, cero API nuevas. Serie detenida,
+1 iniciada y 0/3 completas; posiciones 2/3 bloqueadas. Cinco API usadas de
+las 15 autorizadas; diez sin usar no permiten avanzar durante la detencion.
+Seguimiento total 13 API (8 gen/5 juez). INC-016 pendiente externo para la
+nueva serie, juicio anterior y conjunto original aceptado conservados;
+no transferir juicios entre informes. Progreso de serie y auditoria run1
+JSON/Markdown actualizados. `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit,
+codigo/planes/ejecutores originales intactos, suite no repetida. Sigue decidir
+como continuar antes de otra llamada o modificar el protocolo.
+
+
+### Revision suplementaria preparada — 11-oct-2026
+
+El usuario autorizo seguir intentando: se preparo una unica revision
+adicional con juez Gemini 3.8 de las tres respuestas guardadas `58b2769d`,
+cero generaciones y maximo una llamada suplementaria sin reintentos. Aun no
+ejecutada; historial 13 API, maximo 14 tras el intento. Presupuesto separado;
+las diez API sin usar y repeticiones 2/3 permanecen bloqueadas. El 503 original
+y criterio de tres ejecuciones sin errores se conservan; revisar el resultado
+antes de continuar. Plan `chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.json` y Markdown,
+ejecutor `.test_tmp/revisar_consistencia_juez38_run1.ps1`. INC-016 pendiente externo, cero API en preparacion.
+
+
+### Revision recuperada y propuesta de continuacion — 11-oct-2026
+
+Revision actual de `58b2769d` recuperada con Gemini 3.8: 3/3 juicios
+independientes favorables, cero pendientes/fallos; una llamada suplementaria
+del juez y cero generaciones. Salida 1 solo por gate global de 36 partes.
+503 original conservado en `chatbot_step4_consistency_judge38_run1_20261012_045201_1e1da5bf_combined`; seguimiento total 14 API.
+La serie mantiene 0/3 ejecuciones sin errores del plan original y posiciones
+2/3 bloqueadas. Propuesta `chatbot_step4_consistency_judge38_recovery_amendment_proposal_20261011.json` y Markdown, aun no autorizada:
+aceptar esta generacion revisada para calidad y completar solo las dos
+restantes con las diez API ya presupuestadas, conservando el error de
+disponibilidad. INC-016 mitigada, conjunto aceptado intacto; cero API nuevas
+en auditoria y ninguna nueva llamada habilitada por esta propuesta.
+
+
+### Continuacion con recuperacion aceptada — 11-oct-2026
+
+Continuacion aceptada: primera generacion aprobada para calidad (1/3),
+503 original registrado como disponibilidad. Nuevo plan `chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.json`;
+estado en `chatbot_step4_consistency_judge38_recovery_series_progress_20261011.json` y Markdown. Posicion 2 lista, 3 bloqueada
+hasta auditoria; ejecutar solo las dos restantes con maximo diez API ya
+presupuestadas, sin reintentos y detener ante nuevo fallo. Historial actual
+14 API, maximo acumulado 24; cero llamadas nuevas en preparacion. Ejecutor
+`.test_tmp/probar_consistencia_recuperada_juez38.ps1 -Repeticion 2..3`. Plan/runner originales y sus 0/3 ejecuciones
+sin errores conservados; conjunto aceptado intacto e INC-016 mitigada.
+
+
+### Repeticion 2 aprobada y tercera habilitada — 11-oct-2026
+
+Repeticion 2 aprobada (`052052_dabc0f75`): 45/45 controles, cobertura
+2/2 y 3/3 juicios independientes favorables, cero fallos/pendientes/errores.
+Avance bajo el ajuste aceptado 2/3 generaciones aprobadas para calidad;
+tercera habilitada con la autorizacion existente, maximo cinco API restantes,
+sin reintentos y detener ante nuevo fallo. Historial 19 API (12 gen/7 juez),
+maximo acumulado 24. Auditoria `chatbot_step4_consistency_judge38_recovered_run2_audit_20261011.json` y Markdown, cero API nuevas.
+503 inicial conservado; conjunto aceptado intacto e INC-016 mitigada. Estado
+en `chatbot_step4_consistency_judge38_recovery_series_progress_20261011.json`; ejecutar solo
+`.test_tmp/probar_consistencia_recuperada_juez38.ps1 -Repeticion 3` y auditar.
+
+
+### Tercera detenida y presupuesto agotado — 11-oct-2026
+
+Tercera `052919_6ff8abfb` fallida: 44/45 controles, cobertura 2/2, revisor
+interno veta una negativa a dividir identica a las aprobadas antes; respaldo
+seguro, sin calculo. Juez externo 503, tres juicios pendientes. Serie detenida
+2/3, diez de diez API usadas y ninguna adicional autorizada; historial 24 API
+(16 gen/8 juez). INC-013 reabierta para este seguimiento e INC-016 pendiente
+externo; conjunto historico aceptado preservado. Auditoria `chatbot_step4_consistency_judge38_recovered_run3_audit_20261011.json`
+y Markdown; cero API en auditoria. Tratar revision interna antes de nuevas pruebas.
+
+
+### Mitigacion local de negativas aun sin medir — 11-oct-2026
+
+Mitigacion local preparada en agents/chat_response.py: guia especial solo
+para la revision de negativas calculation/not_allowed respaldadas por policy.
+Escritor, datos, schemas, guardas y veto intactos. 48 pruebas/23 subpruebas
+aprobadas, comparacion de 28 fixtures/54 callbacks con seis casos afectados,
+cero API. Efecto con Gemini real pendiente; version nueva no validada offline
+todavia. INC-013 abierta para seguimiento e INC-016 pendiente externo.
+Presupuesto anterior agotado (24 API), ejecutores anteriores congelados.
+**Fase 1 ejecutada y detenida — 12-oct-2026:**
+`chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5` produjo tres
+partes validadas internamente: 45/45 controles, cobertura 2/2 y cero fallos
+mecanicos, en cuatro generaciones. La negativa a dividir paso la revision
+interna con la nueva guia en esta ejecucion; esto no demuestra estabilidad
+general ni sustituye el juicio independiente. Flash 3.8 hizo una llamada,
+`APITimeoutError`, sin HTTP ni respuesta guardada: cero juicios y tres pendientes.
+No se clasifica como 503/capacidad ni se atribuye a la clave; causa no demostrada.
+
+Auditoria `chatbot_step4_policy_refusal_phase1_audit_20261012.json` y Markdown:
+fuente/plan/ejecutores/intento/fixture/diez huellas correctos, replay completo de
+cuatro registros identico y resumen semantico recalculado identico. Las 264
+huellas originales del plan y 274 archivos previos a la auditoria intactos;
+cero API al auditar. Fase 1 conserva el timeout; fase 2 bloqueada segun el plan.
+Cinco de 18 API autorizadas usadas. Las trece restantes pertenecen a fase 2,
+sin habilitar; historial del seguimiento 29 API (20 gen/9 juez).
+Dos exitos previos para calidad, ninguna nueva generacion con guia revisada
+aprobada independientemente. No contar el reemplazo ni cerrar Paso 4.
+INC-20260930-013 abierta; INC-20260930-016 pendiente externo por timeout.
+
+**Revisión suplementaria autorizada — 12-oct-2026:** el usuario indicó
+«ok entonces hagamos las pruebas», tras explicar el presupuesto y la recuperación.
+Plan `chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_20261012.json`:
+revisar una vez las tres respuestas guardadas de `063948_772d6fd5` con Gemini 3.8,
+cero generaciones, máximo una llamada del juez, espera 60 s y cero reintentos.
+La propuesta y el plan original se conservan como registros históricos.
+El máximo de esta validación aumenta de 18 a 19 API adicionales: cinco usadas,
+una suplementaria autorizada aún sin ejecutar y trece reservadas para fase 2.
+El historial sigue en 29 API (20 generación/9 juez); máximo acumulado 43.
+
+Aceptar la recuperación de fase 1 para calidad solo con tres juicios favorables,
+sin nuevos errores ni contradicciones y auditoría favorable ligada a las mismas
+respuestas. Conservar el timeout original como fallo de disponibilidad. Entonces
+se puede habilitar fase 2 con sus trece llamadas ya autorizadas, sin otra aprobación
+entre éxitos y con detención ante cualquier fallo o revisión pendiente. Ambas
+fases deben pasar para contar el reemplazo de la tercera generación fallida;
+no afirmar tres repeticiones exitosas con la guía nueva ni trasladar juicios.
+Fase 2 permanece bloqueada; ningún intento suplementario real reservado.
+INC-20260930-013 abierta; INC-20260930-016 pendiente externo; Paso 4 no cerrado.
+
+**Fase 1 recuperada y fase 2 habilitada — 12-oct-2026:** el suplemento
+`chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7`
+obtuvo 3/3 juicios independientes favorables, cero pendientes, errores nuevos,
+fallos o contradicciones, con una llamada del juez 3.8 y cero generaciones.
+Fuente y tres digests coinciden; resumen recalculado idéntico. Código de revisión
+1 únicamente por el requisito global de 36 partes frente a las tres de esta muestra.
+Auditoría `chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.json`
+favorable, diez huellas de código y 286 archivos previos preservados; cero API.
+El consolidado conserva el APITimeoutError original en attempts, cuatro
+generaciones contadas una sola vez y dos llamadas históricas del juez.
+
+Fase 1 aceptada para calidad bajo el criterio de recuperación autorizado:
+45/45 controles, cobertura 2/2 y 3/3 favorables. Su timeout permanece registrado
+como disponibilidad. Fase 2 lista con la autorización existente: cinco preguntas,
+nueve partes y tres respondibles, máximo diez generaciones/tres juez (trece API),
+espera 60 s, sin reintentos y detener ante cualquier fallo o revisión pendiente.
+Ejecutar una vez `.test_tmp/validar_negativas_paso4.ps1 -Fase 2` y auditar.
+Seis de 19 API adicionales usadas; trece restantes. Historial del seguimiento
+30 API (20 generación/10 juez). La fase 2 todavía no se ha ejecutado.
+Dos éxitos anteriores y uno con la guía nueva se conservan por separado;
+el reemplazo de la tercera generación fallida sigue condicionado a fase 2
+aprobada. No afirmar tres repeticiones exitosas con la guía nueva ni trasladar
+juicios. INC-20260930-013 abierta; INC-20260930-016 mitigada para esta recuperación.
+21 incidencias: 19 resueltas, una abierta y una mitigada; Paso 4 no cerrado.
+
+**Fase 2 detenida por 503 del juez — 12-oct-2026:**
+`chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d` completó cinco
+casos/nueve partes con diez generaciones: 116/116 controles, cobertura 3/3 y
+nueve partes validadas internamente, cero fallos mecánicos. El juez 3.8 hizo
+una llamada al primer lote (dos partes), InternalServerError, HTTP 503,
+UNAVAILABLE y pista de capacidad. Cero juicios favorables/adversos y nueve
+pendientes; se detuvo sin llamar los otros dos lotes. La pista no demuestra
+la causa interna y el error no es un rechazo semántico de las respuestas.
+
+Auditoría `chatbot_step4_policy_refusal_phase2_audit_20261012.json`:
+fuente/plan/intento/ejecutores/diez huellas correctos, resumen recalculado
+idéntico, 298 archivos previos intactos y cero API al auditar. La fase 1
+recuperada mantiene 3/3 favorables; su timeout y el 503 de fase 2 se conservan.
+17 de 19 API adicionales usadas (14 generación/3 juez); dos llamadas del juez
+sin usar, bloqueadas por la regla de detención. Historial del seguimiento
+41 API (30 generación/11 juez). Fase 2 detenida, reemplazo sin contar y Paso 4
+sin cerrar. INC-20260930-013 abierta; INC-20260930-016 pendiente externo;
+21 incidencias: 19 resueltas, una abierta y una pendiente externa.
+
+Propuesta `chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_20261012.json`,
+todavía sin autorizar: revisar únicamente las nueve respuestas guardadas en
+tres lotes de 2/3/4 partes, cero generaciones, máximo tres llamadas del juez,
+sin reintentos y detener ante primer fallo. Usaría las dos llamadas restantes
+y una extra, elevando el máximo adicional de 19 a 20 (máximo acumulado 44).
+Aceptar recuperación para calidad solo con 9/9 juicios independientes favorables,
+sin errores nuevos ni contradicciones y auditoría favorable; conservar el 503
+original. El criterio de reemplazo exige ambas fases aprobadas y conserva las
+versiones distintas de guía y errores. La propuesta no habilita llamadas;
+ejecutor `.test_tmp/revisar_negativas_fase2_juez.ps1` bloqueado hasta aprobación.
+
+**Continuación de intentos autorizada — 12-oct-2026:** el usuario indicó
+«bueno vamos a seguir haciendo mas intentos hasta que todas las pruebas pasen».
+Autoriza continuar la validación pendiente y sus recuperaciones, sin volver a
+solicitar autorización para intentos del mismo alcance. Cada ejecución mantiene
+un plan acotado, registro propio y auditoría antes del intento siguiente. Ante
+indisponibilidad del proveedor se prepara otro intento sobre las respuestas
+pendientes, dejando una pausa; un juicio adverso exige análisis del posible
+defecto antes de repetir. No se descartan errores ni juicios desfavorables.
+
+Siguiente intento preparado, aún sin ejecutar: plan
+`chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_20261012.json`;
+ejecutor existente `.test_tmp/revisar_negativas_fase2_juez.ps1`. Revisar las nueve
+respuestas de `074133_e8482e9d` en tres lotes de 2/3/4 partes, cero generaciones,
+máximo tres llamadas del juez Gemini 3.8, espera 60 s, cero reintentos internos
+y detener ante primer error, juicio adverso o lote incompleto. Usar las dos
+llamadas restantes y una extra: máximo de esta validación 20 API adicionales,
+17 usadas y tres habilitadas solo para esta recuperación. Historial 41 API
+(30 generación/11 juez), máximo 44 tras este intento. Una ampliación posterior
+se registrará en un nuevo plan bajo esta misma autorización antes de ejecutarla.
+
+Aceptar fase 2 para calidad únicamente con 9/9 juicios independientes favorables,
+sin errores nuevos ni contradicciones y auditoría favorable; conservar su 503
+original y el timeout de fase 1. Después evaluar ambas fases bajo el criterio
+de reemplazo ya aceptado, conservando las versiones distintas de guía. No afirmar
+tres repeticiones con la guía nueva ni trasladar juicios de otras respuestas.
+Generación de fase 2 ya aprobada: 116/116 controles, cobertura 3/3 y nueve partes
+validadas internamente. Reemplazo sin contar, Paso 4 abierto; INC-20260930-013
+abierta e INC-20260930-016 pendiente externo. Ningún intento nuevo reservado.
+
+Comprobación local del plan autorizado: sintaxis PowerShell/Python correcta,
+MostrarPlan código 0 y fase original bloqueada código 1 antes de clave/reserva;
+diez huellas de código y 298 evidencias anteriores intactas, cero API. Registro
+`chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_preflight_20261012.json`.
+El entorno auxiliar al iniciar PowerShell desde Python necesitó importar su
+utilidad nativa y configurar módulos/temporales; INC-20261004-017 actualizada,
+resuelta para esta ejecución. Sin cambios en producto, ejecutores históricos,
+criterios, respuestas guardadas ni suites. Estos controles no aportan juicios.
+
+**Segundo suplemento de fase 2 preparado tras otro 503 — 12-oct-2026:**
+El intento `083847_c6d73947` hizo una llamada del juez 3.8, cero generaciones
+y cero reintentos; primer lote con InternalServerError, 503/UNAVAILABLE y pista
+de capacidad. Cero juicios y nueve pendientes; los otros dos lotes no se llamaron.
+La pista no demuestra causa ni fallo de contenido. Auditoría
+`chatbot_step4_policy_refusal_phase2_judge_recovery_audit_20261012.json`:
+fuente/plan/intento/ejecutores correctos, resumen recalculado idéntico y 310
+evidencias anteriores intactas. Consolidado `083847_c6d73947_combined` conserva
+ambos 503 en attempts y diez generaciones contadas una sola vez. El campo
+total_api_calls del consolidado cuenta solo las dos llamadas históricas del juez.
+Generación 116/116 y cobertura 3/3 conservadas; fase 1 recuperada y timeout intactos.
+
+Nuevo intento autorizado bajo la indicación vigente de continuar hasta completar
+las pruebas: `chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_authorized_20261012.json`,
+ejecutor `.test_tmp/reintentar_negativas_fase2_juez.ps1`. Revisar las mismas nueve
+partes pendientes en lotes 2/3/4, cero generaciones, máximo tres juez 3.8, espera
+60 s y cero reintentos internos; detener ante error, juicio adverso o incompleto.
+18/21 API adicionales usadas, tres habilitadas (dos sin usar y una extra);
+historial 42 API (30 generación/12 juez), máximo 45 tras este intento. Pausa
+entre intentos manuales; auditar antes de preparar otro bajo la misma autorización.
+Un fallo de contenido requiere análisis antes de repetir, sin descartar juicios.
+
+Aceptar recuperación solo con 9/9 independientes favorables y auditoría favorable,
+sin errores nuevos ni contradicciones, manteniendo ambos 503 como disponibilidad.
+Reemplazo sin contar, Paso 4 abierto; INC-20260930-013 abierta e INC-20260930-016
+pendiente externo. Nuevo intento aún sin ejecutar ni reservar, cero API del agente.
+Comprobación local: sintaxis PowerShell/Python correcta, MostrarPlan nuevo código 0,
+ejecutor suplementario anterior bloqueado código 1 antes de clave/nueva reserva.
+Diez huellas, 264 originales, 310 protegidos y cinco archivos de consolidado/auditoría
+coincidentes antes/después; presupuesto ligado al progreso, diff de espacios código 0.
+Registro `chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_preflight_20261012.json`.
+Estos controles habilitan el intento, no constituyen juicio independiente.
+
+**Tercer suplemento de fase 2 preparado tras otro 503 — 12-oct-2026:**
+El intento `093132_828546ec` hizo una llamada del juez 3.8, cero generaciones
+y cero reintentos; primer lote con InternalServerError, 503/UNAVAILABLE y pista
+de capacidad. Cero juicios y nueve pendientes; los otros dos lotes no se llamaron.
+La pista no demuestra causa ni fallo de contenido. Auditoría
+`chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_audit_20261012.json`:
+fuente/plan/intento/ejecutores correctos, resumen recalculado idéntico y 322
+evidencias anteriores intactas. Consolidado `093132_828546ec_combined` conserva
+los tres 503 en attempts y diez generaciones contadas una sola vez. El campo
+total_api_calls del consolidado cuenta solo las tres llamadas históricas del juez.
+Generación 116/116 y cobertura 3/3 conservadas; fase 1 recuperada y timeout intactos.
+
+Nuevo intento autorizado bajo la indicación vigente de continuar hasta completar
+las pruebas: `chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_authorized_20261012.json`,
+ejecutor `.test_tmp/reintentar_negativas_fase2_juez_intento3.ps1`. Revisar las mismas nueve
+partes pendientes en lotes 2/3/4, cero generaciones, máximo tres juez 3.8, espera
+60 s y cero reintentos internos; detener ante error, juicio adverso o incompleto.
+19/22 API adicionales usadas, tres habilitadas (dos sin usar y una extra);
+historial 43 API (30 generación/13 juez), máximo 46 tras este intento. Pausa
+entre intentos manuales; auditar antes de preparar otro bajo la misma autorización.
+Un fallo de contenido requiere análisis antes de repetir, sin descartar juicios.
+
+Aceptar recuperación solo con 9/9 independientes favorables y auditoría favorable,
+sin errores nuevos ni contradicciones, manteniendo los tres 503 como disponibilidad.
+Reemplazo sin contar, Paso 4 abierto; INC-20260930-013 abierta e INC-20260930-016
+pendiente externo. Nuevo intento aún sin ejecutar ni reservar, cero API del agente.
+Comprobación local: sintaxis PowerShell/Python correcta, MostrarPlan nuevo código 0,
+ejecutor suplementario anterior bloqueado código 1 antes de clave/nueva reserva.
+Diez huellas, 264 originales, 322 protegidos y cinco archivos de consolidado/auditoría
+coincidentes antes/después; presupuesto ligado al progreso, diff de espacios código 0.
+Registro `chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_preflight_20261012.json`.
+Estos controles habilitan el intento, no constituyen juicio independiente.
+
+**Juez alternativo Gemini 3.6 preparado tras cuatro 503 — 12-oct-2026:**
+El intento `094039_328ff3d4` hizo una llamada del juez 3.8, cero generaciones
+y cero reintentos; primer lote con InternalServerError, 503/UNAVAILABLE y pista
+de capacidad. Cero juicios y nueve pendientes; los otros dos lotes no se llamaron.
+La pista no demuestra causa ni fallo de contenido. Auditoría
+`chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_audit_20261012.json`:
+fuente/plan/intento/ejecutores correctos, resumen recalculado idéntico y 334
+evidencias anteriores intactas. Consolidado `094039_328ff3d4_combined` conserva
+los cuatro 503 en attempts y diez generaciones contadas una sola vez. El campo
+total_api_calls del consolidado cuenta solo las cuatro llamadas históricas del juez.
+Generación 116/116 y cobertura 3/3 conservadas; fase 1 recuperada y timeout intactos.
+
+Nuevo intento autorizado bajo la indicación vigente de continuar hasta completar
+las pruebas: `chatbot_step4_policy_refusal_phase2_judge36_authorized_20261012.json`,
+ejecutor `.test_tmp/revisar_negativas_fase2_juez36.ps1`. Revisar las mismas nueve
+partes pendientes en lotes 2/3/4, cero generaciones, máximo tres juez 3.6, espera
+60 s y cero reintentos internos; detener ante error, juicio adverso o incompleto.
+20/23 API adicionales usadas, tres habilitadas (dos sin usar y una extra);
+historial 44 API (30 generación/14 juez), máximo 47 tras este intento. Pausa
+entre intentos manuales; auditar antes de preparar otro bajo la misma autorización.
+Un fallo de contenido requiere análisis antes de repetir, sin descartar juicios.
+
+Aceptar recuperación solo con 9/9 independientes favorables y auditoría favorable,
+sin errores nuevos ni contradicciones, manteniendo los cuatro 503 como disponibilidad.
+Reemplazo sin contar, Paso 4 abierto; INC-20260930-013 abierta e INC-20260930-016
+pendiente externo. Nuevo intento aún sin ejecutar ni reservar, cero API del agente.
+Comprobación local: sintaxis PowerShell/Python correcta, MostrarPlan nuevo código 0,
+ejecutor suplementario anterior bloqueado código 1 antes de clave/nueva reserva.
+Diez huellas, 264 originales, 334 protegidos y cinco archivos de consolidado/auditoría
+coincidentes antes/después; presupuesto ligado al progreso, diff de espacios código 0.
+Registro `chatbot_step4_policy_refusal_phase2_judge36_preflight_20261012.json`.
+Estos controles habilitan el intento, no constituyen juicio independiente.
+
+Cambio de juez a propuesta del usuario «Y si cambiamos el modelo?? cuál estamos
+utilizando?»: se elige gemini-3.6-flash, modelo estable con salidas estructuradas
+según https://ai.google.dev/gemini-api/docs/models/gemini-3.6-flash. Se conserva
+el generador/revisor interno gemini-3.5-flash-lite y el mismo endpoint compatible.
+No se ha verificado disponibilidad de 3.6 en esta cuenta; el cambio es una prueba
+de disponibilidad y no garantiza eliminar el 503. INC-20260930-014 corregida:
+21 incidencias reales y contadores del nuevo plan 14 generación/6 juez/20 previas,
+reconstruidos de informes e intentos. La discrepancia del plan retry3 se documenta
+en la auditoría nueva, preservando sus bytes; límites ejecutables originales correctos.
+
+**Juez 3.6: cinco aprobaciones auditadas, cuatro pendientes — 12-oct-2026:**
+`095323_6fba7d46` produjo cinco juicios independientes favorables en tres llamadas:
+explicit_calculation, implicit_calculation y las tres partes de mixed. Fuente,
+cinco digests y cuatro criterios verdaderos por parte comprobados; resumen
+recalculado idéntico. Tercer lote con 503/UNAVAILABLE, cuatro partes pendientes:
+question_injection y result_and_projection. Sin fallos de contenido o mecánicos.
+Auditoría `chatbot_step4_policy_refusal_phase2_judge36_partial_audit_20261012.json`:
+346 evidencias anteriores intactas. Consolidado conserva cinco 503, siete llamadas
+históricas del juez y diez generaciones contadas una vez; fuente original intacta.
+
+Se prepara únicamente el lote pendiente bajo la autorización vigente:
+`chatbot_step4_policy_refusal_phase2_judge36_pending_authorized_20261012.json`,
+ejecutor `.test_tmp/revisar_pendientes_fase2_juez36.ps1`. Cuatro partes, máximo una
+llamada del juez 3.6, cero generaciones/reintentos, 60 s. Preguntas completas,
+mismo informe/digests y payload idéntico al tercer lote original; el juez no ve
+juicios previos. Mantener las cinco aprobaciones sin repetirlas. Nuevo intento
+aún sin ejecutar ni reservar. 23/24 API adicionales usadas (14 gen/9 juez),
+una habilitada; historial 47 API (30 gen/17 juez), máximo 48 tras el intento.
+
+Aceptar recuperación de fase 2 solo si las cuatro pendientes pasan sin error
+nuevo/contradicción y una auditoría confirma las nueve aprobaciones acumuladas.
+Conservar los cinco 503 como disponibilidad; criterio global de 36 intacto,
+sin afirmar una corrida original sin errores. Fase 1 recuperada/timeout y 116/116,
+3/3 de generación preservados; reemplazo sin contar y Paso 4 abierto.
+INC-20260930-013 abierta e INC-20260930-016 pendiente externo; 21 incidencias,
+19 resueltas, una abierta y una pendiente externa. Rama codex/chatbot-q4,
+HEAD 6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c, sin commit; cero API del agente.
+
+Controles locales: sintaxis y MostrarPlan correctos, ejecutor de nueve partes
+bloqueado antes de clave/reserva; dos dobles locales (éxito/503) verifican una
+llamada solo para las cuatro pendientes y conservación de cinco aprobaciones.
+Diez huellas, 264 originales, 346 protegidos y cinco archivos de auditoría/
+consolidado intactos; diff de espacios código 0. Registro
+`chatbot_step4_policy_refusal_phase2_judge36_pending_preflight_20261012.json`.
+Los dobles no aportan evidencia semántica real; suite de producto no repetida.
+
+**Paso 4 offline y seguimiento cerrados — 12-oct-2026:** la última revisión
+`121907_b98e4274` obtuvo cuatro juicios nuevos favorables en una llamada del juez
+3.6, sin errores; las cinco aprobaciones previas permanecen intactas. Fase 2:
+9/9 independientes, 116/116 controles y cobertura 3/3. Fase 1 ya auditada: 3/3,
+45/45 y 2/2. Validación dirigida completa: siete casos/doce partes, 12/12
+independientes favorables, 161/161 controles y cobertura 5/5; cero pendientes,
+fallos mecánicos/semánticos o contradicciones. Fuente, digests y resúmenes
+aislado/consolidado recalculados y comprobados; 361 evidencias previas intactas.
+Auditoría final `chatbot_step4_policy_refusal_phase2_final_audit_20261012.json`.
+
+Aceptación `chatbot_step4_policy_refusal_validation_acceptance_20261012.json` y
+Markdown: se aplica el criterio explícitamente autorizado de dos generaciones
+previas con la guía anterior más la nueva fase 1 como reemplazo del tercer
+intento, condicionado a ambas fases aprobadas. Tres posiciones de calidad
+aceptadas; no se afirma tres repeticiones con la guía revisada. La tercera
+fallida y la serie detenida 2/3 se conservan como históricos, sin trasladarles
+juicios. El conjunto base aceptado sigue intacto: 28 casos/36 partes, 36/36
+independientes, 548/548 controles y cobertura 22/22. La muestra de doce partes
+no sustituye el conjunto base ni modifica el gate global de 36.
+
+Se resuelven INC-20260930-013 para el defecto validado e INC-20260930-016 para
+los juicios pendientes actuales. 21 incidencias: 21 resueltas, cero abiertas o
+pendientes externas en este alcance. El timeout de fase 1 y cinco 503 de fase 2
+se conservan como disponibilidad; no se demuestra estabilidad estadística ni
+disponibilidad general del proveedor. 24/24 API adicionales usadas (14 gen/10
+juez), historial del seguimiento 48 API (30 gen/18 juez); cero llamadas habilitadas.
+Cero API al auditar/consolidar; suite no repetida. Rama codex/chatbot-q4,
+HEAD 6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c, sin commit ni push.
+Siguiente fase: Paso 5, autenticación y autorización por negocio, trabajo separado.
+Chat de solo lectura conservado; producción sin cambios. Los estados anteriores
+de pendiente/detenido describen las ejecuciones históricas previas a este cierre.
+
+### Paso 5 — cierre local original completado y probado, 12-oct-2026
+
+La implementación final sigue el [contrato y procedimiento del Paso 5](chatbot_step5_integration.md).
+Autenticación Supabase HS256 con emisor/audiencia/rol/expiración, propiedad por
+`owner_id` antes de evidencia/modelo y acceso al historial revalidado en cada
+operación. Ocho turnos, 30 min inactivos, 256 conversaciones por proceso;
+hasta cuatro turnos de igual fecha como contexto no citable. Interfaz `/chat`
+con login, negocios propios, consulta/seguimiento, estados S3 sin recalcular,
+fuentes, faltantes, recarga/eliminación y limpieza al cambiar ámbito.
+
+API: 38 aprobadas en 8.29 s; general: 268 aprobadas, 1 opt-in omitida,
+119 subpruebas y 2 advertencias en 50.96 s; E2E navegador 8/8, cero errores;
+build Next 15.5.27 y TypeScript código 0. Proveedor, sesiones y filas simulados,
+cero API/DB reales. Migración 010 probada por contrato local, sin ejecutar en
+PostgreSQL. Rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit/push/despliegue.
+INC-022/024/025 resueltas localmente; INC-023 mitigada, 15 avisos residuales de
+dependencias pendientes como gate de publicación. Producción: migración y dueños
+verificados, sesiones/credenciales reales, permisos de endpoints legados e
+historial compartido si hay varias réplicas, todos separados del cierre local.
+OpenAI GPT-6 Luna sigue como siguiente desarrollo sin calidad real validada.
+
+### Paso 5 — validación real de acceso aprobada, 12-oct-2026
+
+Con autorización del usuario se reactivó `MEPIA - PRUEBAS` (INC-026); errores de
+tablas durante la restauración resueltos al finalizarla (INC-027). Se aplicó
+010 dos veces: owner UUID nullable/FK/índice, RLS y políticas por propietario
+verificados; negocio original y 19 auditorías conservados, cero dueños inferidos.
+La firma vigente es ES256; se adapta auth al algoritmo explícito configurado
+con JWKS del origen del servidor, sin fallback, timeout cinco segundos y caché
+de conjunto cinco minutos, sin caché permanente de claves (INC-028).
+Focalizadas 58 aprobadas en 5.23 s, general 288 aprobadas/1 omitida/119
+subpruebas/2 advertencias en 47.18 s. Integración real de sesiones, RLS y
+historial aprobada **29/29**, código 0, con proveedor simulado y cero modelos
+reales. Desfase del reloj corregido por el usuario (INC-029), fixture N14
+corregido al CHECK SQL (INC-030); intentos fallidos conservados. Limpieza de
+cuatro negocios/seis auditorías/dos usuarios verificada: un negocio/19 auditorías
+originales, UUID conservados y cero usuarios temporales; sin inferir propietarios.
+Rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit ni push; producción intacta.
+
+### Paso 5 — cuenta propia autorizada, 12-oct-2026
+
+El usuario creó personalmente una cuenta y contraseña; confirmó el acceso al
+único negocio de `MEPIA - PRUEBAS`. Propietario asignado mediante actualización
+condicional del owner NULL y verificado por DB/`verify_business_access`, código 0.
+Negocio/19 auditorías y UUID de auditorías conservados. Sin identidad personal
+en documentos, sin contraseña manejada por el agente y sin llamadas a modelos.
+Al registrar esa asignación, login propio y recorrido del modelo seguían pendientes;
+el login se confirma en la continuación documentada abajo, modelo aún pendiente.
+INC-022 actualizada; rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit/push.
+Varias cuentas/clientes soportadas por la relación de propiedad; registro o
+invitaciones desde MEPIA requiere un flujo posterior, separado de esta asignación.
+
+### Paso 5 — perfil local para iniciar sesión, 12-oct-2026
+
+La copia carecía de archivos de entorno y procesos activos. Se configuran
+solo archivos privados ignorados por Git y se agrega `api.chat_app:create_app`
+con `ChatSettings`, reutilizando el router existente y validando Supabase al
+arranque. No exige claves del pipeline ni publica rutas legadas. Sin clave
+del chat, preguntas conservan 503; sesión/listado pueden funcionar.
+
+Focalizadas 62 aprobadas/2 advertencias en 6.02 s; general 292 aprobadas,
+1 opt-in omitida, 119 subpruebas/2 advertencias en 52.36 s; códigos 0.
+Las advertencias corresponden al `on_event` anterior de `api/main.py`.
+Servidores locales en `127.0.0.1:3016/8016`: página `/chat` 200, API/listado
+anónimo y proxy anónimo 401. Formulario real abierto con cuenta preparada;
+contraseña/submit a cargo del usuario; login pendiente en aquella preparación,
+confirmado en la continuación documentada abajo.
+Rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit/push/producción ni modelos.
+
+### Paso 5 — login propio confirmado y mensaje de conexión, 12-oct-2026
+
+Primer intento del usuario falló con `Failed to fetch`; INC-031 registrada.
+URL/HTTPS/DNS/clave pública correctos; health 200 con clave pública y 401 anónimo
+desde el equipo. Navegación directa a health en navegador integrado rechazada
+por cliente; no demuestra el motivo exacto del POST inicial ni un bloqueo de
+todos los POST. El usuario confirmó sesión/negocio en Edge/Chrome; Auth registra
+login reciente y Next listado 200. Contraseña solo introducida por el usuario,
+sin tokens ni datos personales en documentos ni inspección de sesión del agente.
+
+`ChatPanel.tsx` y `utils/chat-login-error.ts` distinguen
+`AuthRetryableFetchError` con mensaje fijo de conexión; error de credenciales
+conserva su mensaje. SDK instalado con fetch simulado: 3/3 aprobados (fetch
+rechazado, 503, 400), código 0; cero llamadas externas/credenciales reales en
+esos controles. Tipos código 0 para la versión final. Primera espera de mensaje
+agotó plazo; dos intentos sintéticos en navegador no reprodujeron transporte,
+sin contarlos como aprobación. Suite Python/E2E completo/build no repetidos;
+las cantidades anteriores se conservan con su alcance original.
+INC-031 mitigada: acceso operativo, causa inicial exacta no demostrada.
+Rama `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit/push/producción/modelos.
+Siguiente acción: recorrido con modelo configurado y presupuesto autorizado;
+login propio ya no pendiente, controles de producción y altas separados.

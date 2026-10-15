@@ -87,7 +87,7 @@ export function PipelineStatusBar({
   const showL2 = status === "escalated" && layer2Status !== undefined;
 
   return (
-    <div className="flex items-center gap-1 text-sm font-mono">
+    <div className="glass px-5 py-4 flex items-center gap-1 text-sm font-mono">
       {PIPELINE_NODES.map((node, index) => (
         <span key={node} className="flex items-center gap-1">
           <span className={getNodeClass(node, status, currentNode)}>{node}</span>

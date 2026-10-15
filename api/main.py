@@ -59,6 +59,8 @@ from agents.api_ingest import (
     persist_ingestion,
 )
 from core.config import settings
+from api.chat import create_chat_router, gemini_node_factory
+from api.core.auth import AuthService
 
 # ---------------------------------------------------------------------------
 # Exportar variables de settings a os.environ para agentes que usan os.environ
@@ -70,6 +72,8 @@ for _key in ("OPENAI_API_KEY", "ANTHROPIC_API_KEY", "SUPABASE_URL", "SUPABASE_SE
         os.environ[_key] = _val
 
 app = FastAPI(title="MEPIA Agents API")
+_chat_auth = AuthService(settings.SUPABASE_URL, settings.SUPABASE_JWT_SECRET.get_secret_value(),
+                         algorithm=settings.SUPABASE_JWT_ALGORITHM)
 
 # ---------------------------------------------------------------------------
 # Global exception handler — muestra tracebacks en logs de desarrollo
@@ -100,6 +104,7 @@ _layer3_app = None  # Inicializado en startup con build_layer3_graph(memory_serv
 async def startup_event():
     """Inicializa MemoryService y layer3_app al arrancar el servidor."""
     global _memory_service, _layer3_app
+    _chat_auth.validate_configuration()
     db = get_supabase()
     _memory_service = MemoryService(supabase_client=db)
     _layer3_app = build_layer3_graph(_memory_service)
@@ -131,6 +136,12 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 def get_supabase() -> Client:
     return create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_ROLE_KEY)
+
+
+app.include_router(create_chat_router(
+    auth=_chat_auth, db_factory=get_supabase,
+    node_factory=gemini_node_factory(settings.CHAT_GEMINI_API_KEY.get_secret_value(), settings.CHAT_MODEL),
+))
 
 
 # ---------------------------------------------------------------------------

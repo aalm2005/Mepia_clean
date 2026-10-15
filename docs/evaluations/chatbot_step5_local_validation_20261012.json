@@ -1,0 +1,2584 @@
+{
+  "date_local": "2026-10-12",
+  "scope": "step5_local_simulated_integration",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null,
+  "general": {
+    "tests": 388,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 1,
+    "passed": 268,
+    "junit_duration_seconds": 50.951,
+    "junit_passed_including_subtests": 387,
+    "subtests_passed": 119,
+    "pytest_summary": "268 passed, 1 skipped, 2 warnings, 119 subtests passed in 50.96s",
+    "exit_code": 0
+  },
+  "api": {
+    "tests": 38,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 38,
+    "junit_duration_seconds": 6.309,
+    "pytest_summary": "38 passed, 2 warnings in 8.29s",
+    "exit_code": 0
+  },
+  "intermediate": [
+    {
+      "tests": 36,
+      "errors": 34,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 2,
+      "junit_duration_seconds": 1.967
+    },
+    {
+      "tests": 36,
+      "errors": 0,
+      "failures": 1,
+      "skipped": 0,
+      "passed": 35,
+      "junit_duration_seconds": 2.188
+    },
+    {
+      "tests": 38,
+      "errors": 0,
+      "failures": 1,
+      "skipped": 0,
+      "passed": 37,
+      "junit_duration_seconds": 4.605
+    }
+  ],
+  "e2e": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "Proxy anÃ³nimo: 401, cero DB y modelo",
+        "passed": true
+      },
+      {
+        "name": "Inicio de sesiÃ³n y solo negocios propios",
+        "passed": true
+      },
+      {
+        "name": "Pregunta con cifra/unidad, fuentes y linaje",
+        "passed": true
+      },
+      {
+        "name": "ContinuaciÃ³n conceptual e historial recuperable",
+        "passed": true
+      },
+      {
+        "name": "Cambio de negocio limpia historial visible",
+        "passed": true
+      },
+      {
+        "name": "Negocio ajeno: 403 sin evidencia ni modelo",
+        "passed": true
+      },
+      {
+        "name": "Rechazo de cÃ¡lculo y eliminaciÃ³n del historial",
+        "passed": true
+      },
+      {
+        "name": "Cambio de usuario sin conversaciones ajenas",
+        "passed": true
+      }
+    ],
+    "page_errors": [],
+    "external_api_calls": 0,
+    "exit_code": 0,
+    "next_version": "15.5.27",
+    "browser": "Edge headless"
+  },
+  "frontend": {
+    "build_exit_code": 0,
+    "types_exit_code": 0,
+    "visual_review": "chat-ui.png reviewed locally"
+  },
+  "dependencies": {
+    "npm_audit_exit_code": 1,
+    "vulnerabilities": {
+      "info": 0,
+      "low": 2,
+      "moderate": 3,
+      "high": 10,
+      "critical": 0,
+      "total": 15
+    },
+    "next_remaining_via": [
+      "postcss"
+    ],
+    "publication_gate_pending": true
+  },
+  "external_provider_calls": 0,
+  "supabase_test_or_production_access": false,
+  "sql_validation": "local contract tests only; PostgreSQL execution not performed",
+  "step4_evidence_preserved_count": 374,
+  "step4_evidence_sha256": [
+    {
+      "path": "docs/evaluations/chatbot_step4_20261004_fallback.json",
+      "sha256": "e426990338f0f067d2569edd65855274a9d082395957aa5082d5c9d9eb070803",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261004_fallback.md",
+      "sha256": "56547857275346686fe7099b01fb3f6a06c18b2c966d984e8987186e523c3f86",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261004_simulated_a.json",
+      "sha256": "a519588594b1eb523cb62758ad10f8dff976e89b6355f01e8e48899640dd566c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261004_simulated_a.md",
+      "sha256": "167b5afeda8746936baac747cc78f2c7d33b21e85acaef71226a073c3c24a19b",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261004_simulated_b.json",
+      "sha256": "7225ab45389785965de0bc67243b1eece67e48f2620f09ec74cec3813320df4e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261004_simulated_b.md",
+      "sha256": "19d6ab5c74a955582925686c0b2326b5b1adb445e43eb49a7ad27e072804b5ac",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_directed_status.json",
+      "sha256": "3923dfd96c618e44ae1b5b3bf1addef18615265616c0a2a07934538837f35508",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_directed_status.md",
+      "sha256": "3f59a99cedf1efe7dfcb5c06cfacb5189fecc74d3c93f7826c00266cd51ba0f3",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_fallback.json",
+      "sha256": "7208022fd1ae2c1819c0fa620c7ceddd782c079bac6ccc30617de124e366b15f",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_fallback.md",
+      "sha256": "56547857275346686fe7099b01fb3f6a06c18b2c966d984e8987186e523c3f86",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_simulated_a.json",
+      "sha256": "6322900ee1ca7022040e7b156f718efd8dec8ad1e8857eb5582d8781424fe740",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_simulated_a.md",
+      "sha256": "167b5afeda8746936baac747cc78f2c7d33b21e85acaef71226a073c3c24a19b",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_simulated_b.json",
+      "sha256": "7fea4f65ebe93e05559aa68831c36d927000b1e3426513b620fa7a561612bb66",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_20261006_simulated_b.md",
+      "sha256": "19d6ab5c74a955582925686c0b2326b5b1adb445e43eb49a7ad27e072804b5ac",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_022049_dce57cb8_combined.json",
+      "sha256": "614b027859f53c1586f1efda4e4fc40726d6981d932e518b6a5f1301cf73d4e5",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_022049_dce57cb8_combined.md",
+      "sha256": "800a445c79653ab34781f33c5aefbfacf39ea5843dafe7a7c7160f1b4913d155",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_022049_dce57cb8_combined_reviews.json",
+      "sha256": "1fe757fffe320514f392f123b71e83b3939f8b7cc2299f7bf8e0b800d0d8ee8c",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_193719_626f984c_combined.json",
+      "sha256": "278f1559a2fd8bd58a2223e01d87f1f357daadbc8c4643c9c5aaf5fb94b5e377",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_193719_626f984c_combined.md",
+      "sha256": "f98988c65589e687b258e8ad78f47d6bb1a440836162c8136369760716685777",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261011_193719_626f984c_combined_reviews.json",
+      "sha256": "0cd185465686910cb71651576ed02acdeb16bcd28468766b3d51871602416cf0",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261012_010837_4fc9b3df_combined.json",
+      "sha256": "40e2adc95c9570053ea6accfaa6c317dcd040353a4ce2b66514d64a7cb73c582",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261012_010837_4fc9b3df_combined.md",
+      "sha256": "3b41c419bad3af474103f7e3dae027cb7a82b531ae13a1de7aaba3677e7a4dc2",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_fd31f3a2_20261012_010837_4fc9b3df_combined_reviews.json",
+      "sha256": "28bc2a89bca180e40b363d69fbbf60265f44ccd42686c5fbfa2961b9bb61a0aa",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_authorized_plan_20261011.json",
+      "sha256": "a059b8d70545ca3d85062ed6cad81044401f2bd034a0f44abc5f5a931b81b7c7",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_authorized_plan_20261011.md",
+      "sha256": "3afe3c7e8924f0f67a2226b423dacb76e901e53dd108bfd9a4af89d62534ef5f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_plan_20261011.json",
+      "sha256": "c939f2d1be0a0b2078ea5079cdc298734178bb61d968ae250cf70164a09ed289",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run2_attempt_20261011.json",
+      "sha256": "99f8ab5ae4dd843db72458d9c402a6ba12ceb3826c7a6314f76eebb826c3978e",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run2_audit_20261011.json",
+      "sha256": "70a1147952ef72a7596f7a6a31907b10be15c30c795a014fa5a1df8f76c4bbd6",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run2_audit_20261011.md",
+      "sha256": "3f455da578e637e3bb78c028b9e06e640bceafdc9814ac54a4134172ab3ed27b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run3_attempt_20261011.json",
+      "sha256": "715cbda791a13b36de81b1ac3c71ac9cddd37c578cfd017cb968e9c6745af676",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run3_audit_20261011.json",
+      "sha256": "9d31440317558093d470ab81916ca9e09a476a01bbc149267183dfd17f6e0463",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovered_run3_audit_20261011.md",
+      "sha256": "792951860d3bdd701d92d96597ca4a936300732c31b0ab3b90e2be45531da5a0",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovery_amendment_proposal_20261011.json",
+      "sha256": "9b74fa46050f952961da363f45d8f4d4d85b412735eace3e64a0a8063b4342a5",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovery_amendment_proposal_20261011.md",
+      "sha256": "d52ebc1718bf2f198f461a349042f0e8f3a04203d7feb4c15903ecf5a0c14901",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.json",
+      "sha256": "bd6ce0493da3b312c214f758a7a79fee38a2c702872fcb465b63dfcf1267fe03",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovery_authorized_plan_20261011.md",
+      "sha256": "438d7d8d87d885240c16b53bf73125dc45db851bf2322366d28066fc4e66f795",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovery_preflight_20261011.json",
+      "sha256": "9e511f1d39047a1ecde5917a77de06ed427290d97d3200764adf3d5299ddf4d0",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovery_series_progress_20261011.json",
+      "sha256": "cf17804cca6cb44ab03610217bf3e0f99ce3e6a0625a56987de1b79ac57d4b17",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_recovery_series_progress_20261011.md",
+      "sha256": "ab300805a24151c0af71d422db24de77c5f2b65833fc77571488060240f6c110",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_resume_proposal_20261011.json",
+      "sha256": "02d916c7158558092f1b27b8939803dd86ec8a9d93b383761650e2327355f192",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_resume_proposal_20261011.md",
+      "sha256": "7b0817ef38043bb6759712d48194ae94c188b0e61c3cb7de1a9ac46092c37fd4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_20261012_045201_1e1da5bf_combined.json",
+      "sha256": "1b128a1bcf1b1692177173b9ce8adde7d1a74e6f7b9390bd64d77780264095d4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_20261012_045201_1e1da5bf_combined.md",
+      "sha256": "b502a653521edeaed7016078edb8c62a3a7580570b3b3354ee6d0e0a544fbde9",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_20261012_045201_1e1da5bf_combined_reviews.json",
+      "sha256": "0d5d029b0cd20ff71bca0dc37db87e5fe1bb53b7a0a00215fe9924a200166b9a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_attempt_20261011.json",
+      "sha256": "727b24501e8b1917c7c9a63cd4c1f61b9c081a17d69c1e7ead5f3a5a7a3db815",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.json",
+      "sha256": "53e34a3a5e969b842afe5188a40a775d54648e314f54e13dac87259c4ae4583b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.md",
+      "sha256": "78211fda0c1240808412ecbf907c93a613d93333f7e96b35fc4b3cf7ac86decd",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.json",
+      "sha256": "9fec3a3f68078df7a43a9940e7af00f0a011596b66c7b5fd62a067bb56a0507c",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.md",
+      "sha256": "3f361305426e426607447fe36c006f78664463cbee026e8ff74251c598c35e49",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry1_preflight_20261011.json",
+      "sha256": "bd8661c4981efe9e9243efd85aab2b9c6f07ad83a78af07304e029bf988ea758",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.json",
+      "sha256": "4f68d0adfc43718e3e9ee98076beae72f5be152c42d6cf394b9c261de178e4bf",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.md",
+      "sha256": "f7167b8b0eb52ddae7196468712c38adc9d1056defca56891c4d1e329c7124eb",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf_reviews.json",
+      "sha256": "c101b239908575ea19e32242b414bcf2c6089f8537eeb6b2996c78a701dd28f3",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_series_progress_20261011.json",
+      "sha256": "81afd78f0e003503252c1981c6f0aefcd6aa71b7a5b0d49de94691e1ba79ba2e",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_series_progress_20261011.md",
+      "sha256": "dccb2af2bcfccb9870ec47fe8c15b8a37158d60f5fb6ab639d8a55a582e10ee7",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_series_run1_attempt_20261011.json",
+      "sha256": "0f8a7847d106569197339d34376c78d78bfc733e053049a17d46e60d45193328",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_series_run1_audit_20261011.json",
+      "sha256": "6438299ae0919b25f99bc55e51a3a4c5d4161a9ba0fc839669b4de14d07ff3ba",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge38_series_run1_audit_20261011.md",
+      "sha256": "183c826c51d69e722c825d773de08a6175a6ed71d0b42219745eb52d1d891752",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df.json",
+      "sha256": "26f1c2feeb8133ce07739968208c873681398331489164de62a7fe689ec74fb8",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df.md",
+      "sha256": "3fd9f60911158ceabf8b3bb41bb51084a3ba5bb111176b1c9f14de76dd32077a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_38_fd31f3a2_20261012_010837_4fc9b3df_reviews.json",
+      "sha256": "9c505679bde05c3a69de0d4c7eb47cf0f12732bf680f010b53b4428a6ee20afd",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8.json",
+      "sha256": "bb770e9f1414dd97e9ac4159ab1ad3f97e85c602da1731a939fddcb85096a98d",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8.md",
+      "sha256": "d4923bac491f65d808b03fa9ff024cc20cad03e46a91f9734eb2ef9cc72ac478",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_only_fd31f3a2_20261011_022049_dce57cb8_reviews.json",
+      "sha256": "e321492b0bf5099b1fa534c1c733acec674ec8bf7bc5a16be026fda1b4fe2859",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c.json",
+      "sha256": "89583a3795433473d7dd9ee1b53f3a9e6b72a075216d20c515b1217979ffbd78",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c.md",
+      "sha256": "d4923bac491f65d808b03fa9ff024cc20cad03e46a91f9734eb2ef9cc72ac478",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_judge_retry3_fd31f3a2_20261011_193719_626f984c_reviews.json",
+      "sha256": "c4bebc97774b92c62b84adb452d57fa78c9e97d9a6d19a729acaaa3e82070ae4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_plan_20261009.json",
+      "sha256": "7df7f7157a45ffb9ad81ff6466dd4896641b8153eb8dbff268cddab163086970",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_plan_20261009.md",
+      "sha256": "ef722ff1994a042fe2351c735f5b1c012ecd211be2f881f1b2278d086a5be3e1",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_progress_20261010.json",
+      "sha256": "cf2fb8ca3e9f7d8ffca9579c5d87b01d4dc90eee4790a0823c0b2af7c5f1fdd6",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_progress_20261010.md",
+      "sha256": "764b8fe5730a029bf762dc69d0e15ad2f51df0dfce0607e90df84ef76112521d",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_consistency_retry3_plan_20261011.json",
+      "sha256": "92c7784803381800be2cff5fe6d65c32cbbacaa0d3567c75ca3286bc8cf255f0",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_documentation_sync_audit_20261012.json",
+      "sha256": "239154045be0d30a28c462e2c1676dded149d7d6792b7aedaadbb247d05e62c1",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_expanded_fallback.json",
+      "sha256": "4b228289e2a842b6cc2cb54a9bc8a41aab8f17fe644704ff8e552b85ae8d14d5",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_expanded_fallback.md",
+      "sha256": "fb3aeb9fbdff1449854df0dd8120463d485d1fb708755edacfd19b6c62512d96",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_expanded_gemini.json",
+      "sha256": "89db652676bea1dc8e55f12b41e56c2b5f80a15b24a5c5de2589203849e6496e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_expanded_gemini.md",
+      "sha256": "fb00dc0e8f0c3e31a4c3cfc65d3869808e57e950711617f243192cce93faedc8",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_expanded_simulated.json",
+      "sha256": "0904c508ab9b4508b128328a84cb63e410aa09cb436aea0be759e590aa2169e9",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_expanded_simulated.md",
+      "sha256": "046d64ab7486cf1cd4940754219e10a077dfd7c9d4287178769897287845e964",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_fallback.json",
+      "sha256": "4ebe79cbb0bdbbc895da38bae79ad446841f870746398f44ef93cebca6ef96b2",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_fallback.md",
+      "sha256": "ba12e211987c0c569f798b8d0177ef8e52d226dfad0cd7e7ec8e5ab028072d05",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_real_batch1.json",
+      "sha256": "67baf0c5b370d4f42a8a440feee6c16dfac6a2e3435b6db57498409ecdb1ceee",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_real_batch1.md",
+      "sha256": "43e9af2e396031bf5766abdbfb701fb9d2d33f3bec5f12c9ab276d8c385c860f",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_real_batch2.json",
+      "sha256": "182ab21e58dea00a45c7cb4da14f17ff3da849eb12ba6b9bd1328216ffd0ce12",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_real_batch2.md",
+      "sha256": "5ad5e88861f0bec4089dfe488cba3d8ab08b753cbfba0db1cca27d7c95ecdfd8",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_real_batch3.json",
+      "sha256": "b5e5faf0b498eb5514b93d5438f9f222072bfd35a68264eb3d7aaf46d125684e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_real_batch3.md",
+      "sha256": "8b48c894303ae92d6bbfd108fba4bfcecc625d14784c5ec1350d8513f2db2c4c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic.json",
+      "sha256": "39fc79218a2b3426e9e10fd0960e7c5a4af0f97c32136f1f5691cf1d10fb866c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic.md",
+      "sha256": "1944e68a2c75d45d3c6d70f39cb67d48b752ee83a1875eead8caccd0016d582e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_combined.json",
+      "sha256": "aa14ad0927160a727d1e446d1d8ae99892af2760d57591141443eeb4a6c2b339",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_combined.md",
+      "sha256": "7db22e4a8205913e247051e6e96904f48f955e88ae4d06dba616a658962ca9cd",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_combined_reviews.json",
+      "sha256": "d73308e110f2332a8c225d79ec80da4d46a1d19f949544a5160f5c4c45c37d5d",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_lite.json",
+      "sha256": "e6d3cc201f73a578aecd01501f787830b52b8e4090d34778de376601efa5e171",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_lite.md",
+      "sha256": "39c78f571462b4194b200ec709659c37889ac947e6f04ecd0e50eccfde62c6ba",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_lite_reviews.json",
+      "sha256": "6bbae68bdbf67a1690d43bca9bcc31d7e0bc6564809f61753c1130c85675e181",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_retry.json",
+      "sha256": "36e41ef31fa9a55da3f98aea5ecf8ae818e9388a68e84ac20531ca48f3c240b0",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_retry.md",
+      "sha256": "888863c28abd1698651ce8775fd748b829d1d4cbe9e088076418a1f557c7acb3",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_retry_reviews.json",
+      "sha256": "e575e380d9eac40647f4ca8d9e1ab42c235d842c3fe82f64b39ab27b4e99db28",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_reviews.json",
+      "sha256": "2b38bd321e54d87343fe8c41b966de2d494fa583e9c2ed849c11f7ffbbf2776c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_small_batches.json",
+      "sha256": "cb8cd14d00345352e1ecd11125ee7bcd03556bb5a0e34a1f3363bff42f9a654e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_small_batches.md",
+      "sha256": "81e1520c1d813f589199a379389892a0a4cc314bad088e91aaa6aa82a9158e97",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_full_semantic_small_batches_reviews.json",
+      "sha256": "91b5ab5d9f68dda4e8a03ada11bbece0a93766143681265cc22521ce885b8986",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f.json",
+      "sha256": "07f943fcbeb36c5b8c3f36ffa899677816b24a0b9f46127b849da45bb6112f1e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f.md",
+      "sha256": "a8e409819da6ad2cf52c77c468421764f2608b1e6412526960c5504a86da8a1b",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_semantic.json",
+      "sha256": "824a138c512189081397e19c403e1babaa186ff16caf8545792669be15771f2f",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_semantic.md",
+      "sha256": "e55ef1db4634bd3aa39293d2399bb2f7a6d714f8ef3681bc0f4046b4125f6822",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_semantic_reviews.json",
+      "sha256": "140464bf09ed590e84f482f28fa5c9ab1e3922f5260f03536e3ce93c88ee7cf4",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261009_133615_e9264e7f_synthetic_trace.json",
+      "sha256": "eaed165bffac4bf02cac45931814b31c09cf238583590c2be8f1038d94e80bd9",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.json",
+      "sha256": "1f20194026446c13b212532cf0dccf39e021b76f29a9a04add70f36ef445e47b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2.md",
+      "sha256": "1ad7a89b2aa3580637bc4eed17409110238391de46819e708a62d03e55117dad",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic.json",
+      "sha256": "a27397fe73062bf2fe73a1b7b697c15cdd8297a437730fe19c1993bc7188466c",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic.md",
+      "sha256": "d4923bac491f65d808b03fa9ff024cc20cad03e46a91f9734eb2ef9cc72ac478",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_semantic_reviews.json",
+      "sha256": "b4bbac8e0102bf40e316deedf28d0aa0575cfd28fd412055bf8e91e9142ebe81",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261011_021241_fd31f3a2_synthetic_trace.json",
+      "sha256": "ae6f8467baca3dfdf9f0294cea41c74950b56b886bbbcaf5709e33628546e3d7",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+      "sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.md",
+      "sha256": "091d819f6f339c602f0681d2be4899bcd461f31d313aee6cdcdbdc574afc1cc4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.json",
+      "sha256": "fbd0f2e2e7f1b279294ece6d4acdb7d7c6df94cbc76ce2f8d93015d81bbfeffc",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.md",
+      "sha256": "5b8cd7257e9396e45630221d3b5325cfd91de86aa98045ade18f4a90810134f2",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic_reviews.json",
+      "sha256": "6de3300516b54ae9f151748176ac9f2a3e054ea7f8257b78cd59d12f864f46aa",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_synthetic_trace.json",
+      "sha256": "41e99a00dde796e63176312751dbe561acd3102f1c2e9af0dc4342a7d3f29ab4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.json",
+      "sha256": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.md",
+      "sha256": "413a804879b8372fdc3a364d4bd7d60544cd42ff4175f52e4a8d8286be43db56",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_semantic.json",
+      "sha256": "ef079e7e98b409200dba9040e624917fe0d88dbbb681f241a172a2375be26d68",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_semantic.md",
+      "sha256": "8d529ecb17c425857786d74b2b4e51ad1aca40a38d232f422cf63e01cdeedfdc",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_semantic_reviews.json",
+      "sha256": "2b28ebd97dee303bc842a185b12dde1b7841fc4916d2379d0dad7e7e67dc8ccb",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75_synthetic_trace.json",
+      "sha256": "b9724ce1fbab30fa08fbba232773bcdaf7e0af0bc3fc17dacba003f25b22e449",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.json",
+      "sha256": "678e46a6cf581f7b74409eeb910899e63888f2bb71b8be7cef4dfe424a772967",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.md",
+      "sha256": "902ac46eca86ff4235fde786c2743256f0b0115fc8d5173a3e73f889b577ce00",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic.json",
+      "sha256": "3ec0cbd94c157dd2edac60e3964b61b33e9f10a82b5d518b44cf127eca854441",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic.md",
+      "sha256": "154c60aa0fc22cce37fab4891136281dfbb7657cfec0d926f6830276819f319b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_semantic_reviews.json",
+      "sha256": "22432994b97827f855c07286ec3007a4fc80c8062f655b41a1cb670822ce3602",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb_synthetic_trace.json",
+      "sha256": "0797c6995259c46bd91c1da76e0834ec26baa598e5fba6f9e572a3bfe14051f6",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.json",
+      "sha256": "d4f91743f08369cc3d14df461449f0cc6c1b1a5f790ef4d7ca1435c65bb0ce92",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76.md",
+      "sha256": "61e5d9048ea00848323bab9f95021797acf442df6db0c304dc1bf0e1b2e638bf",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_human_partial_20261007_043124.json",
+      "sha256": "0bb5bc072f4ebec65109c8f80d71792dffab8638b4ccc1e2e65b358ab9c57eb1",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_human_partial_20261007_043124.md",
+      "sha256": "65e5645378aa3d6dac3635bd9d39d30a520f0aa8cae4031c8197728daeb6ba21",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic.json",
+      "sha256": "a76801c39ee14d70c4e6d1d84f35bf94273d6b5ed33c6aec69ab56c98ea735a5",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic.md",
+      "sha256": "9b708703f9a6883ae62ba6e0991aa2f7136900f1049854326b236cfb46f8f094",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts.json",
+      "sha256": "f02d76e77fbe40177713908930403125b9ad6e5c9f109b4be7af6f97c4cf9912",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts.md",
+      "sha256": "4eb7f8735c838f4db22f80f8bc33d11503f0c0a7d2d6a5ec32b87bc5a6dbb378",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_135713.json",
+      "sha256": "1d4df43de80e43ac7c0595c045fdbdde56027e5291fe5ff8704ba8130927e3b0",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_135713.md",
+      "sha256": "5d00db333a93b336b7aba69df87b17ddaf37c2ecf73c553ceff85d7e163ea013",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_135713_reviews.json",
+      "sha256": "63486169e1edf5b458822111a91458275c962c0e30c0a3673302b718169be02b",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_141127.json",
+      "sha256": "c64c728789eb36f77e2d1b01446da998250ce40eb40b0cf85c89150445d2bac7",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_141127.md",
+      "sha256": "f273fdaf7741b75736cf7383c02b2938032f20a0d86e66c0113e41c9bc262b4e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_141127_reviews.json",
+      "sha256": "b95f1c965fa41415ff9c7a4fff36f3a350cabb33aaf167a5a75004faacc3b1ef",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_225324.json",
+      "sha256": "c9abba70caa12cf69b91d4722019176d047332fe9c171cd6b7fcfc2f0978c65e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_225324.md",
+      "sha256": "52a2f918568638a014ea7c8b4e9d170b1f6a2a8578678ad5b3a63ebe5bbc6b2a",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_20261007_225324_reviews.json",
+      "sha256": "2fa69f46d46e1864314b8fdaadbb7013f790dc403de6bba80b9d0223e5843978",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_attempts_reviews.json",
+      "sha256": "0f60fec228217a966773bbea40c0f80c680a37128a7a7d58b08671dc2de392e0",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_035637_2cbbbb76_semantic_reviews.json",
+      "sha256": "d37daca7b0375f45cd54ea2526811af0a7fcc0a080eaa294e13ccde60be14424",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570.json",
+      "sha256": "d4d4bc53c1ccd271026c5781fe7e3ea0c8d74eba6e7d900ef8e6d989c61d6422",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570.md",
+      "sha256": "72a6f5c1e359519f0368a2a5d1af114b40442ca981a8802638999546ed90f626",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570_semantic.json",
+      "sha256": "e485364e0b26ad7e02523bc15f5a88c6deb9a623a4105a956feb35a434a40903",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570_semantic.md",
+      "sha256": "25f4d88fedb1d3d66a9810fef0687985cfbb285c016f6a0eca2eab20a830732c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261007_231840_af09f570_semantic_reviews.json",
+      "sha256": "ffaa4929ad3c38ae8c2a1f9823466362ba04d670829da500533d56aedf2fa870",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8.json",
+      "sha256": "31ad63cbebae861c33e90378353fdf89de6dafb30b3790630f2b08942d153d57",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8.md",
+      "sha256": "42c1fc37a857e72474a5556a6da429bce5996a8487e580f470de32f8ba532a8a",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8_semantic.json",
+      "sha256": "b093449e484816b712a0fd6375457dcc8a62206485cb60c0b77353dfedc9b9f4",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8_semantic.md",
+      "sha256": "61f0e3be2c7297f18c20218ec2ba90aefa6ac6c07182e8e3774fee761d02e955",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_010700_72c96fb8_semantic_reviews.json",
+      "sha256": "db2bb8ce62a9d2578f3b9c66c3576888a8379c915a9d50fbecadc6705b5533e0",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e.json",
+      "sha256": "3e5357516aa2e5497f82a248a4a0385448b0f0861d8bc8d1dec24a49bbe02060",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e.md",
+      "sha256": "574eb1af247978fb1c01f57a7d333e36302ae89d38004a009ac570ed07276f15",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e_semantic.json",
+      "sha256": "93bc552a7983789be37f2604b9b2be3510d2120c06562f31ee0cb14ec4f2265f",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e_semantic.md",
+      "sha256": "da370e710c2eddf08f0f86a0c1ff534b2014b95a4edee3580fd753a6c262dec2",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostic_20261008_230256_7f11ca6e_semantic_reviews.json",
+      "sha256": "d0c25d43754db49b7bd2b551e635c392532c1ccbf434377b71d6cc314566b8c9",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostics.json",
+      "sha256": "9b521b9bbe665f8472e55830f60131b54afb077243e9e7784a6823a4e9684bce",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostics.md",
+      "sha256": "737fa3f0d279dff6c21626af79bf67dee33bc58223b5358fecc5383e6d5312d0",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostics_extended.json",
+      "sha256": "fdeecff0b11bf63647cc0d1f9382a9aad56d4e2237c4c8cec587dca649ee8eff",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_diagnostics_extended.md",
+      "sha256": "365c5ad8f566c6a53ebab2b9e387763a50ad74db96e00d8181456d284369b8bd",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15.json",
+      "sha256": "dcb7d271d651a290d11ceb288693b6726a84e43bd381d9f7b174c1604a5b2430",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15.md",
+      "sha256": "91b4770815419673c8f82061b4c8c6187dd8e1336415d3feb8681f27eca155e7",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15_semantic.json",
+      "sha256": "73d4ed8b6e57710af40fb4dd3d38196aa0647fffaff4b074e5903cf7cec3f791",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15_semantic.md",
+      "sha256": "fcbe8b082f791fe28df19ac7e0497ee0c8fea936ab3c4508110b14258477f283",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_031606_66542a15_semantic_reviews.json",
+      "sha256": "e1c1534c3e005ff9775eae35902a9e16ee827698f34adbcc15dbbd892c3423e2",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219.json",
+      "sha256": "53d01a4814a6f4c385c961b41914fd1bdb07f479da82814820e85d585a009465",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219.md",
+      "sha256": "28cb0be119c32f80efd09447c2c4233ca1a112a6250209e1d3d8ee99fe607fd4",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219_semantic.json",
+      "sha256": "3e75f9b71858824769659eb860e59656ba362357614a641642b36651eaed4ede",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219_semantic.md",
+      "sha256": "c948d1dff36fd702b7a818061d50b2fd39b52fbf072a8127c2f1022861b8f389",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_034018_b82f6219_semantic_reviews.json",
+      "sha256": "d8b28d0bd171ba42084e8a37f2cc40fc0209fd012d8f2d5945c0bf8d7dce9205",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1.json",
+      "sha256": "a4392d906d402e45e21e31f757ae0ba9d4f5ca65e13705e4c613e575193014fd",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1.md",
+      "sha256": "03213524558c7e58f04683cff452859bf461e45afcbe0b0bebd517e7207cbf80",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1_manual_packet.json",
+      "sha256": "e330c43254d631847357dcc88a9c2dd0c235ff72ee8cce159b630ff5dbcd6833",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_directed_20261007_044143_2dc8c5f1_manual_packet.md",
+      "sha256": "2e8f3acd059d1b0be4dcb98a760bcc1d26b2992ff58db6014adaa604b53c247a",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_flash_trial.json",
+      "sha256": "f0b9c26f3d830385be25b696dfb80dc639c12c7cdf8cec7c8374ad8802f6bc51",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_flash_trial.md",
+      "sha256": "0a23be6feb5c23943f026da491ed40ed84a127af43174992a2ece6dd3dfd0f73",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22.json",
+      "sha256": "932ed49403f8019df0576553613c2c3f3e69141f8bd0931f566dee7978ff0f4c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22.md",
+      "sha256": "75757a798455f65ae900c87bea67fc065b9ed1ec6ce3b433d64211d341cbf534",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22_semantic.json",
+      "sha256": "df3b9efc20c0759e0dd06e65bcf302d2d669e2df91442461584b6c58ab3ca650",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22_semantic.md",
+      "sha256": "2fce4c7d55edec027d36865a31f08a83a7ca8c2ef8c36b11240724c363bdb12b",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261007_235430_46e3ac22_semantic_reviews.json",
+      "sha256": "55fa9bae0bb2552d9d017ddbc10b634282f3686b2378ab6ce7a075a200b29e0d",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.json",
+      "sha256": "203e40f294678db8d821f1845d8bc58fae1e046e3ea4fec89e4af48d183e6692",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30.md",
+      "sha256": "496ae9b22409be3eeb85c9ec3ff0d8d0cee926642cdcc9a22b2c7e3ac3ee6988",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30_semantic.json",
+      "sha256": "db26e8481847a0c08ea881a9682b3419511a978b90db20b939a63ea64c74ce96",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30_semantic.md",
+      "sha256": "49db0e717f1c5c168e8fd6995227b4aeb093bfb1fa4ce4e42f94ccff76ab6b78",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_140112_78307c30_semantic_reviews.json",
+      "sha256": "b79ef008122fe66d23c9f3baf5086e049b76f36f7fcfb8431694b08e6e72ffb1",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.json",
+      "sha256": "11061620a3cc02609e3ea399e98c982f0f4f32134de0a5f631150df642650264",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c.md",
+      "sha256": "c7fdbe7334266360ecee7572cf81863674416d04d34895a954e34e546b69d93d",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c_semantic.json",
+      "sha256": "e7bf73f9261452fe03f46f253bb2303a6656e5bdf93259742a6ad0480e393c93",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c_semantic.md",
+      "sha256": "eea43a55fbfd376939f1b9e2b3cb26133b0a540463de5d18e4eed6b3a892f737",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch1_20261008_231009_cae0310c_semantic_reviews.json",
+      "sha256": "5517a7e32cf63d87f3b48faf2538b8f1c00d7cc74f6945f9dfd4393a3c528484",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8.json",
+      "sha256": "ed751760548b81a5563e197c5fc36e85a1c3d07eee1be706fbfd4fad0259a375",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8.md",
+      "sha256": "b96a46ba28403c4fd3fc839bb6b1415030884a1baf274248aa2e59546ccfa9cd",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8_semantic.json",
+      "sha256": "6c1c6929a05ea6e204ea1ff52733c8b4162cfa76fab041f5ab69070df19afaad",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8_semantic.md",
+      "sha256": "80748a501f95301aef3a179ae3aaac5fabccf01e2db6a00590a38ac93d7a885b",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_000414_ea2379a8_semantic_reviews.json",
+      "sha256": "077bfdeb6159780a60d1b144f88f6bb104dfa08e62c0d582a610aa357f8ee093",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.json",
+      "sha256": "e1f6eee9e52f924d2bdc38e76a7316e14effffd9931551fa8ffa1806a2349cb2",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd.md",
+      "sha256": "8ab84f927cc496f7a9d9fd41239ccd4ecd45f653b67eca9cfdfb3d6f5b79338f",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd_semantic.json",
+      "sha256": "b70cc86cbed10d11648a9564d923d56f0a478249e7cc516dbc092a77d34eb613",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd_semantic.md",
+      "sha256": "e0d57aa2cfdba56291b645cf35a1678301039a45ebeba70c8a6454c569f9d038",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch2_20261008_231955_a1e7d7bd_semantic_reviews.json",
+      "sha256": "636d5a26e63597fbcf3f584aefecbbe070119dc8cb0bbd35769916f0ccbddacc",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275.json",
+      "sha256": "11b26c527e2d558826a5e55fcfa545d41370d08346ac094345a1adf46423642b",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275.md",
+      "sha256": "ef8fd529b1239678511becc09b43a68c226bdc92b96aa0b34d864887b1591fb4",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275_semantic.json",
+      "sha256": "82037fb9c98ac73bcba90a10b6353170011e9e8e2b67af2a7fe6c32f7bc7eef9",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275_semantic.md",
+      "sha256": "e4566a6d11507679cd87fc753e1123a50fef7b54d21d245d885e69fafe5a877c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_000945_07759275_semantic_reviews.json",
+      "sha256": "9b9ee67d6b823f20779c6aaf8a57151710af0c2dc00b75b456a9a645af4fca69",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.json",
+      "sha256": "4228d1aa021c3662b5e47b2f3e63eef78371f6ede6fc75055ef82860bf2e0757",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f.md",
+      "sha256": "840f05ee8c3814ddde67a0f81f9b7353e1ec3a3d6419d9297233c241037806cb",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f_semantic.json",
+      "sha256": "bc38c0c633e3cae3253f3e9663d7cad6e28beee29a6e58f056fa37727db45926",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f_semantic.md",
+      "sha256": "42e7de8c845634278f72ad3aabef2b0c0b767fc436be211a25505411f961b74f",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch3_20261008_232441_8d0d024f_semantic_reviews.json",
+      "sha256": "2a80c4cff99988d132465adea4ccc8ad52062e7a1f023143064ceee097e58b57",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.json",
+      "sha256": "086c77a137fae1c2ad91dd9cc7ffe1d80b5206af507780a16f2e9fc9e85a9b18",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b.md",
+      "sha256": "8dae8aee568ce9024f09b764e4073edd267fc35da255db2b2a5ec490239329e2",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b_semantic.json",
+      "sha256": "05498a6566963b908c5d99b06606b5360034d84e8cfa3e11fca28ae83e6d7ca4",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b_semantic.md",
+      "sha256": "945a907e8088bfe89a2ed81525237dc2140c0ed4f5d764646cbd9b4c3bad6923",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261008_235606_4090759b_semantic_reviews.json",
+      "sha256": "0b23ed6d63d66372ac6ab09e480c8490f16aeefa021b1e83ad057e3ba5d56144",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.json",
+      "sha256": "4fb4378582218c4c6b76572b7b82dc725a56ef2a0055c7767da4cd2b34db8075",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e.md",
+      "sha256": "b83bf0c3bc6a24610c7731f8ab38e2ba13b9fffdc6585e09bdf118379c8f2d7d",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e_semantic.json",
+      "sha256": "66a1575c143aa714beb952e5409313c84d707270e187c30b86e547d121aab495",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e_semantic.md",
+      "sha256": "faf68e651c31ae9ad0f5ba021b5470c18ea28a2c9a7e9fcb87e2efae8c7d044a",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_batch4_20261009_135244_2f9d9c1e_semantic_reviews.json",
+      "sha256": "f8f0775d2c402ded068de6494ef80f274510b9f0c27d6194aae33509c2ab1434",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined.json",
+      "sha256": "7f08cb6caea6cc82b7dd4e746635c926b318c664524a1a9a97d5cf358d28dbe8",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined.md",
+      "sha256": "81e73a6d6af23f7ad8b14619f5d0ef584560deb82a52200801e12025672f4a3c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined_mechanical.json",
+      "sha256": "122c30ab1ffc2cf86ed36ad39df883691bdc74643f0c71744a870cac5a5140c2",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined_mechanical.md",
+      "sha256": "ce365797516bef993afdfb189dba6b68abd7b7f062eea4e27957eddb1dada84c",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261008_235606_4090759b_combined_reviews.json",
+      "sha256": "fa4f638c479be994cfd71b07a54fb3cbcc1859e138b519fa31372ebb247c0a74",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined.json",
+      "sha256": "01693dfe7683011c9b6f856d109880da2ad99255472f053d457f60b07e5235a0",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined.md",
+      "sha256": "7ad913c395f9bbb2aefa3e2385d0e80b10a5b40008ac808c6749d8c2a43beb8e",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined_mechanical.json",
+      "sha256": "ab3a20085bd228b6d82455b3a74fdb859ad198dd9b0dd5d8d9300583a3111dfe",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined_mechanical.md",
+      "sha256": "a4695b5a8af094fde4b980b964ed7be904ecda2cd526e05ed1c919537fc38ab8",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined_reviews.json",
+      "sha256": "2f096b62fa3d877d481e94f7a47eb3d519047cad5254bd0044c09bb321842588",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9.json",
+      "sha256": "367d2616f33ab35d42a3e8e48f0046849679fb26e2bd12a811c6b7ed867695ff",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9.md",
+      "sha256": "6e8ddf6c8dc517ca8b4064410079886620299a06c4e26d1ae511556f3664eda6",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_diagnostic_20261007_225324_b40a84a9_reviews.json",
+      "sha256": "6fc1cc7243766b2dc1e28e72810b475819177a960d14d82990c97f550811fd20",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_040537_6e861e85.json",
+      "sha256": "b7506b7f4f30f3b9d70b08679d1aa16a402bc02d4c3bb7536f158f3514888aeb",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_040537_6e861e85.md",
+      "sha256": "9ab2f5aed457876c3489f0f334ea185570fe42f7a08e536600beb3e1d5cc8342",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_040537_6e861e85_reviews.json",
+      "sha256": "9b65bd40bee113cc2a140f56491e7a839d97e2a57a1b3d935b5b93e38b09425f",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_135713_f778deae.json",
+      "sha256": "1523c27d55020994f8506b6632a5632b4ada6f725c8727efb0d804bca9c73768",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_135713_f778deae.md",
+      "sha256": "365f5721f760c3eaf3ac5d37fd39332db65cc01740441681e28f97b2670fdfaa",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_135713_f778deae_reviews.json",
+      "sha256": "e98fffcf77c006d7d94a97f9d57ca8f1f17de3e922d1484a5cfefbcef69b3438",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_141127_89067edf.json",
+      "sha256": "af6ba12a797bb748ac365e98df106c709e6a6d61219a0ff3faac64f1e20eb857",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_141127_89067edf.md",
+      "sha256": "a7cde4085d8785de08a0640c2cfd9c7309714a9a2efacbd8f0dd19f805bb232d",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_judge_only_20261007_141127_89067edf_reviews.json",
+      "sha256": "0e9fc520fefe934884b93112a72e2f44296dfa20536f23bc8c0708fb5d7c5046",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real.json",
+      "sha256": "f0b048dff3db63a1e338a5076c7ef4c2fd17344fe52b4a14df50d601322fd954",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real.md",
+      "sha256": "116aedecd54f87d322c027b79adba3346bd9e31dc762230ed3e5e64a7fd20308",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real_calc_prompt.json",
+      "sha256": "50b0c8a18ee391a6fc550a92f72cca134c0e8e9f78e020ce494a46c39ef6b482",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real_calc_prompt.md",
+      "sha256": "8d1f7a989ec05ec82e4fbf5d2066cb4dce5c855524af2c7af6ca80cfea083663",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real_final.json",
+      "sha256": "a582795ede630409fa162ab361e4011997de4b5c98ce3cd0f0a2bc2c73751ed9",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real_final.md",
+      "sha256": "8b3884889decbc2d52670786c5e7fc070a3d8f4c79b634cec0c0a4bf9283a954",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real_retry.json",
+      "sha256": "61c711e1c403205d0b0a8950f1a92684f35fa305e6798ebd6198553f4887a959",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_gemini_real_retry.md",
+      "sha256": "ab299ee0b4926376f55ffea2c463856bae4f7cf9cfb0e620d8e72cd09a3985cb",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_authorized_runner_preflight_20261012.json",
+      "sha256": "20a9567740c396ff92db4bb3508117fd32ee2f92b4c5818301b1434416c1e96a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_guidance_scope_20261011.json",
+      "sha256": "3621bc13a635553048921d67c61534685295dcc351a3357f31a65a7bb00c96f8",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+      "sha256": "a134e9d0fad43e8aec482d83ea8248bfe1be49207356548e7d414eed0039a430",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.md",
+      "sha256": "80c1e9983f8c190d95c93efb3fd658de9960d0575334ba1f65726e4b133b3f9b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic.json",
+      "sha256": "543886a24eab41b7311b90e6e16490ace63f619ffbdbea454158e77c9b09054f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic.md",
+      "sha256": "79fbf30e6b950add008c5430be580845b340da216c265bf749d4f785f41ef316",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic_reviews.json",
+      "sha256": "ca835c5f577da354eb3467a8ad3d00a9f0b053477a4901b5c8bc194afb6c273b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_synthetic_trace.json",
+      "sha256": "8d6f2fb477f9676454f7977da934bae1d7bc777b28225d57011a2b2b4d56c290",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_attempt_20261012.json",
+      "sha256": "1697c5b2977fdeb3b00662e87ffb23688828187e371c52e4a4947c767cdcf45b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_audit_20261012.json",
+      "sha256": "c591d0674ba6d250610571b63ee0bb73a2202f9d8066b839c08c28ffb9e5de3e",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_audit_20261012.md",
+      "sha256": "d2bb1a5e133ef217c8a0ca2f8eea0bd2c7a7add994844e40552b055a0879e315",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7.json",
+      "sha256": "e90dd42a1dd0df03297b92ed612884415fbe83bb6a8f8013efd55691779600bc",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7.md",
+      "sha256": "fe58f3633fc37a912c63ca174aaa58fc9db22905e6ff9c044b9bf41f4682c93a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_combined.json",
+      "sha256": "f0c34aed308e6aed71791868e93ccbe629429beba92fb3fdf51d6003f06bb30b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_combined.md",
+      "sha256": "1f4e738e0c49b9e2907eded1c6db90310cb26cea99e2d0abd0d25092daa3a5a2",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_combined_reviews.json",
+      "sha256": "b735621aeb6477369c623d60134db232a9e9129e21131921b5fdddeca1560064",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_reviews.json",
+      "sha256": "96dfc9415ec2f4e95d7452f598c1358a1ba9045f3f6c73092f3ebe0edf979f7b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_attempt_20261012.json",
+      "sha256": "d9177ea543f7691150ecd9819873fd862dba93b5c6e2878375e5ac94eee2d0d3",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.json",
+      "sha256": "cff2782ead7ea6acd5ea69f2a13cee7fbb9f7866511c96741f741ae2ce01ffdf",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.md",
+      "sha256": "1d84d4ae727810abe5b7c73916a6152043cecf3e555a30d85937a0d49e1d5b6f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_20261012.json",
+      "sha256": "a6440414e82c6933c6fc8634986adcf9099325c9ee182d25684b58f2793f0139",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_20261012.md",
+      "sha256": "57e77e7d2730478d3291161642a7e59dd74475deedfe7075f53875e6062eb4d4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_authorized_preflight_20261012.json",
+      "sha256": "b37ff4a76a848ac19f0c226ac9233809cb123eabe0844ed7181d1c5ff03acd0f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_proposal_20261012.json",
+      "sha256": "b85f94a21a1abfb18eeb00b17972d01883b6d2aa5e607442a0f5e755925eea6f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_proposal_20261012.md",
+      "sha256": "034b8e018cdc2593f023b30a95f762e5d13044c583997f5af5e9bb07b1a40113",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase1_judge_recovery_proposal_preflight_20261012.json",
+      "sha256": "a58c4b867f96d1329df1848d863e3d2d4f81dbeaeaf7fff22c13bd24f9745960",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "sha256": "d0dd7396e201119439658e0455f05d614908f1a54b65cf748e6a8c72cb89f726",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.md",
+      "sha256": "72e51346bdac6655c651f1af2383f89e6dfb38fd9370f54b52820462056b8f88",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic.json",
+      "sha256": "843179b4bcf4af01a0a68325985bdedb4ab56d7275e7e518afc4f1d5e3c5954a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic.md",
+      "sha256": "0c23e6aa53c4aca7dcb1e3fe2cbdabc8e5e05dc12f10c45a3e6dab3ee4fdc75f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic_reviews.json",
+      "sha256": "035950d03fd291a69dc620ab3e720bf9138cae3b466aba6eb46ec46c1391659b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_attempt_20261012.json",
+      "sha256": "0b9228bc9a9e8baa226ec6d2c9cb2d5776721541876ee05b6a67aabd11394ab7",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_audit_20261012.json",
+      "sha256": "d0904e9297180dd803c2123cadb7fdb03d17556bf29e65fd17845b72e42a395f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_audit_20261012.md",
+      "sha256": "6d3caccbd7ac7ff8433d0aa373feefb6e50ac4e60227a21cf55bb0f3377793f8",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_final_audit_20261012.json",
+      "sha256": "f886a2382995220d68b4abb3e589c1deda2959609ee6c37c17c32a8afa79263d",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_final_audit_20261012.md",
+      "sha256": "b40d3665d2e53e58d36a4b86512a0f17b6e82d146a26a56cf5940b6e6e3b8fa4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46.json",
+      "sha256": "058e9dd5aea4cf32425ea732c0ccf2cb0597848e83a717f9b117cc975ab193e8",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46.md",
+      "sha256": "66689b790e5da13a67c38e2624a9453087e69a04209ab2e3ea63ecb67abdff6b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_combined.json",
+      "sha256": "a1ba79894768b0c18fed51fe916e3b423af290cae0a9b25dac8a5239de750d12",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_combined.md",
+      "sha256": "eef5250972c00b40752e0e0ef609b8de9545a3ae7535e845ccdf2cd58a74e6f5",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_combined_reviews.json",
+      "sha256": "f793c2359a6a332b6ed1b428921e56886f4c9cd0897bb2bd685d3c3eacbb1df4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_reviews.json",
+      "sha256": "a0cf5b6a643700c98896188fbbb30dd9bc9b2dd769b859ff3c3639828521c4d1",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_attempt_20261012.json",
+      "sha256": "df6e160ed3c526258e3e78d8db67cbd3fcd052fa657a45fbd09a42e6a8b7b686",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_authorized_20261012.json",
+      "sha256": "e25f251bcf8cb5221fc3ac79045fab903c6ca0fd91510757df2eb3a4b75c2ce4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_authorized_20261012.md",
+      "sha256": "c8df501911a24501155a6348a0f24efab1ed0e625b9770a8dd0a6d07f996aa6a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_partial_audit_20261012.json",
+      "sha256": "df7ce254282547c1ddfacfbc7269b3409ef5e8c4c8cac368b668f0e5482681bb",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_partial_audit_20261012.md",
+      "sha256": "01cd7e5a15b91344042bbab10499a962b8ac9292a56a3bee514404b61c5c4536",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274.json",
+      "sha256": "a81116f31e187acca7fc452b9e4b335c156e4b417352287e326532e554cbc23b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274.md",
+      "sha256": "6143287d25ddfaf98e09bdc38dade432a60c36b70170268e387afe54a9cb5821",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined.json",
+      "sha256": "845da1845d2d107dce0b0391c0625a770d61ab945b40f7e2f37e2b2bbcb2d458",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined.md",
+      "sha256": "c425e4ba86f70d04fef37602843d9c9112016a2c16a319b0c552eebe25131b1f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_combined_reviews.json",
+      "sha256": "c9e0b9c6509561e84f8fd88ddb9a1dcecc39200ac148cd0cbcc133f33e71f99b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_reviews.json",
+      "sha256": "31cc9324764380bb572cb8ad23489793facff16c7aa4b3e7cc831a3fc84e185a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_attempt_20261012.json",
+      "sha256": "7da3ad225d26f9bc8595bfd905282de219287483a06451639429aea885394c1b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_authorized_20261012.json",
+      "sha256": "cc4e9068e05841922b82798da3a64e1afb5708d245ad025a1c2fd3bc801c974b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_authorized_20261012.md",
+      "sha256": "7a24e351e259a2b136fb8e57b6aeddf26d0783a3f77d22ee103340fa716f022c",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_pending_preflight_20261012.json",
+      "sha256": "b6fdbb98fef2a139d2c1a3a1d62f0bf868675c30c0ffa04770fee74064d64ab8",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge36_preflight_20261012.json",
+      "sha256": "747041a31aedd60424c011fb56352a0007f80d189e04086e16208e31a87f9589",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947.json",
+      "sha256": "429697c28db75a444c14f8425f28c9f5047c767dd16a1505229fe07b0c8e848f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947.md",
+      "sha256": "458a10d8cf175612e75ef5952b7fa473dea2d4a4f8d6ae0b55a43a65d06207da",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_combined.json",
+      "sha256": "228f2e370a3040ef5968cb50d581cae6ee2101e1c28c93fc934c007982d92abc",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_combined.md",
+      "sha256": "427a38fe1dbfb8138b5346eb356fde9bbe5093b7908a179e97a8eea8bba08d23",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_combined_reviews.json",
+      "sha256": "c171d4e97742d28ab8b09e812f1ed3754338f03561fd126576ece4ec5454b42a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_reviews.json",
+      "sha256": "db6d1600b46bde523d0141db8d5d744419adf153e9422e76442e78b7ea5c8ace",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_attempt_20261012.json",
+      "sha256": "1ec2cce3cfc318588acd44f941c79fce35f00ff23b3995969e2265793a57a83f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_audit_20261012.json",
+      "sha256": "e62c4475312de97b8091d65c5f11a4e36609ae9f74b1e93598d01e0f560e0b90",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_audit_20261012.md",
+      "sha256": "b7b281aae4b7d621e47a15b0f59a9dbfd24f845824050d5199f86519734fb98b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_20261012.json",
+      "sha256": "d6778b8abc8aceea54d3b0620829766d067c7234ee5e4431c71a17b1a398ffd6",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_20261012.md",
+      "sha256": "f55a1a460634c0f8fac7ddaae1132b47e447ebd948011f680c143d4c023f7e1e",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_authorized_preflight_20261012.json",
+      "sha256": "e093ab98bd83b9ddf55a36fc4fb1268b247e24b436cf2ca1749a2c21176705e0",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_20261012.json",
+      "sha256": "70afc6490464b6bdf950e074278ff03234df4078abe9513431293d917b1641fd",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_20261012.md",
+      "sha256": "e32bbba165f94b1911749850f5378fa0ff2c4fec2bd2d94020cd32a414b96e34",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_proposal_preflight_20261012.json",
+      "sha256": "285d9252efe5abb9dd9c101421ac6afbcf802690ea7ec0f4171f300eac9ef48b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec.json",
+      "sha256": "02f6662e9039c8aedcbfd552a8be9367834e48d6ed9415cfe2f961dc019b2814",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec.md",
+      "sha256": "458a10d8cf175612e75ef5952b7fa473dea2d4a4f8d6ae0b55a43a65d06207da",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_combined.json",
+      "sha256": "8128870c32b9a4e6242fca4b814e5157200a859b17def479789de5a99fff8579",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_combined.md",
+      "sha256": "6b677495c267c2d2c82d1a8155c435dd6973f219e0dc45baf0201f9d113402f6",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_combined_reviews.json",
+      "sha256": "b51581526b37447fe07b75b6e54ac39aaccb5af7352134d47fbda38e1cf74abc",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_reviews.json",
+      "sha256": "77a5eee7916b4a8203718f88ea9a6b2f000212cc2f644f0f716e813b3ab17014",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_attempt_20261012.json",
+      "sha256": "8feb3a53bd530e97ec29e6f5f0f327dc21c667353235e5246746a80870df0acf",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_audit_20261012.json",
+      "sha256": "a47a8a08a3b66038cc569e94c97b7a7838bf625be7432ea62e9e1adc4971327b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_audit_20261012.md",
+      "sha256": "3204414c886bdc3ab6153cecbfc97aa5c81bd9b6f5c4b2d494a92d56c722e374",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_authorized_20261012.json",
+      "sha256": "fec537482216de1c9009e305b7b9ea2c6785d26f50c88efad1eeb20f10f8cc1b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_authorized_20261012.md",
+      "sha256": "b336fcd163ba27736f0f106d3e683a1ac0ff9aa28625833a41c60654b7b8de99",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_preflight_20261012.json",
+      "sha256": "81941cd287b6899802a749e1be9f919df506eca9925c11e3f490519fc52c60f5",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4.json",
+      "sha256": "3d7d9d63ada88e700197cfb078515675fa298ff92ff602a742ecfd87acdd7fa4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4.md",
+      "sha256": "458a10d8cf175612e75ef5952b7fa473dea2d4a4f8d6ae0b55a43a65d06207da",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_combined.json",
+      "sha256": "49872aa343f552dc8030e227e9ccb8c255ccd8e700b8fc372a617e9e6279ec5a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_combined.md",
+      "sha256": "116bb961b9c06497e05b4a35305988f7f7b238f764734381f3ef4a3eced78180",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_combined_reviews.json",
+      "sha256": "6aa1bd45b93347acbc54520b161b8b760620e41b2ba9783ccbb10988e5b147fa",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_reviews.json",
+      "sha256": "06808641abd555b61432b890bb3c99326b3e7eafbb197486dcd849b2f4d3e10f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_attempt_20261012.json",
+      "sha256": "57fd1706f8746674a3dc367f927343035c6fccab1c010694cb62f2df9b063088",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_audit_20261012.json",
+      "sha256": "b0c2063c3bb55bfc1f03d5b9495cbfe43a537ce600461fe685da922ad241767b",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_audit_20261012.md",
+      "sha256": "21fb820b6bd62632d2630dae592ea96a70cca1ebae74fef0893e36b0670ff03c",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_authorized_20261012.json",
+      "sha256": "ad08e7bae47b78c30fd543474a99940bc3f12322b693ce41ff2fc073a737dcac",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_authorized_20261012.md",
+      "sha256": "4fe65590fe77732bd916a6ba9d4961357497145d786591be9287b56ef074df45",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_preflight_20261012.json",
+      "sha256": "ba8ac95155e14acceb38b811af6dfab78b5a90578981b7859d28f417f19302a5",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_phase2_ready_after_recovery_preflight_20261012.json",
+      "sha256": "24d032247a9ecd77709ca4e29f354f11f2dad23e65902713fff67ae6ebc8ce9f",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_20261012_121907_b98e4274_combined.json",
+      "sha256": "494daf2c0821fc2530647e1f3f2da8ee9bdfb44494adae3b48c5472b18c2f5c9",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_20261012_121907_b98e4274_combined.md",
+      "sha256": "e9d28e29358bc43e3e2fa62ee4b2b5d66e91a5f586fe604d841837c1cc8ada8d",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_20261012_121907_b98e4274_combined_reviews.json",
+      "sha256": "401554cdd546bd98dc0167f6e9c5ceff76a284195117be908dc1d39d3ad94300",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_acceptance_20261012.json",
+      "sha256": "11db96ca9317c4d127c71ba8800aeaaf5a7aaed4c22b2dc65370afa508f7de39",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_acceptance_20261012.md",
+      "sha256": "73cb951a94c65af52f40d817e1b85aef43648ac269389d317f5691d90763f17d",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_authorized_20261012.json",
+      "sha256": "4724eaa7e55688e3ed5bd29a2f06c3a2633b375deca2ac860f5012a04d2164f0",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_authorized_20261012.md",
+      "sha256": "ddb23de85d457ea82bad6f0a9534d38c6049fc65dfb15eb898050d18ed46b0d4",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_closure_preflight_20261012.json",
+      "sha256": "4c87f35316c6d05ebdcad60d49296a7ab22a42fcaad4c1e88565d71c5d1d44fe",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_preflight_20261012.json",
+      "sha256": "da0e3d1465cd1638828561bb81b6002c7ab99e2aa18ebc1345c1cbb0544a660a",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_progress_20261012.json",
+      "sha256": "344d17f89ebabf0c2ded52325e6220bbec356057c94dee618dbf0328da7a9bef",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_progress_20261012.md",
+      "sha256": "84f7f00d20ab933dd94dc0919baaad6de29c42ed9daa5b4855f61773d6921275",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_proposal_20261011.json",
+      "sha256": "0ecd4d62aa909b7af6e751033a253f8db336fbe4d4b55b04665704c82cc101de",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_policy_refusal_validation_proposal_20261011.md",
+      "sha256": "b2ecd1b5307fa518d60c031f383935b1ece65da081d08b250074488c32fe45e9",
+      "baseline": "initial_local_hash"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_simulated.json",
+      "sha256": "ade6ef9a87cf3e60a4ed09efa17873778e171387cbffc5fa18ee57fb3ddbe49d",
+      "baseline": "unchanged_tracked_git_bytes"
+    },
+    {
+      "path": "docs/evaluations/chatbot_step4_simulated.md",
+      "sha256": "b411d3a7d7fe585b8eb1908d4d24d4bdc72824b895a72a5e17e229f922fb1a52",
+      "baseline": "unchanged_tracked_git_bytes"
+    }
+  ],
+  "existing_changes_accounted_for": {
+    "agents/chat_response.py": {
+      "changed_for_step5": true
+    },
+    "README.md": {
+      "changed_for_step5": true
+    },
+    "docs/chatbot_incidents.md": {
+      "changed_for_step5": true
+    },
+    ".kiro/specs/mepia/n15_chat_consulta_catalogo.md": {
+      "changed_for_step5": true
+    },
+    ".kiro/specs/mepia/n15_chat_consulta_tools.md": {
+      "changed_for_step5": true
+    },
+    ".kiro/specs/mepia/n15_chat_consulta.md": {
+      "changed_for_step5": true
+    },
+    "docs/mepia_v4_metricas_diseno.md": {
+      "changed_for_step5": true
+    },
+    "docs/chatbot_corrections.md": {
+      "changed_for_step5": true
+    },
+    ".kiro/specs/mepia/_glossary.md": {
+      "changed_for_step5": true
+    },
+    ".kiro/specs/mepia/_index.md": {
+      "changed_for_step5": true
+    },
+    "docs/chatbot_step4_eval.md": {
+      "changed_for_step5": true
+    }
+  },
+  "incidents_created": [
+    "INC-20261012-022",
+    "INC-20261012-023",
+    "INC-20261012-024",
+    "INC-20261012-025"
+  ],
+  "incidents_updated": [
+    "INC-20260915-002",
+    "INC-20260924-008",
+    "INC-20261004-017",
+    "INC-20260930-014"
+  ],
+  "pending_separate": [
+    "real authenticated test environment with authorized migration/ownership/configuration",
+    "legacy endpoint protection before full backend exposure",
+    "dependency publication gates",
+    "shared history for multiple replicas if required",
+    "OpenAI GPT-6 Luna integration and real validation"
+  ],
+  "files_modified_this_turn": [
+    ".env.example",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/db_schema.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+    ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+    "README.md",
+    "agents/chat_conversation.py",
+    "agents/chat_response.py",
+    "api/.env.example",
+    "api/chat.py",
+    "api/core/auth.py",
+    "api/core/chat_history.py",
+    "api/core/config.py",
+    "api/main.py",
+    "api/requirements-dev.txt",
+    "api/requirements.txt",
+    "app/api/audit/layer3/status/[layer2_run_id]/route.ts",
+    "app/api/audit/result/[run_id]/route.ts",
+    "app/api/audit/status/[run_id]/route.ts",
+    "app/api/chat/[business_id]/[conversation_id]/route.ts",
+    "app/api/chat/[business_id]/route.ts",
+    "app/api/chat/businesses/route.ts",
+    "app/chat/page.tsx",
+    "app/page.tsx",
+    "components/chat/ChatPanel.tsx",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_step4_eval.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/evaluations/chatbot_step5_local_validation_20261012.json",
+    "docs/mepia_v4_metricas_diseno.md",
+    "next-env.d.ts",
+    "package-lock.json",
+    "package.json",
+    "supabase/migrations/010_chat_business_access.sql",
+    "supabase/migrations/APPLY_ALL.sql",
+    "tests/chat_step5_e2e.cjs",
+    "tests/chat_step5_server.py",
+    "tests/test_chat_api.py",
+    "types/chat.ts",
+    "utils/chat-proxy.ts",
+    "utils/supabase-browser.ts"
+  ],
+  "repository_status_search": {
+    "matches_evaluated": 260,
+    "preserved_step4_reports_and_progress": "historical snapshots of Step4 closure, not current Step5 progress",
+    "current_step5_progress": "this new report and current documentation summary sections"
+  },
+  "documentation": {
+    "local_links_checked": 122,
+    "broken_links": [],
+    "historical_matches_evaluated": [
+      {
+        "file": "README.md",
+        "line": 163,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 254,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 278,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 306,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 349,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 386,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 416,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 442,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 509,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 556,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 587,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 630,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 653,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 701,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 737,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 768,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 812,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 862,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 923,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 953,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 972,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1021,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1061,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1115,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1207,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1255,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1302,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1371,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1431,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1476,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1501,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1524,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 1551,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 2284,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 2680,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3195,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3232,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3276,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3305,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3314,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3326,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3355,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3356,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_corrections.md",
+        "line": 3357,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 18,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 316,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 333,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 350,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 1231,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 1309,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 1358,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 1659,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_incidents.md",
+        "line": 2037,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_step4_eval.md",
+        "line": 35,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_step4_eval.md",
+        "line": 202,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_step4_eval.md",
+        "line": 515,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_step4_eval.md",
+        "line": 1485,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_step4_eval.md",
+        "line": 1517,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_step4_eval.md",
+        "line": 1548,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/chatbot_step4_eval.md",
+        "line": 1586,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 313,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 811,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 1155,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 1177,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 1205,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 1220,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 1258,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": "docs/mepia_v4_metricas_diseno.md",
+        "line": 1420,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/mem_memory_layer.md",
+        "line": 207,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta.md",
+        "line": 229,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta.md",
+        "line": 549,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta.md",
+        "line": 567,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta.md",
+        "line": 586,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta.md",
+        "line": 601,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta.md",
+        "line": 748,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+        "line": 225,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+        "line": 240,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+        "line": 387,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+        "line": 262,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+        "line": 279,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+        "line": 296,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+        "line": 311,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+        "line": 458,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      },
+      {
+        "file": ".kiro/specs/mepia/_glossary.md",
+        "line": 896,
+        "evaluated_as": "historical_stage_or_separate_production_gate"
+      }
+    ],
+    "active_step5_summary_files": [
+      "README.md",
+      "docs/chatbot_corrections.md",
+      "docs/mepia_v4_metricas_diseno.md",
+      ".kiro/specs/mepia/n15_chat_consulta.md",
+      ".kiro/specs/mepia/_auth_strategy.md",
+      ".kiro/specs/mepia/_index.md",
+      ".kiro/specs/mepia/_glossary.md"
+    ],
+    "protected_step4_reports_not_rewritten": true
+  },
+  "modified_file_sha256": {
+    ".env.example": "cc6cb09e8737b1918498392dfd09c98206c5f595fb19d69dc9f8699a5fd2f7cd",
+    ".kiro/specs/mepia/_auth_strategy.md": "9ada6eb405b02ffe4adffde34851525ea8b9e7b148c761fc9d9f825158c53e58",
+    ".kiro/specs/mepia/_glossary.md": "5a2b06432ccd7d6a543473eca350176189e6492d1e1a638da520293c2fe72bd9",
+    ".kiro/specs/mepia/_index.md": "cd2bb2f76c6c6a4df2cc58fa14db586358461ab6b9609f96d4cd2edbb5b1744e",
+    ".kiro/specs/mepia/db_schema.md": "4b2867ac8f0fec72b811f821260afb70ac30772be647d4297637c3b20ef99ff6",
+    ".kiro/specs/mepia/design_flows.md": "b5a683e53862496df02aba0c9eff789c0401ddf0cbdcc0744f3bc414aa192f8d",
+    ".kiro/specs/mepia/n15_chat_consulta.md": "c9197826ed8970da3b14f8cd4d4b4ef57dabb4dbe115c983e17dd85e6d619dc8",
+    ".kiro/specs/mepia/n15_chat_consulta_catalogo.md": "20744ff4120cb9022840874aeef0120a6f0e2759cfda962cf95732f8fceffc6c",
+    ".kiro/specs/mepia/n15_chat_consulta_tools.md": "21440ff1012e9d608532d52ff544e2e00c305960019777d505c0f666755901b7",
+    "README.md": "d6f58501e6a2868e3d223595eebafed0a00755b6b1336d649ec53004889585ca",
+    "agents/chat_conversation.py": "fd966744a5cfb3de41aa17fbeb180f82e6ef5072b9f2aa01fff37edac9af0258",
+    "agents/chat_response.py": "1408dc1d20b278303372deb1ced1a368d102fe28994771b64bb8e1eba4cdc650",
+    "api/.env.example": "b9616607f098e54d412e3583809578de3d392005d774a1bab052103fd8c1e208",
+    "api/chat.py": "6b260c76636e1c4c8a6147b0960f3ec6ad71dcd3b98d830aad1f5ed9f7ba8dc4",
+    "api/core/auth.py": "d6b27eea925ae7d2665880476ba0a42d4f2fcc42dee221c4a81f1a904238bfd0",
+    "api/core/chat_history.py": "9295615d2e657fda6239ae19ab93bb0e6848f0b87abb535f0690697347d31de8",
+    "api/core/config.py": "481e87940611882d72afd3216093828f9ae5f1185cb566578233fb682ed20817",
+    "api/main.py": "84ab675799f44f4fc9473fe6f804bccc952e977f45ffec30cbdf3128ef061c30",
+    "api/requirements-dev.txt": "2cc02fd9d25683a3e974ece169078b3dde71ff091efd421482c11079b32e3ac9",
+    "api/requirements.txt": "3d77b145a94d206e6331d7a8db9925510efe9f16cafff4a1f988551a783845a9",
+    "app/api/audit/layer3/status/[layer2_run_id]/route.ts": "a8a5ea438485bd50ef8725189348df5af6e059c18421670db0b3f2f1e923ee0a",
+    "app/api/audit/result/[run_id]/route.ts": "f824bd1c27199f007ae321c2f36aa53fe7e3cc4424d93b521ee9455392ec7281",
+    "app/api/audit/status/[run_id]/route.ts": "6ec813138272f7195fd0bd3c1650d6d79088fcf2f216e7ac4f5ffaadfeb9483f",
+    "app/api/chat/[business_id]/[conversation_id]/route.ts": "ab0673ed39fcc529258761c5bfbff4794e60c0c514e10b32c05922f19ae3826a",
+    "app/api/chat/[business_id]/route.ts": "2fa623d50428be0a244f8bf09089d2d1be4177297ffc59c2d776992185a20335",
+    "app/api/chat/businesses/route.ts": "da830ea263b5cff90897c3c78fa0a729a11a3d33b6eecf3065844cd5779443e4",
+    "app/chat/page.tsx": "a0dadd2e574c6f5f6137a92ca5df306c8d2a0a40dcc109d35b161609c772001b",
+    "app/page.tsx": "7720380b8aec01474db3d5f551dbbff2c62341d89b20f45da10dc82fecd726ef",
+    "components/chat/ChatPanel.tsx": "03c71077faa243bab08d6dbb6abc7e05c1cf01125906625b9d4eff7a33e3720c",
+    "docs/chatbot_corrections.md": "7d7c8c57ddd350f4f80b831b6a3d22a520f30ae546ad7a64f9bfb4572d490d7b",
+    "docs/chatbot_incidents.md": "cb46a51bdd21d1fa54d517d13ce07206f5df94e1656324d125a1545af2df3ab4",
+    "docs/chatbot_step4_eval.md": "65108bfcd2b5893718a24ec5542da12df30c28e2350dca30141ac1556518071c",
+    "docs/chatbot_step5_integration.md": "8e78476fae31dd49644ed016989a446f2de439e3bc725865a0a143f326569af5",
+    "docs/mepia_v4_metricas_diseno.md": "ee82c2257d5247ad351ca6c83b4374643d833587ff95f3100034e3de7ec53ed0",
+    "next-env.d.ts": "f4e8976c19fc926644d72610bf1058bd6bf52add97e46a02bc0b912a751625c0",
+    "package-lock.json": "0a69d57c0e9140e72a46d52eb4e73d23fc4b783c991b81cb984091d88af44193",
+    "package.json": "f6f32e7ffaa91ffdf0e29882401dc086f8e06db002a12279bce28a604eb1570b",
+    "supabase/migrations/010_chat_business_access.sql": "36af3b977602887183bd2efcfcd6c9b956d03a56736e50706762ba0bf7966759",
+    "supabase/migrations/APPLY_ALL.sql": "49f2912321b7607dfc5861b56bfeb2e8ee7de882f66070bd4ce41d7bb962a75f",
+    "tests/chat_step5_e2e.cjs": "8a827be9b754699680313889e9054a2769f541fae7bdb8ba2bf4f340aea0c573",
+    "tests/chat_step5_server.py": "ae21ef49143d8dd505f41fb589ee33caf91f9d87ae425fecc4245d1f8a08cd24",
+    "tests/test_chat_api.py": "ddc0b49b785991f143e523f2bc9d1032e2f8544c20c21ef6a7de29aa937d4086",
+    "types/chat.ts": "02429765db01a35da88a8654d30fb90371544a4b3f2fabb95c6f3b092f3aad88",
+    "utils/chat-proxy.ts": "61bcecbc48866e9f4325ea590a407d1e77df874703add6a6afabe58feaff94a0",
+    "utils/supabase-browser.ts": "2d22b8c1fc5e6daf0d5fc67db4ceab05f3183ec3dbb70582ea7ade3c52aa4a3c"
+  },
+  "git_diff_check_exit_code": 0
+}

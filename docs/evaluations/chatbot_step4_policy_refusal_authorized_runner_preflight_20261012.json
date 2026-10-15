@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-12",
+  "generated_at_utc": "2026-10-12T06:31:54.618237+00:00",
+  "plan": "chatbot_step4_policy_refusal_validation_authorized_20261012.json",
+  "plan_sha256": "4724eaa7e55688e3ed5bd29a2f06c3a2633b375deca2ac860f5012a04d2164f0",
+  "powershell_controls": [
+    "powershell_syntax",
+    "phase1_show_plan_without_key_or_api",
+    "phase2_show_plan_without_key_or_api",
+    "phase2_blocked_before_key_and_reservation",
+    "duplicate_phase1_blocked_before_key_with_owned_marker_removed",
+    "exhausted_budget_blocked_before_key_and_reservation_progress_restored"
+  ],
+  "powershell_controls_passed": 6,
+  "runner_mock_controls": {
+    "local_controls": [
+      "phase1_successful_budget_digest_coverage_and_global_gate",
+      "phase2_successful_budget_digest_coverage_and_global_gate",
+      "generation_failure_stops_next_cases_and_skips_judge",
+      "judge_503_stops_without_retry_or_next_batch",
+      "judge_adverse_stops_without_retry_or_next_batch",
+      "judge_incomplete_stops_without_retry_or_next_batch"
+    ],
+    "controls_passed": 6,
+    "new_api_calls": 0,
+    "simulated_outputs_are_not_model_quality_evidence": true
+  },
+  "new_api_calls": 0,
+  "protected_original_evaluation_files_unchanged": 264,
+  "progress_restored_exactly": true,
+  "no_actual_attempt_reserved": true,
+  "real_model_effect_pending": true,
+  "user_authorized": true,
+  "prior_verification_setup_failure": "case_sensitive_SystemRoot_lookup_before_any_process_or_api",
+  "verification_setup_failure_resolved_by_case_insensitive_lookup": true,
+  "powershell_runner_sha256": "76b7d8503af40e44c3157d31d5f1974ff4b11343bc31bda66722f5da25ccc4b8",
+  "python_runner_sha256": "b3ad3d95dbbd02012d9cec9f7789f4a3d5e64af91055dc0f930a9dfca6da8900"
+}

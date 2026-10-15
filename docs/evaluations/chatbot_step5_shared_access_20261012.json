@@ -1,0 +1,233 @@
+{
+  "date": "2026-10-12",
+  "scope": "Paso 5: login único previo a MEPIA, menú común y chat integrado",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "commit": "sin commit",
+  "changes": {
+    "login_route": "/login",
+    "chat_section": "/chat",
+    "shared_menu_and_business_context": true,
+    "dedicated_chat_login_removed": true,
+    "server_cookie_verification": "Supabase getUser",
+    "cookie_secure_in_production_browser_and_server": true,
+    "chat_bearer_and_business_permissions_preserved": true,
+    "legacy_next_proxies_require_session": true,
+    "direct_legacy_fastapi_resource_permissions_complete": false
+  },
+  "validation": {
+    "e2e": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "Proxy anÃ³nimo: 401, cero DB y modelo",
+          "passed": true
+        },
+        {
+          "name": "Entrada general: todas las pÃ¡ginas privadas requieren login",
+          "passed": true
+        },
+        {
+          "name": "Cookie inventada no permite entrar a MEPIA",
+          "passed": true
+        },
+        {
+          "name": "Inicio de sesiÃ³n y solo negocios propios",
+          "passed": true
+        },
+        {
+          "name": "Chat desde el menÃº comÃºn, sin un segundo login",
+          "passed": true
+        },
+        {
+          "name": "Pregunta con cifra/unidad, fuentes y linaje",
+          "passed": true
+        },
+        {
+          "name": "ContinuaciÃ³n conceptual e historial recuperable",
+          "passed": true
+        },
+        {
+          "name": "Cambio de negocio limpia historial visible",
+          "passed": true
+        },
+        {
+          "name": "Negocio ajeno: 403 sin evidencia ni modelo",
+          "passed": true
+        },
+        {
+          "name": "Rechazo de cÃ¡lculo y eliminaciÃ³n del historial",
+          "passed": true
+        },
+        {
+          "name": "Cambio de usuario sin conversaciones ajenas",
+          "passed": true
+        },
+        {
+          "name": "MenÃº mÃ³vil y chat utilizables sin desbordamiento",
+          "passed": true
+        },
+        {
+          "name": "Cerrar sesiÃ³n devuelve al login y bloquea enlaces directos",
+          "passed": true
+        }
+      ],
+      "page_errors": [],
+      "external_api_calls": 0
+    },
+    "final_e2e_exit_code": 0,
+    "final_typescript_exit_code": 0,
+    "final_build_exit_code": 0,
+    "final_build_compile_seconds": 45,
+    "next_version": "15.5.27",
+    "attempts": [
+      {
+        "attempt": 1,
+        "passed": false,
+        "checks_passed": 3,
+        "exit_code": 1,
+        "report": "docs/evaluations/chatbot_step5_shared_access_attempt1_20261012.json"
+      },
+      {
+        "attempt": 4,
+        "passed": false,
+        "checks_passed": 3,
+        "exit_code": 1,
+        "report": "docs/evaluations/chatbot_step5_shared_access_attempt4_20261012.json"
+      },
+      {
+        "attempt": 5,
+        "passed": false,
+        "checks_passed": 5,
+        "exit_code": 1,
+        "report": "docs/evaluations/chatbot_step5_shared_access_attempt5_20261012.json"
+      },
+      {
+        "attempt": 6,
+        "passed": false,
+        "checks_passed": 10,
+        "exit_code": 1,
+        "report": "docs/evaluations/chatbot_step5_shared_access_attempt6_20261012.json"
+      },
+      {
+        "attempt": 7,
+        "passed": true,
+        "checks_passed": 13,
+        "exit_code": 0,
+        "report": "docs/evaluations/chatbot_step5_shared_access_attempt7_20261012.json"
+      }
+    ],
+    "incomplete_attempts": [
+      2,
+      3
+    ],
+    "incomplete_attempts_exit_code_available": false,
+    "first_typescript": "six TS7006; fixed, not passed",
+    "first_e2e_invocation": "MODULE_NOT_FOUND; test did not start",
+    "full_python_suite_repeated": false,
+    "prior_python_suite": {
+      "passed": 292,
+      "skipped": 1,
+      "subtests_passed": 119
+    },
+    "screenshots_desktop_mobile_inspected": true,
+    "dev_indicator_disabled_after_e2e_validated_in_final_build": true
+  },
+  "real_account_new_global_login": "pending_user_confirmation",
+  "prior_real_account_login_in_old_flow": true,
+  "password_entered_by_agent": false,
+  "agent_inspected_real_browser_tokens": false,
+  "checks": {
+    "previous_evidence_count": 384,
+    "previous_evidence_unchanged": true,
+    "documents_links_checked": 18,
+    "broken_local_links": 0,
+    "public_files_scanned": 280,
+    "private_data_findings": 0,
+    "private_configs_gitignored": true,
+    "generated_private_type_paths_removed": true,
+    "git_diff_check_exit_code": 0
+  },
+  "source_files": [
+    "middleware.ts",
+    "app/layout.tsx",
+    "app/page.tsx",
+    "app/login/page.tsx",
+    "app/chat/page.tsx",
+    "app/dashboard/page.tsx",
+    "app/api/upload/route.ts",
+    "components/auth/MepiaAuthProvider.tsx",
+    "components/auth/MepiaLogin.tsx",
+    "components/layout/MepiaShell.tsx",
+    "components/chat/ChatPanel.tsx",
+    "components/ui/MepiaIcon.tsx",
+    "components/onboarding/OnboardingForm.tsx",
+    "components/upload/OnboardingGate.tsx",
+    "components/upload/UploadForm.tsx",
+    "utils/supabase-browser.ts",
+    "utils/login-destination.ts",
+    "next.config.js",
+    "tsconfig.json",
+    "next-env.d.ts",
+    "tests/chat_step5_server.py",
+    "tests/chat_step5_e2e.cjs"
+  ],
+  "documents_updated": [
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/chatbot_step4_eval.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+    ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+    ".kiro/specs/mepia/design.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/design_components.md",
+    ".kiro/specs/mepia/design_components_tree.md",
+    ".kiro/specs/mepia/design_wireframes.md",
+    ".kiro/specs/mepia/tasks_phase2.md"
+  ],
+  "source_sha256": {
+    "middleware.ts": "8f5c8e2df72fe7f339311273bab78e163cbd8cf06362acd00eb32caa416e3a0b",
+    "app/layout.tsx": "f705a4afa40788d050ced536ab50d73955448991d233c01b0da8599a165adbca",
+    "app/page.tsx": "04066870f3c3c4f345f9efcf38e434f0c773df850cc0f108eb963aa7fabd7387",
+    "app/login/page.tsx": "0c1ce3679e984bf1c069cff52829cfdb898ebae071d873b1700ed108d23b1329",
+    "app/chat/page.tsx": "de316dee021d859bad815429203f4fc6786261940a93d8bbc80fc0c175c75edf",
+    "app/dashboard/page.tsx": "806ef77d53fd89514db39102b928c3075770a8f54cb18dd8c06348ad524562f1",
+    "app/api/upload/route.ts": "9ff9ae04ddcb635cfbfd989788d23e7acc03529797c22f0a9668a6cc926e6ddc",
+    "components/auth/MepiaAuthProvider.tsx": "af4066c2be514cc13bfec48b05b2aad0b95e13ceba665c73afdda8bc96ddcfba",
+    "components/auth/MepiaLogin.tsx": "8979005b8af44c318826362ea4f80026f378e951f36adcad490f23b4375d3e14",
+    "components/layout/MepiaShell.tsx": "81b5bd092b43316e97463d23924763c671a3523f2d313e14137b3ecd049fe237",
+    "components/chat/ChatPanel.tsx": "d5d20c4885245257edf1e7958641ecd8226d2f3b1738ede82b2d0813718d90be",
+    "components/ui/MepiaIcon.tsx": "e601f4cd5f772bebd14f1893b699c5c962c75d503666dae03b926fb720855fc8",
+    "components/onboarding/OnboardingForm.tsx": "76158262f4e9b11c847eeff4d0349885d28c0a1892708914aa03b45cfbf10d9d",
+    "components/upload/OnboardingGate.tsx": "9ab464ac66ebfdab5e8265a20d48a0042680f6b2e952d5d3fc16d5491494852d",
+    "components/upload/UploadForm.tsx": "9faf5ce25129e94f0140834bbf87f3d177682242e17e272a571757aaad1e69ff",
+    "utils/supabase-browser.ts": "2a12d2817833bc429bc6231c6997fd1306cc3e9ffcefd5c3a24de023706bd5ba",
+    "utils/login-destination.ts": "8900301f8dcb96ab66601aeb1674dc840dba1d366230da07d961296169e10c50",
+    "next.config.js": "dad2b4a6ef8d505e4d75a6a616f0447635b738683d4cf8a139ed8a4c74726c40",
+    "tsconfig.json": "43a4846485ee51bbd4873d88d74f757d53ff4e488be13dc9367ad3fc8d64ee0c",
+    "next-env.d.ts": "f4e8976c19fc926644d72610bf1058bd6bf52add97e46a02bc0b912a751625c0",
+    "tests/chat_step5_server.py": "1f6d712174f1f9ca7d7a2d18c89e52d5f9f0ec0572d99b1df78776e0c0ff2d5c",
+    "tests/chat_step5_e2e.cjs": "a3c8b8911424a1a795c73964fb1d0bdfde2e820c8b6081e5d5b730ee6266f30e"
+  },
+  "incidents_created_or_updated": [
+    "INC-20261012-032",
+    "INC-20261012-033"
+  ],
+  "incidents_status": {
+    "total": 33,
+    "resolved": 31,
+    "mitigated": 2,
+    "open": 0
+  },
+  "real_model_calls": 0,
+  "production_access_or_changes": false,
+  "sql_changes": false,
+  "next_action": "Usuario comprueba entrada general y menú; modelo real se configura/valida por separado."
+}

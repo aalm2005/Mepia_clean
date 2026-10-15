@@ -1,0 +1,26 @@
+{
+    "schema_version":  1,
+    "status":  "result_saved_pending_audit",
+    "started_at_utc":  "2026-10-12T04:52:01.7178764Z",
+    "source_report":  "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+    "source_report_sha256":  "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+    "plan":  "chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.json",
+    "plan_sha256":  "9fec3a3f68078df7a43a9940e7af00f0a011596b66c7b5fd62a067bb56a0507c",
+    "runner_sha256":  "b2cb9de863f57f706d227aa6f1e9c35f23f672b7b3d64483bf1d08c69675fc1a",
+    "judge_model":  "gemini-3.8-flash",
+    "budget_reserved":  {
+                            "judge_max_calls":  1,
+                            "generation_max_calls":  0
+                        },
+    "automatic_retries":  0,
+    "judge_report":  "chatbot_step4_consistency_judge38_run1_retry_58b2769d_20261012_045201_1e1da5bf.json",
+    "actual_calls":  {
+                         "generation":  0,
+                         "judge":  1,
+                         "total_api":  1
+                     },
+    "runner_error_type":  null,
+    "does_not_resume_or_qualify_original_series":  true,
+    "judge_exit_code":  1,
+    "finished_at_utc":  "2026-10-12T04:52:23.1466712Z"
+}

@@ -1,0 +1,29 @@
+{
+    "schema_version":  1,
+    "status":  "result_saved_pending_audit",
+    "output_prefix":  "chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947",
+    "source_report":  "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+    "source_report_sha256":  "d0dd7396e201119439658e0455f05d614908f1a54b65cf748e6a8c72cb89f726",
+    "plan_sha256":  "d6778b8abc8aceea54d3b0620829766d067c7234ee5e4431c71a17b1a398ffd6",
+    "runner_sha256":  "a62ddad74970bf7e01f05288b6c546caceedc4cff5a472b8bcd70f33610d0804",
+    "python_runner_sha256":  "7b166fa99e83c6bbbee1d923c87a0b911f45b88be76675709ca433957edee942",
+    "started_at_utc":  "2026-10-12T08:38:47.0974925Z",
+    "budget_reserved":  {
+                            "generation":  0,
+                            "judge":  3,
+                            "total_api":  3
+                        },
+    "budget_breakdown":  {
+                             "previously_unused_judge_calls":  2,
+                             "additional_api":  1
+                         },
+    "actual_calls":  {
+                         "generation":  0,
+                         "judge":  1,
+                         "total_api":  1
+                     },
+    "semantic_report":  "chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947.json",
+    "runner_error_type":  null,
+    "review_exit_code":  1,
+    "finished_at_utc":  "2026-10-12T08:39:00.3095746Z"
+}

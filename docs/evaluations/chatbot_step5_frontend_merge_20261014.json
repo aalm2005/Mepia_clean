@@ -1,0 +1,394 @@
+{
+  "date": "2026-10-14",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": "sin commit",
+  "status": "implemented_and_validated_locally",
+  "source": "User-provided local frontend directory",
+  "git_branch_merge_performed": false,
+  "received_directory_modified": false,
+  "code_files": {
+    "app/dashboard/page.tsx": "1cd0c07690741615b7e572939da65f88c0d280b404fecfa38cb11d89a329063f",
+    "app/globals.css": "40f6b109665417a1cc3747027d3e10edf9b57ae0c93380a0dda152bb874fe8f0",
+    "app/layout.tsx": "c34d7cc4f26e86e45ce9f1177cec5184df0a08d5609edc7a881a72769b9c728c",
+    "app/onboarding/page.tsx": "1316531a4dfe5a8e98f0a56d2bac9e82d2d4bcf81e39dabd449fd0723132ffe1",
+    "app/page.tsx": "bbdde37d8f235a0ca639c13e2dcb506458e19d0a993dcb7d497776315ecb8eef",
+    "app/reportes/page.tsx": "53edf618c070cdf1056f6364bb51da6dcba80c5512498c658ecade7fd4021a7e",
+    "app/salud/page.tsx": "69db598c5aacfcf25a2af1c626bb8d8943c4f2558b5cc0d670d0946a5a9f1e2d",
+    "app/upload/page.tsx": "bd98421d13527c345a872b8981968ba777176631513b15b891a6aa05592f9836",
+    "components/AuditTable.tsx": "62555dcd372c534ff603ab08a554aba7186fd7fd34a31a6176ae36b826024552",
+    "components/GlassBackground.tsx": "a9342fd9355096b9e7645c353500f20c5ca52097530bbe5e16e081510df4a79f",
+    "components/auth/MepiaLogin.tsx": "332c90788c0f75d3bc762df2265d67459115c5913294ca910827f99865440b2d",
+    "components/charts/GlassTooltip.tsx": "c721b6dabe6d30fc5241e02a30b3a5bf395f5614b7355190ded56a0b7fecafea",
+    "components/charts/MetricBarChart.tsx": "55e11d55954555580cee493113a7e49fd368e7b644a30beb66d6232417c54a67",
+    "components/charts/MetricLineChart.tsx": "2763246e565d9804c682ab3298c3d071b2f1f18827dbaba52b96a150ff7aaaeb",
+    "components/charts/chartTypes.ts": "499ca4c94974ad9202b50dcc2e6d7464981894922b676c5c31bd67cbfdb67344",
+    "components/dashboard/AnomalyCard.tsx": "a4b30f444d6909ea47c00ce0d518a4eeb825122bb630b53ba4e043ab3c9b14ca",
+    "components/dashboard/AuditHeader.tsx": "f32e4bae7504b43f3babc32e9de006f76296a615f9fcf32219fbdcb6969545e5",
+    "components/dashboard/AuditReportView.tsx": "09d25eb404ec60abdc6a3992efabcb7f485aa631ad882997b062e0135db206e6",
+    "components/dashboard/DormantMetricsList.tsx": "0443107a63358ff68e892bc96d12ebbe1a36bafe536d0c0a1b4b1d893794e46f",
+    "components/dashboard/ForensicSummary.tsx": "baf81bcce4956df6e6b144bd624294d5166a08ba2243430ac8b9b808336eeb85",
+    "components/dashboard/KpiGrid.tsx": "44d6e13ddc6e130bcd8c1a7d55bf8b144588f04d9d0471a442ca24c2a0e21685",
+    "components/dashboard/Layer2Banner.tsx": "bc73a22e6207ec6d1d6434700b37ec5bc1782eba652f362421683103b9101c58",
+    "components/dashboard/MetricsCharts.tsx": "1bf5772359d3074e83efef9d1f765060729cec2442868b9c4b23ecdbadae85fa",
+    "components/dashboard/PipelineStatusBar.tsx": "4e48bfe5a93074e7a81f84a1e5991a87fcc1c8bf8c6ca34196f705af75f39667",
+    "components/layout/MepiaShell.tsx": "bc9a88a99ef3b02289ba3205b11987f7ea47a8e9426841848b1d559dcd07c4c5",
+    "components/onboarding/AuditRulesStep.tsx": "11900a6062acc1cebc8fd7263874eddbc313a7507b1bf1b887948d5f7dcd9377",
+    "components/onboarding/AuditTolerancesStep.tsx": "362ab85e2bbf3b6d8848902a9ee24f7a70558beda08cb320795fad0166162c3c",
+    "components/onboarding/BrandIdentityStep.tsx": "bb397006ecc0a608935aa5eff19f0639f4e78ba23f05b5d53c2287cfdc69249e",
+    "components/onboarding/CostStructureStep.tsx": "d9f14c5b5d5b7b754fa7fc455edb78b52e944b5dfe9a7b6fdb3d5bd51c38fddb",
+    "components/onboarding/OnboardingForm.tsx": "96a66c04c7d8f5f827d96886e6a87a8481d0db8e097ccc1f340b923255a1ee66",
+    "components/splash/WelcomeSplash.tsx": "5055d46f79d0700488f1a8629e8249380bad9271223614c069102566c8d39f85",
+    "components/ui/AlertLevelBadge.tsx": "22a892798c6e9f7a875d297b1dcfb5c04f2cedcdbb480db108fa8dba3e508d2b",
+    "components/ui/ArchetypeBadge.tsx": "5a63648cb312ed20d17e9890daaef36419343aed4e4cc11637f073b6d9687eaa",
+    "components/ui/MepiaIcon.tsx": "1294a2af6e575fcd58f2d5418c1f0474ca4f4a6c92d1237912d166b438506d05",
+    "components/upload/ArchetypeSelector.tsx": "a6bc08370426a904ed7c179d8bc39ad07128774113986aed4f2242710498edbe",
+    "components/upload/DocumentDropzone.tsx": "07767486f699274adc78168eec7e3e66c15142f5600209b857d5208a6368d37d",
+    "components/upload/ReviewAlert.tsx": "8b6152e0b6df0dc7e245504bdc4fc9f6b9c8764a4ce8e4529a644be42565b02a",
+    "components/upload/UploadForm.tsx": "32243725237fbfe8bcabad5cda66d990e0c4e7cda86b36a72ef3e95d77d3b9bb",
+    "components/upload/UploadStatusBadge.tsx": "0e02d1022c4774c6a737db8d2ba0c7be81f2d795bfd1b296f11489187d47249c",
+    "hooks/useAuditPolling.ts": "2fd8a18ae37c202f6af154128f98b00fc285ac8d933cbe554607d90ef0489602",
+    "next-env.d.ts": "f4e8976c19fc926644d72610bf1058bd6bf52add97e46a02bc0b912a751625c0",
+    "package-lock.json": "fc2be855759f04533e605fd593c64f00bfd0f2127adc891dbf368ddd198270ce",
+    "package.json": "fd7c4f639227e9e514970dd57f770d2e1bb07d12b86f1b08ac067b85af02de0d",
+    "tailwind.config.ts": "515b6718526b5d3162e41ba36153da4c18306e4e50a79c4cc26b226e7d3f77a2",
+    "tests/chat_step5_e2e.cjs": "5be35b8071e23fbea7c31bb0b6cddb99fb865f54db6311788128d9c125c62d99",
+    "tests/frontend_integration.cjs": "c8fe2ee401327a6b83d2a26ea1aba4904a7ec7f1a02620348d4e45e8d28e24ec",
+    "tsconfig.json": "2e4e65dafe3e8b68c92c8910e8d5516ddfcd7fd7043fcb69a2a7b5893ad67db5",
+    "utils/login-destination.ts": "66f70c1b9b9936672ae712ec432832e97b019a0637faaf18154ca379c77bde2f",
+    "utils/mapCalcResultsToKpis.ts": "476068d52b7b7499f94f4f33b9cc4b0a22ae341c0bc399b47a8980398d44763f"
+  },
+  "documents": [
+    "docs/chatbot_corrections.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    "README.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/chatbot_step4_eval.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+    ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/design.md",
+    ".kiro/specs/mepia/design_components.md",
+    ".kiro/specs/mepia/design_wireframes.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/design_components_tree.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_frontend_merge.md"
+  ],
+  "forms_merge": {
+    "normalized_line_endings": true,
+    "non_overlapping_changes_combined": 2,
+    "selected_authorized_business_preserved": true,
+    "unresolved_markers": 0
+  },
+  "dependencies": {
+    "method": "merge supplied npm lock dependencies and copy supplied installed packages",
+    "npm_install_executed": false,
+    "source_modified": false,
+    "lifecycle_scripts_executed": false,
+    "external_calls": 0,
+    "next_version_preserved": "15.5.27",
+    "added": [
+      {
+        "path": "node_modules/recharts",
+        "version": "3.10.1"
+      },
+      {
+        "path": "node_modules/@reduxjs/toolkit",
+        "version": "2.13.0"
+      },
+      {
+        "path": "node_modules/@standard-schema/spec",
+        "version": "1.1.0"
+      },
+      {
+        "path": "node_modules/@standard-schema/utils",
+        "version": "0.3.0"
+      },
+      {
+        "path": "node_modules/immer",
+        "version": "11.1.21"
+      },
+      {
+        "path": "node_modules/redux",
+        "version": "5.0.1"
+      },
+      {
+        "path": "node_modules/redux-thunk",
+        "version": "3.1.0"
+      },
+      {
+        "path": "node_modules/reselect",
+        "version": "5.2.0"
+      },
+      {
+        "path": "node_modules/react-redux",
+        "version": "9.3.0"
+      },
+      {
+        "path": "node_modules/@types/use-sync-external-store",
+        "version": "0.0.6"
+      },
+      {
+        "path": "node_modules/use-sync-external-store",
+        "version": "1.7.0"
+      },
+      {
+        "path": "node_modules/clsx",
+        "version": "2.1.1"
+      },
+      {
+        "path": "node_modules/decimal.js-light",
+        "version": "2.5.1"
+      },
+      {
+        "path": "node_modules/es-toolkit",
+        "version": "1.52.0"
+      },
+      {
+        "path": "node_modules/eventemitter3",
+        "version": "5.0.4"
+      },
+      {
+        "path": "node_modules/tiny-invariant",
+        "version": "1.3.3"
+      },
+      {
+        "path": "node_modules/victory-vendor",
+        "version": "37.3.6"
+      },
+      {
+        "path": "node_modules/@types/d3-array",
+        "version": "3.2.2"
+      },
+      {
+        "path": "node_modules/@types/d3-ease",
+        "version": "3.0.2"
+      },
+      {
+        "path": "node_modules/@types/d3-interpolate",
+        "version": "3.0.4"
+      },
+      {
+        "path": "node_modules/@types/d3-color",
+        "version": "3.1.3"
+      },
+      {
+        "path": "node_modules/@types/d3-scale",
+        "version": "4.0.9"
+      },
+      {
+        "path": "node_modules/@types/d3-time",
+        "version": "3.0.4"
+      },
+      {
+        "path": "node_modules/@types/d3-shape",
+        "version": "3.2.0"
+      },
+      {
+        "path": "node_modules/@types/d3-path",
+        "version": "3.1.1"
+      },
+      {
+        "path": "node_modules/@types/d3-timer",
+        "version": "3.0.2"
+      },
+      {
+        "path": "node_modules/d3-array",
+        "version": "3.2.4"
+      },
+      {
+        "path": "node_modules/internmap",
+        "version": "2.0.3"
+      },
+      {
+        "path": "node_modules/d3-ease",
+        "version": "3.0.1"
+      },
+      {
+        "path": "node_modules/d3-interpolate",
+        "version": "3.0.1"
+      },
+      {
+        "path": "node_modules/d3-color",
+        "version": "3.1.0"
+      },
+      {
+        "path": "node_modules/d3-scale",
+        "version": "4.0.2"
+      },
+      {
+        "path": "node_modules/d3-format",
+        "version": "3.1.2"
+      },
+      {
+        "path": "node_modules/d3-time",
+        "version": "3.1.0"
+      },
+      {
+        "path": "node_modules/d3-time-format",
+        "version": "4.1.0"
+      },
+      {
+        "path": "node_modules/d3-shape",
+        "version": "3.2.0"
+      },
+      {
+        "path": "node_modules/d3-path",
+        "version": "3.1.0"
+      },
+      {
+        "path": "node_modules/d3-timer",
+        "version": "3.0.1"
+      },
+      {
+        "path": "node_modules/react-is",
+        "version": "19.3.0"
+      }
+    ]
+  },
+  "protected_product": {
+    "files_checked": 54,
+    "all_sha256_unchanged": true,
+    "frontend_hook_exception": "hooks/useAuditPolling.ts changed to resolve INC-20261014-036",
+    "backend_authorization_for_legacy_resources_complete": false
+  },
+  "backup": {
+    "files": 281,
+    "sha256_verified": true,
+    "ignored_configuration_included": false
+  },
+  "previous_evidence": {
+    "files": 391,
+    "all_sha256_unchanged": true
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "passed": false,
+      "completed_checks": 0,
+      "exit_code": 1,
+      "report": "docs/evaluations/chatbot_step5_frontend_merge_attempt1_20261014.json"
+    },
+    {
+      "attempt": 2,
+      "passed": false,
+      "completed_checks": 6,
+      "exit_code": 1,
+      "report": "docs/evaluations/chatbot_step5_frontend_merge_attempt2_20261014.json"
+    },
+    {
+      "attempt": 3,
+      "passed": false,
+      "completed_checks": 6,
+      "exit_code": 1,
+      "report": "docs/evaluations/chatbot_step5_frontend_merge_attempt3_20261014.json"
+    },
+    {
+      "attempt": 4,
+      "passed": false,
+      "completed_checks": 6,
+      "exit_code": 1,
+      "report": "docs/evaluations/chatbot_step5_frontend_merge_attempt4_20261014.json"
+    },
+    {
+      "attempt": 5,
+      "passed": true,
+      "completed_checks": 15,
+      "exit_code": 0,
+      "report": "docs/evaluations/chatbot_step5_frontend_merge_attempt5_20261014.json"
+    },
+    {
+      "attempt": 6,
+      "passed": true,
+      "completed_checks": 15,
+      "exit_code": 0,
+      "report": "docs/evaluations/chatbot_step5_frontend_merge_attempt6_20261014.json"
+    }
+  ],
+  "final_e2e": {
+    "attempt": 6,
+    "checks": 15,
+    "passed": 15,
+    "page_errors": [],
+    "exit_code": 0
+  },
+  "presentation_tests": {
+    "passed": 12,
+    "checks": 12,
+    "exit_code": 0
+  },
+  "welcome_visual_probe": {
+    "received_opacity_after_1_5s": "0",
+    "integrated_opacity_after_1_5s": "1",
+    "exit_code": 0
+  },
+  "final_next_build": {
+    "version": "15.5.27",
+    "compiled_seconds": 10.7,
+    "exit_code": 0,
+    "lint_types_static_pages_and_traces_completed": true,
+    "browserslist_data_age_warning_present": true
+  },
+  "final_typescript_exit_code": 0,
+  "python_suite_repeated": false,
+  "local_preview": {
+    "url": "http://localhost:3016/",
+    "login_http_status": 200,
+    "anonymous_businesses_http_status": 401,
+    "new_interface_personally_confirmed_by_user": false
+  },
+  "incidents_created_resolved": [
+    "INC-20261014-034",
+    "INC-20261014-035",
+    "INC-20261014-036",
+    "INC-20261014-037"
+  ],
+  "existing_incidents_updated": [
+    "INC-20261012-023"
+  ],
+  "incident_counts": {
+    "total": 37,
+    "resolved_in_scope": 35,
+    "mitigated": 2,
+    "open_blocking": 0
+  },
+  "external_model_calls": 0,
+  "sql_executed": false,
+  "accounts_or_ownership_changed": false,
+  "production_accessed_or_changed": false,
+  "committed": false,
+  "pushed": false,
+  "new_reports": [
+    "docs/evaluations/chatbot_step5_frontend_merge_attempt1_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_attempt2_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_attempt3_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_attempt4_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_attempt5_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_attempt6_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_presentation_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_source_mapper_probe_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_welcome_probe_before_20261014.json",
+    "docs/evaluations/chatbot_step5_frontend_merge_welcome_probe_after_20261014.json"
+  ],
+  "limitations": [
+    "Browser tests use synthetic accounts, data and provider",
+    "Real response model remains unconfigured/unvalidated",
+    "Real audit pipeline not validated by this merge",
+    "User confirmed previous global flow on 2026-10-13, not the new visual version",
+    "No npm install/ci or new vulnerability audit executed; combined lock audit remains a publication gate",
+    "Client display guards do not replace legacy server authorization"
+  ],
+  "checks": {
+    "documents_checked": 18,
+    "broken_local_links": 0,
+    "private_identity_matches": 0,
+    "git_diff_check_exit_code": 0,
+    "generated_private_type_references_removed": true,
+    "received_source_sha256_unchanged": true,
+    "repository_stale_state_search_reviewed": true
+  }
+}

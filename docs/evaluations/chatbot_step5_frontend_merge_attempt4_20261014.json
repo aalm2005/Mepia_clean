@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-14",
+  "scope": "Synthetic local browser/frontend/API integration",
+  "attempt": 4,
+  "passed": false,
+  "checks": [
+    {
+      "name": "Proxy anónimo: 401, cero DB y modelo",
+      "passed": true
+    },
+    {
+      "name": "Entrada general: todas las páginas privadas requieren login",
+      "passed": true
+    },
+    {
+      "name": "Cookie inventada no permite entrar a MEPIA",
+      "passed": true
+    },
+    {
+      "name": "Inicio de sesión y solo negocios propios",
+      "passed": true
+    },
+    {
+      "name": "Chat desde el menú común, sin un segundo login",
+      "passed": true
+    },
+    {
+      "name": "Salud y Reportes comparten sesión y menú de Chat IA",
+      "passed": true
+    }
+  ],
+  "page_errors": [],
+  "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('0.5%', { exact: true }) to be visible\u001b[22m\n",
+  "exit_code": 1,
+  "external_api_calls": 0,
+  "real_credentials_used": false,
+  "production_changed": false
+}

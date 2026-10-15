@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-12",
+  "generated_at_utc": "2026-10-12T12:27:10.447391+00:00",
+  "status": "step4_offline_accepted_followup_complete_under_authorized_quality_replacement",
+  "step4_closed": true,
+  "quality_followup_completed": true,
+  "replacement_counted": true,
+  "accepted_protocol": "If both phases pass, count the newly generated phase1 as replacement third quality generation, alongside the two previously approved generations whose writer prompts are unchanged. Record different review guide versions and do not claim three successful repetitions with the revised review guide.",
+  "original_validation_plan": "chatbot_step4_policy_refusal_validation_authorized_20261012.json",
+  "original_validation_plan_sha256": "4724eaa7e55688e3ed5bd29a2f06c3a2633b375deca2ac860f5012a04d2164f0",
+  "phase1_audit": "chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.json",
+  "phase1_audit_sha256": "cff2782ead7ea6acd5ea69f2a13cee7fbb9f7866511c96741f741ae2ce01ffdf",
+  "phase2_audit": "chatbot_step4_policy_refusal_phase2_final_audit_20261012.json",
+  "phase2_audit_sha256": "f886a2382995220d68b4abb3e589c1deda2959609ee6c37c17c32a8afa79263d",
+  "directed_validation": {
+    "cases": 7,
+    "parts": 12,
+    "independent_pass": 12,
+    "pending": 0,
+    "failures": 0,
+    "controls_passed": 161,
+    "controls_total": 161,
+    "covered": 5,
+    "answerable": 5
+  },
+  "cross_phase_combined_report": "chatbot_step4_policy_refusal_validation_20261012_121907_b98e4274_combined.json",
+  "cross_phase_combined_report_sha256": "494daf2c0821fc2530647e1f3f2da8ee9bdfb44494adae3b48c5472b18c2f5c9",
+  "base_global_acceptance": {
+    "report": "chatbot_step4_gemini_full_current_20261009_135244_2f9d9c1e_combined.json",
+    "sha256": "01693dfe7683011c9b6f856d109880da2ad99255472f053d457f60b07e5235a0",
+    "cases": 28,
+    "parts": 36,
+    "independent_pass": 36,
+    "covered": 22,
+    "answerable": 22,
+    "controls_passed": 548,
+    "controls_total": 548,
+    "unchanged": true
+  },
+  "quality_slots": [
+    {
+      "slot": 1,
+      "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json",
+      "generation_report_sha256": "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+      "audit_file": "chatbot_step4_consistency_judge38_run1_retry1_audit_20261011.json",
+      "audit_sha256": "53e34a3a5e969b842afe5188a40a775d54648e314f54e13dac87259c4ae4583b",
+      "review_guide_version": "prior_to_policy_refusal_clarification"
+    },
+    {
+      "slot": 2,
+      "generation_report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052052_dabc0f75.json",
+      "generation_report_sha256": "9b5deb083f6e83497a3daf8d90275cf33dc2e95999aec1adfee016ea13fce80e",
+      "audit_file": "chatbot_step4_consistency_judge38_recovered_run2_audit_20261011.json",
+      "audit_sha256": "70a1147952ef72a7596f7a6a31907b10be15c30c795a014fa5a1df8f76c4bbd6",
+      "review_guide_version": "prior_to_policy_refusal_clarification"
+    },
+    {
+      "slot": 3,
+      "generation_report": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+      "generation_report_sha256": "a134e9d0fad43e8aec482d83ea8248bfe1be49207356548e7d414eed0039a430",
+      "audit_file": "chatbot_step4_policy_refusal_phase1_judge_recovery_audit_20261012.json",
+      "scope_validation_audit": "chatbot_step4_policy_refusal_phase2_final_audit_20261012.json",
+      "review_guide_version": "policy_refusal_clarification",
+      "chat_response_sha256": "39efe9fff20a11d03bbcd98b29da9984072550216e98ab3f46b29f9fce7d514b"
+    }
+  ],
+  "quality_validated_slots_under_accepted_protocol": 3,
+  "new_guide_successful_directed_generation_phases": 2,
+  "does_not_claim_three_successful_repetitions_with_revised_guide": true,
+  "prior_stopped_series_snapshot_preserved": {
+    "file": "chatbot_step4_consistency_judge38_recovery_series_progress_20261011.json",
+    "sha256": "cf17804cca6cb44ab03610217bf3e0f99ce3e6a0625a56987de1b79ac57d4b17",
+    "quality_validated_runs": 2
+  },
+  "failed_third_attempt_preserved": {
+    "report": "chatbot_step4_gemini_batch4_diagnostic_20261012_052919_6ff8abfb.json",
+    "sha256": "678e46a6cf581f7b74409eeb910899e63888f2bb71b8be7cef4dfe424a772967",
+    "quality_pass": false
+  },
+  "judgments_not_transferred_to_old_failed_reports": true,
+  "phase1_timeout_and_phase2_five503_preserved": true,
+  "does_not_demonstrate_general_provider_availability_or_statistical_stability": true,
+  "actual_validation_calls": {
+    "generation": 14,
+    "judge": 10,
+    "total_api": 24
+  },
+  "maximum_validation_calls": 24,
+  "remaining_executable_api_calls": 0,
+  "whole_followup_historical_calls": {
+    "generation": 30,
+    "judge": 18,
+    "total_api": 48
+  },
+  "new_api_calls_during_closure": 0,
+  "incidents_resolved_for_current_offline_scope": [
+    "INC-20260930-013",
+    "INC-20260930-016"
+  ],
+  "next_phase": "Step5 authentication and authorization by business; separate work, not started by this closure.",
+  "production_modified": false,
+  "commit_or_push_performed": false,
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null
+}

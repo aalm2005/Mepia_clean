@@ -13,10 +13,7 @@ export async function POST(req: NextRequest) {
   const form = await req.formData();
   const file = form.get("file") as File | null;
   const type = form.get("type") as string | null;
-  const businessId =
-    (form.get("business_id") as string | null) ??
-    process.env.NEXT_PUBLIC_BUSINESS_ID ??
-    "";
+  const businessId = (form.get("business_id") as string | null) ?? "";
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });

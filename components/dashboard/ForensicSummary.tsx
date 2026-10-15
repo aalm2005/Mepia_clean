@@ -17,7 +17,7 @@ export function ForensicSummary({ anomalies }: ForensicSummaryProps) {
   );
 
   return (
-    <div className="bg-surface border border-border rounded p-panel flex flex-col gap-3">
+    <div className="glass p-panel flex flex-col gap-3">
       <h2 className="text-label uppercase tracking-widest text-muted">
         ANOMALÍAS CRÍTICAS
       </h2>

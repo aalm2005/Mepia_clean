@@ -1,0 +1,15 @@
+{
+  "external_calls": 0,
+  "report": [
+    {
+      "name": "received",
+      "opacity": "0",
+      "animation": "textShine"
+    },
+    {
+      "name": "integrated",
+      "opacity": "1",
+      "animation": "splashFadeSlide, textShine"
+    }
+  ]
+}

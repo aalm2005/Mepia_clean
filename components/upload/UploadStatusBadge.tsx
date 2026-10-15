@@ -14,19 +14,19 @@ const badgeConfig: Record<
   { classes: string; label: string }
 > = {
   uploading: {
-    classes: "bg-zinc-800 text-zinc-400 border border-zinc-700",
+    classes: "bg-white/5 text-zinc-300 border border-white/10 backdrop-blur",
     label: "Procesando...",
   },
   done: {
-    classes: "bg-accent-dim text-accent border border-accent",
+    classes: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 backdrop-blur",
     label: "Cargado ✓",
   },
   error: {
-    classes: "bg-red-950 text-red-400 border border-red-700",
+    classes: "bg-red-950/40 text-red-400 border border-red-500/30 backdrop-blur",
     label: "Error",
   },
   needs_human_review: {
-    classes: "bg-amber-950 text-amber-400 border border-amber-700",
+    classes: "bg-amber-950/40 text-amber-400 border border-amber-500/30 backdrop-blur",
     label: "Revisión requerida",
   },
 };

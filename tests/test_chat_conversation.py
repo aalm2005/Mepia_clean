@@ -40,6 +40,24 @@ def packet(*, report=True, metrics=True):
 
 
 class ChatConversationTests(unittest.TestCase):
+    def test_plural_concept_question_preserves_domain_and_calculation_gate(self):
+        node = ChatConversationNode()
+        answer = node.answer("¿Qué son los costos fijos?", packet(), business_id="biz-a")
+        self.assertEqual((answer.parts[0].kind, answer.parts[0].status), ("concept", "ok"))
+        self.assertEqual(answer.parts[0].evidence, [])
+        mixed = node.answer("¿Qué son los costos fijos y calcula 10+10?", packet(), business_id="biz-a")
+        self.assertEqual([(part.kind, part.status) for part in mixed.parts],
+                         [("concept", "ok"), ("calculation", "not_allowed")])
+
+    def test_method_clarification_in_same_question_inherits_only_concept_selector(self):
+        node = ChatConversationNode()
+        answer = node.answer("¿Cómo se calcula el ticket promedio? Explícame el método.", packet(), business_id="biz-a")
+        self.assertEqual([(part.kind, part.status) for part in answer.parts], [("concept", "ok"), ("concept", "ok")])
+        isolated = node.answer("Explícame el método.", packet(), business_id="biz-a")
+        self.assertEqual(isolated.parts[0].status, "outside_domain")
+        forbidden = node.answer("¿Cómo se calcula el ticket promedio? Calcula 10+10.", packet(), business_id="biz-a")
+        self.assertEqual(forbidden.parts[-1].status, "not_allowed")
+
     def test_catalog_concept_and_explanatory_formula(self):
         provider = FakeProvider({"kind": "concept", "selector": "avg_ticket"})
         answer = ChatConversationNode(provider).answer("¿Cómo se calcula el ticket promedio?", packet(), business_id="biz-a")

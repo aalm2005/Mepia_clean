@@ -20,5 +20,6 @@ __pycache__/
 .test_tmp/
 .pytest_cache/
 .hypothesis/
+*.tsbuildinfo
 .env.*
 !.env.example

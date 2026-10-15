@@ -1,0 +1,55 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "name": "Proxy anÃ³nimo: 401, cero DB y modelo",
+      "passed": true
+    },
+    {
+      "name": "Entrada general: todas las pÃ¡ginas privadas requieren login",
+      "passed": true
+    },
+    {
+      "name": "Cookie inventada no permite entrar a MEPIA",
+      "passed": true
+    },
+    {
+      "name": "Inicio de sesiÃ³n y solo negocios propios",
+      "passed": true
+    },
+    {
+      "name": "Chat desde el menÃº comÃºn, sin un segundo login",
+      "passed": true
+    }
+  ],
+  "error": "locator.fill: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Pregunta sobre tus mÃ©tricas')\u001b[22m\n",
+  "diagnostic": {
+    "url": "http://localhost:3015/",
+    "visible_text": "M\nMEPIA\n\nTU ESPACIO\n\nInicio\nDashboard\nDocumentos\nChat IA\nConfiguraciÃ³n\nA\n\na\n\nMi cuenta\n\nCerrar sesiÃ³n\nNegocio\nSintÃ©tico C\nSintÃ©tico A\nSesiÃ³n iniciada\n\nMISE EN PLACE AI\n\nTu negocio, en perspectiva\n\nTu copiloto financiero para el restaurante.\n\nChat IA\n\nPregunta, explora y entiende tus resultados.\n\nDashboard\n\nRevisa la auditorÃ­a y las seÃ±ales de tu negocio.\n\nDocumentos\n\nCarga los documentos de tu operaciÃ³n.",
+    "cookie_metadata": [
+      {
+        "name": "sb-127-auth-token",
+        "length": 793,
+        "secure": false
+      }
+    ]
+  },
+  "auth_responses": [
+    {
+      "path": "/auth/v1/token",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    }
+  ],
+  "page_errors": [
+    "Event"
+  ],
+  "scope": "Paso 5: sesión, datos y proveedor sintéticos; sin credenciales reales",
+  "attempt": 5,
+  "exit_code": 1,
+  "branch": "codex/chatbot-q4",
+  "commit": "sin commit"
+}

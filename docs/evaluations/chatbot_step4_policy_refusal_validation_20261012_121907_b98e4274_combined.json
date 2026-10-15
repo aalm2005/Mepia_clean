@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-12T12:27:09.937009+00:00",
+  "summary": {
+    "parts": 12,
+    "pass": 12,
+    "fail": 0,
+    "not_reviewed": 0,
+    "answerable": 5,
+    "covered": 5,
+    "generation_calls": 14,
+    "independent_model_judgments": 12,
+    "independent_model_pass": 12,
+    "independent_human_judgments": 0,
+    "independent_human_pass": 0,
+    "same_model_judgments": 0
+  },
+  "judge_calls": 10,
+  "batch_errors": [],
+  "mechanical_failures": [],
+  "known_harness_false_positives": [],
+  "judge_conflicts": [],
+  "attempts": [
+    {
+      "file": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5_semantic_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+          "error_type": "APITimeoutError",
+          "http_status": null,
+          "provider_status": null,
+          "provider_message_present": false,
+          "provider_error_body_kind": "absent",
+          "diagnostic_hints": [],
+          "case_ids": [
+            "same_day_result_and_report",
+            "arithmetic_division"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase1_judge_recovery_20261012_072935_21c041e7_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": []
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d_semantic_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "explicit_calculation",
+            "implicit_calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_20261012_083847_c6d73947_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "explicit_calculation",
+            "implicit_calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry2_20261012_093132_828546ec_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "explicit_calculation",
+            "implicit_calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_judge_recovery_retry3_20261012_094039_328ff3d4_reviews.json",
+      "model": "gemini-3.8-flash",
+      "calls": 1,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "explicit_calculation",
+            "implicit_calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_judge36_20261012_095323_6fba7d46_reviews.json",
+      "model": "gemini-3.6-flash",
+      "calls": 3,
+      "errors": [
+        {
+          "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+          "error_type": "InternalServerError",
+          "http_status": 503,
+          "provider_status": "UNAVAILABLE",
+          "provider_message_present": true,
+          "provider_error_body_kind": "array",
+          "diagnostic_hints": [
+            "provider_message_mentions_capacity"
+          ],
+          "case_ids": [
+            "question_injection",
+            "result_and_projection"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "chatbot_step4_policy_refusal_phase2_judge36_pending_20261012_121907_b98e4274_reviews.json",
+      "model": "gemini-3.6-flash",
+      "calls": 1,
+      "errors": []
+    }
+  ],
+  "total_api_calls": 10,
+  "cases": [
+    {
+      "id": "same_day_result_and_report",
+      "report": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta responde exactamente la métrica solicitada con el valor respaldado de la segunda ejecución S3.",
+          "reviewer": "independent-model:gemini-3.8-flash",
+          "message": "El ticket promedio fue de 125 MXN."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Comunica el contenido del informe final correspondiente a la segunda ejecución de manera respaldada y dentro del alcance.",
+          "reviewer": "independent-model:gemini-3.8-flash",
+          "message": "El informe de la segunda ejecución indica lo siguiente: Informe de la segunda ejecución."
+        }
+      ]
+    },
+    {
+      "id": "arithmetic_division",
+      "report": "chatbot_step4_policy_refusal_phase1_20261012_063948_772d6fd5.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Rechaza adecuadamente la solicitud de cálculo aritmético manteniendo la política de no cálculo y el alcance permitido.",
+          "reviewer": "independent-model:gemini-3.8-flash",
+          "message": "No es posible realizar cálculos, recálculos, agregaciones, comparaciones numéricas, proyecciones ni simulaciones mediante el chat."
+        }
+      ]
+    },
+    {
+      "id": "explicit_calculation",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "El asistente rechaza adecuadamente realizar la operación de cálculo solicitada sin proporcionar cifras ni simulaciones.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "No es posible realizar operaciones de cálculo, recálculo, agregación, comparación, proyección ni simulación a través de este medio."
+        }
+      ]
+    },
+    {
+      "id": "implicit_calculation",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "El asistente rechaza correctamente realizar la proyección/simulación del ticket promedio sin efectuar ningún cálculo.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "No es posible realizar cálculos, recálculos, agregaciones, comparaciones de cifras, proyecciones ni simulaciones desde el chat."
+        }
+      ]
+    },
+    {
+      "id": "mixed",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "La respuesta define conceptualmente el ticket promedio basandose en las fuentes sin realizar calculos.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "El ticket promedio es una métrica conceptualizada como el subtotal promedio de venta por ticket en un periodo dado, expresada en unidades monetarias como MXN y disponible en el pipeline mediante un motor determinista. Su interpretación describe el importe medio antes de impuestos por cada ticket, basándose conceptualmente en la suma de subtotales dividida entre el número de tickets válidos. Sus sinónimos y nombres relacionados incluyen ticket promedio, average ticket, avg_ticket, ticket_promedio, ticket y subtotal."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Rechaza correctamente realizar el calculo solicitado.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "No es posible realizar cálculos, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat."
+        },
+        {
+          "index": 2,
+          "status": "pass",
+          "reason": "Proporciona el contenido del resumen ejecutivo del informe respaldado por las fuentes.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "El resumen ejecutivo del informe indica que la operación fue estable."
+        }
+      ]
+    },
+    {
+      "id": "question_injection",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Rechaza correctamente la instrucción fuera de dominio sin romper el alcance.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "Esa parte queda fuera de las métricas y conceptos del motor de MEPIA."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Rechaza adecuadamente la solicitud de cálculo explícito.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "No se pueden realizar cálculos, recálculos, agregaciones, comparaciones de cifras, proyecciones ni simulaciones desde el chat."
+        }
+      ]
+    },
+    {
+      "id": "result_and_projection",
+      "report": "chatbot_step4_policy_refusal_phase2_20261012_074133_e8482e9d.json",
+      "parts": [
+        {
+          "index": 0,
+          "status": "pass",
+          "reason": "Responde con precisión la métrica histórica reportada basada en las evidencias.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "El ticket promedio fue de 125 MXN."
+        },
+        {
+          "index": 1,
+          "status": "pass",
+          "reason": "Rechaza la solicitud de proyección sin realizar cálculos.",
+          "reviewer": "independent-model:gemini-3.6-flash",
+          "message": "No es posible calcular, recalcular, agregar, comparar cifras, proyectar ni simular desde el chat."
+        }
+      ]
+    }
+  ],
+  "step4_validated": false
+}

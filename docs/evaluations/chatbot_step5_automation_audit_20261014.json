@@ -1,0 +1,200 @@
+{
+  "date": "2026-10-14",
+  "artifact_kind": "automation_integrity_audit",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "commit": "sin commit",
+  "exit_code": 0,
+  "checks": [
+    {
+      "check": "413 historical reports identical",
+      "passed": true
+    },
+    {
+      "check": "other pre-existing files unchanged in snapshot",
+      "passed": true,
+      "snapshot_files": 626
+    },
+    {
+      "check": "tsconfig restored exactly",
+      "passed": true
+    },
+    {
+      "check": "original plan and template unchanged",
+      "passed": true
+    },
+    {
+      "check": "local matrix 43 passed layers and five pending",
+      "passed": true
+    },
+    {
+      "check": "regression exact result",
+      "passed": true,
+      "summary": "154 passed, 2 warnings, 41 subtests passed in 22.73s"
+    },
+    {
+      "check": "browser exact result",
+      "passed": true
+    },
+    {
+      "check": "core source fingerprints match executed source",
+      "passed": true
+    },
+    {
+      "check": "browser flow and subsequent isolated cleanup checks recorded separately",
+      "passed": true
+    },
+    {
+      "check": "load 70 posts, three levels, exact targets",
+      "passed": true
+    },
+    {
+      "check": "real attempt stopped at C02",
+      "passed": true
+    },
+    {
+      "check": "provider cap and durable attempts",
+      "passed": true
+    },
+    {
+      "check": "rate limit classified without raw error",
+      "passed": true
+    },
+    {
+      "check": "eight real validated samples and zero human verdicts",
+      "passed": true
+    },
+    {
+      "check": "review bound to public original report",
+      "passed": true
+    },
+    {
+      "check": "human review form UI and blank download",
+      "passed": true
+    },
+    {
+      "check": "JavaScript syntax tests/chat_step5_e2e.cjs",
+      "passed": true
+    },
+    {
+      "check": "JavaScript syntax .test_tmp/step5_automation_20261014/review-script.js",
+      "passed": true
+    },
+    {
+      "check": "all local documentation links exist",
+      "passed": true,
+      "count": 173
+    },
+    {
+      "check": "41 incident identifiers and explicit pending rate limit",
+      "passed": true
+    },
+    {
+      "check": "new artifacts have no email or bearer token",
+      "passed": true
+    },
+    {
+      "check": "private env values not published",
+      "passed": true
+    },
+    {
+      "check": "frozen design report intact",
+      "passed": true
+    },
+    {
+      "check": "git diff --check",
+      "passed": true
+    },
+    {
+      "check": "branch and commit unchanged",
+      "passed": true
+    },
+    {
+      "check": "current continuation no longer schedules an unstarted first batch",
+      "passed": true
+    }
+  ],
+  "passed_checks": 26,
+  "prior_evidence_preserved": 413,
+  "source_code_changes": [
+    "agents/chat_conversation.py",
+    "tests/test_chat_conversation.py",
+    "tests/chat_step5_e2e.cjs"
+  ],
+  "new_code": [
+    "tests/chat_step5_automation.py",
+    "tests/test_chat_step5_automation.py",
+    "tests/chat_step5_workspace.cjs",
+    "tests/chat_step5_workspace_test.cjs"
+  ],
+  "docs_synced": [
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/chatbot_frontend_merge.md",
+    "docs/chatbot_step5_test_plan.md",
+    "docs/chatbot_step4_eval.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    "docs/chatbot_step5_automation.md"
+  ],
+  "local_links_checked": 173,
+  "state_matches_reviewed": 48,
+  "state_search_sha256": "db676ded09208475db743a00f7d34f448338d09bfd93ba818b12e38f6235026b",
+  "file_fingerprints": {
+    "README.md": "371ec1bcbfdf5f5d299fa68b4d5dc9954bfb5d5839f798bbd145af412594ac69",
+    "docs/chatbot_corrections.md": "bac201463be94329941b19958774c85a70445d4d8345700f1faab25ab20b9389",
+    "docs/chatbot_incidents.md": "54149a8b3b3f82b32aafc7b20c290f5bbd8c9ec1dc6e468fbecaeb03034d53b6",
+    "docs/mepia_v4_metricas_diseno.md": "0dc6b0a28141ce08d591d13eaa4767573dad60d74639278c63c7fd8ca64a7826",
+    "docs/chatbot_step5_integration.md": "8be3b58078ec3b40adfcba9b5f1b0bceec896cf04f059074b67890ed99f6d189",
+    "docs/chatbot_frontend_merge.md": "df0306eb5c7d0cac962289e2a87af8fbb1c19506a3bc7bcb241d98249be8943b",
+    "docs/chatbot_step5_test_plan.md": "5647fa99d90ec75d8795bf03deb4ee89d0187cd6ec80b0667f75943603f49b74",
+    "docs/chatbot_step4_eval.md": "6313841602619854aea903cbd6bd9f03ea90498865727663f6ce178bd1184a64",
+    ".kiro/specs/mepia/n15_chat_consulta.md": "5736cf3acbb5969912af2079dc9fd3b9744a7797403bd1df80b39a99f27fd179",
+    ".kiro/specs/mepia/_index.md": "441f5476602b64cdcec798f81754e33a6a1342b774d2b65b6635b12eeb4d85c9",
+    ".kiro/specs/mepia/design_flows.md": "3d077c12f7dad95896012864633156e6106073ab6ba00374be53718f1342e06e",
+    ".kiro/specs/mepia/_auth_strategy.md": "e6ca517b15f9e50dd835858a5860af39e6072cbcc67a195ef8eed39650245a09",
+    "docs/chatbot_step5_automation.md": "fde88700a0c0153d836539303e198e4111064ad389e8aeed468a82ad6ddb74ab",
+    "agents/chat_conversation.py": "f326d87ffbdb1e367da69a5ff65ad15c0f4c7658a0de9b6020376643685aa7a0",
+    "tests/test_chat_conversation.py": "8f93a5087539008b16e024d662f34ef188f12b233456901eefcef1502bbfa192",
+    "tests/chat_step5_e2e.cjs": "983da469696693e8731f07487438c473c886c8d976ba278d2cd2f7df1506e557",
+    "tests/chat_step5_automation.py": "bab23d864011ff8cb86a8c517693099595d1a9870539583a5e20665fd3270c8d",
+    "tests/test_chat_step5_automation.py": "5b47c02ba15b0a6edab0baf0df64a15f2c0362133c4e5e3317d28ca7a7986393",
+    "tests/chat_step5_workspace.cjs": "08131e407200453e5432c17bdb8aaa50a176e362489e3fdea6e3103256f691aa",
+    "tests/chat_step5_workspace_test.cjs": "399ff76dba05dba58ff082875354826fb1f4185c70120656527172fc577e31c4"
+  },
+  "new_artifacts": {
+    "docs/evaluations/chatbot_step5_automation_attempt1_20261014.json": "0b0772fecf47ded459ece6e5ea830bd6c2b90d5a3a5a50c649401f7300d9a197",
+    "docs/evaluations/chatbot_step5_automation_attempt2_20261014.json": "4e5ca5dda4040cbc60b65539007c4b8594cbcc344e5bda7b7d1d90e16c95381d",
+    "docs/evaluations/chatbot_step5_automation_attempt3_20261014.json": "a6c411d7bf7f4488d867062e7fa36c82766828871ba0af6487e8d6af1c176f0c",
+    "docs/evaluations/chatbot_step5_automation_attempt4_20261014.json": "97a8e7c5d0cbb30c746ed33b55399fe8d2db80e5312566cbdb0d1c323f6ddf86",
+    "docs/evaluations/chatbot_step5_automation_attempt5_20261014.json": "5fc7ed0642ac1fea076a200a7fd892bc8567541994a72888d56657a28869f39a",
+    "docs/evaluations/chatbot_step5_automation_attempt6_20261014.json": "b90eb49917ec5dc3f643281facee07353b98a5220bba6d2b676b18d39774b425",
+    "docs/evaluations/chatbot_step5_automation_gemini_attempt1_20261014.json": "db60fce4c35b0af9b797c50921aa0d92aea8c8cdf5ec6f2085122f2293e81eb4",
+    "docs/evaluations/chatbot_step5_automation_summary_20261014.json": "0ff65df610c17173611b71e87141298f54d8a98ab5c9435044352880c7b46205",
+    "docs/evaluations/chatbot_step5_automation_summary_20261014.md": "9dac8f699b450e9e9dae693408d282142e088a649cc2d86a72dcef8382edbd28",
+    "docs/evaluations/chatbot_step5_human_review_20261014.html": "8d0373044102ddef9179db0778d888baabbfaccdd703a5b747f78f9077c7b707",
+    "docs/evaluations/chatbot_step5_human_review_20261014.json": "f2a17931892c76a9d20940f148563f6582377f32b6e5bfe2f79bcbdf397be04e",
+    "docs/evaluations/chatbot_step5_workspace_cleanup_20261014.json": "09a897979e64ff49218816483644e9d49b7a34e119036ae49a184f2c18fc47a7"
+  },
+  "human_review_ui": {
+    "passed": true,
+    "samples": 8,
+    "readers_per_sample": 2,
+    "selects": 80,
+    "blank_download_remains_pending": true,
+    "mobile_overflow": false,
+    "page_errors": 0,
+    "external_requests": 0
+  },
+  "human_verdicts": 0,
+  "provider_calls_during_audit": 0,
+  "provider_calls_in_retained_real_attempt": 17,
+  "full_functional_acceptance": "pending",
+  "blocking_external_incident": "INC-20261014-041",
+  "production_changes": false
+}

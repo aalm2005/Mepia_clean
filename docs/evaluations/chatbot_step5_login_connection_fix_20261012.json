@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-12",
+  "scope": "Paso 5: login propio operativo y clasificación de errores de conexión",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "commit": "sin commit",
+  "environment": "MEPIA - PRUEBAS",
+  "source_files": [
+    "components/chat/ChatPanel.tsx",
+    "utils/chat-login-error.ts"
+  ],
+  "documents_updated": [
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/chatbot_step5_integration.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/design_flows.md"
+  ],
+  "login": {
+    "session_and_business_visible_confirmed_by_user": true,
+    "browser_used_by_user": "Edge o Chrome; no se identificó cuál de ambos",
+    "auth_read_only_confirmed_account_and_recent_sign_in": true,
+    "recent_sign_in_window_minutes": 30,
+    "next_business_list_status_in_server_log": 200,
+    "agent_inspected_external_browser_session_or_tokens": false,
+    "password_entered_by_agent": false
+  },
+  "diagnosis": {
+    "frontend_backend_supabase_origin_matches": true,
+    "https_and_dns_ok": true,
+    "public_key_whitespace": false,
+    "auth_health_with_public_key_status": 200,
+    "auth_health_anonymous_status": 401,
+    "integrated_browser_direct_health_navigation": "net::ERR_BLOCKED_BY_CLIENT",
+    "initial_login_transport_cause_demonstrated": false,
+    "all_auth_requests_proven_blocked_in_integrated_browser": false,
+    "browser_protections_changed": false
+  },
+  "verification": {
+    "installed_sdk_fetch_simulated": {
+      "success": true,
+      "checks": [
+        {
+          "name": "fetch rejects: conexiÃ³n, sin culpar a credenciales",
+          "passed": true
+        },
+        {
+          "name": "HTTP 503: servicio/conexiÃ³n",
+          "passed": true
+        },
+        {
+          "name": "HTTP 400 invalid_credentials: mensaje de credenciales conservado",
+          "passed": true
+        }
+      ],
+      "sdk_is_real": true,
+      "fetch_simulated": true,
+      "external_calls": 0,
+      "real_credentials_used": false
+    },
+    "sdk_exit_code": 0,
+    "final_typescript_exit_code": 0,
+    "earlier_typescript_exit_code": 0,
+    "browser_synthetic_attempts": 2,
+    "browser_synthetic_transport_failure_reproduced": false,
+    "first_connection_message_locator_wait": "timeout; not passed",
+    "full_e2e_build_python_suite_repeated": false,
+    "previous_python_suite": {
+      "passed": 292,
+      "skipped": 1,
+      "subtests_passed": 119
+    }
+  },
+  "checks": {
+    "previous_evidence_count": 383,
+    "previous_evidence_unchanged": true,
+    "public_files_scanned": 254,
+    "private_data_findings": 0,
+    "private_config_gitignored": true,
+    "documents_links_checked": 9,
+    "broken_local_links": 0,
+    "git_diff_check_exit_code": 0
+  },
+  "incidents_created_or_updated": [
+    "INC-20261012-031",
+    "INC-20261012-022"
+  ],
+  "inc031_state": "mitigada",
+  "total_incidents": 31,
+  "resolved_incidents": 29,
+  "mitigated_incidents": 2,
+  "open_incidents": 0,
+  "real_model_calls": 0,
+  "production_access_or_changes": false,
+  "local_services_left_running": true,
+  "next_action": "Configurar/validar recorrido del modelo con presupuesto autorizado; cuenta propia operativa."
+}

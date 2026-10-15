@@ -1,3 +1,8 @@
+> **Prompt histórico de diseño.** Las tareas siguientes conservan la solicitud
+> original; no describen pendientes actuales ni deben reejecutarse sin revisar
+> el código. Consultar [avance al 15-oct-2026](estado_actual_mepia.md), las tareas
+> realizadas de la sesión y la bitácora antes de continuar.
+
 Estás trabajando en el spec de MEPIA en `.kiro/specs/mepia/`. Antes de escribir nada, carga
 `_index.md` y `_glossary.md` completos, más los archivos específicos que se listan en cada tarea
 abajo — no cargues el resto del repo.

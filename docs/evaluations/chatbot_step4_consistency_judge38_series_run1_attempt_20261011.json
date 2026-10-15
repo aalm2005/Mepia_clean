@@ -1,0 +1,25 @@
+{
+    "schema_version":  1,
+    "series_id":  "judge38_20261011",
+    "repetition":  1,
+    "started_at_utc":  "2026-10-12T02:50:28.3491599Z",
+    "status":  "result_saved_pending_audit",
+    "budget_reserved":  {
+                            "judge_max_calls":  1,
+                            "generation_max_calls":  4
+                        },
+    "actual_calls":  {
+                         "generation":  4,
+                         "judge":  1,
+                         "total_api":  5
+                     },
+    "generation_reports":  [
+                               "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d.json"
+                           ],
+    "generation_report_sha256":  "3fee617c3430197b01292e06aef4adb26c45c758566ad8780bdc413927f1ff06",
+    "judge_report":  "chatbot_step4_gemini_batch4_diagnostic_20261012_025040_58b2769d_semantic.json",
+    "runner_error_type":  null,
+    "finished_at_utc":  "2026-10-12T02:51:00.1610680Z",
+    "plan_sha256":  "a059b8d70545ca3d85062ed6cad81044401f2bd034a0f44abc5f5a931b81b7c7",
+    "runner_sha256":  "09df3c8b23d410240e4157f6d01fbabd5f79124cef7b6d39c9686928c77b8d09"
+}

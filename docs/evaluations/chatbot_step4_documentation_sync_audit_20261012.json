@@ -1,0 +1,59 @@
+{
+  "purpose": "document_current_state_consistency_not_new_model_quality_evidence",
+  "verified_at_utc": "2026-10-12T14:08:49.092136+00:00",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": null,
+  "current_documents_verified": [
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/chatbot_step4_eval.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+    ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/_index.md"
+  ],
+  "progress_documents_verified": [
+    "docs/evaluations/chatbot_step4_consistency_progress_20261010.json",
+    "docs/evaluations/chatbot_step4_consistency_progress_20261010.md",
+    "docs/evaluations/chatbot_step4_policy_refusal_validation_progress_20261012.json",
+    "docs/evaluations/chatbot_step4_policy_refusal_validation_progress_20261012.md"
+  ],
+  "current_summary_sections_verified": [
+    "plan_bitacora",
+    "proximos_pasos_diseno",
+    "fases_n15",
+    "interfaces_glosario"
+  ],
+  "existing_evidence_files_unchanged": 373,
+  "code_files_unchanged": 10,
+  "local_markdown_links_checked": 119,
+  "broken_local_markdown_links": [],
+  "step4_closed": true,
+  "step5_status": "pending_not_started",
+  "future_model_plan": "OpenAI GPT-6 Luna after completing and testing Step5; real validation pending for that future configuration",
+  "base_acceptance": {
+    "independent_pass": 36,
+    "controls": "548/548",
+    "coverage": "22/22"
+  },
+  "directed_acceptance": {
+    "independent_pass": 12,
+    "controls": "161/161",
+    "coverage": "5/5"
+  },
+  "remaining_executable_api_calls": 0,
+  "new_api_calls": 0,
+  "product_test_suites_repeated": false,
+  "git_diff_check_exit_code": 0,
+  "incident_updated": "INC-20260930-014",
+  "repository_search_disposition": {
+    "active_summaries": "corrected_against_existing_acceptance",
+    "dated_evaluation_records": "preserved_as_history",
+    "frozen_reports_and_plans": "byte_for_byte_preserved",
+    "onboarding_step4_matches": "different_workflow_not_modified"
+  }
+}

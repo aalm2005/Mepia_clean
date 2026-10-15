@@ -80,7 +80,7 @@ export default function BrandIdentityStep({ data, onChange }: Props) {
           onChange={handleVoiceChange}
           onBlur={() => setVoiceTouched(true)}
           rows={4}
-          className="bg-elevated border border-border text-zinc-100 w-full p-3 text-sm rounded resize-none focus:outline-none focus:border-accent transition-colors"
+          className="glass-input w-full p-3 text-sm resize-none"
           placeholder="Ej. Somos un café de especialidad con enfoque en calidad y experiencia del cliente..."
         />
         <div className="flex items-center justify-between">
@@ -107,12 +107,12 @@ export default function BrandIdentityStep({ data, onChange }: Props) {
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={handleTagKeyDown}
             placeholder="Ej. marketing agresivo"
-            className="bg-elevated border border-border text-zinc-100 flex-1 px-3 py-2 text-sm rounded focus:outline-none focus:border-accent transition-colors"
+            className="glass-input flex-1 px-3 py-2 text-sm"
           />
           <button
             type="button"
             onClick={handleAddTag}
-            className="px-3 py-2 text-sm bg-elevated border border-border text-zinc-300 hover:border-accent hover:text-accent transition-colors rounded"
+            className="glass-btn-ghost px-3 py-2 text-sm"
           >
             Agregar
           </button>
@@ -122,7 +122,7 @@ export default function BrandIdentityStep({ data, onChange }: Props) {
             {data.prohibited_recommendations.map((tag) => (
               <span
                 key={tag}
-                className="bg-elevated border border-border text-zinc-300 text-xs px-2 py-0.5 rounded-sm flex items-center gap-1"
+                className="glass-strong border border-white/10 text-zinc-300 text-xs px-2 py-0.5 rounded-sm flex items-center gap-1"
               >
                 {tag}
                 <button

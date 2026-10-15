@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "client_date": "2026-10-11",
+  "generated_at_utc": "2026-10-12T04:50:05.002146+00:00",
+  "plan": "chatbot_step4_consistency_judge38_run1_retry1_plan_20261011.json",
+  "plan_sha256": "9fec3a3f68078df7a43a9940e7af00f0a011596b66c7b5fd62a067bb56a0507c",
+  "runner": ".test_tmp/revisar_consistencia_juez38_run1.ps1",
+  "runner_sha256": "b2cb9de863f57f706d227aa6f1e9c35f23f672b7b3d64483bf1d08c69675fc1a",
+  "powershell_syntax": "passed",
+  "verification_environment": "system_windows_powershell_modules_in_child_only",
+  "prior_verification_failures_before_key_or_api": 2,
+  "prior_failure": "GetFileHash_command_not_found_in_python_child_with_inherited_modules",
+  "show_plan_without_key_or_api": "passed",
+  "exclusive_attempt_guard_before_key_and_api": "passed",
+  "verification_marker_removed_no_actual_attempt_reserved": true,
+  "protected_evaluation_files_unchanged": 227,
+  "ten_original_code_hashes_match": true,
+  "new_api_calls": 0,
+  "status": "prepared_not_executed"
+}

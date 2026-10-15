@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-14",
+  "branch": "codex/chatbot-q4",
+  "head": "6fa66bcc6a731a3f06df79edb5a4bf62e3c8e03c",
+  "change_commit": "sin commit",
+  "status": "restart_guard_rejected_before_process_stop",
+  "restart_exit_code": 1,
+  "incident": "INC-20261014-038",
+  "effective_chat_key_present": true,
+  "effective_key_has_outer_whitespace": false,
+  "model": "gemini-3.5-flash-lite",
+  "private_env_ignored": true,
+  "secret_values_printed": false,
+  "process_diagnosis": {
+    "exit_code": 0,
+    "listener_loopback_only": true,
+    "server_is_child_of_recorded_launcher": true,
+    "module_host_port_and_no_access_log_match": true
+  },
+  "old_service_stopped_by_first_attempt": false,
+  "product_code_changed": false,
+  "model_requests_by_agent": 0,
+  "sql_executed": false,
+  "production_changed": false,
+  "incident_counts": {
+    "total": 38,
+    "resolved_in_scope": 35,
+    "mitigated": 2,
+    "open": 1
+  },
+  "documents_updated": [
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md"
+  ]
+}
