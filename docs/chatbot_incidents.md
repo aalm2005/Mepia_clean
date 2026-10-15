@@ -1,5 +1,7 @@
 # Bitácora oficial de incidencias del chatbot de MEPIA
 
+**GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.
+
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
 **Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
@@ -1821,7 +1823,9 @@ offline; las tres repeticiones adicionales siguen pendientes. Produccion sin cam
   `docs/evaluations/github_publication_audit_20261015.json`. Dos fallos de
   auxiliares de lectura (codificación/sintaxis) corregidos con código 0, sin
   cambios a datos ni pruebas funcionales nuevas. No se crea incidencia nueva.
-  Commit/push se registrarán con sus identificadores reales tras ejecutarlos.
+  Los cambios quedaron incluidos en `2c2ad07754204cf6216483de017dd898b2685255`; push normal
+  código 0 y hash remoto verificado el 15-oct. Este registro posterior no cambia
+  los estados de las otras incidencias; INC-041 sigue pendiente externo.
 
 - **Auditoría del cierre local del Paso 5, 12-oct-2026:** se sincronizan
   encabezados, plan de fases, diseño, auth, esquema, flujos y glosario con el

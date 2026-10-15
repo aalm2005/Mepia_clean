@@ -1,5 +1,7 @@
 # Bitácora oficial del chatbot de MEPIA
 
+**GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.
+
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
 **Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
@@ -2592,6 +2594,35 @@ registrada en su evidencia de limpieza; las once fuentes restantes coinciden.
 No se repitió el navegador completo ni se cambió su resultado histórico. Cero llamadas IA, SQL, cambios de
 cuentas/datos o despliegues en esta preparación. El inventario completo y las
 verificaciones se guardarán en `docs/evaluations/github_publication_audit_20261015.json`.
+
+
+## Publicación de avances verificada en GitHub — 15-oct-2026
+
+Por autorización expresa del usuario, commit de avances `2c2ad07754204cf6216483de017dd898b2685255`,
+rama `codex/chatbot-q4`, remoto GitHub `github`. Commit código 0; push normal
+`6fa66bc..2c2ad07`, código 0. `git ls-remote` posterior devuelve exactamente
+`2c2ad07754204cf6216483de017dd898b2685255`, igual a HEAD. No se usa force ni se cambia
+`main`, el remoto local `origin`, datos, cuentas o producción.
+
+El commit contiene 374 archivos cambiados y 33 documentos de continuidad/diseño;
+los reportes fechados se incluyen como evidencia y no se reescriben. Ver
+`docs/evaluations/github_publication_audit_20261015.json`: 58 documentos
+inspeccionados, 207 enlaces válidos, cero coincidencias de secretos/correos,
+429 artefactos históricos intactos, TypeScript código 0, helper 3/3 código 0,
+dependencias raíz coherentes y diff sin errores. Los 374 archivos del índice
+coincidían exactamente con el manifiesto auditado; cero privados/temporales.
+`tsconfig.tsbuildinfo` deja de versionarse y se conserva localmente. Un aviso
+de estado Git por finales de línea en Layer2Banner no tiene diferencia de
+contenido; no se reescribe ese componente.
+
+INC-20260930-014 actualizada y resuelta en este alcance documental; 41 incidencias,
+38 resueltas, dos mitigadas, una pendiente externa (INC-20261014-041).
+Sin llamadas IA ni nuevas pruebas funcionales. El registro de confirmación y
+sus enlaces se guardan en un commit documental posterior al de avances; el
+hash de ese registro se obtiene del historial de Git, sin autorreferencia.
+Siguiente trabajo funcional: respetar la pausa solicitada; tutorial, móvil,
+simplificación del selector, revisión humana y disponibilidad/C02 siguen
+pendientes según `docs/estado_actual_mepia.md`. El push no los declara cerrados.
 
 ## A. Correcciones de defectos del Paso 1
 

@@ -101,14 +101,23 @@ no son el informe de resultados actual. El adaptador OpenAI existe para
 evaluación, pero la configuración real vigente del chat utiliza Gemini. La
 adopción de otro proveedor requiere validación separada.
 
-## Preparación de GitHub
+## Publicación verificada en GitHub
 
 El usuario autorizó actualizar la documentación, crear el commit y hacer push
 el 15-oct-2026. La rama remota consultada inicialmente apunta a `6fa66bc`.
-La auditoría previa terminó: TypeScript sin errores, helper de limpieza 3/3,
-coherencia package/lock y diff comprobados. El registro del commit y push se
-incorporará después de ejecutarlos; al emitir esta auditoría aún no hay commit
-del conjunto. Ver [auditoría de publicación](evaluations/github_publication_audit_20261015.json).
+Publicado el commit de avances **`2c2ad07754204cf6216483de017dd898b2685255`** en
+`github/codex/chatbot-q4`: push normal código 0 y consulta posterior del remoto
+con el mismo hash. Incluye 374 archivos y 33 documentos de continuidad/diseño
+en el conjunto. TypeScript sin errores, helper 3/3, package/lock coherentes,
+207 enlaces válidos, cero coincidencias de secretos y 429 artefactos históricos
+intactos por SHA-256.
+
+Ver [auditoría previa](evaluations/github_publication_audit_20261015.json) y
+[confirmación del push](evaluations/github_publication_verified_20261015.json).
+La auditoría previa conserva su fotografía anterior al commit; este registro
+de confirmación se guarda en un commit documental posterior, sin alterar pruebas
+ni el historial de evidencia. Publicación del código completada; validación
+funcional pendiente y despliegue de producción siguen separados.
 No se cambia código funcional, datos, cuentas ni producción. Se retiran de
 `tsconfig.json` referencias generadas a `.test_tmp` y se deja de versionar el
 caché `tsconfig.tsbuildinfo`, conservando el archivo local.
