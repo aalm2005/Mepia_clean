@@ -14,7 +14,9 @@ const navigation: { href: string; label: string; icon: MepiaIconName }[] = [
 export function MepiaShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const router = useRouter();
-  const { session, ready, businesses, business, selectBusiness, businessesLoading, error, reloadBusinesses, signOut } = useMepiaAuth();
+  const { session, ready, businesses, business, selectBusiness, businessesLoading, error, reloadBusinesses, signOut, auditRunId } = useMepiaAuth();
+  const analysisHref = (href: string) => auditRunId && ["/dashboard", "/salud", "/reportes"].includes(href)
+    ? `${href}?run_id=${encodeURIComponent(auditRunId)}` : href;
   const [menu, setMenu] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [logoutError, setLogoutError] = useState("");
@@ -33,10 +35,10 @@ export function MepiaShell({ children }: { children: React.ReactNode }) {
   return <div className="relative min-h-dvh">
     {menu && <button aria-label="Cerrar menú" className="fixed inset-0 z-30 bg-black/60 md:hidden" onClick={() => setMenu(false)} />}
     <aside className={`sidebar-glass fixed inset-y-0 left-0 z-40 w-64 flex-col px-3 py-5 ${menu ? "flex" : "hidden md:flex"}`} aria-label="Menú de MEPIA">
-      <Link href="/dashboard" className="mb-8 flex items-center gap-3 px-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-400/15 text-emerald-300 font-semibold">M</span><span className="text-lg font-semibold tracking-wide">MEPIA</span></Link>
+      <Link href={analysisHref("/dashboard")} className="mb-8 flex items-center gap-3 px-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-400/15 text-emerald-300 font-semibold">M</span><span className="text-lg font-semibold tracking-wide">MEPIA</span></Link>
       <p className="px-3 pb-3 text-[11px] uppercase tracking-widest text-zinc-500">Tu espacio</p>
       <nav aria-label="Navegación principal" className="space-y-1">
-        {navigation.map(item => <Link key={item.href} href={item.href} aria-current={path === item.href ? "page" : undefined}
+        {navigation.map(item => <Link key={item.href} href={analysisHref(item.href)} aria-current={path === item.href ? "page" : undefined}
           className={`nav-item ${path === item.href ? "is-active" : ""}`}>
           <MepiaIcon name={item.icon} /><span>{item.label}</span>{item.href === "/chat" && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-400"/>}</Link>)}
       </nav>

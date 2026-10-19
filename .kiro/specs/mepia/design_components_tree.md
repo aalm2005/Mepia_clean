@@ -40,12 +40,12 @@ app/
 ├── upload/
 │   └── page.tsx                  # UploadPage (Server Component)
 │       └── UploadForm            # "use client"
-│           ├── OnboardingGate    # Verifica onboarding_complete antes de mostrar form
 │           ├── ArchetypeSelector # 3 tarjetas: Operative | Purist | Hacker
 │           ├── DocumentDropzone  # POS — drag & drop + click, acepta .pdf
 │           ├── DocumentDropzone  # Factura — drag & drop + click, acepta .pdf,.xml
 │           ├── UploadStatusBadge # idle | uploading | done | error
 │           └── ReviewAlert       # Visible si needs_human_review: true
+│           # Defaults de onboarding se crean en segundo plano sin bloquear la carga
 │
 └── dashboard/
     └── page.tsx                  # DashboardPage (Client Component → AuditReportView)

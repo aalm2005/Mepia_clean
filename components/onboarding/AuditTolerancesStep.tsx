@@ -58,7 +58,7 @@ export default function AuditTolerancesStep({ data, onChange }: Props) {
   }
 
   return (
-    <div className="space-y-6">
+    <div data-tour="advanced-config-thresholds" className="space-y-6">
       <h2 className="text-label text-muted uppercase tracking-widest">
         Paso 2 — Umbrales de Auditoría
       </h2>

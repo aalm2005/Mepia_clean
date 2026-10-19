@@ -1,5 +1,9 @@
 -- =============================================================================
 -- MEPIA — Script consolidado para aplicar en Supabase SQL Editor
+-- Consolidado histórico: no incluye el contrato posterior 011_full_pipeline_contract.sql.
+-- No usar como actualización de una base existente: contiene semillas/conversiones.
+-- La unificación de principal usa operations/unify_primary.sql y luego 011,
+-- con inventario previo y autorización; ver docs/database_unification.md.
 -- Ejecutar en orden. Si alguna tabla ya existe, los IF NOT EXISTS la saltan.
 -- URL del proyecto: https://supabase.com/dashboard/project/iuhadbeahmssruwuawvu/sql
 -- =============================================================================

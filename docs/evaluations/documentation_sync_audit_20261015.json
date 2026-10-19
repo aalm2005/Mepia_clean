@@ -1,0 +1,334 @@
+{
+  "cutoff": "2026-10-15T21:25:35.465814-06:00",
+  "branch": "codex/chatbot-q4",
+  "head": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "commit": "sin commit",
+  "documents_reviewed": 67,
+  "edited_files": [
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/db_schema.md",
+    ".kiro/specs/mepia/db_schema_pipeline_contract.md",
+    ".kiro/specs/mepia/design.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/n14_informe_final.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/n15_chat_consulta_datos.md",
+    ".kiro/specs/mepia/requirements.md",
+    ".kiro/specs/mepia/s1b_ingesta_api.md",
+    ".kiro/specs/mepia/tasks.md",
+    "README.md",
+    "docs/actualizacion_documental_20261015.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/database_unification.md",
+    "docs/estado_actual_mepia.md",
+    "docs/evaluations/documentation_n14_contract_diagnostic_20261015.json",
+    "docs/evaluations/documentation_sync_audit_20261015.json",
+    "docs/mepia_setup_video.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/onboarding_defaults_integration.md"
+  ],
+  "local_links_checked": 368,
+  "reviewed_documents": [
+    {
+      "path": ".kiro/specs/mepia/_auth_strategy.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/_glossary.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/_index.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/api_layer3.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/cost_strategy.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/db_schema.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/db_schema_pipeline_contract.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/design.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/design_components.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/design_components_tree.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/design_flows.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/design_flows_main.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/design_system.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/design_wireframes.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/design_wireframes_onboarding.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/eval_offline.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/layer3_graph.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/mem_memory_layer.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n01_pos_pdf_input.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n02_facturas_input.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n03_human_input_endpoints.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n05_ceo_orchestrator.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n06_orchestrator_adk.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n09_gastos.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n10_context_builder.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n10_onboarding_identidad.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n11_consultor.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n13_revisor.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n14_informe_final.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/n15_chat_consulta.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/n15_chat_consulta_catalogo.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n15_chat_consulta_datos.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/n15_chat_consulta_saludos.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/n15_chat_consulta_tools.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/requirements.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/s1_ingesta.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/s1b_ingesta_api.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/s2_gatekeeper.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/s3_motor_calculo.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/s4_auditoria_ia.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/tasks.md",
+      "disposition": "updated"
+    },
+    {
+      "path": ".kiro/specs/mepia/tasks_backend.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/tasks_phase1.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/tasks_phase2.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/tasks_phase3.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/mepia/tasks_session_codificacion.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/specs/pos-pdf-input/requirements.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/steering/mepia-project.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": ".kiro/steering/spec-sync-rule.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "README.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/actualizacion_documental_20261015.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/chatbot_corrections.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/chatbot_frontend_merge.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/chatbot_greetings.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/chatbot_incidents.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/chatbot_step4_eval.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/chatbot_step5_automation.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/chatbot_step5_integration.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/chatbot_step5_test_plan.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/database_unification.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/estado_actual_mepia.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/kiro_prompt_ingesta_api_metricas.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/mepia_access_navigation.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/mepia_setup_video.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/mepia_v4_metricas_diseno.md",
+      "disposition": "updated"
+    },
+    {
+      "path": "docs/onboarding_candidate_review_20261015.md",
+      "disposition": "preserved: historical scope or contract unaffected by current changes"
+    },
+    {
+      "path": "docs/onboarding_defaults_integration.md",
+      "disposition": "updated"
+    }
+  ],
+  "broken_local_links": [],
+  "checks": {
+    "48_unique_incidents": true,
+    "same_current_counts": true,
+    "no_historical_evidence_changed": true,
+    "no_detected_secret_or_personal_email": true,
+    "new_data_spec_under_500_words": true,
+    "updated_pipeline_contract_under_500_words": true,
+    "git_diff_check_exit_0": true,
+    "n14_defect_reproduced": true,
+    "private_files_target_same_primary": true,
+    "recorded_literal_schema_check_has_no_missing_tables_columns": true,
+    "n14_source_preserved": true
+  },
+  "privacy_findings": [],
+  "historical_artifacts_protected": 434,
+  "changed_historical_artifacts": [],
+  "other_changes_observed_and_preserved": [
+    "agents/api_ingest.py",
+    "api/main.py",
+    "supabase/migrations/011_full_pipeline_contract.sql",
+    "tests/test_chat_api.py",
+    "tests/test_persist_ingestion.py"
+  ],
+  "git_diff_check_exit_code": 0,
+  "limitations": [
+    "No new full product test suite, build, database migration, model call or deployment.",
+    "Live environment unification is ongoing; dated source reports retain their original scope."
+  ]
+}

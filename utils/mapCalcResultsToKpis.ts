@@ -21,9 +21,18 @@ const KPI_DEFS: Array<{
   { id: "caja", label: "Conciliación de Caja", match: /cash_reconcil|caja|cash/i },
 ];
 
+function finiteValue(value: unknown): number | null {
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  if (typeof value !== "string" || !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(value)) return null;
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
 function formatValue(result: CalcResult | undefined): string {
-  if (!result || result.value === null || !Number.isFinite(result.value) || ["incomplete_data", "unit_mismatch"].includes(result.status)) return "—";
-  const value = result.value.toLocaleString("es-MX", { maximumFractionDigits: 20 });
+  if (!result || ["incomplete_data", "unit_mismatch"].includes(result.status)) return "—";
+  const numeric = finiteValue(result.value);
+  if (numeric === null) return "—";
+  const value = numeric.toLocaleString("es-MX", { maximumFractionDigits: 20 });
   if (result.unit === "%" || result.unit === "pct") {
     return `${value}%`;
   }
@@ -50,12 +59,14 @@ export function mapCalcResultsToKpis(results: CalcResult[] = []): KpiCardData[] 
 
 /** Convierte calc_results a filas tabulares para Recharts. */
 export function calcResultsToChartRows(results: CalcResult[] = []) {
-  return results
-    .filter((r) => r.value !== null && Number.isFinite(r.value) && !["incomplete_data", "unit_mismatch"].includes(r.status))
-    .map((r) => ({
+  return results.flatMap((r) => {
+    const value = finiteValue(r.value);
+    if (value === null || ["incomplete_data", "unit_mismatch"].includes(r.status)) return [];
+    return [{
       metric: r.metric,
-      value: r.value as number,
+      value,
       status: r.status,
       unit: r.unit,
-    }));
+    }];
+  });
 }

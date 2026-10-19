@@ -1,0 +1,164 @@
+{
+  "environment_date": "2026-10-15",
+  "branch": "codex/chatbot-q4",
+  "head": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "commit_status": "sin commit",
+  "category": "C: integration and demo robustness",
+  "incidents_resolved_locally": [
+    "INC-20261015-051",
+    "INC-20261015-052",
+    "INC-20261015-053"
+  ],
+  "tests": {
+    "focused": {
+      "passed": 12,
+      "warnings": 2,
+      "seconds": 11.14,
+      "exit_code": 0
+    },
+    "regression": {
+      "passed": 226,
+      "subtests": 41,
+      "warnings": 2,
+      "seconds": 58.42,
+      "exit_code": 0
+    },
+    "dates": {
+      "passed": 11,
+      "external_calls": 0
+    },
+    "presentation": {
+      "passed": 16,
+      "exit_code": 0
+    },
+    "edge": {
+      "checks": 23,
+      "page_errors": [],
+      "exit_code": 0
+    },
+    "types": {
+      "exit_code": 0
+    }
+  },
+  "live_read": {
+    "http_status": 200,
+    "date": "2024-01-15",
+    "calc_results_count": 4,
+    "metrics": [
+      {
+        "metric": "conciliacion_caja",
+        "value": "-161.29",
+        "unit": "MXN"
+      },
+      {
+        "metric": "punto_equilibrio_diario",
+        "value": "53.93",
+        "unit": "unidades/día"
+      },
+      {
+        "metric": "operative_cost_margin",
+        "value": "2916.82",
+        "unit": "MXN/día"
+      },
+      {
+        "metric": "health_score",
+        "value": "49.65",
+        "unit": "MXN"
+      }
+    ],
+    "metric_status_available": false,
+    "model_calls": 0,
+    "writes": 0,
+    "openapi_status": 200
+  },
+  "external_writes": 0,
+  "agent_real_model_calls": 0,
+  "first_attempts": [
+    "Node helper initially transpiled Set iteration as ES5; test target fixed to ES2020",
+    "First Edge stopped on an exact-zero selector that omitted displayed MXN; screenshot inspected, selector fixed and failed attempt preserved",
+    "Git diff with autocrlf disabled produced CRLF false positives; normal diff check passed"
+  ],
+  "limits": [
+    "Real 2026-10-14 audit and providers not invoked by agent",
+    "Legacy resource authorization remains pending INC-023",
+    "Historical S2 absent remains unknown; no lineage inference",
+    "Selection stays in page memory, not a new durable run history"
+  ],
+  "files_changed": [
+    "utils/audit-date.ts",
+    "components/upload/UploadForm.tsx",
+    "components/auth/MepiaAuthProvider.tsx",
+    "components/layout/MepiaShell.tsx",
+    "hooks/useAuditPolling.ts",
+    "agents/ceo_orchestrator.py",
+    "api/audit_results.py",
+    "api/main.py",
+    "types/audit.ts",
+    "components/dashboard/AuditReportView.tsx",
+    "components/dashboard/DormantMetricsList.tsx",
+    "tests/test_dashboard_results.py",
+    "tests/audit_date.cjs",
+    "tests/chat_step5_e2e.cjs",
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/estado_actual_mepia.md",
+    "docs/demo_video_paso_a_paso.md",
+    "docs/dashboard_demo_fix_20261015.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/n05_ceo_orchestrator.md",
+    ".kiro/specs/mepia/design_components.md",
+    ".kiro/specs/mepia/tasks_phase2.md",
+    ".kiro/specs/mepia/tasks_phase3.md",
+    ".kiro/specs/mepia/tasks.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    "docs/evaluations/dashboard_demo_fix_20261015.json",
+    "docs/dashboard_demo_diagnosis_20261015.md"
+  ],
+  "file_sha256": {
+    "utils/audit-date.ts": "c0cb71e48bb4aacf611bddbb01da71b504df1f0c80c3e7189ebbda4c859d310b",
+    "components/upload/UploadForm.tsx": "70e6c65da391603d465f325530dccbff3faa9a7c9dae1c4b12b5b5715097cc63",
+    "components/auth/MepiaAuthProvider.tsx": "04788ad716cde4fb17b6058af9bb47261dec736d8e4e429be8299cab57139d15",
+    "components/layout/MepiaShell.tsx": "71e6ee2cdfeffcc41a2fbe72d0b160be95efbbaeebb280d9ec62551dba0c095a",
+    "hooks/useAuditPolling.ts": "aeb9cf1f0c9417e228204a2de89cf24167063c607afeae66e1a04c64d9c7dd91",
+    "agents/ceo_orchestrator.py": "d5c7ea21b2650afcd4ffa3f970636932540643ec72267835659f47c87da19f58",
+    "api/audit_results.py": "26990c70729a25dd4b6b16b726126aae8eb15d55cbf16a5da63bec7666777b9a",
+    "api/main.py": "bc8505c39970256631195820c349015258e159fdbf2628f8c62cb4c70232c446",
+    "types/audit.ts": "3aec16ef7c661a7d5190b104d60ed3da5e0db301cabd71a4bca1b5d8533309f8",
+    "components/dashboard/AuditReportView.tsx": "05dd1534b2aef7232a98609039cdf6ae7a51fd55344c8daab5809a1b4bc713a3",
+    "components/dashboard/DormantMetricsList.tsx": "dacce739b46bcb3220153ac8f1116e2a20b29f959c8113acfc98a3e19e8cda03",
+    "tests/test_dashboard_results.py": "efb60a46f8f0b924255e832738a403db9cdcae9fdeb720424e888cddb645211a",
+    "tests/audit_date.cjs": "5e6fc1ec03eaa4c11e7e6770fe3d5e9f07b05e99093373f73512258ce5379f60",
+    "tests/chat_step5_e2e.cjs": "de046ccc6204ad58c1fbb148bf2d07bdc3ed7b323366ab8a327b8fab2ee5e344",
+    "README.md": "4a36961febb3c8b9a400b8a26f7ea92a0026386d83844d520c7fa0b6594bb734",
+    "docs/chatbot_corrections.md": "1015b743687366510e6044f7cfbc39aa5119b9f4d7f7879cad30905437c17996",
+    "docs/chatbot_incidents.md": "21541cf1f9661d25e7f0d7c6dc314b432fa419d2f804f97ff005edc3b73a4287",
+    "docs/mepia_v4_metricas_diseno.md": "50c71fa99eafcf2986711d78db318ee012c03e34b9a8258793bd573db5e6de8d",
+    "docs/estado_actual_mepia.md": "1aa1188811191dfe65fe97f1fde0f02bb7aec0a83317f1cf9ff78ac874d24015",
+    "docs/demo_video_paso_a_paso.md": "6812887c8a5c6964b94bed79ee60e719088955da58314f250820ca74f3995525",
+    "docs/dashboard_demo_fix_20261015.md": "7059990873e852a5f42e40af9f98a285c524dc05746e95cbaad90925c8e05114",
+    ".kiro/specs/mepia/_glossary.md": "1851bc840d7f20421894b9085f99cee10ef94eb40655a70a993f0f51cda8c259",
+    ".kiro/specs/mepia/n05_ceo_orchestrator.md": "6ffb8ef98b036f7a573dccb7b723ffb50b5ea999fb2fc0a17672b1214ce278a1",
+    ".kiro/specs/mepia/design_components.md": "e8edd7234230f87bc825414572b5a81d8d4e6584d9d8674b9fef090816b517f5",
+    ".kiro/specs/mepia/tasks_phase2.md": "cb26240fadb29bd977b0f6936b099089c056f341be09028dec700d562dbeb03d",
+    ".kiro/specs/mepia/tasks_phase3.md": "9fb9947455345bf1306f5ee6aca247a5fb0d996e0a60639c3b8a0cbadce5b7c7",
+    ".kiro/specs/mepia/tasks.md": "96fe3896f070ce059c2b380a7b68736af58dfe64984fbccf05865c04ea4e7b4b",
+    ".kiro/specs/mepia/n15_chat_consulta.md": "a4ff9d316c193b1f12cad2fa6bf51d3ca6ce82e06abb59ed7d756531aee74354",
+    "docs/dashboard_demo_diagnosis_20261015.md": "e6a027c74fdc09dfd17a2ec95ecb7505f20fe2528539da880790ea082c119c58"
+  },
+  "final_audit": {
+    "recorded_hashes_match": true,
+    "historical_evidence_files": 434,
+    "historical_evidence_changed": 0,
+    "new_diagnostic_links_broken": 0,
+    "incident_count": 53,
+    "closed_entries": true,
+    "secret_matches": 0,
+    "diff_check_exit": 0,
+    "generated_type_files_restored": true,
+    "historical_status_matches_reviewed": 23,
+    "historical_status_files_reviewed": 6,
+    "stale_status_assessment": "All matches belong to explicitly marked initial diagnosis records; current heads and incident entries report resolved locally. Historical evidence preserved."
+  }
+}

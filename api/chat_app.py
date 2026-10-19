@@ -1,4 +1,4 @@
-"""Servidor exclusivo de Chat IA; permite login sin iniciar el pipeline."""
+"""Servidor de Chat IA y ajustes protegidos, independiente del pipeline de análisis."""
 from contextlib import asynccontextmanager
 import logging
 
@@ -8,6 +8,7 @@ from supabase import create_client
 from api.chat import create_chat_router, gemini_node_factory
 from api.core.auth import AuthService
 from api.core.chat_config import ChatSettings
+from api.onboarding import create_onboarding_router
 
 
 def create_app(config: ChatSettings | None = None) -> FastAPI:
@@ -30,5 +31,9 @@ def create_app(config: ChatSettings | None = None) -> FastAPI:
         auth=auth,
         db_factory=lambda: create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_ROLE_KEY.get_secret_value()),
         node_factory=gemini_node_factory(settings.CHAT_GEMINI_API_KEY.get_secret_value(), settings.CHAT_MODEL),
+    ))
+    app.include_router(create_onboarding_router(
+        auth=auth,
+        db_factory=lambda: create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_ROLE_KEY.get_secret_value()),
     ))
     return app

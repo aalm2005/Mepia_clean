@@ -125,7 +125,7 @@ export default function AuditRulesStep({ data, onChange }: Props) {
   }
 
   return (
-    <div className="space-y-6">
+    <div data-tour="advanced-config-rules" className="space-y-6">
       <h2 className="text-label text-muted uppercase tracking-widest">
         Paso 4 — Reglas de Auditoría
       </h2>

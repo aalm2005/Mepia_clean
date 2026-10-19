@@ -1,0 +1,30 @@
+{
+  "synthetic": true,
+  "date": "2026-10-14",
+  "business_name": "MEPIA Dev",
+  "pos": {
+    "total": "2900.00",
+    "cash": "1450.00",
+    "card": "1450.00"
+  },
+  "invoice": {
+    "amount": "928.00",
+    "tax_amount": "128.00",
+    "reference": "DEMO-COMPRA-20261014"
+  },
+  "cash_count": {
+    "initial_float": 200.0,
+    "actual_counted": 1650.0,
+    "cash_payouts": 0.0
+  },
+  "cash_reconciliation": {
+    "value": "0.00",
+    "unit": "MXN",
+    "status": "ok"
+  },
+  "not_proven": [
+    "ticket promedio: no hay tickets individuales",
+    "utilidad: faltan costos confirmados",
+    "otras metricas: requieren datos adicionales"
+  ]
+}

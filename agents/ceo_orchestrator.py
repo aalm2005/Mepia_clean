@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from typing import Any, Literal, Optional
 from uuid import uuid4
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from agents.calc_engine import CalcResult, run_calc_engine
 from agents.forensic_cfo import AnomalyItem, ForensicReport, ForensicCFOAgent
@@ -78,7 +78,14 @@ class OrchestratorResult(BaseModel):
     sequential_results: SequentialResults
     escalation: EscalationInfo
     dormant_metrics: list[dict]        # [{ metric, missing }]
+    blocked_metrics: list[dict] = Field(default_factory=list)
+    metric_status_available: bool = True
     completed_at: str
+
+
+class N05PersistenceError(RuntimeError):
+    def __init__(self):
+        super().__init__("No se pudo guardar el análisis. Intenta de nuevo más tarde.")
 
 
 # ---------------------------------------------------------------------------
@@ -245,20 +252,7 @@ class N05CEOOrchestrator:
 
         # --- 8. Persistir en audit_results con node_id="N05" ---
         completed_at = datetime.now(timezone.utc).isoformat()
-        self._persist_result(
-            run_id=run_id,
-            source_s3_result_id=calc_run.run_id,
-            business_id=business_id,
-            date=date,
-            archetype=archetype,
-            forensic_report=forensic_report,
-            audit_insights=audit_insights,
-            pipeline_status=pipeline_status,
-            escalation=escalation,
-            completed_at=completed_at,
-        )
-
-        return OrchestratorResult(
+        result = OrchestratorResult(
             run_id=run_id,
             business_id=business_id,
             date=date,
@@ -272,8 +266,11 @@ class N05CEOOrchestrator:
             ),
             escalation=escalation,
             dormant_metrics=dormant_metrics,
+            blocked_metrics=[bm.model_dump() for bm in gk_result.blocked_metrics],
             completed_at=completed_at,
         )
+        self._persist_result(result, calc_run.run_id)
+        return result
 
     # ------------------------------------------------------------------
     # Síntesis de AuditInsight[] con arquetipo CEO
@@ -725,7 +722,8 @@ class N05CEOOrchestrator:
                 },
             }
             graph = build_layer3_graph(memory_service)
-            await graph.ainvoke(initial_state)
+            from agents.layer3_execution import execute_layer3
+            await execute_layer3(graph, initial_state)
         except Exception:
             # Layer 3 fallo -- N06 ya corrio y ya se persistio, no se pierde.
             # Alguien puede reintentar Layer 3 manualmente despues via
@@ -738,38 +736,29 @@ class N05CEOOrchestrator:
 
     def _persist_result(
         self,
-        run_id: str,
+        result: OrchestratorResult,
         source_s3_result_id: str,
-        business_id: str,
-        date: str,
-        archetype: Archetype,
-        forensic_report: ForensicReport,
-        audit_insights: list[AuditInsight],
-        pipeline_status: PipelineStatus,
-        escalation: EscalationInfo,
-        completed_at: str,
     ) -> None:
-        """Persiste el resultado de N05 en audit_results."""
+        """Conserva el mismo resultado que se devuelve al terminar la corrida."""
         try:
             self._db.table("audit_results").insert(
                 {
-                    "id": run_id,
+                    "id": result.run_id,
                     "source_s3_result_id": source_s3_result_id,
-                    "business_id": business_id,
-                    "date": date,
+                    "business_id": result.business_id,
+                    "date": result.date,
                     "pipeline_layer": "sequential",
                     "node_id": "N05",
                     "node_status": "success",
                     "result_data": {
-                        "archetype": archetype,
+                        **result.model_dump(mode="json"),
                         "source_s3_result_id": source_s3_result_id,
-                        "pipeline_status": pipeline_status,
-                        "forensic_report": forensic_report.model_dump(mode="json"),
-                        "audit_insights": [i.model_dump(mode="json") for i in audit_insights],
-                        "escalation": escalation.model_dump(),
+                        # Lectores anteriores siguen usando estos dos campos.
+                        "forensic_report": result.sequential_results.forensic_report,
+                        "audit_insights": [i.model_dump(mode="json") for i in result.sequential_results.audit_insights],
                     },
-                    "created_at": completed_at,
+                    "created_at": result.completed_at,
                 }
             ).execute()
         except Exception:
-            pass  # La persistencia no bloquea el retorno
+            raise N05PersistenceError() from None

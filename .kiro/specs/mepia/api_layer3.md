@@ -1,5 +1,12 @@
 # API Layer 3 — Endpoint Disparador
 
+**Actualización del ensayo — 15-oct-2026:** INC-048/049 resueltas localmente:
+guardado terminal N14 y seguimiento por padre con error saneado. 208 pruebas y
+41 subpruebas aprobadas, dos advertencias, código 0; proveedores/DB simulados.
+OpenAI configurado, Claude opcional mediante respaldo ya existente.
+Ver [ejecución y límites](layer3_execution.md) y
+[ensayo real pendiente](../../../docs/demo_video_paso_a_paso.md).
+
 **Archivo de implementación:** `api/main.py`
 **Grafo invocado:** `agents/layer3_graph.py` → `layer3_app`
 **Patrón:** Endpoint REST asíncrono — construye estado inicial e invoca el grafo
@@ -13,8 +20,12 @@ Layer 3 (generación del informe final). Recibe el `audit_run_id` del frontend,
 consulta la base de datos para reconstruir el contexto de Layer 2, construye el
 `Layer3State` inicial y dispara el grafo compilado.
 
-**Layer 3 NO es llamado por N06 internamente.** Está desacoplado y se dispara
-de forma explícita desde el frontend o desde un worker asíncrono.
+N05 puede encadenar Layer 3 al terminar N06; también existe el disparador
+explícito. Ambos usan `execute_layer3`. El proxy del Dashboard consulta
+`GET /layer3/status/{layer2_run_id}`: resuelve el último N10 del padre y después
+su ID real de Layer 3. Sin inicio: 404. Fallo N14 registrado: status failed;
+`GET /api/audit/layer3/result/{layer3_run_id}` devuelve 503. Registro temporal
+de un proceso, 128 corridas/30 minutos; no equivale a persistencia durable.
 
 ---
 

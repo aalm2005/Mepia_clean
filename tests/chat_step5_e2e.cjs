@@ -226,6 +226,55 @@ async function requireFreePort(port) {
     await page.getByRole('navigation', { name: 'Navegación principal' }).getByRole('link', { name: 'Chat IA', exact: true }).click();
     await page.getByLabel('Pregunta sobre tus métricas').waitFor();
   });
+  await check('Fecha de documentos prevalece y una fecha distinta detiene el análisis', async () => {
+    const run = '00000000-0000-4000-8000-000000000051';
+    let auditCalls = 0, auditDate, owner;
+    await page.route('**/api/onboarding?*', route => route.fulfill({json: {onboarding_complete: true}}));
+    await page.route('**/api/upload', route => route.fulfill({json: route.request().postData().includes('.xml')
+      ? {needs_human_review:false, file_id:'synthetic-invoice', extracted_fields:{transaction_date:'2026-10-14'}}
+      : {needs_human_review:false, file_id:'synthetic-pos', date:'2026-10-14'}}));
+    await page.route('**/api/audit', route => {
+      auditCalls++; auditDate=route.request().postDataJSON().date;
+      return route.fulfill({json: {run_id:run}});
+    });
+    await page.route('**/api/audit/status/'+run, route => route.fulfill({json:{run_id:run,pipeline_status:'partial'}}));
+    await page.route('**/api/audit/result/'+run, route => route.fulfill({json:{
+      run_id:run,business_id:owner,date:'2026-10-14',archetype:'Operative Genius',pipeline_status:'partial',
+      sequential_results:{active_metrics:['cash_reconciliation'],calc_results:[
+        {metric:'conciliacion_caja',value:'0.00',unit:'MXN',status:'ok',context:'Caja de demostración'}],
+        forensic_report:{risk_level:'low',anomalies:[]},audit_insights:[]},
+      dormant_metrics:[{metric:'avg_ticket',missing:['tickets']}],blocked_metrics:[],metric_status_available:true,
+      escalation:{triggered:false},completed_at:'2026-10-15T00:00:00Z'}}));
+    await page.getByRole('navigation',{name:'Navegación principal'}).getByRole('link',{name:'Documentos',exact:true}).click();
+    owner=await page.getByLabel('Negocio',{exact:true}).inputValue();
+    assert.equal(await page.locator('#audit-date').inputValue(),'');
+    await page.locator('input[type=file]').nth(0).setInputFiles(path.resolve('output/pdf/demo_mepia_20261014/01_ventas_demo_2026-10-14.pdf'));
+    await page.locator('input[type=file]').nth(1).setInputFiles(path.resolve('output/pdf/demo_mepia_20261014/02_compra_demo_2026-10-14.xml'));
+    await page.locator('#audit-date').fill('2024-01-15');
+    await page.getByRole('button',{name:/Analizar 2 archivos/}).click();
+    await page.getByRole('alert').filter({hasText:'La fecha elegida no coincide'}).waitFor();
+    assert.equal(auditCalls,0);
+    await page.locator('#audit-date').fill('');
+    await page.getByRole('button',{name:/Analizar 2 archivos/}).click();
+    await page.waitForURL(url=>url.searchParams.get('run_id')===run);
+    await page.locator('.kpi-value').nth(4).filter({hasText:/^0\s*MXN$/}).waitFor();
+    assert.equal(auditCalls,1);assert.equal(auditDate,'2026-10-14');
+    await page.getByText('avg_ticket',{exact:true}).waitFor();
+    await page.getByText('tickets',{exact:true}).waitFor();
+    await page.screenshot({path:path.join(output,'demo-zero.png'),fullPage:true});
+    await page.getByRole('navigation',{name:'Navegación principal'}).getByRole('link',{name:'Chat IA',exact:true}).click();
+    await page.getByLabel('Pregunta sobre tus métricas').waitFor();
+    const dashboard=page.getByRole('navigation',{name:'Navegación principal'}).getByRole('link',{name:'Dashboard',exact:true});
+    assert.equal(await dashboard.getAttribute('href'),'/dashboard?run_id='+run);
+    await dashboard.click();
+    await page.locator('.kpi-value').nth(4).filter({hasText:/^0\s*MXN$/}).waitFor();
+    assert.equal(new URL(page.url()).searchParams.get('run_id'),run);
+    await page.reload();
+    await page.locator('.kpi-value').nth(4).filter({hasText:/^0\s*MXN$/}).waitFor();
+    assert.equal(auditCalls,1);
+    await page.unroute('**/api/upload');await page.unroute('**/api/audit');await page.unroute('**/api/onboarding?*');
+    await page.unroute('**/api/audit/status/'+run);await page.unroute('**/api/audit/result/'+run);
+  });
   await check('Dashboard presenta métricas sintéticas sin alterar porcentaje y separa unidades', async () => {
     const run = '00000000-0000-4000-8000-000000000001';
     const syntheticResult = {
@@ -234,7 +283,7 @@ async function requireFreePort(port) {
         calc_results: [{metric: 'contribution_margin', value: 0.5, unit: '%', status: 'warning', context: 'Resultado de prueba'},
           {metric: 'cash_reconciliation', value: 50, unit: 'MXN', status: 'critical', context: 'Resultado de prueba'}],
         forensic_report: {risk_level: 'low', anomalies: []}, audit_insights: []},
-      escalation: {triggered: false, reason: null, layer2_run_id: null}, dormant_metrics: [], completed_at: '2026-10-14T12:00:00Z',
+      escalation: {triggered: false, reason: null, layer2_run_id: null}, dormant_metrics: [], blocked_metrics: [], metric_status_available:false, completed_at: '2026-10-14T12:00:00Z',
     };
     await page.route('**/api/audit/status/' + run, route => route.fulfill({json: {run_id: run, pipeline_status: 'completed'}}));
     let auditBusiness;
@@ -246,6 +295,8 @@ async function requireFreePort(port) {
     });
     await page.goto(base + '/dashboard?run_id=' + run);
     await page.getByText('0.5%', {exact: true}).waitFor();
+    await page.getByText('Este análisis no conserva el detalle de los datos faltantes.',{exact:true}).waitFor();
+    assert.equal(await page.getByText('Todas las métricas activas',{exact:true}).count(),0);
     await page.getByRole('heading', {name: 'Métricas calculadas · %', exact: true}).waitFor();
     await page.getByRole('heading', {name: 'Métricas calculadas · MXN', exact: true}).waitFor();
     await page.waitForFunction(() => document.querySelectorAll('.recharts-surface').length >= 2);

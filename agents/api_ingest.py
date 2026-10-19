@@ -16,6 +16,13 @@ from pydantic import BaseModel, Field
 
 _logger = logging.getLogger(__name__)
 
+
+class POSPersistenceError(RuntimeError):
+    """El agregado no se guardó; no continuar ni informar un éxito parcial falso."""
+    def __init__(self, kind: str):
+        self.kind = kind
+        super().__init__(kind)
+
 # Constante para la tasa de IVA en México
 _IVA_RATE = Decimal("0.16")
 # Tolerancia relativa para validación de IVA (±2%)
@@ -508,7 +515,8 @@ def _persist_pos_inputs(
     - refunds = 0 (no proporcionado por S1B)
     - num_transactions = COUNT(tickets)
 
-    UPSERT: si pos_inputs ya existe para (business_id, date), actualiza totales.
+    RPC transaccional por negocio/fecha: crea o actualiza una sola fila.
+    Si hay varias filas históricas, rechaza la fecha sin sobrescribirlas.
     """
     if not tickets:
         return
@@ -540,12 +548,10 @@ def _persist_pos_inputs(
     }
 
     try:
-        db.table("pos_inputs").upsert(
-            row,
-            on_conflict="business_id,date",
-        ).execute()
+        db.rpc("upsert_pos_daily", {"p_record": row}).execute()
     except Exception as exc:
-        _logger.error("Error persisting pos_inputs: %s", exc)
+        conflict = getattr(exc, "message", "") == "MEPIA_POS_DATE_AMBIGUOUS"
+        raise POSPersistenceError("conflict" if conflict else "unavailable") from None
 
 
 def _persist_transactions(

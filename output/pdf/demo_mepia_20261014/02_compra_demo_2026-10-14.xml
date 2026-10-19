@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DATOS FICTICIOS PARA MEPIA. Sin timbre ni validez fiscal. -->
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0"
+ Fecha="2026-10-14T12:00:00" Folio="DEMO-COMPRA-20261014"
+ SubTotal="800.00" Total="928.00" Moneda="MXN" TipoDeComprobante="I">
+ <cfdi:Emisor Nombre="Proveedor Ficticio MEPIA" Rfc="XAXX010101000" RegimenFiscal="601"/>
+ <cfdi:Receptor Nombre="MEPIA Dev - demostracion" Rfc="XAXX010101000" UsoCFDI="G03"/>
+ <cfdi:Conceptos><cfdi:Concepto Descripcion="Compra de insumos para demostracion"
+ Cantidad="1" ValorUnitario="800.00" Importe="800.00"/></cfdi:Conceptos>
+ <cfdi:Impuestos TotalImpuestosTrasladados="128.00"><cfdi:Traslados>
+ <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="128.00"/>
+ </cfdi:Traslados></cfdi:Impuestos>
+</cfdi:Comprobante>

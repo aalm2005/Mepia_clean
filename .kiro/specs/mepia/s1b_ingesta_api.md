@@ -1,5 +1,13 @@
 # S1B — Ingesta API (Ruta Primaria)
 
+**Actualización de persistencia — 15-oct-2026:** el agregado POS se guarda por
+RPC `upsert_pos_daily`; bloqueo por negocio/fecha, sin borrar duplicados
+históricos. Varias filas para la fecha producen conflicto seguro HTTP 409;
+otro fallo de guardado, 503, sin continuar como éxito. Contrato 011 aplicado en principal; RPC comprobada
+con inserción, actualización y conflicto sin cambios, dentro de ROLLBACK.
+Regresión 178 pruebas/41 subpruebas, dos advertencias, 12.67 s, código 0. [Contrato físico](db_schema_pipeline_contract.md)
+y [avance real](../../../docs/database_unification.md).
+
 **Capa:** Sequential | **Siguiente nodo:** S2 Gatekeeper
 **Archivos relacionados:** `api/main.py`, `db_schema.md`, `s1_ingesta.md`
 **Enfoque:** API-First / Headless — JSON estructurado a nivel línea

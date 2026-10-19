@@ -1,5 +1,11 @@
 # MEPIA — Requirements
 
+**Integridad de la entrega — 19-oct-2026, INC-054:** los PDF se versionan como
+binarios y el paquete de demostración conserva sus bytes mediante `-text`.
+Un checkout de Windows con conversión automática de saltos de línea debe
+mantener el SHA-256 de PDF/XML/oráculo para conservar su lectura y deduplicación.
+Esto no cambia cálculos, permisos, datos reales ni el contrato del chatbot.
+
 > Este archivo es el punto de entrada del spec para el panel de Kiro.
 > La documentación detallada de requerimientos está distribuida en los archivos de nodo.
 > Ver `_index.md` para el mapa completo del pipeline.
@@ -53,7 +59,7 @@ MEPIA (Mise En Place Artificial Intelligence) es un copiloto financiero para due
 - Ver spec detallado: `_auth_strategy.md`
 
 ### 9. Onboarding de Identidad del Negocio
-- Antes de ejecutar Layer 3, el negocio debe completar el onboarding de identidad
+- Antes de ejecutar Layer 3, debe existir configuración del negocio; Documentos crea valores iniciales automáticamente si faltan, sin exigir completar el formulario avanzado
 - El onboarding inyecta el "Lente del CEO" en `mepia_memory` y registra umbrales de auditoría
 - Si el onboarding no está completo, `POST /api/audit/layer3/run` retorna HTTP 412
 - Ver spec detallado: `n10_onboarding_identidad.md`
@@ -69,7 +75,8 @@ MEPIA (Mise En Place Artificial Intelligence) es un copiloto financiero para due
 - `_glossary.md` — contratos de datos y términos de dominio
 - `db_schema.md` — schema de base de datos híbrido
 - `_auth_strategy.md` — estrategia transversal de autenticación y autorización
-- `n10_onboarding_identidad.md` — prerequisito de Layer 3: onboarding de identidad del negocio
+- `n10_onboarding_identidad.md` — configuración automática y personalización opcional del negocio
+- [Datos del motor consultables en N15](n15_chat_consulta_datos.md) — persistencia y proyecto compartido
 
 ### Experiencia y alcance vigentes — 15-oct-2026
 - Login común e identificación automática del negocio propio implementados.
@@ -78,3 +85,12 @@ MEPIA (Mise En Place Artificial Intelligence) es un copiloto financiero para due
 - Tutorial didáctico pendiente, distinto de la configuración inicial existente.
 - Adaptación móvil parcial; revisión integral de pantallas/dispositivos pendiente.
 - Ver [flujo y estado actual](../../../docs/estado_actual_mepia.md).
+
+### Entorno y consulta de resultados — 15-oct-2026
+
+El motor guarda S3/N14 en `audit_results`; el chat consulta esos resultados
+solo en el mismo proyecto y negocio autorizado. La base principal y PRUEBAS
+siguen siendo proyectos separados; esta instalación usa solo principal con
+[esquema, conexión y acceso verificados](../../../docs/database_unification.md).
+INC-046/047 resueltas; INC-048/049 corregidas localmente y análisis nuevo pendiente. Ejecutar perfiles
+separados no requiere bases separadas.

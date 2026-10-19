@@ -1,5 +1,416 @@
 # Bitácora oficial de incidencias del chatbot de MEPIA
 
+**Quincena 5 — preparación del 19-oct-2026:** versión reunida en
+`codex/quincena-5`, desde `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`.
+Incluye configuración automática, conexión unificada, controles de persistencia,
+correcciones del Dashboard y documentos de demostración; INC-044–053 conservan
+su estado registrado. INC-054 resuelta: los cuatro artefactos conservan sus
+bytes al clonar en Windows; 8/8 comparaciones y cuatro lecturas aprobadas.
+Estado actual: 54 incidencias, 51 resueltas, dos mitigadas y una pendiente externa.
+Regresión actual: **226 pruebas y 41 subpruebas**, dos
+advertencias, 36.57 s, código 0. Fechas 11/11, presentación 16/16 y tipos código 0.
+Los 23 controles Edge del 15-oct se conservan como evidencia previa, sin repetirlos.
+Revisión de credenciales y documentos aprobada; cambios aún sin commit ni push
+en este registro preparatorio. El ensayo real del 14-oct, revisión humana N15,
+tutorial guiado, adaptación móvil completa y controles de producción siguen
+pendientes. Esta publicación de código no aplica cambios en Supabase ni despliega.
+[Publicación y evidencia](quincena5_publicacion_20261019.md).
+
+**Correcciones del ensayo — 15-oct-2026:** INC-051/052/053 resueltas
+localmente. Fecha inferida desde ventas o selección compatible; selección del
+análisis conservada en el menú para la misma sesión/negocio; N05 guarda el
+resultado completo. Históricos recuperados solo por su S3 explícito compatible,
+con estado S2 desconocido cuando no se conservó. Regresión: **226 pruebas y
+41 subpruebas**, dos advertencias, 58.42 s, código 0. Edge: **23/23 controles**,
+cero errores; fechas 11/11 y presentación 16/16; tipos código 0.
+Lectura principal por API local: HTTP 200, cuatro métricas recuperadas de la
+corrida de enero; cero escrituras externas y cero llamadas del agente a modelos.
+Servidor local actualizado. **53 incidencias: 50 resueltas, dos mitigadas,
+una pendiente externa y cero abiertas.** Ensayo real del 14-oct y revisión humana
+del Paso 5 siguen pendientes. Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+sin commit/push ni despliegue. Sigue ejecutar una vez el ensayo con fecha 14-oct.
+[Archivos, evidencia y límites](dashboard_demo_fix_20261015.md).
+
+**Diagnóstico inicial anterior a la corrección — 15-oct-2026:** los documentos se registraron para
+14-oct-2026, pero las capturas corresponden a una corrida del 15-ene-2024.
+INC-051 abierta: fecha antigua prellenada prevalece sobre la de los archivos.
+INC-052 abierta: volver al Dashboard desde el menú pierde la selección visual
+del análisis, conservado en la base. INC-053 abierta: N05 guarda insights pero
+omite resultados completos/listas; GET local devuelve cuatro insights y listas
+vacías. Lectura principal y HTTP 200 verificados, cero escrituras externas y
+cero llamadas del agente a modelos. Sin cambios de producto ni repetición de
+suites/build/E2E. **53 incidencias: 47 resueltas, dos mitigadas, una pendiente
+externa y tres abiertas.** El ensayo del 14-oct sigue sin aprobar.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+documentación sin commit/push. Sigue corregir 051/052/053 y verificar el ensayo
+con fecha correcta. [Diagnóstico y límites](dashboard_demo_diagnosis_20261015.md).
+
+**Preparación del video anterior a este diagnóstico — 15-oct-2026:** INC-048/049/050 resueltas localmente:
+N14 entrega respuesta solo tras guardar; el seguimiento avanzado resuelve el ID
+de Layer 2 al ID real de Layer 3 y muestra el fallo de persistencia. Registro de
+errores limitado a 128/30 minutos en un proceso; no sustituye estados durables.
+Dashboard acepta decimales textuales del motor sin ocultar cero: 16/16
+controles de presentación y TypeScript código 0.
+Regresión: **208 aprobadas y 41 subpruebas**, dos advertencias, 9.93 s, código 0;
+dos controles HTTP aislados aprobados, 8 deseleccionados, dos advertencias,
+4.21 s. PDF/XML ficticios del 14-oct preparados, renderizados y leídos por los
+parsers reales; motor S3 y grounding con DB simulada: conciliación **0.00 MXN**.
+OpenAI configurado en privado, Claude vacío con respaldo OpenAI comprobado por
+simulación; Gemini configurado. Cero llamadas del agente a modelos en esta tarea.
+Con autorización expresa se añadió un conteo ficticio de caja, verificado una
+sola vez por lectura; sin sobrescribir registros. Ensayo real de IA pendiente.
+**50 incidencias: 47 resueltas, dos mitigadas (023/031), una pendiente externa
+(041), cero abiertas.** Preparación local no equivale a ensayo real aprobado.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+sin commit/push ni despliegue. [Pasos para el ensayo](demo_video_paso_a_paso.md)
+y [evidencia](evaluations/demo_preparation_20261015.json).
+
+**Unificación operativa anterior a esta preparación — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal con claves modernas; cuenta y propietario verificados.
+009/010 y 011 aplicadas con autorización: 18 tablas/175 columnas, 658 referencias
+estáticas sin faltantes. Se conservan las 58 auditorías, 21 documentos y demás
+conteos previos; huellas anteriores de auditorías/negocio coinciden.
+Regresión: 178 pruebas y 41 subpruebas aprobadas, dos advertencias, 12.67 s,
+código 0. SQL real: 9/9 contratos y 4/4 controles de aislamiento aprobados;
+escrituras del ensayo revertidas. Usuario confirmó login, negocio, Documentos
+y Chat IA, también después del retiro de claves antiguas.
+INC-046 resuelta en su alcance de esquema/conexión. INC-047 resuelta tras
+desactivar API keys heredadas y revocar la firma anterior HS256: ambos usos
+del token antiguo reciben 401; ECC/ES256 y claves modernas siguen funcionando.
+**48 incidencias: 44 resueltas, dos mitigadas (023/031), una pendiente externa
+(041) y una abierta (048).** INC-048 y el ensayo de análisis nuevo siguen
+pendientes; OpenAI/Anthropic vacías. El chat recuperó cuatro métricas existentes,
+sin N14 enlazado y sin llamadas a modelos. No se infiere linaje histórico.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+cambios **sin commit/push**. Principal sí recibió los cambios autorizados;
+no se publicó una web. PRUEBAS se conserva, sin copiar sus fixtures.
+[Evidencia, archivos y límites](database_unification.md).
+
+Los registros fechados siguientes conservan su alcance histórico. Los Pasos
+1–4 aceptados y la evaluación funcional/humana pendiente del Paso 5 se conservan.
+
+**Configuración automática integrada — 15-oct-2026:** INC-044/045 resueltas
+localmente: tolerancias conservadas al guardar y GET/POST/PUT con sesión y
+propiedad verificadas. Documentos abre sin formulario obligatorio, aplica
+valores iniciales si faltan y conserva ajustes previos, sin inventar gastos.
+Regresión: 151 pruebas/41 subpruebas, dos advertencias, 9.54 s, código 0;
+Edge N10 14/14 y general 25/25, cero errores; helper 3/3 y build/tipos código 0.
+MEPIA - PRUEBAS: tres consultas de esquema `limit 0`, cero filas/escrituras;
+cero llamadas nuevas del agente a modelos. Usuario confirma que Documentos y
+ajustes avanzados abren sin error. Rama `codex/chatbot-q4`, HEAD `f9cfddc`,
+sin commit/push; producción sin cambios. 45 incidencias: 42 resueltas, dos
+mitigadas, una pendiente externa (041), cero abiertas.
+[Archivos, evidencia y límites](onboarding_defaults_integration.md).
+El usuario grabará desde otra computadora con archivos nuevos: falta configurar
+las claves del motor (OpenAI/Anthropic vacías aquí) y ensayar el servidor completo.
+[Guía de instalación y ensayo](mepia_setup_video.md). Pasos 1–4 aceptados y
+pendientes funcionales/humanos del Paso 5 conservados.
+
+**Revisión histórica N10 — 15-oct-2026:** INC-044/045 abiertas en una entrega candidata
+sin integrar. 13 controles: 11 aprobados/dos defectos; tipos código 0, Edge sin
+errores de página. 45 incidencias: 40 resueltas, dos mitigadas, una pendiente
+externa y dos abiertas en esta revisión. El código de producto conserva el HEAD
+publicado `f9cfddc`; las validaciones aceptadas anteriores no se reabren.
+[Informe y límites](onboarding_candidate_review_20261015.md).
+
+## INC-20261019-054 — Git transforma los documentos de demostración al clonar en Windows
+
+- **Categoría/estado:** C, integridad de los entregables de demostración; resuelta localmente.
+- **Rama/commit:** `codex/quincena-5`, base `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`, sin commit.
+- **Evidencia real:** `git diff --cached --check` terminó con código 2 al tratar
+  dos PDF como texto. Con `core.autocrlf=true`, los filtros de checkout cambian
+  efectivamente los bytes de los dos PDF y del XML comprobados (3/3), alterando
+  sus SHA-256 y pudiendo afectar la deduplicación por contenido. Los archivos de
+  trabajo originales permanecen intactos.
+- **Causa:** PDF ReportLab legibles como ASCII no detectados como binarios y
+  ausencia de una regla de preservación para el paquete de demostración.
+- **Corrección:** `.gitattributes` marca PDF binarios y el paquete de demo como
+  `-text`; se prepara de nuevo el contenido sin reescribir los documentos.
+- **Verificación real:** cuatro artefactos originales intactos, ocho comparaciones
+  exactas de blobs y filtros de checkout aprobadas; dos PDF, XML y JSON legibles.
+  La primera comparación detectó que el índice aún conservaba la normalización
+  anterior del JSON; volver a preparar con `--renormalize` corrigió el índice,
+  sin editar el archivo original. El JSON con CRLF conservado se excluye solo de
+  revisión de whitespace de artefactos, igual que la evidencia histórica.
+  `git diff --cached --check`: código 0 tras la corrección.
+- **Evidencia:** [publicación de quincena 5](quincena5_publicacion_20261019.md).
+  Sin cambios a datos o modelos; pendiente únicamente commit/push en este registro.
+
+## INC-20261015-051 — Fecha antigua del formulario analiza un día distinto al de los archivos
+
+- **Categoría/estado:** C, integración del ensayo; resuelta localmente. No reabre los Pasos 1–4.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`, diagnóstico sin commit.
+- **Evidencia:** capturas con diferencia -161.29 y tres métricas adicionales;
+  lectura principal ubica la corrida en 2024-01-15. Los documentos sí registraron
+  ventas 2900 y compra 928 para 2026-10-14, sin auditorías para esa fecha.
+- **Causa de código:** `components/upload/UploadForm.tsx` inicia `auditDate`
+  en 2024-01-15 y esa fecha prevalece sobre la extraída. No se presupone la
+  interacción exacta del usuario. No es un error aritmético probado de S3.
+- **Acción pendiente en el diagnóstico inicial:** quitar el valor histórico, acordar/validar fecha contra
+  documentos y probar que los archivos nuevos no solicitan otra fecha por defecto.
+- **Verificación del diagnóstico inicial:** lecturas y revisión de código; cero escrituras/modelos del
+  agente, sin corrección ni nueva suite. [Informe](dashboard_demo_diagnosis_20261015.md).
+
+- **Corrección local verificada:** fecha inicialmente vacía, inferencia desde el
+  lote de ventas sin depender del estado asíncrono de React y rechazo de fechas
+  contradictorias o varios días de ventas. Compras de otro día no desplazan ventas;
+  sin fecha inferible se solicita elegirla. El botón evita doble ejecución.
+- **Verificación:** 11 casos de fecha; Edge comprueba selección contradictoria con
+  cero solicitudes de análisis y después inferencia 2026-10-14 en una solicitud.
+  Primer intento del helper Node falló porque su compilador de prueba usaba ES5
+  para iterar Set; fijar ES2020 en el arnés permitió las 11 comprobaciones. El
+  compilador de la aplicación ya admite iteración; no se modificó ese contrato.
+- **Siguiente acción:** ensayo real con los documentos del 14-oct; no se ejecutó
+  desde el agente ni se acredita una respuesta real nueva de los modelos.
+- **Archivos/evidencia actuales:** [seguimiento de la corrección](dashboard_demo_fix_20261015.md).
+
+## INC-20261015-052 — Navegar al chat pierde la selección visual de la corrida
+
+- **Categoría/estado:** C, navegación del ensayo; resuelta localmente.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`, diagnóstico sin commit.
+- **Síntoma/evidencia:** usuario informa que el Dashboard quedó vacío después de
+  cambiar al chat. La corrida coincidente sigue guardada y GET local responde 200.
+- **Causa:** menú apunta a `/dashboard` sin `run_id`; `useAuditPolling` limpia
+  el estado al faltar ese identificador. No existe recuperación de la selección.
+- **Acción pendiente en el diagnóstico inicial:** conservar/reabrir la selección dentro de la misma sesión
+  y negocio. Mantener aislamiento y limpieza de INC-036 al cambiar negocio;
+  no restaurar indiscriminadamente una corrida anterior.
+- **Verificación del diagnóstico inicial:** reporte del usuario, lectura y revisión del flujo; sin E2E
+  nuevo, sin corrección, sin escrituras/modelos del agente. [Informe](dashboard_demo_diagnosis_20261015.md).
+
+- **Corrección local verificada:** selección en memoria de MepiaAuthProvider,
+  vinculada a usuario/negocio; menú y logo conservan run_id. Nuevas solicitudes
+  recuerdan el enlace y una respuesta validada confirma la selección. Cambiar
+  negocio o salir limpia la selección; retirar run_id sigue limpiando la vista.
+- **Verificación:** Edge muestra cero textual, navega al chat, vuelve al mismo
+  run_id y recarga conservando el cero sin otra solicitud de análisis. El recorrido
+  general mantiene rechazo de sesiones inválidas, negocio ajeno y limpieza al
+  cambiar negocio. INC-036 permanece conservada.
+- **Límite:** selección en memoria de la sesión de la página; una recarga del
+  enlace con run_id la recupera. No hay nuevo historial persistente de corridas.
+- **Archivos/evidencia actuales:** [seguimiento de la corrección](dashboard_demo_fix_20261015.md).
+
+## INC-20261015-053 — Recuperar N05 pierde resultados y estado de métricas
+
+- **Categoría/estado:** C, persistencia/contrato del Dashboard; resuelta localmente.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`, diagnóstico sin commit.
+- **Evidencia real:** S3 conserva cuatro resultados y N05 cuatro insights.
+  GET local del N05: HTTP 200, cuatro insights, cero calc_results, cero active_metrics
+  y cero dormant_metrics. N05 guardado no contiene esas listas.
+- **Causa:** `agents/ceo_orchestrator.py` no guarda resultado secuencial completo
+  ni dormant_metrics; `api/main.py` reconstruye listas vacías por defecto.
+  `DormantMetricsList` interpreta lista vacía como «Todas las métricas activas».
+- **Acción pendiente en el diagnóstico inicial:** conservar/recuperar evidencia por linaje S3 exacto y
+  distinguir estado desconocido de ausencia real de métricas dormant. Verificar
+  tarjetas, listas, recarga y aislamiento; no enlazar por cercanía temporal.
+- **Límites del diagnóstico inicial:** no se demuestra pérdida del S3 ni borrado de auditorías. Sin
+  corrección, suites/build/E2E nuevos, escrituras o modelos del agente.
+  [Informe y evidencia](dashboard_demo_diagnosis_20261015.md).
+
+- **Corrección local verificada:** N05 persiste el resultado completo, incluido
+  S2 dormant/blocked, decimales y linaje. Fallo de guardado devuelve mensaje fijo
+  mediante RuntimeError/503; no publica un éxito inexistente. La lectura antigua
+  consulta exclusivamente S3 enlazado, exitoso y del mismo negocio/fecha. Ausencia,
+  conflicto o incompatibilidad no se resuelven por cercanía temporal.
+- **Presentación:** metric_status_available distingue evidencia S2 conservada de
+  estado desconocido; listas vacías desconocidas ya no afirman activación total.
+  Se muestran también indicadores bloqueados por revisión de documentos.
+- **Verificación:** 12 pruebas dirigidas aprobadas; regresión 226/41, dos avisos,
+  58.42 s, código 0. Lectura principal mediante GET local actualizado: HTTP 200,
+  cuatro cálculos de enero recuperados (antes cero), metric_status_available=false.
+  Cero escrituras externas y cero llamadas del agente a modelos.
+- **Archivos/evidencia actuales:** [seguimiento de la corrección](dashboard_demo_fix_20261015.md).
+
+## INC-20261015-047 — Saneamiento tardío muestra fragmento de clave heredada
+
+- **Estado:** resuelta; credenciales heredadas y token antiguo rechazados.
+- **Categoría:** manejo de configuración privada durante unificación.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc`, sin commit/push.
+- **Causa:** se recortó un snapshot antes de sanearlo; faltaba el inicio del
+  token y el filtro no reconoció el fragmento. Usuario informado; no se guarda
+  aquí el fragmento ni credenciales. Ahora se filtra todo el texto antes de cortar.
+- **Contención y resolución:** claves modernas existentes configuradas en privado;
+  procesos reiniciados, conexión y login verificados. API keys antiguas desactivadas
+  con autorización explícita. HEAD posterior detectó que el token seguía válido
+  como JWT; se autorizó específicamente revocar la firma anterior HS256 y se hizo.
+  La firma actual ECC/ES256 se conserva. No se cambió la contraseña del usuario.
+- **Evidencia final:** API keys antiguas 401; JWT antiguo con apikey moderna 401;
+  servidor moderno y diez controles de runtime aprobados. UI HS256 Revoked.
+  Usuario confirmó de nuevo negocio/Documentos/Chat IA después del retiro.
+- **Revisión automática:** rechazó la delegación inicial por autorización
+  insuficiente; no se ejecutó en ese intento. Autorización expresa posterior
+  recibida antes de actuar, sin eludir el bloqueo.
+- **Siguiente acción:** otras copias deben recibir configuración privada moderna;
+  no reutilizar los valores revocados. Ningún secreto se agrega al repositorio.
+- **Evidencia saneada:** [unificación](database_unification.md) e
+  [informe](evaluations/database_unification_20261015.json).
+
+## INC-20261015-048 — N14 no propaga un fallo al guardar el informe
+
+- **Estado:** resuelta localmente; ensayo con proveedores/base reales pendiente.
+- **Categoría:** robustez adicional de persistencia; no reabre Pasos 1–4 del chat.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc`, sin commit/push.
+- **Reproducción original conservada:** dos invocaciones simuladas retornaron
+  approved aunque el guardado fallara; `persist_ok` se ignoraba. El diagnóstico
+  original no se modifica ni se convierte retrospectivamente en aprobación.
+- **Corrección:** N14 lanza `N14PersistenceError` saneado al faltar DB/fallar el
+  guardado; no retorna el informe. Éxito devuelve `layer3_status=completed`,
+  declarado en el TypedDict para evitar descarte por LangGraph. API y cadena
+  N05 comparten `execute_layer3`; status failed y resultado HTTP 503 aun con
+  DB caída. Caché 128 corridas/30 min, por proceso, sin reportes ni excepciones.
+- **Verificación:** 208 pruebas y 41 subpruebas, dos advertencias, 9.93 s, código 0;
+  dos HTTP aisladas, ocho deseleccionadas, dos advertencias, 4.21 s. Incluye grafo
+  real con nodos generativos simulados, éxito/fallo, linaje/proveedor/advertencias,
+  expiración/capacidad y encadenamiento automático. Sin red/modelos en pruebas.
+- **Archivos:** N14, estado, ejecución compartida, N05, API y pruebas N14/demo;
+  contratos N14/ejecución/API/grafo, bitácoras, diseño y guía sincronizados.
+- **Límites/siguiente acción:** el registro temporal se pierde al reiniciar y no
+  se comparte entre réplicas. No se intenta insertar failed en una DB caída.
+  No certifica disponibilidad del proveedor ni N14 real con datos nuevos.
+- **Evidencia:** [preparación](evaluations/demo_preparation_20261015.json);
+  [diagnóstico histórico](evaluations/documentation_n14_contract_diagnostic_20261015.json).
+
+## INC-20261015-049 — El seguimiento avanzado consulta una ruta y un ID incompatibles
+
+- **Estado:** resuelta localmente; sin commit/push ni despliegue web.
+- **Categoría:** integración/robustez adicional; conserva Pasos 1–4 aceptados.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc`, sin commit.
+- **Causa:** proxy Next usa `/layer3/status/{layer2_run_id}`; FastAPI declaraba
+  solo `/api/audit/layer3/status/{layer3_run_id}`. Son identificadores distintos;
+  el hook trata 404 como todavía no iniciado y podía seguir esperando.
+- **Corrección:** ruta compatible resuelve último N10 por padre; consulta el
+  estado por su layer3_run_id. Un fallo N14 registrado se resuelve por ambos IDs
+  incluso sin DB. Un reintento del mismo padre limpia su fallo anterior;
+  padre aún sin N10 devuelve 404. No se cambia el proxy ni la
+  generación del informe para ocultar la discrepancia.
+- **Verificación:** HTTP simulado comprueba padre distinto al ID final, respuesta
+  completed, fallo 200/failed y padre desconocido 404. Forma parte de 208/41
+  subpruebas, dos advertencias, 9.93 s, código 0. Dos HTTP aisladas 2/2.
+  OpenAPI local 200 y ruta presente después de reiniciar servidor completo;
+  frontend 200 y listado anónimo 401. No se afirma E2E real nuevo del navegador.
+- **Límites:** permisos pendientes del backend legado conservan su alcance local
+  (INC-023); esta corrección no certifica publicación ni replicas múltiples.
+- **Evidencia:** [preparación](evaluations/demo_preparation_20261015.json).
+
+## INC-20261015-050 — Dashboard oculta decimales enviados como texto
+
+- **Estado:** resuelta localmente; sin commit/push ni despliegue web.
+- **Categoría:** presentación de resultados S3; conserva los Pasos 1–4 aceptados.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc`, sin commit.
+- **Reproducción:** prueba del mapper TypeScript con `value="0.00"`: raya en
+  lugar de cero, código 1. Pydantic serializa Decimal como texto y el proxy
+  lo conserva; Number.isFinite rechazaba todo importe textual.
+- **Corrección:** glosario actualizado antes del tipo `number|string|null`.
+  Mapper convierte únicamente texto numérico finito para mostrar tarjetas y
+  gráficas. Mantiene unidades/estado y no reescala porcentajes; vacíos, booleanos,
+  texto inválido y no finitos siguen sin cifra. Cálculos permanecen en backend.
+- **Verificación:** 16/16 controles, código 0, cero API; cero textual, porcentaje
+  textual, filas numéricas de gráfica y ocho clases de entrada inválida. Tipos
+  TypeScript sin emisión ni caché código 0. El intento anterior se conserva;
+  reporte histórico original no se sobrescribe: ejecutor admite ruta de salida.
+- **Archivos:** `utils/mapCalcResultsToKpis.ts`, `types/audit.ts`, pruebas de
+  presentación; glosario, spec de componentes, diseño, bitácoras y guía/evidencia.
+- **Límite:** pruebas locales del mapper/tipos, no se afirma E2E real nuevo
+  del navegador ni análisis IA. La representación gráfica usa números JS.
+- **Evidencia:** [preparación](evaluations/demo_preparation_20261015.json).
+
+## INC-20261015-046 — Contrato del motor incompleto en la base principal
+
+- **Estado:** resuelta en su alcance de esquema, conexión y acceso; el análisis
+  nuevo completo sigue pendiente; INC-048 fue corregida posteriormente de forma local.
+- **Categoría:** preparación de entorno/compatibilidad de datos; conserva los
+  Pasos 1–4 aceptados y no atribuye a PRUEBAS validación integral del motor.
+- **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc`, sin commit/push.
+- **Causa:** inventario principal 15 tablas/131 columnas; 658 referencias del
+  código mostraron tres tablas y campos auxiliares ausentes. Ambos proyectos
+  compartían carencias; compararlos entre sí no bastaba.
+- **Solución aplicada con autorización:** 009/010, propietario confirmado y 011
+  aditiva; 18 tablas/175 columnas y cero referencias estáticas faltantes. Se
+  preservan duplicados POS mediante RPC transaccional: 409 por ambigüedad, 503
+  por fallo de guardado. EXECUTE restringido explícitamente a service_role.
+- **Verificación:** 178 pruebas y 41 subpruebas, dos advertencias, 12.67 s, código 0;
+  SQL real 9/9 contratos y 4/4 aislamiento, con ROLLBACK. Conteos originales y
+  huellas de auditorías/negocio conservados; cero fixtures copiados. 011 aplicada
+  de nuevo con éxito. Servidor completo/Next reiniciados, diez controles de runtime
+  aprobados; usuario confirmó login/pantallas también después del cierre INC-047.
+  Grounding real recupera cuatro métricas, sin N14 enlazado ni llamadas a modelos.
+- **Intentos conservados:** SQL inicial 7/8 por grants predeterminados; corregido
+  y repetido 9/9. Regresión en sandbox sin salida interrumpida, repetición aprobada.
+  Dos expectativas de rutas/login del ejecutor corregidas según el código.
+  Consultas iniciales 42601 por reemplazo parcial Monaco, sin DML; reemplazo
+  completo verificado por clipboard. Dos clics nativos de reactivación vencidos;
+  acción DOM posterior y estado Healthy confirmados.
+- **Límites/siguiente acción:** corregir INC-048, configurar proveedores y ensayar
+  análisis nuevo. Sin borrado de datos/proyectos, commit, push ni despliegue web.
+- **Archivos/evidencia:** [unificación](database_unification.md) e
+  [informe](evaluations/database_unification_20261015.json).
+
+## INC-20261015-045 — La candidata expone ajustes completos de otro negocio
+
+- **Estado:** resuelta localmente e integrada en la copia de trabajo; sin commit/push.
+  Se conserva debajo la reproducción original en la candidata. No se atribuye
+  una regresión del acceso propio del chat ya validado.
+- **Categoría:** autorización de configuración N10; la falta de permisos por
+  recurso en servicios legados ya estaba registrada como control de producción.
+  La nueva respuesta `settings` amplía la exposición a gastos y preferencias;
+  se registra este defecto concreto, distinto de la dependencia de INC-023.
+- **Rama/commit de revisión:** `codex/chatbot-q4`, HEAD
+  `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`; registro sin commit. Candidata
+  sin `.git`, no integrada ni publicada desde esta revisión.
+- **Evidencia:** cuenta sintética A solicita por el proxy Next real los ajustes
+  de un negocio B perteneciente a otra cuenta; recibe HTTP 200 con la estructura
+  completa de costos. El middleware original de la candidata está incluido y
+  comprobado byte a byte: rechaza la petición anónima con 401, pero solo valida
+  identidad. GET N10 no verifica propietario antes de devolver `settings`.
+- **Ubicación candidata:** `api/main.py:472`, nueva respuesta de ajustes;
+  `app/api/onboarding/route.ts` no propaga identidad al servicio legado.
+- **Solución y comprobación — 15-oct-2026:** `api/onboarding.py` verifica JWT y
+  propiedad antes de leer/escribir, compartido por ambos perfiles de API; el
+  proxy reenvía Bearer. GET/POST/PUT ajenos devuelven 403 sin datos ni cambios,
+  tanto en API como en Edge. Sin sesión: 401 antes de DB. Regresión 151/41
+  subpruebas, Edge N10 14/14 y general 25/25; build/tipos código 0.
+  Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`,
+  cambio sin commit. No se cierran los permisos de otros endpoints legados.
+- **Siguiente acción:** ensayar carga/análisis con servidor completo en el equipo
+  que grabará; faltan claves OpenAI/Anthropic, sin bloquear el cierre local N10.
+  [Integración y evidencia actual](onboarding_defaults_integration.md).
+- **Límites de la revisión original:** datos, Auth y servicios simulados en copia aislada; cero consultas
+  reales a Supabase/modelos, cuentas, SQL administrativo o producción.
+- **Evidencia original conservada:** [informe verificable](evaluations/onboarding_candidate_review_20261015.json).
+  El tercer intento del ejecutor había omitido middleware y su resultado anónimo
+  era inválido; el cuarto incluye la fuente original, confirma anónimo 401 y
+  mantiene el acceso indebido entre negocios. No se registra una caída de Auth.
+
+## INC-20261015-044 — Editar ajustes de la candidata altera tolerancias sin cambios
+
+- **Estado:** resuelta localmente e integrada en la copia de trabajo; sin commit/push.
+- **Categoría:** revisión de mejora adicional de configuración N10. No reabre
+  los Pasos 1–4 del chat ni las correcciones de acceso/saludos ya publicadas.
+- **Rama/commit de revisión:** `codex/chatbot-q4`, HEAD
+  `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`; registro sin commit. La candidata
+  es una carpeta sin `.git`, comparada con ese HEAD; no se inventa su commit.
+- **Evidencia:** navegador con cuenta/datos sintéticos, costo con tolerancia
+  almacenada `0.005` (0.5%). El formulario muestra `0.5`; guardar sin modificar
+  termina almacenando `0.5` (50%). La respuesta real del GET N10 convierte a
+  porcentaje; el guardado solo divide entre 100 cuando el número es mayor que 1.
+- **Validación final de la candidata:** 13 controles completados, 11 aprobados,
+  dos defectos (044/045), cero errores de página; código 1 por los hallazgos.
+  TypeScript de la carpeta original, sin emisión/incremental, código 0.
+- **Ubicación candidata:** `api/main.py`, conversión en `settings` de costos;
+  `components/onboarding/OnboardingForm.tsx:87`, conversión de envío.
+- **Solución y comprobación — 15-oct-2026:** `OnboardingForm.tsx` divide
+  siempre entre 100 el porcentaje visible al guardar. GET conserva su contrato
+  de porcentaje. Edge confirma ida/vuelta de 0%, 0.1%, 0.5%, 1%, 5% y 100%
+  sin cambiar valores persistidos. Regresión 151/41 subpruebas, Edge N10 14/14
+  y general 25/25, cero errores; build/tipos código 0. Rama `codex/chatbot-q4`,
+  HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`, cambio sin commit.
+- **Siguiente acción:** ensayo integral de grabación separado de esta corrección.
+  [Integración y evidencia actual](onboarding_defaults_integration.md).
+- **Límites de la revisión original:** la prueba usa una copia aislada de la candidata, no modifica su
+  carpeta original ni el código de producto del repositorio. Sin Supabase/IA
+  reales, cuentas, SQL administrativo, commit, push o producción.
+- **Evidencia original conservada:** [informe verificable](evaluations/onboarding_candidate_review_20261015.json).
+
 **Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
 inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
 `49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
@@ -1927,6 +2338,23 @@ offline; las tres repeticiones adicionales siguen pendientes. Produccion sin cam
   Suite no repetida, producto y originales intactos.
 
 ## INC-20260930-014 — Resúmenes documentales desfasados del Paso 4 y del índice 009
+
+- **Sincronización del corte actual — 15-oct-2026:** se corrigen resúmenes que
+  aún dejaban la unificación en su inicio y no distinguían conexión implementada
+  de destino validado. Se alinean estado, guía del video, contratos de datos y
+  migración 011 con los archivos y registros disponibles. Los informes históricos
+  mantienen sus resultados; no se trasladan aprobaciones de PRUEBAS a principal.
+  Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`,
+  sin commit/push. Esta incidencia documental queda resuelta en el corte;
+  INC-046 e INC-048 permanecen abiertas con acciones distintas.
+  El diagnóstico local N14 reproducido se registra como INC-048, no como una
+  corrección del código. Comprobaciones, archivos y rutas completas en
+  [informe documental](actualizacion_documental_20261015.md).
+  Auxiliares iniciales de inventario tuvieron fallos de sintaxis PowerShell,
+  codificación de consola y lectura de una lista como diccionario; se corrigieron
+  y se obtuvieron las lecturas posteriores. Un primer parche fue rechazado antes
+  de escribir por duplicar su destino; se reformuló como actualización. Ninguno
+  de esos intentos ejecutó consultas de base, modelos ni cambios de producto.
 
 - **Revisión documental 15-oct-2026, resuelta localmente antes de GitHub:** se detectaron
   resúmenes de diseño que aún negaban el login, tareas que marcaban todo el

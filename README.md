@@ -1,5 +1,105 @@
 # MEPIA
 
+**Quincena 5 — preparación del 19-oct-2026:** versión reunida en
+`codex/quincena-5`, desde `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`.
+Incluye configuración automática, conexión unificada, controles de persistencia,
+correcciones del Dashboard y documentos de demostración; INC-044–053 conservan
+su estado registrado. INC-054 resuelta: los cuatro artefactos conservan sus
+bytes al clonar en Windows; 8/8 comparaciones y cuatro lecturas aprobadas.
+Estado actual: 54 incidencias, 51 resueltas, dos mitigadas y una pendiente externa.
+Regresión actual: **226 pruebas y 41 subpruebas**, dos
+advertencias, 36.57 s, código 0. Fechas 11/11, presentación 16/16 y tipos código 0.
+Los 23 controles Edge del 15-oct se conservan como evidencia previa, sin repetirlos.
+Revisión de credenciales y documentos aprobada; cambios aún sin commit ni push
+en este registro preparatorio. El ensayo real del 14-oct, revisión humana N15,
+tutorial guiado, adaptación móvil completa y controles de producción siguen
+pendientes. Esta publicación de código no aplica cambios en Supabase ni despliega.
+[Publicación y evidencia](docs/quincena5_publicacion_20261019.md).
+
+**Correcciones del ensayo — 15-oct-2026:** INC-051/052/053 resueltas
+localmente. Fecha inferida desde ventas o selección compatible; selección del
+análisis conservada en el menú para la misma sesión/negocio; N05 guarda el
+resultado completo. Históricos recuperados solo por su S3 explícito compatible,
+con estado S2 desconocido cuando no se conservó. Regresión: **226 pruebas y
+41 subpruebas**, dos advertencias, 58.42 s, código 0. Edge: **23/23 controles**,
+cero errores; fechas 11/11 y presentación 16/16; tipos código 0.
+Lectura principal por API local: HTTP 200, cuatro métricas recuperadas de la
+corrida de enero; cero escrituras externas y cero llamadas del agente a modelos.
+Servidor local actualizado. **53 incidencias: 50 resueltas, dos mitigadas,
+una pendiente externa y cero abiertas.** Ensayo real del 14-oct y revisión humana
+del Paso 5 siguen pendientes. Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+sin commit/push ni despliegue. Sigue ejecutar una vez el ensayo con fecha 14-oct.
+[Archivos, evidencia y límites](docs/dashboard_demo_fix_20261015.md).
+
+**Diagnóstico inicial anterior a la corrección — 15-oct-2026:** los documentos se registraron para
+14-oct-2026, pero las capturas corresponden a una corrida del 15-ene-2024.
+INC-051 abierta: fecha antigua prellenada prevalece sobre la de los archivos.
+INC-052 abierta: volver al Dashboard desde el menú pierde la selección visual
+del análisis, conservado en la base. INC-053 abierta: N05 guarda insights pero
+omite resultados completos/listas; GET local devuelve cuatro insights y listas
+vacías. Lectura principal y HTTP 200 verificados, cero escrituras externas y
+cero llamadas del agente a modelos. Sin cambios de producto ni repetición de
+suites/build/E2E. **53 incidencias: 47 resueltas, dos mitigadas, una pendiente
+externa y tres abiertas.** El ensayo del 14-oct sigue sin aprobar.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+documentación sin commit/push. Sigue corregir 051/052/053 y verificar el ensayo
+con fecha correcta. [Diagnóstico y límites](docs/dashboard_demo_diagnosis_20261015.md).
+
+**Preparación del video anterior a este diagnóstico — 15-oct-2026:** INC-048/049/050 resueltas localmente:
+N14 entrega respuesta solo tras guardar; el seguimiento avanzado resuelve el ID
+de Layer 2 al ID real de Layer 3 y muestra el fallo de persistencia. Registro de
+errores limitado a 128/30 minutos en un proceso; no sustituye estados durables.
+Dashboard acepta decimales textuales del motor sin ocultar cero: 16/16
+controles de presentación y TypeScript código 0.
+Regresión: **208 aprobadas y 41 subpruebas**, dos advertencias, 9.93 s, código 0;
+dos controles HTTP aislados aprobados, 8 deseleccionados, dos advertencias,
+4.21 s. PDF/XML ficticios del 14-oct preparados, renderizados y leídos por los
+parsers reales; motor S3 y grounding con DB simulada: conciliación **0.00 MXN**.
+OpenAI configurado en privado, Claude vacío con respaldo OpenAI comprobado por
+simulación; Gemini configurado. Cero llamadas del agente a modelos en esta tarea.
+Con autorización expresa se añadió un conteo ficticio de caja, verificado una
+sola vez por lectura; sin sobrescribir registros. Ensayo real de IA pendiente.
+**50 incidencias: 47 resueltas, dos mitigadas (023/031), una pendiente externa
+(041), cero abiertas.** Preparación local no equivale a ensayo real aprobado.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+sin commit/push ni despliegue. [Pasos para el ensayo](docs/demo_video_paso_a_paso.md)
+y [evidencia](docs/evaluations/demo_preparation_20261015.json).
+
+**Unificación operativa anterior a esta preparación — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal con claves modernas; cuenta y propietario verificados.
+009/010 y 011 aplicadas con autorización: 18 tablas/175 columnas, 658 referencias
+estáticas sin faltantes. Se conservan las 58 auditorías, 21 documentos y demás
+conteos previos; huellas anteriores de auditorías/negocio coinciden.
+Regresión: 178 pruebas y 41 subpruebas aprobadas, dos advertencias, 12.67 s,
+código 0. SQL real: 9/9 contratos y 4/4 controles de aislamiento aprobados;
+escrituras del ensayo revertidas. Usuario confirmó login, negocio, Documentos
+y Chat IA, también después del retiro de claves antiguas.
+INC-046 resuelta en su alcance de esquema/conexión. INC-047 resuelta tras
+desactivar API keys heredadas y revocar la firma anterior HS256: ambos usos
+del token antiguo reciben 401; ECC/ES256 y claves modernas siguen funcionando.
+**48 incidencias: 44 resueltas, dos mitigadas (023/031), una pendiente externa
+(041) y una abierta (048).** INC-048 y el ensayo de análisis nuevo siguen
+pendientes; OpenAI/Anthropic vacías. El chat recuperó cuatro métricas existentes,
+sin N14 enlazado y sin llamadas a modelos. No se infiere linaje histórico.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+cambios **sin commit/push**. Principal sí recibió los cambios autorizados;
+no se publicó una web. PRUEBAS se conserva, sin copiar sus fixtures.
+[Evidencia, archivos y límites](docs/database_unification.md).
+
+Los registros fechados siguientes conservan su alcance histórico. Los Pasos
+1–4 aceptados y la evaluación funcional/humana pendiente del Paso 5 se conservan.
+
+**Configuración automática — 15-oct-2026:** integrada localmente, sin commit/push.
+Documentos abre sin formulario obligatorio; ajustes avanzados opcionales y
+protegidos, porcentajes conservados. INC-044/045 resueltas. Regresión 151 pruebas
+y 41 subpruebas; Edge N10 14/14 y general 25/25, build/tipos código 0.
+[Evidencia y límites](docs/onboarding_defaults_integration.md).
+Para ejecutar todo en otra computadora, incluyendo documentos nuevos:
+[instalación, claves, servidor completo y ensayo](docs/mepia_setup_video.md).
+OpenAI ya está configurado; Claude puede quedar vacío mediante el respaldo
+OpenAI existente. El análisis nuevo real sigue pendiente de ensayo. Las confirmaciones históricas siguientes conservan
+su alcance. El perfil local activo posterior es `api.main:app`, con ingesta, análisis, ajustes y chat; su arranque no valida llamadas de IA.
+
 **Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
 inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
 `49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
@@ -116,8 +216,9 @@ ingreso general con su cuenta propia y Chat IA desde el menú sin segundo login.
 Confirmación del usuario del 13-oct, sin inspección independiente del navegador.
 El 14-oct confirmó una respuesta conceptual real de Gemini y su claridad tras el
 ajuste de lenguaje. La validación amplia sigue pendiente; véase el estado actual.
-Arranque exclusivo `api.chat_app:create_app`
-sin claves de agentes del pipeline; véase el procedimiento. Registro/invitaciones en MEPIA
+Arranque de Chat IA/listado/ajustes `api.chat_app:create_app --factory`
+sin claves de agentes del pipeline; para ingesta/análisis usar `api.main:app`
+con configuración completa. Véanse procedimiento y guía para grabación. Registro/invitaciones en MEPIA
 serán trabajo posterior para las altas de clientes;
 permisos legados y dependencias siguen como controles para publicar.
 

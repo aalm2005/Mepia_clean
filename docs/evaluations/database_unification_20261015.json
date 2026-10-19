@@ -1,0 +1,186 @@
+{
+  "date": "2026-10-15",
+  "branch": "codex/chatbot-q4",
+  "head_reference": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "commit": "sin commit",
+  "push_performed": false,
+  "destination": "MEPIA principal",
+  "test_project_preserved": true,
+  "records_copied_from_test": 0,
+  "schema": {
+    "tables_before": 15,
+    "columns_before": 131,
+    "tables_after": 18,
+    "columns_after": 175,
+    "static_column_references": 658,
+    "missing_static_tables_or_columns": 0
+  },
+  "preserved_counts": {
+    "documents": 21,
+    "pos_inputs": 8,
+    "mepia_memory": 2,
+    "transactions": 35,
+    "audit_results": 58,
+    "storage_objects": 19,
+    "business_onboarding": 1,
+    "business_fixed_costs": 12
+  },
+  "preservation": {
+    "counts_unchanged": true,
+    "audit_digest_unchanged": true,
+    "business_digest_excluding_new_fields_unchanged": true,
+    "auth_users": 2
+  },
+  "sql_contract_checks": {
+    "five_upsert_contracts": true,
+    "anon_cannot_execute_rpc": true,
+    "anon_cannot_read_audits": true,
+    "anon_cannot_read_shifts": true,
+    "anon_cannot_read_delivery": true,
+    "anon_cannot_read_inventory": true,
+    "anon_cannot_read_businesses": true,
+    "authenticated_cannot_execute_rpc": true,
+    "rpc_insert_update_and_ambiguous_date": true
+  },
+  "rls_checks": {
+    "owner_sees_business": true,
+    "owner_sees_existing_audits": true,
+    "other_identity_sees_no_audits": true,
+    "other_identity_sees_no_businesses": true
+  },
+  "regression": {
+    "passed": 178,
+    "subtests_passed": 41,
+    "warnings": 2,
+    "seconds": 12.67,
+    "exit_code": 0,
+    "providers": "simulated"
+  },
+  "runtime": {
+    "both_process_configs_use_primary": true,
+    "modern_public_and_server_keys": true,
+    "modern_server_key_reads_owned_business": true,
+    "anonymous_businesses_empty": true,
+    "anonymous_audit_results_empty": true,
+    "current_es256_public_signing_key": true,
+    "full_backend_routes_present": true,
+    "backend_anonymous_businesses_401": true,
+    "frontend_shell_http_200": true,
+    "frontend_anonymous_businesses_401": true,
+    "all_checks_passed": true,
+    "model_calls": 0,
+    "persistent_db_writes": 0
+  },
+  "legacy_retirement": {
+    "legacy_anon_apikey_http_status": 401,
+    "legacy_service_role_apikey_http_status": 401,
+    "legacy_server_jwt_http_status": 401,
+    "legacy_server_jwt_still_privileged": false,
+    "modern_server_key_still_works": true,
+    "model_calls": 0,
+    "db_writes": 0
+  },
+  "grounding_read": {
+    "actual_grounding_read_succeeded": true,
+    "evidence_count": 1,
+    "metric_count": 4,
+    "linked_final_report_present": false,
+    "missing_data": [
+      "final_report_not_found"
+    ],
+    "model_calls": 0,
+    "persistent_writes": 0,
+    "new_tables_empty_after_rollback": true
+  },
+  "user_confirmation": {
+    "primary_login_and_owned_business": true,
+    "documents_and_chat_open": true,
+    "same_confirmed_after_legacy_retirement": true,
+    "password_handled_by_agent": false
+  },
+  "agent_model_calls": 0,
+  "new_document_analysis_performed": false,
+  "openai_and_anthropic_keys_configured": false,
+  "incident_status": {
+    "INC-20261015-046": "resuelta: esquema/conexión",
+    "INC-20261015-047": "resuelta: token antiguo rechazado",
+    "INC-20261015-048": "abierta: persistencia N14"
+  },
+  "limits": [
+    "No ensayo integral de archivos nuevos ni generación IA",
+    "Sin reconstrucción de linaje histórico N14",
+    "Permisos pendientes de endpoints legados conservan alcance local",
+    "Sin instalación limpia en computadora del equipo",
+    "Sin commit, push o despliegue web"
+  ],
+  "attempts": {
+    "sql_contract_attempt1": "7/8: EXECUTE anónimo heredado; corregido revocando grants explícitos",
+    "regression_attempt1": "interrumpido por atasco en sandbox sin resultados; repetición fuera aprobada",
+    "runtime_attempts1_and2": "expectativas incorrectas del ejecutor sobre rutas/login; corregidas según fuente",
+    "legacy_apikey_only": "401 como apikey; JWT seguía privilegiado; revocación HS256 posterior comprobada",
+    "automatic_review": "delegación inicial rechazada; autorización expresa posterior recibida antes de actuar"
+  },
+  "source_sha256": {
+    "agents/api_ingest.py": "3e22b5a90039177de8d68b2e5f1f1aa744086a419d72b30fbab0569956f13482",
+    "api/main.py": "cb1afae2065f12d78f0f8cefab433688873852f881bc38b4fdbd3e7aeb41724e",
+    "tests/test_persist_ingestion.py": "0a162cf519c230f9cdb71e75f76881b5cbaa5998331d6f5636e56921998c07ed",
+    "tests/test_chat_api.py": "886a2f68939c7876f73c29b7cd6d1a4b3fbd032ec4fb21533047cab0ab75f7e6",
+    "supabase/operations/unify_primary.sql": "d2289466728bccf2aae5bbe6efba9e747fe6aa7a87d3d29b8adcfe749fffa79a",
+    "supabase/migrations/011_full_pipeline_contract.sql": "c9d22bfed2001f749c1a63e9310cc56bce11bcee3797b1cbeaa835ee1bff5150",
+    "supabase/migrations/APPLY_ALL.sql": "0e5f70cd5a7b7cf416aab4279689e70469699a041c33e2d1a79763d9896bddd9"
+  },
+  "final_local_audit": {
+    "candidate_files": 725,
+    "documentation_files": 68,
+    "local_links_checked": 365,
+    "actual_broken_links": [],
+    "windows_absolute_link_normalizations": 25,
+    "historical_files_preserved": 437,
+    "changed_historical_files": [],
+    "secret_findings": [],
+    "personal_email_candidates": [],
+    "old_or_modern_server_token_or_suffix_matches": [],
+    "private_files_ignored": {
+      ".env.local": true,
+      "api/.env": true,
+      ".test_tmp/database_unification_20261015/primary_modern.env": true
+    },
+    "git_diff_check_exit_code": 0,
+    "new_spec_word_counts": {
+      ".kiro/specs/mepia/db_schema_pipeline_contract.md": 412,
+      ".kiro/specs/mepia/n15_chat_consulta_datos.md": 425
+    },
+    "status_matches_evaluated": "current environment headers/table/specs updated; dated history and test-only plans retained"
+  },
+  "files_changed_in_unification": [
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/db_schema.md",
+    ".kiro/specs/mepia/db_schema_pipeline_contract.md",
+    ".kiro/specs/mepia/design.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/n15_chat_consulta_datos.md",
+    ".kiro/specs/mepia/requirements.md",
+    ".kiro/specs/mepia/s1b_ingesta_api.md",
+    ".kiro/specs/mepia/tasks.md",
+    "README.md",
+    "agents/api_ingest.py",
+    "api/main.py",
+    "docs/actualizacion_documental_20261015.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/database_unification.md",
+    "docs/estado_actual_mepia.md",
+    "docs/evaluations/database_unification_20261015.json",
+    "docs/mepia_setup_video.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/onboarding_defaults_integration.md",
+    "supabase/migrations/011_full_pipeline_contract.sql",
+    "supabase/migrations/APPLY_ALL.sql",
+    "supabase/operations/unify_primary.sql",
+    "tests/test_chat_api.py",
+    "tests/test_persist_ingestion.py"
+  ]
+}

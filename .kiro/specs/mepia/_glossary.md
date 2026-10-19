@@ -1,5 +1,13 @@
 # MEPIA — Glosario Compartido
 
+**Distinción de datos vigente:** `audit_results` guarda las métricas S3 y el
+informe N14 que consulta N15 con negocio, fecha y raíz S3 coincidentes.
+`ChatHistoryStore` conserva conversación temporal en memoria; `mepia_memory`
+es memoria semántica del pipeline. Son tres contratos diferentes.
+[Consulta del motor y requisito de base compartida](n15_chat_consulta_datos.md).
+[Estado de unificación y validación por entorno](../../../docs/database_unification.md).
+Los conteos y estados de las ejecuciones fechadas siguientes son históricos.
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **Continuidad al 15-oct-2026:** [estado actual](../../../docs/estado_actual_mepia.md).
@@ -251,14 +259,20 @@ audit_tolerances: {
   margin_critical_threshold: float (0–1)  # margen neto mínimo → alerta roja
   cost_spike_threshold_pct: float (0–1)   # incremento de costo que dispara alerta
 }
-expected_cost_structure: ExpectedCostStructure[] (mínimo 1)
+expected_cost_structure: ExpectedCostStructure[] (opcional; default []; sin gastos inventados)
 audit_rules: {
   red_alert_triggers: string[]            # condiciones que siempre generan alerta roja
   ignored_anomaly_types: string[]         # anomalías aceptadas como normales (default [])
   audit_frequency: "daily" | "weekly"     # default "daily"
 }
 ```
-> Spec completo: `n10_onboarding_identidad.md`
+> Spec completo: `n10_onboarding_identidad.md`. GET/POST/PUT N10 con JWT y
+> propiedad verificadas en `api/onboarding.py` (ambos perfiles). El body Python
+> rechaza campos extra; identidad viene de la sesión y negocio del path.
+> GET `settings.expected_cost_structure` usa `amount_per_month` y `tolerance_pct`
+> en porcentaje visible; escritura usa `expected_monthly_amount` y decimal 0–1.
+> El formulario divide siempre entre 100 al guardar. Defaults automáticos en
+> Documentos; personalización avanzada opcional. INC-044/045 resueltas localmente.
 > Prerequisito obligatorio para ejecutar Layer 3 — HTTP 412 si no está completo.
 
 ### ParallelGatherResult
@@ -325,8 +339,16 @@ sequential_results: {
 }
 escalation: { triggered: bool, reason: str | null, layer2_run_id: UUID | null }
 dormant_metrics: [{ metric, missing: string[] }]
+blocked_metrics: [{ metric, reason: string }]  # pendientes de revisión humana
+metric_status_available: bool       # false si el histórico no conserva el estado S2
 completed_at: datetime
 ```
+
+El resultado completo de N05 se conserva en `result_data`, incluido
+`sequential_results`, listas dormant/blocked y el linaje S3. La lectura histórica
+solo recupera cálculos desde el S3 enlazado explícitamente y del mismo negocio y
+fecha; no reconstruye el estado S2 desde datos actuales. Sin ese estado,
+`metric_status_available=false`: una lista vacía no acredita activación total.
 
 ### AuditRunPayload
 Payload de `POST /audit/run` — exclusivo de S4 Forensic CFO. Sin arquetipo.
@@ -378,6 +400,9 @@ blocked_metrics: [{ metric, reason: "needs_human_review" }]
 ```
 metric: string
 value: decimal | null
+# JSON de Pydantic: decimal puede llegar como string (ej. "0.00").
+# El frontend admite number | string | null; convierte solo texto numérico
+# finito para presentación/gráficas, sin reescalar porcentajes ni calcular métricas.
 unit: string
 status: "ok"|"warning"|"critical"|"incomplete_data"|"unit_mismatch"
 context: string

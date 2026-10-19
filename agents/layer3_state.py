@@ -83,6 +83,7 @@ class Layer3State(TypedDict):
 
     # ── Output terminal (escrito por N14) ─────────────────────────────────────
     final_response: Optional[Dict[str, Any]]  # FinalResponse empaquetado — default None
+    layer3_status: NotRequired[str]  # completed solo tras guardar N14
 
     # ── Dependencias inyectadas (viven solo en memoria del grafo) ─────────────
     #    CRITICO: LangGraph filtra initial_state contra este TypedDict -- toda

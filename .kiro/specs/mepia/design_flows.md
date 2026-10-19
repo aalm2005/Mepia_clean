@@ -1,5 +1,13 @@
 # Diseño Frontend — Flujos de Interacción
 
+**Entorno verificado — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal; 009/010/011 aplicadas con autorización y datos preservados.
+Regresión 178/41 subpruebas, código 0; SQL real 13/13 controles. Usuario confirmó
+login y pantallas antes/después del retiro de claves heredadas y firma HS256.
+INC-046/047 resueltas en su alcance; INC-048 y ensayo de análisis nuevo pendientes.
+Las evaluaciones anteriores conservan su entorno original.
+[Ejecución, archivos y límites](../../../docs/database_unification.md).
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](../../../docs/estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
@@ -58,17 +66,16 @@ Evidencia `docs/evaluations/chatbot_step5_plain_language_20261014.json`.
 | `escalated` | Verdes + nodo `[L2]` activo | Datos reales + nota escalación | `Layer2Banner` ámbar |
 | `failed` | Rojo en nodo fallido | Error state | Error crítico |
 
-## Flujo de onboarding
+## Flujo de configuración avanzada
 
 ```
 /login → sesión válida → carga automática del negocio propio → menú MEPIA → /upload
-  │
-  └─ OnboardingGate: GET /business/{id}/onboarding/status
-        ├── onboarding_complete: true → UploadForm visible
-        └── onboarding_complete: false
-              → OnboardingRequiredBanner → CTA "Configurar negocio →"
-              → /onboarding → 4 pasos → POST /business/{id}/onboarding
-              → HTTP 201 → redirige a /upload → UploadForm visible
+  ├─ UploadForm siempre disponible para subir documentos
+  ├─ GET autenticado /business/{id}/onboarding/status en segundo plano
+  │     └─ onboarding_complete: false → POST automático con defaults recomendados
+  └─ CTA opcional "Personalizar configuración avanzada" → /onboarding
+        ├─ GET status carga valores previamente guardados
+        └─ 4 pasos editables → POST/PUT /business/{id}/onboarding
 ```
 
 ## Flujo de Layer 2 (escalation)
@@ -107,7 +114,7 @@ POST /ingest/pos → POSIngestResult
 | HTTP | Mensaje en UI | Componente |
 |------|---------------|------------|
 | 409 | "Faltan datos para iniciar el análisis." | Banner warning |
-| 412 | "Completa el onboarding antes de auditar." | `OnboardingRequiredBanner` |
+| 412 | "No se pudo completar la configuración automática. Revisa los ajustes avanzados." | Inline en formulario |
 | 503 | "El servicio no está disponible." | Banner error |
 | 422 | Mensaje del campo inválido | Inline en formulario |
 
@@ -138,8 +145,10 @@ Producción separada. Negocios con dueño NULL deniegan acceso hasta verificarlo
 el negocio de pruebas ya está vinculado a la cuenta confirmada por el usuario.
 Login/negocio confirmados por el usuario en Edge/Chrome; Auth registra login
 reciente y Next listado 200. Contraseña solo introducida por el usuario.
-Formulario real preparado en `127.0.0.1:3016/chat`; backend exclusivo
-`api.chat_app` en `127.0.0.1:8016` solo publica rutas protegidas del chat/listado.
+Formulario real preparado en `127.0.0.1:3016/chat`; perfil `api.chat_app`
+en `127.0.0.1:8016` publica rutas protegidas del chat/listado y, desde el 15-oct,
+ajustes N10 con JWT y propiedad verificadas. No incluye ingesta/análisis; para
+archivos nuevos se requiere `api.main:app` y configuración completa.
 No necesita claves del pipeline para login. El 14-oct el usuario guardó la clave
 Gemini en el servidor privado y se reinició exclusivamente Chat IA. Pregunta
 conceptual confirmada con fuentes del catálogo y POST 200; accesos anónimos

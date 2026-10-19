@@ -1,5 +1,13 @@
 # Diseño Frontend — MEPIA Dashboard & Upload
 
+**Entorno verificado — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal; 009/010/011 aplicadas con autorización y datos preservados.
+Regresión 178/41 subpruebas, código 0; SQL real 13/13 controles. Usuario confirmó
+login y pantallas antes/después del retiro de claves heredadas y firma HS256.
+INC-046/047 resueltas en su alcance; INC-048 y ensayo de análisis nuevo pendientes.
+Las evaluaciones anteriores conservan su entorno original.
+[Ejecución, archivos y límites](../../../docs/database_unification.md).
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **Estado:** frontend integrado en desarrollo al 15-oct-2026; validación integral y publicación pendientes
@@ -21,7 +29,7 @@ Chat IA. La jerarquía conserva alertas, cifras y unidades del análisis.
 | `/dashboard` | `AuditReportView` | Indicadores, gráficas y hallazgos por corrida |
 | `/salud` | `SaludPage` | Indicadores y gráficas |
 | `/reportes` | `AuditReportView` | Hallazgos sin bloque de métricas |
-| `/onboarding` | `OnboardingForm` | Configuración de cuatro pasos |
+| `/onboarding` | `OnboardingForm` | Personalización avanzada opcional de cuatro pasos; Documentos aplica valores iniciales si faltan |
 | `/chat` | `ChatPanel` | Consulta fundamentada con la sesión común |
 
 **Acceso vigente:** Supabase identifica al usuario y se carga un negocio propio
@@ -61,7 +69,8 @@ Este documento es el índice. El detalle está distribuido en archivos hermanos:
 - `OrchestratorResult.pipeline_status` — controla el estado de carga
 - `OrchestratorResult.escalation` — activa `Layer2Banner` y nodo `[L2]`
 - `POSIngestResult` / `FacturaIngestResult` — feedback post-upload
-- `OnboardingStatusResponse.onboarding_complete` — controla `OnboardingGate`
+- `OnboardingStatusResponse.onboarding_complete` — decide si se crean defaults en segundo plano; nunca bloquea la carga
+- `OnboardingStatusResponse.settings` — precarga valores guardados en el formulario avanzado
 
 Ver `_glossary.md` para los contratos completos.
 

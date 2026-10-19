@@ -1,0 +1,35 @@
+{
+  "scope": "isolated N14 node; database simulated; no network or actual persistence",
+  "control_success": {
+    "attempts": 1,
+    "raised": null,
+    "returned": true,
+    "keys": [
+      "draft_status",
+      "final_response"
+    ],
+    "report_status": "approved",
+    "layer3_status": null,
+    "error": false
+  },
+  "forced_database_failure": {
+    "attempts": 1,
+    "raised": null,
+    "returned": true,
+    "keys": [
+      "draft_status",
+      "final_response"
+    ],
+    "report_status": "approved",
+    "layer3_status": null,
+    "error": false
+  },
+  "contract_gap_reproduced": true,
+  "date": "2026-10-15",
+  "branch": "codex/chatbot-q4",
+  "head": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "commit": "sin commit",
+  "command_exit_code": 0,
+  "incident": "INC-20261015-048",
+  "interpretation": "Reproduction confirmed; persistence contract not satisfied; product unchanged."
+}

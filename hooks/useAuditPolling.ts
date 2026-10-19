@@ -67,7 +67,7 @@ export function useAuditPolling(
   runId: string | null,
   intervalMs: number = 2000
 ): UseAuditPollingResult {
-  const { session, business } = useMepiaAuth();
+  const { session, business, rememberAudit } = useMepiaAuth();
   const user = session?.user.id;
   const [result, setResult] = useState<OrchestratorResult | null>(null);
   const [pipelineStatus, setPipelineStatus] = useState<PipelineStatus | null>(
@@ -130,6 +130,7 @@ export function useAuditPolling(
           throw new Error("Este análisis no corresponde al negocio seleccionado.");
         }
         setResult(data);
+        rememberAudit(runId);
 
         // If escalated → start Layer 3 polling using layer2_run_id
         // The backend triggers Layer 3 automatically when escalation happens
@@ -231,7 +232,7 @@ export function useAuditPolling(
       clearMainInterval();
       clearLayer3Interval();
     };
-  }, [runId, intervalMs, business, user]);
+  }, [runId, intervalMs, business, user, rememberAudit]);
 
   return {
     result: result?.business_id === business && result?.run_id === runId ? result : null,

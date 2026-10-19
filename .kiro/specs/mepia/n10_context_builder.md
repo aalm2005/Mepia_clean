@@ -258,8 +258,12 @@ MemoryChunk(
 )
 ```
 
-> En V1, este chunk se inserta manualmente en `mepia_memory` durante el setup del negocio.
-> En versiones posteriores, el endpoint `POST /onboarding/business` lo generará automáticamente.
+> El contenido anterior es ilustrativo. GET/POST/PUT de
+> `/business/{id}/onboarding[/status]`, en `api/onboarding.py`, verifican sesión y
+> propiedad; el guardado inserta el chunk con `status="pending_embed"`.
+> Desde el 15-oct-2026 Documentos aplica ajustes iniciales si faltan y permite
+> personalización avanzada opcional. El guardado no genera embeddings; la
+> identidad se recupera por SQL directo. Ver `n10_onboarding_identidad.md`.
 
 La identidad de marca es **fija e independiente del arquetipo**.
 

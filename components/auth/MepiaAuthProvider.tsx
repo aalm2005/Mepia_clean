@@ -1,12 +1,13 @@
 "use client";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabaseBrowser } from "@/utils/supabase-browser";
 
 type Business = { id: string; business_name: string };
 type AuthContext = { session: Session | null; ready: boolean; businesses: Business[]; business: string;
   selectBusiness: (id: string) => void; businessesLoading: boolean; error: string;
-  reloadBusinesses: () => void; signOut: () => Promise<void> };
+  reloadBusinesses: () => void; signOut: () => Promise<void>;
+  auditRunId: string | null; rememberAudit: (runId: string) => void };
 const Context = createContext<AuthContext | null>(null);
 
 export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
@@ -14,6 +15,7 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [business, setBusiness] = useState("");
+  const [lastAudit, setLastAudit] = useState<{ user: string; business: string; run: string } | null>(null);
   const [businessesLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [reload, setReload] = useState(0);
@@ -29,6 +31,7 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
         const current = ++revision;
         if (verificationTimer !== undefined) clearTimeout(verificationTimer);
         if (activeUser.current !== next?.user.id) {
+          setLastAudit(null);
           setSession(null); setBusinesses([]); setBusiness(""); setError(""); setReady(false);
         }
         activeUser.current = next?.user.id;
@@ -57,6 +60,12 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const user = session?.user.id;
+  const auditRunId = lastAudit?.user === user && lastAudit?.business === business ? lastAudit.run : null;
+  const rememberAudit = useCallback((runId: string) => {
+    if (!user || !business || activeUser.current !== user) return;
+    setLastAudit(current => current?.user === user && current.business === business && current.run === runId
+      ? current : { user, business, run: runId });
+  }, [user, business]);
   useEffect(() => {
     if (!user) return;
     const abort = new AbortController();
@@ -81,9 +90,11 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
   async function signOut() {
     const { error: failure } = await getSupabaseBrowser().auth.signOut({ scope: "local" });
     if (failure) throw new Error("No fue posible cerrar sesión. Intenta de nuevo.");
+    setLastAudit(null);
   }
   return <Context.Provider value={{ session, ready, businesses, business, businessesLoading, error,
-    selectBusiness: id => { if (businesses.some(item => item.id === id)) setBusiness(id); },
+    auditRunId, rememberAudit,
+    selectBusiness: id => { if (businesses.some(item => item.id === id)) { if (id !== business) setLastAudit(null); setBusiness(id); } },
     reloadBusinesses: () => setReload(value => value + 1), signOut }}>{children}</Context.Provider>;
 }
 

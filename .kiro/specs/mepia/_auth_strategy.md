@@ -1,5 +1,13 @@
 # MEPIA — Estrategia de autenticación y autorización
 
+**Entorno verificado — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal; 009/010/011 aplicadas con autorización y datos preservados.
+Regresión 178/41 subpruebas, código 0; SQL real 13/13 controles. Usuario confirmó
+login y pantallas antes/después del retiro de claves heredadas y firma HS256.
+INC-046/047 resueltas en su alcance; INC-048 y ensayo de análisis nuevo pendientes.
+Las evaluaciones anteriores conservan su entorno original.
+[Ejecución, archivos y límites](../../../docs/database_unification.md).
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](../../../docs/estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
@@ -135,6 +143,7 @@ endpoints FastAPI legados; la verificación de recursos en servidor sigue pendie
 | Páginas MEPIA | Marco inicial sin datos; proveedor verifica usuario remoto y guard exige sesión de la pestaña |
 | Proxies Next legados | Bearer obligatorio validado con getUser antes del proxy; cookies no bastan; permisos por recurso aún pendientes en FastAPI legado |
 | GET /me/businesses | Sesión; solo negocios propios |
+| GET /business/{business_id}/onboarding/status y POST/PUT /business/{business_id}/onboarding | JWT y propiedad antes de ajustes; router compartido en ambos perfiles; proxy reenvía Bearer |
 | POST /business/{business_id}/chat | Sesión, propiedad y ámbito de conversación antes de evidencia/modelo |
 | GET/DELETE /business/{business_id}/chat/{conversation_id} | Sesión, propiedad revalidada y combinación usuario/negocio/conversación |
 | Endpoints legados de ingesta/auditoría/memoria | Incorporación pendiente antes de exposición del backend completo |
@@ -156,8 +165,12 @@ historial compartido para múltiples réplicas. Ver
 `docs/chatbot_step5_integration.md`, configuración en `api/.env.example` y
 `api/core/config.py`, schema y spec N15. Para acceso local exclusivo usar
 `api.chat_app:create_app --factory` y `api/core/chat_config.py`: exige Supabase,
-valida auth y clave de servidor al iniciar; no registra rutas legadas ni exige
+valida auth y clave de servidor al iniciar. Desde el 15-oct incluye configuración
+N10 protegida, además de Chat IA/listado; no registra ingesta/análisis ni exige
 claves de agentes. Falta de clave del modelo conserva 503 para preguntas.
+INC-044/045 resueltas localmente: 151 pruebas/41 subpruebas, Edge N10 14/14 y
+general 25/25, build/tipos código 0; cambio sin commit/push. Ver
+[integración y límites](../../../docs/onboarding_defaults_integration.md).
 
 ## Cierre local original y validaciones posteriores
 

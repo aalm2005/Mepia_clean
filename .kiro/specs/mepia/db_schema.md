@@ -2,7 +2,9 @@
 
 **Tipo:** Híbrida — campos estructurados para cálculos + JSONB para datos flexibles
 **Motor:** PostgreSQL via Supabase
-**Migración:** `supabase/migrations/002_hybrid_schema.sql`
+**Migración base:** `supabase/migrations/002_hybrid_schema.sql`
+**Compatibilidad adicional:** [contrato físico del pipeline, migración 011](db_schema_pipeline_contract.md).
+**Aplicación autorizada en principal:** [unificación en principal](../../../docs/database_unification.md). 009/010 registradas; inventario posterior con contrato 011, 18 tablas/175 columnas y contraste de 658 referencias sin faltantes. La RPC POS conserva históricos y rechaza fechas ambiguas. Conexión y procesos verificados, SQL real 13/13, datos preservados y login confirmado por el usuario; INC-046 resuelta. INC-048/049 resueltas localmente; ensayo de IA integral pendiente.
 
 ---
 

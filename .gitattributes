@@ -5,3 +5,7 @@ scripts/*.ps1 text eol=lf
 
 # Evidencia historica: conservar todos los bytes, incluido el formato original.
 docs/evaluations/** -text -whitespace
+
+# PDF binarios y paquete de demostracion: conservar bytes y SHA-256 en Windows.
+*.pdf binary
+output/pdf/demo_mepia_20261014/** -text -whitespace

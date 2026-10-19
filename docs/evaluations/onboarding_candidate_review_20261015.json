@@ -1,0 +1,282 @@
+{
+  "date": "2026-10-15",
+  "review_branch": "codex/chatbot-q4",
+  "review_base_head": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "candidate_kind": "user-provided directory without .git",
+  "candidate_commit": null,
+  "candidate_integrated": false,
+  "product_source_changed": false,
+  "commit": null,
+  "push": false,
+  "conclusion": "Do not approve integration until both confirmed findings are corrected.",
+  "findings": [
+    {
+      "id": "INC-20261015-045",
+      "priority": "P1",
+      "title": "Full configuration is readable from another business",
+      "candidate_file": "api/main.py",
+      "line": 472,
+      "related_files": [
+        "app/api/onboarding/route.ts",
+        "middleware.ts"
+      ],
+      "observed": "Authenticated account A receives HTTP 200 with settings and expense amounts for business B through actual Next proxy.",
+      "expected": "403/404 without configuration for businesses not authorized to the authenticated account.",
+      "cause": "Existing legacy identity-only gate does not enforce business ownership; new settings response exposes additional private fields.",
+      "required_change": "Forward identity as necessary and enforce business authorization in server endpoints before reading or writing configuration."
+    },
+    {
+      "id": "INC-20261015-044",
+      "priority": "P2",
+      "title": "Saving existing settings changes small tolerance percentages without editing",
+      "candidate_file": "components/onboarding/OnboardingForm.tsx",
+      "line": 87,
+      "related_files": [
+        "api/main.py"
+      ],
+      "observed": {
+        "stored_before": 0.005,
+        "displayed_percent": 0.5,
+        "stored_after": 0.5
+      },
+      "expected": "Preserve 0.005 (0.5 percent) after opening and saving unchanged.",
+      "cause": "New GET returns display percentages; existing save divides by 100 only for values greater than 1.",
+      "required_change": "Use one explicit unit contract and test round trips for 0%, 0.1%, 0.5%, 1%, 5% and 100%."
+    }
+  ],
+  "checks": [
+    {
+      "name": "API accepts default settings with no fabricated costs",
+      "passed": true,
+      "http_status": 201
+    },
+    {
+      "name": "Repeated defaults do not overwrite existing configuration",
+      "passed": true,
+      "http_status": 409
+    },
+    {
+      "name": "API rejects inverted alert thresholds",
+      "passed": true,
+      "http_status": 422
+    },
+    {
+      "name": "Documents opens directly with two upload fields",
+      "passed": true
+    },
+    {
+      "name": "Opening Documents actually persists defaults without inventing expenses",
+      "passed": true,
+      "http_status": 201,
+      "cost_rows": 0
+    },
+    {
+      "name": "Returning to Documents preserves personalized settings",
+      "passed": true
+    },
+    {
+      "name": "Advanced configuration loads the saved business preferences",
+      "passed": true
+    },
+    {
+      "name": "Saved 0.5 percent tolerance displays as 0.5 percent",
+      "passed": true,
+      "displayed_percent": "0.5"
+    },
+    {
+      "name": "Saving unchanged settings preserves cost tolerance",
+      "passed": false,
+      "expected_decimal": 0.005,
+      "observed_decimal": 0.5
+    },
+    {
+      "name": "Authenticated own settings are accessible",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "name": "Account A cannot read another business configuration",
+      "passed": false,
+      "http_status": 200,
+      "foreign_costs_exposed": true
+    },
+    {
+      "name": "Anonymous configuration access remains blocked",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "name": "No browser page errors",
+      "passed": true,
+      "page_errors": []
+    }
+  ],
+  "check_totals": {
+    "completed": 13,
+    "passed": 11,
+    "failed": 2
+  },
+  "typescript": {
+    "exit_code": 0,
+    "emit": false,
+    "incremental": false,
+    "actual_candidate_directory": true,
+    "tool_chunk_id": "e89f01"
+  },
+  "browser": {
+    "channel": "msedge",
+    "page_errors": [],
+    "final_attempt": 4,
+    "exit_code": 1,
+    "result_sha256": "311bbb5a91cd643579b43d75bcf2a4c19843d98555fca4ebb4a6b192e6f81ab7"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 2,
+      "approved_checks_before_stop": 3,
+      "cause": "Executor used full-page navigation, resetting the selected synthetic business; waited for a POST on an already configured business.",
+      "correction": "Navigate through the shared menu to preserve the selected business; no candidate code changed."
+    },
+    {
+      "attempt": 2,
+      "exit_code": 2,
+      "approved_checks_before_stop": 5,
+      "cause": "Executor waited for a repeated GET when Next reused a cached page.",
+      "correction": "Observe rendered controls and persisted state rather than require a redundant request."
+    },
+    {
+      "attempt": 3,
+      "exit_code": 1,
+      "passed": 10,
+      "failed": 3,
+      "cause": "Isolated-copy helper omitted root middleware.ts; anonymous-access result was a harness false positive.",
+      "correction": "Copy original middleware unchanged; assert exact bytes for all candidate changes, middleware and proxy. Superseded by final run; not a candidate anonymous-access defect."
+    },
+    {
+      "attempt": 4,
+      "exit_code": 1,
+      "passed": 11,
+      "failed": 2,
+      "page_errors": 0,
+      "cause": "Completed review identifies cost-tolerance round trip and foreign-business settings access."
+    }
+  ],
+  "comparison": {
+    "source_changes": [
+      {
+        "path": "api/main.py",
+        "change": "modified"
+      },
+      {
+        "path": "app/onboarding/page.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "app/upload/page.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "components/onboarding/AuditRulesStep.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "components/onboarding/AuditTolerancesStep.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "components/onboarding/BrandIdentityStep.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "components/onboarding/CostStructureStep.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "components/onboarding/OnboardingForm.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "components/onboarding/defaults.ts",
+        "change": "candidate_only"
+      },
+      {
+        "path": "components/upload/OnboardingGate.tsx",
+        "change": "missing_from_candidate"
+      },
+      {
+        "path": "components/upload/UploadForm.tsx",
+        "change": "modified"
+      }
+    ],
+    "documentation_changes": [
+      ".kiro/specs/mepia/design.md",
+      ".kiro/specs/mepia/design_components.md",
+      ".kiro/specs/mepia/design_components_tree.md",
+      ".kiro/specs/mepia/design_flows.md",
+      ".kiro/specs/mepia/design_flows_main.md",
+      ".kiro/specs/mepia/n10_onboarding_identidad.md",
+      ".kiro/specs/mepia/tasks_phase2.md"
+    ],
+    "original_candidate_files_verified_unchanged": 705,
+    "changed_original_candidate_files": [],
+    "isolated_source_sha256": {
+      "api/main.py": "e00c6f6ce7bbdea733d435005fe37a06fc377e46666ea2c66dbbe4707ad4b9fd",
+      "app/api/onboarding/route.ts": "d6b938074e78103e0d3e83b0daedaf66f43148fcbf42b094bba6e2f3ece6aab6",
+      "app/onboarding/page.tsx": "9d3b1c00ad8d34ba95decee443223a7677b8c4607cdc14aeb404830f61c408fe",
+      "app/upload/page.tsx": "7abac93db2cf33e472c27f12847bae16f6a2ad050349fb5d4ff949cde98e471d",
+      "components/onboarding/AuditRulesStep.tsx": "b2689e1161fd849db7efb577ff5ec5d010468c1fd116e31c5c41979c36fb41be",
+      "components/onboarding/AuditTolerancesStep.tsx": "9190b3d09a3889135e2593e5432a548a9a3ec05c9d8166a9b9f2b1f4d207ceaf",
+      "components/onboarding/BrandIdentityStep.tsx": "70ee9dd68b146a7ff863e5a754a6b748c354a8c6acc5202e306d4e0a737758f0",
+      "components/onboarding/CostStructureStep.tsx": "9a804e5388a54b01505ed9ee30c5b8c96eec8ac7afb191fdb4a88d7e46f304ef",
+      "components/onboarding/OnboardingForm.tsx": "6895e3582e710cbeac66c6f6e88647c39426505b20b70111b8d702988035a3df",
+      "components/onboarding/defaults.ts": "4254db87cdf39a2d80788c8b7855056d5fb1205ef40b63de973c5b7f3640fd68",
+      "components/upload/UploadForm.tsx": "eda9721bb93cd0c809159ae5f633c5815ec2582d243158285a97af2166cdd1ec",
+      "middleware.ts": "9d4b2f95c6b63dce267e405f672565bd46f87addb5ccdad7ac28f8ce5c58df93"
+    },
+    "current_product_source_hashes_verified_unchanged": 20
+  },
+  "scope": {
+    "actual_candidate_next_frontend_and_proxy": true,
+    "actual_candidate_n10_handlers": true,
+    "database_and_auth": "synthetic",
+    "new_real_model_calls": 0,
+    "new_real_supabase_queries": 0,
+    "new_accounts_or_administrative_sql": 0,
+    "production_changes": 0,
+    "user_preview_restarts": 0
+  },
+  "limits": [
+    "No real PDF/XML ingestion or full financial analysis/AI pipeline was executed.",
+    "TypeScript success does not certify business logic or ownership authorization.",
+    "The legacy authorization gap predates this candidate; exposing detailed settings adds a concrete new disclosure.",
+    "No fixes, merge, commit or push were performed; configuration in the current product remains unchanged.",
+    "Candidate updates seven design/spec documents but does not record this feature in the continuity log/master or add tests; synchronize after corrections."
+  ],
+  "incident_totals": {
+    "total": 45,
+    "resolved": 40,
+    "mitigated": 2,
+    "pending_external": 1,
+    "open_in_candidate_review": 2
+  },
+  "documentary_audit": {
+    "documents_checked": 62,
+    "local_links_checked": 267,
+    "broken_links": [],
+    "secret_findings": [],
+    "personal_email_candidates": [],
+    "git_diff_check_exit_code": 0,
+    "changed_files": [
+      ".kiro/specs/mepia/n10_onboarding_identidad.md",
+      "docs/chatbot_corrections.md",
+      "docs/chatbot_incidents.md",
+      "docs/estado_actual_mepia.md",
+      "docs/mepia_v4_metricas_diseno.md",
+      "docs/onboarding_candidate_review_20261015.md",
+      "docs/evaluations/onboarding_candidate_review_20261015.json"
+    ],
+    "older_incident_counts_are_dated_snapshots": true,
+    "current_n10_behavior_not_replaced_by_candidate": true
+  }
+}

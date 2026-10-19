@@ -1,5 +1,11 @@
 # Fase 3 — Dashboard + API Routes + Integración End-to-End
 
+**Seguimiento INC-052/053 — 15-oct-2026:** enlaces del menú conservan la corrida
+en el mismo usuario/negocio. El GET devuelve el resultado completo guardado o
+recupera cálculos desde su S3 explícito compatible. Estado histórico ausente no
+equivale a todas las métricas activas. Validación y límites en el seguimiento
+del ensayo; no acredita producción ni sustituye la evaluación funcional N15.
+
 ## Tareas
 
 - [x] 1. Crear `types/audit.ts` con contratos de datos del frontend

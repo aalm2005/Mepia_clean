@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 export interface CostStructureItem {
   concept: string;
   amount_per_month: number;
@@ -29,18 +27,11 @@ function emptyRow(): CostStructureItem {
 }
 
 export default function CostStructureStep({ data, onChange }: Props) {
-  const [touched, setTouched] = useState(false);
-
-  const isEmpty = data.length === 0;
-  const showError = touched && isEmpty;
-
   function handleAdd() {
-    setTouched(true);
     onChange([...data, emptyRow()]);
   }
 
   function handleDelete(index: number) {
-    setTouched(true);
     onChange(data.filter((_, i) => i !== index));
   }
 
@@ -63,7 +54,7 @@ export default function CostStructureStep({ data, onChange }: Props) {
   }
 
   return (
-    <div className="space-y-3">
+    <div data-tour="advanced-config-costs" className="space-y-3">
       <h2 className="text-label text-muted uppercase tracking-widest">
         Paso 3 — Estructura de Costos Fijos
       </h2>
@@ -173,17 +164,10 @@ export default function CostStructureStep({ data, onChange }: Props) {
         {/* Empty state row */}
         {data.length === 0 && (
           <div className="border-t border-white/10 px-3 py-3 text-sm text-muted text-center">
-            Sin costos registrados
+              Sin costos registrados; puedes agregarlos después.
           </div>
         )}
       </div>
-
-      {/* Inline validation error */}
-      {showError && (
-        <p className="text-xs text-critical" role="alert">
-          Se requiere al menos un costo
-        </p>
-      )}
 
       {/* Add row button */}
       <button

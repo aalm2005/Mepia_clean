@@ -57,9 +57,12 @@ from agents.api_ingest import (
     ValidationResult,
     validate_payload,
     persist_ingestion,
+    POSPersistenceError,
 )
 from core.config import settings
 from api.chat import create_chat_router, gemini_node_factory
+from api.onboarding import create_onboarding_router
+from api.audit_results import restore_result
 from api.core.auth import AuthService
 
 # ---------------------------------------------------------------------------
@@ -144,49 +147,7 @@ app.include_router(create_chat_router(
 ))
 
 
-# ---------------------------------------------------------------------------
-# Pydantic models — OnboardingIdentityPayload (spec: n10_onboarding_identidad.md)
-# ---------------------------------------------------------------------------
-class AuditTolerances(BaseModel):
-    max_cash_discrepancy_pct: float = Field(gt=0, le=1)
-    max_cash_discrepancy_abs: Decimal = Field(ge=0)
-    margin_warning_threshold: float = Field(gt=0, le=1)
-    margin_critical_threshold: float = Field(gt=0, le=1)
-    cost_spike_threshold_pct: float = Field(gt=0, le=1)
-
-
-class ExpectedCostStructure(BaseModel):
-    concept: str
-    expected_monthly_amount: Decimal = Field(ge=0)
-    tolerance_pct: float = Field(ge=0, le=1, default=0.05)
-    expense_behavior: Literal["FIXED", "VARIABLE", "CAPEX"]
-
-
-class AuditRules(BaseModel):
-    red_alert_triggers: list[str] = Field(default=[])
-    ignored_anomaly_types: list[str] = Field(default=[])
-    audit_frequency: Literal["daily", "weekly"] = "daily"
-
-
-class BrandIdentity(BaseModel):
-    brand_voice: str = Field(max_length=500)
-    prohibited_recommendations: list[str] = Field(default=[])
-    priority_focus: Literal["efficiency", "quality", "growth"]
-
-
-class OnboardingIdentityPayload(BaseModel):
-    brand_identity: BrandIdentity
-    audit_tolerances: AuditTolerances
-    expected_cost_structure: list[ExpectedCostStructure] = Field(min_length=1)
-    audit_rules: AuditRules
-
-    def validate_thresholds(self) -> None:
-        """Regla de negocio: umbral crítico debe ser menor que warning."""
-        t = self.audit_tolerances
-        if t.margin_critical_threshold >= t.margin_warning_threshold:
-            raise ValueError(
-                "margin_critical_threshold debe ser menor que margin_warning_threshold"
-            )
+app.include_router(create_onboarding_router(auth=_chat_auth, db_factory=lambda: get_supabase()))
 
 # ---------------------------------------------------------------------------
 # Flujo paralelo: los tres agentes corren simultáneamente
@@ -233,241 +194,6 @@ async def ingest(file: UploadFile = File(...)):
         "filename": file.filename,
         "size_kb": round(len(content) / 1024, 1),
         "message": "Documento en cola para procesamiento.",
-    }
-
-
-# ---------------------------------------------------------------------------
-# Onboarding — N10 Identidad del Negocio
-# Spec: .kiro/specs/mepia/n10_onboarding_identidad.md
-# ---------------------------------------------------------------------------
-
-def _build_memory_content(business_id: str, payload: OnboardingIdentityPayload) -> str:
-    """Construye el texto del chunk de identidad para mepia_memory."""
-    bi = payload.brand_identity
-    at = payload.audit_tolerances
-    ar = payload.audit_rules
-    prohibited = ", ".join(bi.prohibited_recommendations) or "ninguna"
-    triggers = ", ".join(ar.red_alert_triggers) or "ninguna"
-    return (
-        f"IDENTIDAD DE MARCA:\n{bi.brand_voice}\n\n"
-        f"PROHIBIDO EN RECOMENDACIONES:\n{prohibited}\n\n"
-        f"FOCO PRINCIPAL: {bi.priority_focus}\n\n"
-        f"UMBRALES DE AUDITORÍA:\n"
-        f"- Discrepancia caja máxima: {at.max_cash_discrepancy_pct * 100:.1f}%"
-        f" o ${at.max_cash_discrepancy_abs} MXN (el más permisivo)\n"
-        f"- Margen warning: {at.margin_warning_threshold * 100:.1f}%\n"
-        f"- Margen crítico: {at.margin_critical_threshold * 100:.1f}%\n"
-        f"- Spike de costo: {at.cost_spike_threshold_pct * 100:.1f}%\n\n"
-        f"ALERTAS ROJAS AUTOMÁTICAS:\n{triggers}\n"
-    )
-
-
-def _upsert_onboarding(
-    db: Client,
-    business_id: str,
-    payload: OnboardingIdentityPayload,
-    now_iso: str,
-) -> str:
-    """
-    Persiste la configuración en business_onboarding y business_fixed_costs.
-    Retorna el memory_chunk_id insertado en mepia_memory.
-    """
-    bi = payload.brand_identity
-    at = payload.audit_tolerances
-    ar = payload.audit_rules
-
-    # 1. Upsert en business_onboarding
-    db.table("business_onboarding").upsert(
-        {
-            "business_id": business_id,
-            "brand_voice": bi.brand_voice,
-            "prohibited_recommendations": bi.prohibited_recommendations,
-            "priority_focus": bi.priority_focus,
-            "max_cash_discrepancy_pct": float(at.max_cash_discrepancy_pct),
-            "max_cash_discrepancy_abs": float(at.max_cash_discrepancy_abs),
-            "margin_warning_threshold": float(at.margin_warning_threshold),
-            "margin_critical_threshold": float(at.margin_critical_threshold),
-            "cost_spike_threshold_pct": float(at.cost_spike_threshold_pct),
-            "audit_rules": ar.model_dump(),
-            "completed_at": now_iso,
-            "updated_at": now_iso,
-        },
-        on_conflict="business_id",
-    ).execute()
-
-    # 2. Marcar costos anteriores como inactivos
-    db.table("business_fixed_costs").update({"is_active": False}).eq(
-        "business_id", business_id
-    ).execute()
-
-    # 3. Insertar nueva estructura de costos
-    if payload.expected_cost_structure:
-        cost_rows = [
-            {
-                "business_id": business_id,
-                "concept": item.concept,
-                "expected_monthly_amount": float(item.expected_monthly_amount),
-                "tolerance_pct": float(item.tolerance_pct),
-                "expense_behavior": item.expense_behavior,
-                "is_active": True,
-            }
-            for item in payload.expected_cost_structure
-        ]
-        db.table("business_fixed_costs").insert(cost_rows).execute()
-
-    # 4. Insertar chunk en mepia_memory
-    content = _build_memory_content(business_id, payload)
-    memory_res = (
-        db.table("mepia_memory")
-        .insert(
-            {
-                "business_id": business_id,
-                "source_audit_run_id": None,
-                "content": content,
-                "metadata": {
-                    "node_origin": "onboarding",
-                    "date": now_iso[:10],
-                    "chunk_index": 0,
-                    "chunk_total": 1,
-                    "archetype": None,
-                },
-                "status": "pending_embed",
-            }
-        )
-        .execute()
-    )
-    return memory_res.data[0]["id"]
-
-
-@app.post("/business/{business_id}/onboarding", status_code=201)
-async def create_onboarding(business_id: str, payload: OnboardingIdentityPayload):
-    """
-    POST /business/{business_id}/onboarding
-    Crea la configuración de identidad y auditoría del negocio.
-    Prerequisito obligatorio para ejecutar Layer 3.
-    """
-    # Validación de umbrales cruzados
-    try:
-        payload.validate_thresholds()
-    except ValueError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
-
-    db = get_supabase()
-
-    # Verificar que el negocio existe
-    biz = db.table("businesses").select("id").eq("id", business_id).execute()
-    if not biz.data:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Negocio '{business_id}' no encontrado. Crear el negocio primero.",
-        )
-
-    # Verificar si ya existe onboarding (409 Conflict)
-    existing = (
-        db.table("business_onboarding")
-        .select("id")
-        .eq("business_id", business_id)
-        .execute()
-    )
-    if existing.data:
-        raise HTTPException(
-            status_code=409,
-            detail="Onboarding ya completado. Usar PUT para actualizar.",
-        )
-
-    now_iso = datetime.now(timezone.utc).isoformat()
-    memory_chunk_id = await asyncio.to_thread(
-        _upsert_onboarding, db, business_id, payload, now_iso
-    )
-
-    return {
-        "business_id": business_id,
-        "onboarding_status": "complete",
-        "memory_chunk_id": memory_chunk_id,
-        "audit_config_stored": True,
-        "completed_at": now_iso,
-    }
-
-
-@app.put("/business/{business_id}/onboarding", status_code=200)
-async def update_onboarding(business_id: str, payload: OnboardingIdentityPayload):
-    """
-    PUT /business/{business_id}/onboarding
-    Actualiza la configuración de onboarding. Crea nuevo chunk en mepia_memory.
-    """
-    try:
-        payload.validate_thresholds()
-    except ValueError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
-
-    db = get_supabase()
-
-    biz = db.table("businesses").select("id").eq("id", business_id).execute()
-    if not biz.data:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Negocio '{business_id}' no encontrado.",
-        )
-
-    now_iso = datetime.now(timezone.utc).isoformat()
-    memory_chunk_id = await asyncio.to_thread(
-        _upsert_onboarding, db, business_id, payload, now_iso
-    )
-
-    return {
-        "business_id": business_id,
-        "onboarding_status": "updated",
-        "memory_chunk_id": memory_chunk_id,
-        "audit_config_stored": True,
-        "completed_at": now_iso,
-    }
-
-
-@app.get("/business/{business_id}/onboarding/status")
-async def get_onboarding_status(business_id: str):
-    """
-    GET /business/{business_id}/onboarding/status
-    Verifica si el onboarding está completo antes de disparar Layer 3.
-    """
-    db = get_supabase()
-
-    biz = db.table("businesses").select("id").eq("id", business_id).execute()
-    if not biz.data:
-        raise HTTPException(status_code=404, detail=f"Negocio '{business_id}' no encontrado.")
-
-    onboarding = (
-        db.table("business_onboarding")
-        .select("*")
-        .eq("business_id", business_id)
-        .execute()
-    )
-
-    if not onboarding.data:
-        return {
-            "business_id": business_id,
-            "onboarding_complete": False,
-            "completed_at": None,
-            "has_brand_identity": False,
-            "has_audit_tolerances": False,
-            "has_cost_structure": False,
-        }
-
-    row = onboarding.data[0]
-    costs = (
-        db.table("business_fixed_costs")
-        .select("id")
-        .eq("business_id", business_id)
-        .eq("is_active", True)
-        .execute()
-    )
-
-    return {
-        "business_id": business_id,
-        "onboarding_complete": True,
-        "completed_at": row.get("completed_at"),
-        "has_brand_identity": bool(row.get("brand_voice")),
-        "has_audit_tolerances": row.get("max_cash_discrepancy_pct") is not None,
-        "has_cost_structure": len(costs.data) > 0,
     }
 
 
@@ -1068,7 +794,12 @@ async def ingest_api_event(payload: APIIngestPayload):
             raise HTTPException(status_code=400, detail=validation.reject_reason)
 
     # 5. Persist to all tables
-    result = await asyncio.to_thread(persist_ingestion, payload, validation, db)
+    try:
+        result = await asyncio.to_thread(persist_ingestion, payload, validation, db)
+    except POSPersistenceError as exc:
+        if exc.kind == "conflict":
+            raise HTTPException(409, "Hay varios registros de ventas para esa fecha. Revisa los datos antes de reemplazarlos.") from None
+        raise HTTPException(503, "No fue posible guardar las ventas. Intenta de nuevo.") from None
 
     return result
 
@@ -1814,53 +1545,12 @@ async def orchestrator_result(run_id: str):
     )
 
     if not result.data:
-        # Intentar buscar por run_id en la columna run_id
-        result = (
-            db.table("audit_results")
-            .select("*")
-            .eq("run_id", run_id)
-            .eq("node_id", "N05")
-            .execute()
-        )
-
-    if not result.data:
         raise HTTPException(
             status_code=404,
             detail=f"Resultado para run '{run_id}' no encontrado.",
         )
 
-    row = result.data[0]
-    result_data = row.get("result_data") or {}
-
-    # Reconstruir OrchestratorResult desde result_data
-    return {
-        "run_id": run_id,
-        "business_id": row.get("business_id"),
-        "date": row.get("date"),
-        "archetype": result_data.get("archetype", row.get("archetype", "Operative Genius")),
-        "pipeline_status": result_data.get("pipeline_status", "completed"),
-        "sequential_results": result_data.get("sequential_results", {
-            "active_metrics": [],
-            "calc_results": [],
-            "forensic_report": result_data.get("forensic_report", {
-                "business_id": row.get("business_id"),
-                "date": row.get("date"),
-                "risk_level": "low",
-                "anomalies": [],
-                "evidence_sources": [],
-                "observed_causality": None,
-                "generated_at": row.get("created_at"),
-            }),
-            "audit_insights": result_data.get("audit_insights", []),
-        }),
-        "escalation": result_data.get("escalation", {
-            "triggered": False,
-            "reason": None,
-            "layer2_run_id": None,
-        }),
-        "dormant_metrics": result_data.get("dormant_metrics", []),
-        "completed_at": row.get("created_at"),
-    }
+    return restore_result(result.data[0], db)
 
 
 # ===========================================================================
@@ -2203,7 +1893,8 @@ async def layer3_run(payload: Layer3RunPayload, background_tasks: BackgroundTask
         _layer3_app = build_layer3_graph(get_memory_service())
 
     # Ejecutar grafo en background — responde 202 inmediatamente
-    background_tasks.add_task(_layer3_app.ainvoke, initial_state)
+    from agents.layer3_execution import execute_layer3
+    background_tasks.add_task(execute_layer3, _layer3_app, initial_state)
 
     return {
         "layer3_run_id": layer3_run_id,
@@ -2216,6 +1907,22 @@ async def layer3_run(payload: Layer3RunPayload, background_tasks: BackgroundTask
     }
 
 
+@app.get("/layer3/status/{layer2_run_id}")
+async def layer3_status_by_parent(layer2_run_id: str):
+    """Compatibilidad del proxy: el ID de escalación pertenece a Layer 2."""
+    from agents.layer3_execution import get_layer3_failure_by_parent
+    failure = get_layer3_failure_by_parent(layer2_run_id)
+    if failure:
+        return failure
+    rows = (get_supabase().table("audit_results").select("result_data,created_at")
+            .eq("node_id", "N10").order("created_at", desc=True).execute()).data or []
+    for row in rows:
+        result = row.get("result_data") or {}
+        if result.get("layer2_run_id") == layer2_run_id and result.get("layer3_run_id"):
+            return await layer3_status(result["layer3_run_id"])
+    raise HTTPException(status_code=404, detail="El informe avanzado aún no ha iniciado.")
+
+
 @app.get("/api/audit/layer3/status/{layer3_run_id}")
 async def layer3_status(layer3_run_id: str):
     """
@@ -2223,6 +1930,10 @@ async def layer3_status(layer3_run_id: str):
     Polling del estado del grafo Layer 3.
     Spec: api_layer3.md
     """
+    from agents.layer3_execution import get_layer3_failure
+    failure = get_layer3_failure(layer3_run_id)
+    if failure:
+        return failure
     db = get_supabase()
 
     # Buscar el registro de N14 (terminal) o N10 (inicio)
@@ -2278,6 +1989,11 @@ async def layer3_result(layer3_run_id: str):
     HTTP 409 si el grafo aún no completó.
     Spec: api_layer3.md
     """
+    from agents.layer3_execution import get_layer3_failure
+    failure = get_layer3_failure(layer3_run_id)
+    if failure:
+        raise HTTPException(status_code=503, detail={
+            "error": failure["error_code"], "message": failure["message"]})
     db = get_supabase()
 
     n14_resp = (

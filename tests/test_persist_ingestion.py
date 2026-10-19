@@ -33,6 +33,7 @@ from agents.api_ingest import (
     _persist_shift_audit_events,
     _persist_transactions,
     persist_ingestion,
+    POSPersistenceError,
 )
 
 
@@ -170,9 +171,8 @@ class TestPersistPosInputs:
 
         _persist_pos_inputs(business_id, date_val, tickets, payments, db)
 
-        db.table.assert_called_with("pos_inputs")
-        upsert_call = db.table.return_value.upsert.call_args
-        row = upsert_call[0][0]
+        assert db.rpc.call_args[0][0] == "upsert_pos_daily"
+        row = db.rpc.call_args[0][1]["p_record"]
 
         assert row["total_sales"] == 316.0  # 116 + 200
         assert row["cash_sales"] == 116.0
@@ -186,16 +186,33 @@ class TestPersistPosInputs:
         db = _mock_db()
         _persist_pos_inputs(uuid4(), date(2024, 6, 15), [], [], db)
         db.table.assert_not_called()
+        db.rpc.assert_not_called()
 
-    def test_upsert_uses_correct_conflict_key(self):
+    def test_persistence_failure_stops_before_other_tables(self):
         db = _mock_db()
-        tickets = [_make_ticket()]
-        payments = [_make_payment()]
+        db.rpc.return_value.execute.side_effect = RuntimeError("private storage detail")
+        with pytest.raises(POSPersistenceError, match="unavailable"):
+            _persist_pos_inputs(uuid4(), date(2024, 6, 15), [_make_ticket()], [_make_payment()], db)
+        db.table.assert_not_called()
 
-        _persist_pos_inputs(uuid4(), date(2024, 6, 15), tickets, payments, db)
+    def test_ambiguous_legacy_date_is_a_safe_conflict(self):
+        db = _mock_db()
+        error = RuntimeError("private detail")
+        error.message = "MEPIA_POS_DATE_AMBIGUOUS"
+        db.rpc.return_value.execute.side_effect = error
+        with pytest.raises(POSPersistenceError, match="conflict"):
+            _persist_pos_inputs(uuid4(), date(2024, 6, 15), [_make_ticket()], [_make_payment()], db)
+        db.table.assert_not_called()
 
-        upsert_call = db.table.return_value.upsert.call_args
-        assert upsert_call[1]["on_conflict"] == "business_id,date"
+    def test_failed_daily_total_prevents_transactions_shifts_and_inventory(self):
+        db = _mock_db()
+        db.rpc.return_value.execute.side_effect = RuntimeError("private failure")
+        payload = APIIngestPayload(business_id=uuid4(), date=date(2024, 6, 15),
+            sucursal_id="SUC-01", tickets=[_make_ticket()], payments=[_make_payment()],
+            shift_audit=[_make_shift_audit()], inventory=[_make_inventory()])
+        with pytest.raises(POSPersistenceError, match="unavailable"):
+            persist_ingestion(payload, ValidationResult(), db)
+        db.table.assert_not_called()
 
 
 # ---------------------------------------------------------------------------

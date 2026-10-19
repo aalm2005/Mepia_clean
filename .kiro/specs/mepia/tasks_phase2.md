@@ -1,5 +1,15 @@
 # Fase 2 — Ruta `/upload`
 
+**Seguimiento INC-051 — 15-oct-2026:** retirada fecha fija de 2024. Día inferido
+desde el reporte de ventas, validación de selección contradictoria y días
+mezclados; compras con otra fecha no desplazan ventas. Sin fecha inferible se
+requiere elegirla. Validación de navegador registrada en el seguimiento del ensayo.
+
+> Estado actual (15-oct-2026): el gate descrito en las tareas originales se retiró.
+> `/upload` ya no exige onboarding; los defaults se crean en segundo plano y la
+> configuración avanzada sigue disponible en `/onboarding`. Las verificaciones del
+> gate en esta lista son históricas.
+
 ## Tareas
 
 - [x] 1. Crear `components/upload/OnboardingGate.tsx`

@@ -1,0 +1,39 @@
+{
+  "environment_date": "2026-10-15",
+  "branch": "codex/chatbot-q4",
+  "head": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "commit_status": "sin commit",
+  "scope": "read_only_diagnosis_and_documentation",
+  "external_environment": "MEPIA principal, authorized business only",
+  "external_writes": 0,
+  "agent_model_calls": 0,
+  "product_code_changes": false,
+  "primary_read": {
+    "audit_rows": 65,
+    "screenshot_matching_date": "2024-01-15",
+    "matching_s3": [
+      {"metric": "conciliacion_caja", "value": "-161.29", "unit": "MXN", "status": "critical"},
+      {"metric": "punto_equilibrio_diario", "value": "53.93", "unit": "unidades/día", "status": "ok"},
+      {"metric": "operative_cost_margin", "value": "2916.82", "unit": "MXN/día", "status": "ok"},
+      {"metric": "health_score", "value": "49.65", "unit": "MXN", "status": "ok"}
+    ],
+    "matching_cash_inputs": {"initial_float": 1500, "cash_sales": 4961.29, "refunds": 0, "cash_payouts": 200, "actual_counted": 6100},
+    "demo_date": "2026-10-14",
+    "demo_pos": {"total_sales": 2900, "cash_sales": 1450, "card_sales": 1450, "refunds": 0},
+    "demo_cash": {"initial_float": 200, "actual_counted": 1650, "cash_payouts": 0},
+    "demo_invoice": {"amount": 928, "tax_amount": 128, "expense_behavior": null},
+    "demo_audit_rows": 0
+  },
+  "local_read": {"http_status": 200, "date": "2024-01-15", "audit_insights_count": 4, "calc_results_count": 0, "active_metrics_count": 0, "dormant_metrics_count": 0},
+  "source_findings": {
+    "upload_default_date": "2024-01-15",
+    "explicit_date_precedes_upload_date": true,
+    "menu_dashboard_omits_run_id": true,
+    "polling_resets_without_run_id": true,
+    "n05_persist_omits_full_sequential_results": true,
+    "n05_persist_omits_dormant_metrics": true
+  },
+  "incidents_open": ["INC-20261015-051", "INC-20261015-052", "INC-20261015-053"],
+  "verification_limits": ["First sandboxed connection attempts failed; read-only requests succeeded outside the sandbox", "No new full tests, build or browser E2E", "Historical costs and recipes were not independently recalculated", "No real audit for the demonstration date was validated", "Recovery URL and private identifiers omitted from public evidence"],
+  "files_changed": ["README.md", "docs/chatbot_corrections.md", "docs/chatbot_incidents.md", "docs/mepia_v4_metricas_diseno.md", "docs/estado_actual_mepia.md", "docs/demo_video_paso_a_paso.md", "docs/dashboard_demo_diagnosis_20261015.md", "docs/evaluations/dashboard_demo_diagnosis_20261015.json"]
+}

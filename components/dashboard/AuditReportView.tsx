@@ -97,7 +97,9 @@ export default function AuditReportView({ showMetrics = true }: AuditReportViewP
           <ForensicSummary
             anomalies={result?.sequential_results.forensic_report.anomalies ?? []}
           />
-          <DormantMetricsList metrics={result?.dormant_metrics ?? []} />
+          <DormantMetricsList metrics={result?.dormant_metrics ?? []}
+            blocked={result?.blocked_metrics ?? []}
+            available={result ? result.metric_status_available === true : undefined} />
         </div>
       </div>
     </div>

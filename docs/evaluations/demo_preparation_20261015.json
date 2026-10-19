@@ -1,0 +1,247 @@
+{
+  "date": "2026-10-15",
+  "branch": "codex/chatbot-q4",
+  "head_reference": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "commit": "sin commit",
+  "push": false,
+  "regression": {
+    "passed": 208,
+    "subtests_passed": 41,
+    "warnings": 2,
+    "seconds": 9.93,
+    "exit_code": 0
+  },
+  "earlier_attempts": [
+    {
+      "passed": 18,
+      "warnings": 2,
+      "seconds": 21.75,
+      "exit_code": 0
+    },
+    {
+      "passed": 206,
+      "subtests_passed": 41,
+      "warnings": 2,
+      "seconds": 14.94,
+      "exit_code": 0
+    },
+    {
+      "passed": 207,
+      "subtests_passed": 41,
+      "warnings": 2,
+      "seconds": 9.26,
+      "exit_code": 0
+    }
+  ],
+  "http_independence": {
+    "passed": 2,
+    "deselected": 8,
+    "warnings": 2,
+    "seconds": 4.21,
+    "exit_code": 0
+  },
+  "providers_and_db": "simulated except real read-only preflight and local HTTP startup",
+  "artifacts": {
+    "date": "2026-10-14",
+    "pdf_count": 2,
+    "xml_count": 1,
+    "visual_review": "two rendered pages inspected; no overlap/clipping",
+    "rendering": "Poppler; Symbol/ArialUnicode fallback notices; Helvetica content verified",
+    "parser_validation": "real PDF and XML parsers; correct totals/dates; no human review"
+  },
+  "expected": {
+    "synthetic": true,
+    "date": "2026-10-14",
+    "business_name": "MEPIA Dev",
+    "pos": {
+      "total": "2900.00",
+      "cash": "1450.00",
+      "card": "1450.00"
+    },
+    "invoice": {
+      "amount": "928.00",
+      "tax_amount": "128.00",
+      "reference": "DEMO-COMPRA-20261014"
+    },
+    "cash_count": {
+      "initial_float": 200.0,
+      "actual_counted": 1650.0,
+      "cash_payouts": 0.0
+    },
+    "cash_reconciliation": {
+      "value": "0.00",
+      "unit": "MXN",
+      "status": "ok"
+    },
+    "not_proven": [
+      "ticket promedio: no hay tickets individuales",
+      "utilidad: faltan costos confirmados",
+      "otras metricas: requieren datos adicionales"
+    ]
+  },
+  "offline_flow": "actual parsers -> Gatekeeper -> S3 -> grounding, DB simulated, cash difference 0.00 MXN",
+  "preflight_real_read_only": {
+    "primary_project": true,
+    "business_has_owner": true,
+    "target_date_free": true,
+    "no_pending_documents": true,
+    "planned_cash_rows": 1,
+    "writes": 0
+  },
+  "runtime": {
+    "backend_openapi_http": 200,
+    "parent_status_route_present": true,
+    "frontend_http": 200,
+    "anonymous_business_listing_http": 401
+  },
+  "private_configuration": {
+    "openai_present": true,
+    "anthropic_present": false,
+    "gemini_present": true,
+    "openai_fallback_simulated": true,
+    "key_values_emitted": false
+  },
+  "incident_status": {
+    "INC-20261015-048": "resolved locally",
+    "INC-20261015-049": "resolved locally",
+    "INC-20261015-050": "resolved locally"
+  },
+  "agent_model_calls": 0,
+  "db_writes_in_tests": 0,
+  "demo_cash_preparation": {
+    "specific_user_authorization": true,
+    "apply": {
+      "date": "2026-10-14",
+      "already_prepared": false,
+      "cash_rows_inserted": 1,
+      "planned_cash_rows": 1,
+      "initial_float": 200.0,
+      "actual_counted": 1650.0,
+      "cash_payouts": 0.0,
+      "apply_requested": true,
+      "model_calls": 0
+    },
+    "independent_readback": {
+      "date": "2026-10-14",
+      "already_prepared": true,
+      "cash_rows_inserted": 0,
+      "model_calls": 0
+    },
+    "primary_rows_inserted": {
+      "cash_counts": 1
+    },
+    "other_rows_or_settings_modified": false
+  },
+  "new_analysis_or_live_chat_test": "pending user run; not claimed passed",
+  "limits": [
+    "failure registry is process-local and expires after 30 min",
+    "legacy endpoint production permissions remain pending",
+    "no individual ticket data, profit or full KPI coverage from this dataset",
+    "no installation on another computer"
+  ],
+  "source_sha256": {
+    "agents/n14_informe_final.py": "7af0133b0f99aa52ec7406a339282cc7ca1a2943cf10a1eddc00b8d8bd5aeb4c",
+    "agents/layer3_state.py": "68216f175cb93aa2be851863a3a32410c451239d5e99f2a8fcf676adf610fdfc",
+    "agents/layer3_execution.py": "9844818b959ddcaa8908e1c51c8d7058740c48e81540dc0e9c59df77ba72ebcf",
+    "agents/ceo_orchestrator.py": "baa94fd289d6261b90b2024cd1f25b4b3e36432f35643932a27d9fce38766470",
+    "api/main.py": "971223befdaa55badee8994168dca1def6c800b983a4076975af524ef43185b6",
+    "tests/test_n14_persistence.py": "193e3f5143634c150190bae4a87defa2e91eb5cd0a4f914918ef241fe1168c10",
+    "tests/test_video_demo.py": "99e3585de3b0dbd4f8c52c387b810d4969f73db21b13c5d973f894ebc391b88d",
+    "scripts/create_video_demo.py": "d44599ba9d5f9110a346e8823fa27f094a5912e192c4edeb228f6e0fefa42ad5",
+    "scripts/prepare_video_demo.py": "390258ade46bf4f8377b86bd826769c094bbbdf503941a6d608e09bcccbfe1d6",
+    "utils/mapCalcResultsToKpis.ts": "05a3beb4620fa885332770455f2c0a57509b9daecf8e73dbbed1d4464af96d50",
+    "types/audit.ts": "7775a6e6403ff4dc4669dabfe72da9f9478618909f7f1b706ca2cf4fdea0e552",
+    "tests/frontend_integration.cjs": "772b57f4987bafaf520b8326fd44ac74e39067560b4dec3174cbff14f98959f7"
+  },
+  "artifact_sha256": {
+    "output/pdf/demo_mepia_20261014/01_ventas_demo_2026-10-14.pdf": "47762f8fccfe912f8dad586fda094ff0de9bfdb5f35cb389f4a8476cb8097b71",
+    "output/pdf/demo_mepia_20261014/02_compra_demo_2026-10-14.xml": "1d9a61faf1d0b3d6cf1de95acb87bf6dffc354bf520a265c279e089d77fc85d2",
+    "output/pdf/demo_mepia_20261014/03_compra_demo_REFERENCIA_NO_SUBIR.pdf": "b469bff6bda38504fdbf367b552c7f1a770c31c03758fbd0cb7243581d6ceca4",
+    "output/pdf/demo_mepia_20261014/resultados_esperados.json": "2b7e186fff5d482e884be3c72b762ab05ccd87f47797453ceda195af783f66c4"
+  },
+  "files_changed_in_preparation": [
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/api_layer3.md",
+    ".kiro/specs/mepia/db_schema.md",
+    ".kiro/specs/mepia/design_components.md",
+    ".kiro/specs/mepia/layer3_execution.md",
+    ".kiro/specs/mepia/layer3_graph.md",
+    ".kiro/specs/mepia/n14_informe_final.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/n15_chat_consulta_datos.md",
+    ".kiro/specs/mepia/requirements.md",
+    ".kiro/specs/mepia/tasks.md",
+    "README.md",
+    "agents/ceo_orchestrator.py",
+    "agents/layer3_execution.py",
+    "agents/layer3_state.py",
+    "agents/n14_informe_final.py",
+    "api/main.py",
+    "docs/actualizacion_documental_20261015.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/database_unification.md",
+    "docs/demo_video_paso_a_paso.md",
+    "docs/estado_actual_mepia.md",
+    "docs/evaluations/demo_preparation_20261015.json",
+    "docs/mepia_setup_video.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "output/pdf/demo_mepia_20261014/01_ventas_demo_2026-10-14.pdf",
+    "output/pdf/demo_mepia_20261014/02_compra_demo_2026-10-14.xml",
+    "output/pdf/demo_mepia_20261014/03_compra_demo_REFERENCIA_NO_SUBIR.pdf",
+    "output/pdf/demo_mepia_20261014/resultados_esperados.json",
+    "scripts/create_video_demo.py",
+    "scripts/prepare_video_demo.py",
+    "tests/frontend_integration.cjs",
+    "tests/test_n14_persistence.py",
+    "tests/test_video_demo.py",
+    "types/audit.ts",
+    "utils/mapCalcResultsToKpis.ts"
+  ],
+  "final_local_audit": {
+    "candidate_files": 737,
+    "documentation_files": 70,
+    "local_links_checked": 398,
+    "actual_broken_links": [],
+    "windows_link_normalizations": 25,
+    "historical_files_preserved": 437,
+    "changed_historical_files": [],
+    "secret_findings": [],
+    "personal_email_candidates": [],
+    "git_diff_check_exit_code": 0,
+    "source_and_artifact_hashes_match": true,
+    "private_configuration_ignored": true,
+    "new_execution_spec_words": 334
+  },
+  "presentation": {
+    "passed": 16,
+    "exit_code": 0,
+    "before_fix_exit_code": 1,
+    "before_actual": "em dash",
+    "before_expected": "0",
+    "typescript_exit_code": 0,
+    "typescript_emit": false,
+    "typescript_incremental": false,
+    "external_calls": 0,
+    "cases": [
+      "Porcentaje emitido 0 sin reescalar",
+      "Porcentaje emitido 0.5 sin reescalar",
+      "Porcentaje emitido 1 sin reescalar",
+      "Porcentaje emitido -2 sin reescalar",
+      "Porcentaje emitido 101 sin reescalar",
+      "Porcentaje emitido 12.345678 sin reescalar",
+      "Montos y unidad sin redondear a enteros",
+      "Costo operativo no presentado como margen",
+      "Etiqueta conserva la métrica emitida",
+      "Datos incompletos e incompatibles no muestran cifras",
+      "Gráficas excluyen nulos, no finitos y datos inválidos",
+      "Filas de gráficas preservan valor, unidad y estado",
+      "Cero decimal de Pydantic aparece en la tarjeta de caja",
+      "Porcentaje decimal recibido como texto no se reescala",
+      "Gráficas admiten decimales textuales finitos",
+      "Texto inválido, vacío y booleanos no se vuelven cero"
+    ]
+  }
+}

@@ -16,8 +16,10 @@
 **Input:** `Layer3State` con `draft_report` aprobado y `draft_status` en
 `"approved"` o `"approved_with_warning"`.
 
-**Output:** `FinalReport` persistido en `audit_results` + actualización del estado
-con `layer3_status: "completed"`.
+**Output:** `final_response`, `draft_status` y `layer3_status=completed` solo
+tras guardar `FinalReport`. Sin DB o ante error, `N14PersistenceError` saneado:
+no hay respuesta final. API y N05 usan [ejecución compartida](layer3_execution.md).
+INC-048 resuelta localmente; prueba real de IA separada.
 
 ---
 
@@ -29,10 +31,10 @@ Layer3State (draft_report aprobado)
         ↓
 N14 Informe Final (Python puro)
   ├─ Extrae DraftReport del estado
-  ├─ Fija model_used = "claude-3-5-sonnet-20241022"
+  ├─ Propaga DraftReport.model_used (o "unknown" si falta)
   ├─ Construye FinalReport (separa narrativa Markdown y metadatos)
   ├─ Persiste FinalReport en audit_results (node_id: "N14")
-  └─ Retorna layer3_status: "completed"
+  └─ Retorna final_response/draft_status/completed solo tras guardar; fallo saneado
         │
         ↓
 END (grafo completado)
@@ -44,10 +46,8 @@ END (grafo completado)
 
 **N14 NO usa LLM.** Es un nodo Python puro y determinista.
 
-El campo `model_used` en el `FinalReport` se fija estáticamente a
-`"claude-3-5-sonnet-20241022"` — el modelo que generó el borrador en N11.
-Si N11 activó el fallback, el valor correcto ya está registrado en
-`DraftReport.model_used` y N14 lo propaga sin modificarlo.
+El campo `model_used` se toma de `DraftReport.model_used` y usa `"unknown"`
+si falta. Si N11 activó fallback, N14 conserva ese valor; no fija un proveedor.
 
 ---
 
@@ -112,15 +112,14 @@ N14 persiste el `FinalReport` como el registro terminal del pipeline Layer 3.
 | `date`          | Fecha auditada |
 | `pipeline_layer`| `"loop"` |
 | `node_id`       | `"N14"` |
-| `module`        | `"informe_final"` |
-| `archetype`     | Arquetipo del run |
-| `raw_result`    | `FinalReport` serializado (JSON) |
-| `copilot_phrase`| `executive_summary` del `FinalReport` |
-| `node_status`   | `"success"` \| `"failed"` |
+| `id`            | UUID nuevo de la fila N14 |
+| `result_data`   | `FinalReport` serializado (incluye arquetipo y resumen) |
+| `created_at`    | `FinalReport.finalized_at` |
+| `node_status`   | `"success"` en la inserción intentada; `_persist_n14` devuelve false ante error |
 
 ---
 
-## Acceptance Criteria
+## Acceptance Criteria — comprobados localmente, INC-048 resuelta
 
 - WHEN `draft_status == "approved"` → `FinalReport` sin advertencias de calidad
 - WHEN `draft_status == "approved_with_warning"` → `quality_warnings` contiene el historial de rechazos y el Markdown incluye el bloque de advertencia
@@ -129,17 +128,26 @@ N14 persiste el `FinalReport` como el registro terminal del pipeline Layer 3.
 - WHEN `Layer3State.source_s3_result_id` está presente → el `FinalReport`, su
   `result_data` y la columna de la fila N14 conservan exactamente ese UUID
 - WHEN `DraftReport.model_used` contiene `"fallback"` → N14 lo propaga sin modificar
-- WHEN N14 falla al persistir → `node_status: "failed"`, error reportado al endpoint disparador
+- WHEN N14 falla al persistir → no entrega informe; wrapper registra status failed y polling de resultado devuelve 503 sin excepción del proveedor
 
 ---
 
 ## Edge Cases
 
-- `draft_report` vacío o nulo en el estado → `node_status: "failed"`, no persistir
-- Supabase no disponible → reintentar 1 vez, luego `node_status: "failed"` con detalle
-- `draft_status` inesperado (ni `"approved"` ni `"approved_with_warning"`) → log error, persistir con advertencia
+- `draft_report` vacío o nulo → el nodo usa un diccionario vacío y construye campos vacíos; no implementa rechazo explícito
+- Supabase no disponible → `_persist_n14` devuelve false y N14 lanza error saneado; wrapper conserva fallo temporal. No hay reintento ni inserción failed en DB caída
+- `draft_status` inesperado → se propaga; el nodo no lo normaliza ni registra una advertencia por ese motivo. Validarlo antes de entrar es un requisito del flujo
 
 ---
+
+## Resolución local — 15-oct-2026
+
+INC-048/049 resueltas localmente: no hay finalización válida sin guardado.
+Grafo real con generadores simulados y polling de éxito/fallo comprobados en
+la [evidencia de preparación](../../../docs/evaluations/demo_preparation_20261015.json).
+El diagnóstico anterior se conserva como reproducción histórica. El registro
+temporal de errores caduca a los 30 minutos y no sobrevive reinicios; ver
+[ejecución](layer3_execution.md). Ensayo con proveedores/base reales pendiente.
 
 ## Correctness Properties (PBT)
 

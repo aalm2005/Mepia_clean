@@ -1,5 +1,20 @@
 # MEPIA — Índice del Sistema
 
+**Actualización del ensayo — 15-oct-2026:** INC-048/049 resueltas localmente:
+guardado terminal N14 y seguimiento por padre con error saneado. 208 pruebas y
+41 subpruebas aprobadas, dos advertencias, código 0; proveedores/DB simulados.
+OpenAI configurado, Claude opcional mediante respaldo ya existente.
+Ver [ejecución y límites](layer3_execution.md) y
+[ensayo real pendiente](../../../docs/demo_video_paso_a_paso.md).
+
+**Entorno verificado — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal; 009/010/011 aplicadas con autorización y datos preservados.
+Regresión 178/41 subpruebas, código 0; SQL real 13/13 controles. Usuario confirmó
+login y pantallas antes/después del retiro de claves heredadas y firma HS256.
+INC-046/047 resueltas en su alcance; INC-048 y ensayo de análisis nuevo pendientes.
+Las evaluaciones anteriores conservan su entorno original.
+[Ejecución, archivos y límites](../../../docs/database_unification.md).
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **GitHub verificado — 15-oct-2026:** avances y sincronización publicados en `codex/chatbot-q4`, commit `2c2ad07754204cf6216483de017dd898b2685255`. Push normal código 0 y hash remoto coincidente. Este registro se guarda en un commit documental posterior. [Estado y evidencia](../../../docs/estado_actual_mepia.md). Los registros previos de «sin commit/push» conservan la situación de su fecha; producción sin cambios.
@@ -206,7 +221,8 @@ y reglas del Paso 4. El modelo todavía no tiene validación real en MEPIA.
 | N01           | `api/main.py` + `agents/pos_parser.py` + `app/api/upload/route.ts`|
 | S1B           | `api/main.py` → `POST /ingest/api-event`             |
 | N02           | `api/main.py` → `POST /ingest/factura` + `agents/factura_parser.py`|
-| N03           | `api/main.py` → `/transactions`, `/cash-counts`, `/onboarding` |
+| N03           | `api/main.py` → `/transactions`, `/cash-counts` |
+| ONB (configuración N10) | `api/onboarding.py` → `/business/{id}/onboarding[/status]`, registrado en `api.main` y `api.chat_app`; JWT/propiedad; defaults automáticos y costos opcionales |
 | N05           | `api/main.py` → `POST /orchestrator/run`, `GET /orchestrator/status/{run_id}` |
 | N06           | `agents/parallel_orchestrator.py` → LangGraph StateGraph / LCEL RunnableParallel |
 | N09           | `agents/business_health.py`                              |
@@ -233,6 +249,8 @@ y reglas del Paso 4. El modelo todavía no tiene validación real en MEPIA.
 ## Schema de base de datos
 
 - **Arquitectura híbrida** → `db_schema.md`
+- **Compatibilidad de despliegue** → [contrato 011](db_schema_pipeline_contract.md), preparado; aplicación pendiente
+- **Datos consultables del motor en N15** → [contrato de consulta](n15_chat_consulta_datos.md)
 - Tablas: `businesses`, `business_fixed_costs`, `documents`, `transactions`, `pos_inputs`, `cash_counts`, `recipes`, `daily_context` _(deprecated)_, `metric_status`, `unit_conversions`, `audit_results`, `circuit_breaker_state`, `mepia_memory`, `delivery_platform_config`
 - JSONB: `extracted_data`, `metadata`, `raw_metadata`, `tags` _(deprecated)_, `ingredients`, `missing_fields`
 - Campos clave nuevos: `expense_behavior` (FIXED/VARIABLE/CAPEX), `needs_human_review`, `ocr_confidence`, `raw_metadata`, `multi_sucursal`

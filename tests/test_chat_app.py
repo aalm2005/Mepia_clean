@@ -1,4 +1,4 @@
-"""Perfil local real del chat: configuración propia y sin rutas legadas."""
+"""Perfil local del chat y ajustes protegidos, sin claves del análisis completo."""
 import pytest
 from fastapi.testclient import TestClient
 
@@ -14,16 +14,19 @@ def config(**changes):
     return ChatSettings(_env_file=None, **values)
 
 
-def test_only_chat_routes_and_no_unrelated_keys_required(monkeypatch):
+def test_chat_and_settings_routes_without_unrelated_model_keys(monkeypatch):
     def forbidden(*_args, **_kwargs):
         pytest.fail('No crear clientes DB antes de autenticar')
     monkeypatch.setattr('api.chat_app.create_client', forbidden)
     with TestClient(create_app(config())) as client:
         assert client.get('/me/businesses').status_code == 401
         assert client.get('/audit').status_code == 404
+        assert client.get('/business/00000000-0000-4000-8000-000000000001/onboarding/status').status_code == 401
         paths = client.get('/openapi.json').json()['paths']
         assert set(paths) == {'/me/businesses', '/business/{business_id}/chat',
-                             '/business/{business_id}/chat/{conversation_id}'}
+                             '/business/{business_id}/chat/{conversation_id}',
+                             '/business/{business_id}/onboarding',
+                             '/business/{business_id}/onboarding/status'}
 
 
 @pytest.mark.parametrize('changes', [

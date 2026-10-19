@@ -1,0 +1,419 @@
+{
+  "date": "2026-10-15",
+  "timezone": "America/Mexico_City",
+  "branch": "codex/chatbot-q4",
+  "head": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "change_commit": null,
+  "push_performed": false,
+  "status": "N10 integrated and validated locally; full new-document analysis rehearsal pending",
+  "category": "additional N10 configuration improvement and defects found in candidate review",
+  "incidents": {
+    "INC-20261015-044": "resolved locally",
+    "INC-20261015-045": "resolved locally"
+  },
+  "incident_totals": {
+    "total": 45,
+    "resolved": 42,
+    "mitigated": 2,
+    "external_pending": 1,
+    "open": 0
+  },
+  "product_files": [
+    "api/.env.example",
+    "api/chat_app.py",
+    "api/main.py",
+    "api/onboarding.py",
+    "app/api/onboarding/route.ts",
+    "app/onboarding/page.tsx",
+    "app/upload/page.tsx",
+    "components/onboarding/AuditRulesStep.tsx",
+    "components/onboarding/AuditTolerancesStep.tsx",
+    "components/onboarding/BrandIdentityStep.tsx",
+    "components/onboarding/CostStructureStep.tsx",
+    "components/onboarding/OnboardingForm.tsx",
+    "components/onboarding/defaults.ts",
+    "components/upload/OnboardingGate.tsx",
+    "components/upload/UploadForm.tsx"
+  ],
+  "product_sha256": {
+    "api/.env.example": "c4ed2b5d807a95f43b74c063acb12240eaef37c9d12d6ce3e4dd911fcbec7957",
+    "api/chat_app.py": "d26875df329de29efbc5c4cbdc218ef68e748822703c1c1ccb68729e4e1df49d",
+    "api/main.py": "d0f20a7bb12dbded9025f2b1d0f1fd67437ee211220dbc17149ea5005c71f807",
+    "api/onboarding.py": "f9d9227930027a848f89fb5a42b956e91abec6c2460af6baad8ca9362cc92703",
+    "app/api/onboarding/route.ts": "4f9a2c3fc81a4bd43f458f90c6124b7b33ee16a2827e53d0ef327b563598dd65",
+    "app/onboarding/page.tsx": "9d3b1c00ad8d34ba95decee443223a7677b8c4607cdc14aeb404830f61c408fe",
+    "app/upload/page.tsx": "7abac93db2cf33e472c27f12847bae16f6a2ad050349fb5d4ff949cde98e471d",
+    "components/onboarding/AuditRulesStep.tsx": "b2689e1161fd849db7efb577ff5ec5d010468c1fd116e31c5c41979c36fb41be",
+    "components/onboarding/AuditTolerancesStep.tsx": "9190b3d09a3889135e2593e5432a548a9a3ec05c9d8166a9b9f2b1f4d207ceaf",
+    "components/onboarding/BrandIdentityStep.tsx": "70ee9dd68b146a7ff863e5a754a6b748c354a8c6acc5202e306d4e0a737758f0",
+    "components/onboarding/CostStructureStep.tsx": "9a804e5388a54b01505ed9ee30c5b8c96eec8ac7afb191fdb4a88d7e46f304ef",
+    "components/onboarding/OnboardingForm.tsx": "d6bca64aa486b1ade9be6475042f6d92f0e671ce1e055f14b27aa2ed4f281acb",
+    "components/onboarding/defaults.ts": "4254db87cdf39a2d80788c8b7855056d5fb1205ef40b63de973c5b7f3640fd68",
+    "components/upload/OnboardingGate.tsx": null,
+    "components/upload/UploadForm.tsx": "eda9721bb93cd0c809159ae5f633c5815ec2582d243158285a97af2166cdd1ec"
+  },
+  "test_files": [
+    "tests/onboarding_fixtures.py",
+    "tests/onboarding_step_e2e.cjs",
+    "tests/onboarding_step_server.py",
+    "tests/test_chat_app.py",
+    "tests/test_onboarding_api.py"
+  ],
+  "test_sha256": {
+    "tests/onboarding_fixtures.py": "1158d793f41299b14eff204c9669211f3c9a41caa03f3aa963170f747553f0b5",
+    "tests/onboarding_step_e2e.cjs": "f9e303a2d78a8f92a2c5d6a198d0c96fba4a02d4540646ee4b65977308c5778f",
+    "tests/onboarding_step_server.py": "0748534f7addc46567ee8288c58bf0a9995b285a28d479d5eef30a1f08a679e8",
+    "tests/test_chat_app.py": "582c46ba494c510a51201a587f433001c8c5dad2cc863848fbacd34b351a1409",
+    "tests/test_onboarding_api.py": "a9aae126857900eb16e8ea56de7a43331b96fc80c330e5cae40889482256b737"
+  },
+  "documentation_files": [
+    ".kiro/specs/mepia/_auth_strategy.md",
+    ".kiro/specs/mepia/_glossary.md",
+    ".kiro/specs/mepia/_index.md",
+    ".kiro/specs/mepia/design.md",
+    ".kiro/specs/mepia/design_components.md",
+    ".kiro/specs/mepia/design_components_tree.md",
+    ".kiro/specs/mepia/design_flows.md",
+    ".kiro/specs/mepia/design_flows_main.md",
+    ".kiro/specs/mepia/n10_context_builder.md",
+    ".kiro/specs/mepia/n10_onboarding_identidad.md",
+    ".kiro/specs/mepia/n15_chat_consulta.md",
+    ".kiro/specs/mepia/tasks_phase2.md",
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/chatbot_step5_integration.md",
+    "docs/estado_actual_mepia.md",
+    "docs/evaluations/onboarding_defaults_integration_20261015.json",
+    "docs/mepia_setup_video.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/onboarding_candidate_review_20261015.md",
+    "docs/onboarding_defaults_integration.md"
+  ],
+  "validation": {
+    "python": {
+      "passed": 151,
+      "subtests_passed": 41,
+      "warnings": 2,
+      "duration_seconds": 9.54,
+      "exit_code": 0,
+      "suites": [
+        "tests/test_onboarding_api.py",
+        "tests/test_chat_api.py",
+        "tests/test_chat_app.py",
+        "tests/test_chat_conversation.py",
+        "tests/test_chat_response.py",
+        "tests/test_chat_auth_es256.py"
+      ]
+    },
+    "edge_n10": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "Entrada con sesión propia y acceso directo a Documentos",
+          "passed": true
+        },
+        {
+          "name": "Ajustes iniciales persistidos sin gastos ficticios",
+          "passed": true
+        },
+        {
+          "name": "Volver a Documentos conserva los ajustes personalizados",
+          "passed": true
+        },
+        {
+          "name": "Guardar sin editar conserva tolerancia 0%",
+          "passed": true
+        },
+        {
+          "name": "Guardar sin editar conserva tolerancia 0.1%",
+          "passed": true
+        },
+        {
+          "name": "Guardar sin editar conserva tolerancia 0.5%",
+          "passed": true
+        },
+        {
+          "name": "Guardar sin editar conserva tolerancia 1%",
+          "passed": true
+        },
+        {
+          "name": "Guardar sin editar conserva tolerancia 5%",
+          "passed": true
+        },
+        {
+          "name": "Guardar sin editar conserva tolerancia 100%",
+          "passed": true
+        },
+        {
+          "name": "Negocio ajeno: GET devuelve 403 sin datos ni cambios",
+          "passed": true
+        },
+        {
+          "name": "Negocio ajeno: POST devuelve 403 sin datos ni cambios",
+          "passed": true
+        },
+        {
+          "name": "Negocio ajeno: PUT devuelve 403 sin datos ni cambios",
+          "passed": true
+        },
+        {
+          "name": "Acceso anónimo denegado en Next y directamente en Python",
+          "passed": true
+        },
+        {
+          "name": "Proxy valida identificadores y cuerpo antes de reenviar",
+          "passed": true
+        }
+      ],
+      "page_errors": [],
+      "external_api_calls": 0,
+      "exit_code": 0,
+      "environment": "actual Next/FastAPI, synthetic Auth/database"
+    },
+    "edge_general": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "Proxy anónimo: 401, cero DB y modelo",
+          "passed": true
+        },
+        {
+          "name": "Entrada general: todas las páginas privadas requieren login",
+          "passed": true
+        },
+        {
+          "name": "Cookie inventada no permite entrar a MEPIA",
+          "passed": true
+        },
+        {
+          "name": "Una cookie antigua válida tampoco sustituye la sesión de la pestaña",
+          "passed": true
+        },
+        {
+          "name": "Una sesión manipulada en almacenamiento no permite mostrar MEPIA ni llamar la API",
+          "passed": true
+        },
+        {
+          "name": "Inicio de sesión y solo negocios propios",
+          "passed": true
+        },
+        {
+          "name": "API legada verifica Bearer y no confunde sesión válida con acceso anónimo",
+          "passed": true
+        },
+        {
+          "name": "Dashboard es el inicio único, sin bienvenida y conserva sesión al recargar",
+          "passed": true
+        },
+        {
+          "name": "Otra pestaña exige login y no cierra la sesión de la pestaña original",
+          "passed": true
+        },
+        {
+          "name": "Chat desde el menú común, sin un segundo login",
+          "passed": true
+        },
+        {
+          "name": "Salud y Reportes comparten sesión y menú de Chat IA",
+          "passed": true
+        },
+        {
+          "name": "Dashboard presenta métricas sintéticas sin alterar porcentaje y separa unidades",
+          "passed": true
+        },
+        {
+          "name": "Saludo natural sin llamadas de generación ni fuentes vacías",
+          "passed": true
+        },
+        {
+          "name": "Pregunta con cifra/unidad, fuentes y linaje",
+          "passed": true
+        },
+        {
+          "name": "Continuación conceptual e historial recuperable",
+          "passed": true
+        },
+        {
+          "name": "Cambio de negocio limpia historial visible",
+          "passed": true
+        },
+        {
+          "name": "Negocio ajeno: 403 sin evidencia ni modelo",
+          "passed": true
+        },
+        {
+          "name": "Rechazo de cálculo y eliminación del historial",
+          "passed": true
+        },
+        {
+          "name": "Cambio de usuario sin conversaciones ajenas",
+          "passed": true
+        },
+        {
+          "name": "C07: respuestas tardías descartadas por negocio, fecha y usuario",
+          "passed": true
+        },
+        {
+          "name": "C04 y S08: nueva conversación, aviso de respaldo y teclado",
+          "passed": true
+        },
+        {
+          "name": "S05: proxy rechaza cuerpo excesivo antes del proveedor",
+          "passed": true
+        },
+        {
+          "name": "Menú móvil, Salud, Reportes y chat utilizables sin desbordamiento",
+          "passed": true
+        },
+        {
+          "name": "Cerrar sesión devuelve al login y bloquea enlaces directos",
+          "passed": true
+        },
+        {
+          "name": "Cerrar y abrir de nuevo la pestaña exige credenciales",
+          "passed": true
+        }
+      ],
+      "extended_checks": [
+        "C07",
+        "C08",
+        "S10_busy",
+        "C04",
+        "S08_notice",
+        "P06_keyboard_partial",
+        "S05_proxy_size"
+      ],
+      "page_errors": [],
+      "external_api_calls": 0,
+      "exit_code": 0,
+      "environment": "actual Next/FastAPI, synthetic services; extended checks enabled"
+    },
+    "workspace_helper": {
+      "passed": 3,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "build": {
+      "exit_code": 0,
+      "signal": null,
+      "duration_ms": 74770,
+      "tsconfig_restored": true,
+      "next_env_restored": true,
+      "synthetic_public_configuration": true,
+      "real_model_calls": 0
+    },
+    "read_only_test_schema": {
+      "date": "2026-10-15",
+      "environment": "MEPIA - PRUEBAS",
+      "operation": "read-only schema check, limit 0",
+      "checks": [
+        {
+          "table": "business_onboarding",
+          "available": true,
+          "rows_returned": 0
+        },
+        {
+          "table": "business_fixed_costs",
+          "available": true,
+          "rows_returned": 0
+        },
+        {
+          "table": "mepia_memory",
+          "available": true,
+          "rows_returned": 0
+        }
+      ],
+      "requests": 3,
+      "rows_returned": 0,
+      "writes": 0,
+      "model_calls": 0,
+      "production_changes": 0
+    },
+    "local_preview": {
+      "date": "2026-10-15",
+      "backend_profile": "api.chat_app:create_app",
+      "backend_port": 8016,
+      "frontend_port": 3016,
+      "settings_route_protected": true,
+      "python_anonymous_status": 401,
+      "frontend_login_status": 200,
+      "proxy_anonymous_status": 401,
+      "services_started": 2,
+      "initial_restart_attempt": "No existing listeners; no processes stopped",
+      "real_data_queries": 0,
+      "model_calls": 0,
+      "production_changes": 0
+    },
+    "user_confirmation": {
+      "reported_by_user": true,
+      "independently_observed_browser": false,
+      "documents_opens_without_required_form": true,
+      "advanced_settings_open_without_error": true,
+      "real_settings_save_validated": false,
+      "new_document_analysis_validated": false
+    }
+  },
+  "preservation": {
+    "protected_historical_artifacts": 436,
+    "changed_historical_artifacts": [],
+    "candidate_original_files_checked": 705,
+    "candidate_original_changed_files": [],
+    "generated_config_unchanged": {
+      "tsconfig.json": true,
+      "next-env.d.ts": true
+    },
+    "original_review_result": "11 passed / 2 defects, exit 1; preserved, not recast as success"
+  },
+  "operations": {
+    "real_model_calls_by_agent": 0,
+    "real_schema_read_requests": 3,
+    "real_rows_returned": 0,
+    "real_db_writes_by_agent": 0,
+    "account_changes": 0,
+    "migration_changes": 0,
+    "production_changes": 0,
+    "local_services_started": 2
+  },
+  "auxiliary_events": [
+    "Document merge preparation exited 1 because private merge inputs mixed CRLF/LF; normalized and merged successfully before product docs were written.",
+    "Initial restart found no existing listeners and exited 1; no processes stopped. Backend/frontend then started successfully."
+  ],
+  "private_evidence_sha256": {
+    "regression_attempt1.log": "d553289a5ed55d440feb340e4036956846c96de091d93d95e0c9f8f235678c0f",
+    "browser_attempt1/e2e.json": "cb0c7e26f1254012677e7cd0920d82d11ce81eabdf7ada7228a5255c4a07a970",
+    "general_browser_attempt1/e2e.json": "61e56c23fd0ff2213955757e45406972deac9b55a7c162dbb5ce468a82a2bd88",
+    "general_browser_attempt1/workspace-tests.log": "5391735ad92e461e4f5d00d30d41e4639b715bc3e070d70c9195adbe005355a5",
+    "build_result.json": "9fb0642acb9ce7d5e9a3274d84ff1bb2c0e7f6af87c5618ee7edc28446168eff",
+    "schema.json": "1085b934a4f2eb86fdfe4a342bd2a68ceaaee543ac3409b69b13b3fab318b3e6",
+    "preview_started.json": "acaad2501d4c68ddb4db360650c705af31a531f75f0d476b0302482418cd5042"
+  },
+  "next_action": "Supply complete private motor configuration, start api.main on recording computer, and rehearse new-document upload/analysis before filming.",
+  "limits": [
+    "No real model questions by agent or new real end-to-end document analysis in this correction.",
+    "Active local profile is Chat IA/list/settings, not full pipeline.",
+    "OpenAI and Anthropic keys remain empty in reviewed local configuration; teammate installation/environment not executed here.",
+    "Three real Supabase requests check only schema with limit 0, not all pipeline tables/functions or authenticated writes.",
+    "Legacy non-N10 pipeline resource authorization, remaining Step 5 functional/human checks, tutorial and full mobile work remain separate."
+  ],
+  "documentation_audit": {
+    "candidate_files": 716,
+    "documentation_files": 64,
+    "historical_files_preserved": 429,
+    "changed_historical_files": [],
+    "secret_findings": [],
+    "personal_email_candidates": [],
+    "large_files": [],
+    "local_markdown_links": 289,
+    "broken_links": [],
+    "status_match_count": 2549,
+    "diff_check_exit_code": 0,
+    "status_evaluation": [
+      "Current N10/N15 runtime, source-module pointers, percentage units, defaults and auth specs updated.",
+      "Dated older test totals and candidate findings preserved as history, including original failed attempts.",
+      "Removed gate tasks explicitly historical; N03 minimum fixed costs is a separate contract, not current N10.",
+      "Advanced per-metric catalogue/commission/salary inputs still pending; general onboarding defaults do not complete them.",
+      "No claim of full new-document analysis, fresh teammate installation or production deployment from N10 checks."
+    ]
+  }
+}

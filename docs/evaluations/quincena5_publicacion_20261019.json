@@ -1,0 +1,146 @@
+{
+  "date": "2026-10-19",
+  "branch": "codex/quincena-5",
+  "base_commit": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
+  "status": "prepared_not_committed_or_pushed",
+  "repository": "https://github.com/aalm2005/Mepia_clean",
+  "content_commit": null,
+  "verification": {
+    "regression": {
+      "passed": 226,
+      "subtests": 41,
+      "warnings": 2,
+      "seconds": 36.57,
+      "exit_code": 0
+    },
+    "date_cases": 11,
+    "presentation_checks": 16,
+    "frontend_exit_codes": {
+      "presentation_exit": 0,
+      "types_exit": 0,
+      "dates_exit": 0
+    },
+    "prior_browser": {
+      "date": "2026-10-15",
+      "checks": 23,
+      "page_errors": 0,
+      "rerun_today": false
+    }
+  },
+  "initial_audit": {
+    "candidate_files": 745,
+    "documentation_files": 72,
+    "historical_files_preserved": 443,
+    "changed_historical_files": [],
+    "secret_findings": [],
+    "personal_email_candidates": [],
+    "large_files": [],
+    "local_markdown_links": 418,
+    "broken_links": [],
+    "status_match_count": 2674
+  },
+  "publication_task_model_calls": 0,
+  "supabase_writes": 0,
+  "document_updates": [
+    "README.md",
+    "docs/chatbot_corrections.md",
+    "docs/chatbot_incidents.md",
+    "docs/mepia_v4_metricas_diseno.md",
+    "docs/estado_actual_mepia.md",
+    "docs/quincena5_publicacion_20261019.md",
+    "docs/evaluations/quincena5_publicacion_20261019.json",
+    ".kiro/specs/mepia/requirements.md",
+    "docs/demo_video_paso_a_paso.md"
+  ],
+  "incidents_updated_in_publication_context": [
+    "INC-20261015-044",
+    "INC-20261015-045",
+    "INC-20261015-046",
+    "INC-20261015-047",
+    "INC-20261015-048",
+    "INC-20261015-049",
+    "INC-20261015-050",
+    "INC-20261015-051",
+    "INC-20261015-052",
+    "INC-20261015-053",
+    "INC-20261019-054"
+  ],
+  "limits": [
+    "Real demonstration pending confirmation",
+    "Production and outstanding human/functional evaluation not approved",
+    "No deployment or database mutation in this task"
+  ],
+  "repository_artifact_fix": {
+    "incident": "INC-20261019-054",
+    "state": "resolved_locally",
+    "before": [
+      {
+        "path": "output/pdf/demo_mepia_20261014/01_ventas_demo_2026-10-14.pdf",
+        "working_sha256": "47762f8fccfe912f8dad586fda094ff0de9bfdb5f35cb389f4a8476cb8097b71",
+        "checkout_sha256": "d1ab3d845a074812c5f15520604d34e3617eb1e6f1d575e56cae3ec0c84c17b0",
+        "checkout_preserves_bytes": false
+      },
+      {
+        "path": "output/pdf/demo_mepia_20261014/02_compra_demo_2026-10-14.xml",
+        "working_sha256": "1d9a61faf1d0b3d6cf1de95acb87bf6dffc354bf520a265c279e089d77fc85d2",
+        "checkout_sha256": "e81b26ffecfea62c8cf7ff265265ae38564c6474a703067c262e913b7b16f850",
+        "checkout_preserves_bytes": false
+      },
+      {
+        "path": "output/pdf/demo_mepia_20261014/03_compra_demo_REFERENCIA_NO_SUBIR.pdf",
+        "working_sha256": "b469bff6bda38504fdbf367b552c7f1a770c31c03758fbd0cb7243581d6ceca4",
+        "checkout_sha256": "32763156ad5337135d04d0027d3935e5c06c442fbc51d1d25f416ce48d07249f",
+        "checkout_preserves_bytes": false
+      }
+    ],
+    "after": {
+      "artifacts": 4,
+      "byte_comparisons_passed": 8,
+      "unchanged_sources": 4,
+      "pdf_read_checks": 2,
+      "xml_read_checks": 1,
+      "oracle_read_checks": 1,
+      "files": [
+        {
+          "path": "output/pdf/demo_mepia_20261014/01_ventas_demo_2026-10-14.pdf",
+          "sha256": "47762f8fccfe912f8dad586fda094ff0de9bfdb5f35cb389f4a8476cb8097b71",
+          "staged_matches": true,
+          "checkout_matches": true,
+          "source_unchanged": true
+        },
+        {
+          "path": "output/pdf/demo_mepia_20261014/02_compra_demo_2026-10-14.xml",
+          "sha256": "1d9a61faf1d0b3d6cf1de95acb87bf6dffc354bf520a265c279e089d77fc85d2",
+          "staged_matches": true,
+          "checkout_matches": true,
+          "source_unchanged": true
+        },
+        {
+          "path": "output/pdf/demo_mepia_20261014/03_compra_demo_REFERENCIA_NO_SUBIR.pdf",
+          "sha256": "b469bff6bda38504fdbf367b552c7f1a770c31c03758fbd0cb7243581d6ceca4",
+          "staged_matches": true,
+          "checkout_matches": true,
+          "source_unchanged": true
+        },
+        {
+          "path": "output/pdf/demo_mepia_20261014/resultados_esperados.json",
+          "sha256": "2b7e186fff5d482e884be3c72b762ab05ccd87f47797453ceda195af783f66c4",
+          "staged_matches": true,
+          "checkout_matches": true,
+          "source_unchanged": true
+        }
+      ],
+      "model_calls": 0,
+      "database_writes": 0
+    },
+    "initial_staged_diff_check_exit": 2,
+    "final_staged_diff_check_exit": 0,
+    "first_byte_comparison_failed_on_cached_normalized_oracle": true,
+    "git_index_reprocessed": true,
+    "files": [
+      ".gitattributes",
+      ".kiro/specs/mepia/requirements.md",
+      "docs/demo_video_paso_a_paso.md"
+    ]
+  }
+}

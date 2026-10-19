@@ -1,42 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import { authenticatedFetch } from "@/utils/authenticated-fetch";
-import BrandIdentityStep, { type BrandIdentityData } from "./BrandIdentityStep";
-import AuditTolerancesStep, { type AuditTolerancesData } from "./AuditTolerancesStep";
-import CostStructureStep, { type CostStructureItem } from "./CostStructureStep";
-import AuditRulesStep, { type AuditRulesData } from "./AuditRulesStep";
-
-// Full payload shape — mirrors OnboardingIdentityPayload from _glossary.md
-interface FormData {
-  brand_identity: BrandIdentityData;
-  audit_tolerances: AuditTolerancesData;
-  expected_cost_structure: CostStructureItem[];
-  audit_rules: AuditRulesData;
-}
-
-const DEFAULT_FORM_DATA: FormData = {
-  brand_identity: {
-    brand_voice: "",
-    prohibited_recommendations: [],
-    priority_focus: "efficiency",
-  },
-  audit_tolerances: {
-    max_cash_discrepancy_pct: 0.02,
-    max_cash_discrepancy_abs: 150,
-    margin_warning_threshold: 0.15,
-    margin_critical_threshold: 0.08,
-    cost_spike_threshold_pct: 0.10,
-  },
-  expected_cost_structure: [],
-  audit_rules: {
-    red_alert_triggers: [],
-    ignored_anomaly_types: [],
-    audit_frequency: "daily",
-  },
-};
+import BrandIdentityStep from "./BrandIdentityStep";
+import AuditTolerancesStep from "./AuditTolerancesStep";
+import CostStructureStep from "./CostStructureStep";
+import AuditRulesStep from "./AuditRulesStep";
+import { DEFAULT_ONBOARDING_DATA, type OnboardingFormData } from "./defaults";
 
 const STEPS = [
   { id: 1, label: "1. Identidad" },
@@ -49,9 +21,47 @@ export default function OnboardingForm() {
   const router = useRouter();
   const { business } = useMepiaAuth();
   const [activeStep, setActiveStep] = useState(1);
-  const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
+  const [formData, setFormData] = useState<OnboardingFormData>(DEFAULT_ONBOARDING_DATA);
+  const [isLoadingSettings, setIsLoadingSettings] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!business) {
+      setFormData(DEFAULT_ONBOARDING_DATA);
+      setLoadError(null);
+      setIsLoadingSettings(false);
+      return;
+    }
+
+    const abort = new AbortController();
+    setIsLoadingSettings(true);
+    setLoadError(null);
+    setFormData(DEFAULT_ONBOARDING_DATA);
+
+    authenticatedFetch(
+      `/api/onboarding?business_id=${encodeURIComponent(business)}`,
+      { signal: abort.signal }
+    )
+      .then(async (response) => {
+        if (!response.ok) throw new Error("No se pudo cargar la configuración guardada.");
+        const data = await response.json();
+        if (!abort.signal.aborted && data.settings) {
+          setFormData(data.settings as OnboardingFormData);
+        }
+      })
+      .catch((error: unknown) => {
+        if (!abort.signal.aborted) {
+          setLoadError(error instanceof Error ? error.message : "Error al cargar la configuración.");
+        }
+      })
+      .finally(() => {
+        if (!abort.signal.aborted) setIsLoadingSettings(false);
+      });
+
+    return () => abort.abort();
+  }, [business]);
 
   function handleNext() {
     if (activeStep < 4) setActiveStep((s) => s + 1);
@@ -70,11 +80,11 @@ export default function OnboardingForm() {
 
     // Mapear campos del formulario al contrato del backend:
     //   amount_per_month  → expected_monthly_amount
-    //   tolerance_pct     → decimal (el usuario ingresa 10 = 10%, backend espera 0.10)
+    //   tolerance_pct     → siempre porcentaje visible: 0.5 = 0.5% → 0.005
     const mappedCostStructure = formData.expected_cost_structure.map((item) => ({
       concept: item.concept,
       expected_monthly_amount: item.amount_per_month,
-      tolerance_pct: item.tolerance_pct > 1 ? item.tolerance_pct / 100 : item.tolerance_pct,
+      tolerance_pct: item.tolerance_pct / 100,
       expense_behavior: item.expense_behavior,
     }));
 
@@ -159,10 +169,22 @@ export default function OnboardingForm() {
     }
   }
 
+  if (!business) {
+    return <p className="text-sm text-muted">Selecciona un negocio para personalizar sus ajustes.</p>;
+  }
+
+  if (isLoadingSettings) {
+    return <p className="text-sm text-muted">Cargando ajustes guardados…</p>;
+  }
+
+  if (loadError) {
+    return <p className="text-sm text-critical" role="alert">{loadError}</p>;
+  }
+
   return (
     <div className="glass-strong rounded-2xl">
       {/* Progress indicator */}
-      <div className="flex items-center gap-0 border-b border-white/10 px-panel py-4">
+      <div data-tour="advanced-config-tabs" className="flex items-center gap-0 border-b border-white/10 px-panel py-4">
         {STEPS.map((step) => {
           const isActive = step.id === activeStep;
           return (
@@ -182,7 +204,7 @@ export default function OnboardingForm() {
       </div>
 
       {/* Step content */}
-      <div className="px-panel py-8 min-h-[280px]">
+      <div data-tour="advanced-config-fields" className="px-panel py-8 min-h-[280px]">
         {renderStep(activeStep)}
       </div>
 

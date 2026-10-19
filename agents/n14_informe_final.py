@@ -43,6 +43,13 @@ class FinalResponse(BaseModel):
     metadata: dict
 
 
+class N14PersistenceError(RuntimeError):
+    """Fallo de guardado saneado; nunca incluye el mensaje del proveedor."""
+
+    def __init__(self):
+        super().__init__("No fue posible guardar el informe final. Intenta de nuevo.")
+
+
 # ---------------------------------------------------------------------------
 # Nodo del grafo LangGraph
 # ---------------------------------------------------------------------------
@@ -106,6 +113,8 @@ def n14_informe_final_node(state: Layer3State) -> dict:
 
     # Persistir en audit_results (P5: layer3_status="completed" solo tras persistencia exitosa)
     persist_ok = _persist_n14(db, final_report, layer3_run_id)
+    if not persist_ok:
+        raise N14PersistenceError()
 
     # Construir FinalResponse para el frontend
     final_response = FinalResponse(
@@ -121,6 +130,7 @@ def n14_informe_final_node(state: Layer3State) -> dict:
     return {
         "final_response": final_response.model_dump(mode="json"),
         "draft_status": draft_status,
+        "layer3_status": "completed",
     }
 
 

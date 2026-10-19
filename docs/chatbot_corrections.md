@@ -1,5 +1,143 @@
 # Bitácora oficial del chatbot de MEPIA
 
+**Quincena 5 — preparación del 19-oct-2026:** versión reunida en
+`codex/quincena-5`, desde `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`.
+Incluye configuración automática, conexión unificada, controles de persistencia,
+correcciones del Dashboard y documentos de demostración; INC-044–053 conservan
+su estado registrado. INC-054 resuelta: los cuatro artefactos conservan sus
+bytes al clonar en Windows; 8/8 comparaciones y cuatro lecturas aprobadas.
+Estado actual: 54 incidencias, 51 resueltas, dos mitigadas y una pendiente externa.
+Regresión actual: **226 pruebas y 41 subpruebas**, dos
+advertencias, 36.57 s, código 0. Fechas 11/11, presentación 16/16 y tipos código 0.
+Los 23 controles Edge del 15-oct se conservan como evidencia previa, sin repetirlos.
+Revisión de credenciales y documentos aprobada; cambios aún sin commit ni push
+en este registro preparatorio. El ensayo real del 14-oct, revisión humana N15,
+tutorial guiado, adaptación móvil completa y controles de producción siguen
+pendientes. Esta publicación de código no aplica cambios en Supabase ni despliega.
+[Publicación y evidencia](quincena5_publicacion_20261019.md).
+
+**Correcciones del ensayo — 15-oct-2026:** INC-051/052/053 resueltas
+localmente. Fecha inferida desde ventas o selección compatible; selección del
+análisis conservada en el menú para la misma sesión/negocio; N05 guarda el
+resultado completo. Históricos recuperados solo por su S3 explícito compatible,
+con estado S2 desconocido cuando no se conservó. Regresión: **226 pruebas y
+41 subpruebas**, dos advertencias, 58.42 s, código 0. Edge: **23/23 controles**,
+cero errores; fechas 11/11 y presentación 16/16; tipos código 0.
+Lectura principal por API local: HTTP 200, cuatro métricas recuperadas de la
+corrida de enero; cero escrituras externas y cero llamadas del agente a modelos.
+Servidor local actualizado. **53 incidencias: 50 resueltas, dos mitigadas,
+una pendiente externa y cero abiertas.** Ensayo real del 14-oct y revisión humana
+del Paso 5 siguen pendientes. Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+sin commit/push ni despliegue. Sigue ejecutar una vez el ensayo con fecha 14-oct.
+[Archivos, evidencia y límites](dashboard_demo_fix_20261015.md).
+
+**Diagnóstico inicial anterior a la corrección — 15-oct-2026:** los documentos se registraron para
+14-oct-2026, pero las capturas corresponden a una corrida del 15-ene-2024.
+INC-051 abierta: fecha antigua prellenada prevalece sobre la de los archivos.
+INC-052 abierta: volver al Dashboard desde el menú pierde la selección visual
+del análisis, conservado en la base. INC-053 abierta: N05 guarda insights pero
+omite resultados completos/listas; GET local devuelve cuatro insights y listas
+vacías. Lectura principal y HTTP 200 verificados, cero escrituras externas y
+cero llamadas del agente a modelos. Sin cambios de producto ni repetición de
+suites/build/E2E. **53 incidencias: 47 resueltas, dos mitigadas, una pendiente
+externa y tres abiertas.** El ensayo del 14-oct sigue sin aprobar.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+documentación sin commit/push. Sigue corregir 051/052/053 y verificar el ensayo
+con fecha correcta. [Diagnóstico y límites](dashboard_demo_diagnosis_20261015.md).
+
+**Preparación del video anterior a este diagnóstico — 15-oct-2026:** INC-048/049/050 resueltas localmente:
+N14 entrega respuesta solo tras guardar; el seguimiento avanzado resuelve el ID
+de Layer 2 al ID real de Layer 3 y muestra el fallo de persistencia. Registro de
+errores limitado a 128/30 minutos en un proceso; no sustituye estados durables.
+Dashboard acepta decimales textuales del motor sin ocultar cero: 16/16
+controles de presentación y TypeScript código 0.
+Regresión: **208 aprobadas y 41 subpruebas**, dos advertencias, 9.93 s, código 0;
+dos controles HTTP aislados aprobados, 8 deseleccionados, dos advertencias,
+4.21 s. PDF/XML ficticios del 14-oct preparados, renderizados y leídos por los
+parsers reales; motor S3 y grounding con DB simulada: conciliación **0.00 MXN**.
+OpenAI configurado en privado, Claude vacío con respaldo OpenAI comprobado por
+simulación; Gemini configurado. Cero llamadas del agente a modelos en esta tarea.
+Con autorización expresa se añadió un conteo ficticio de caja, verificado una
+sola vez por lectura; sin sobrescribir registros. Ensayo real de IA pendiente.
+**50 incidencias: 47 resueltas, dos mitigadas (023/031), una pendiente externa
+(041), cero abiertas.** Preparación local no equivale a ensayo real aprobado.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+sin commit/push ni despliegue. [Pasos para el ensayo](demo_video_paso_a_paso.md)
+y [evidencia](evaluations/demo_preparation_20261015.json).
+
+**Unificación operativa anterior a esta preparación — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal con claves modernas; cuenta y propietario verificados.
+009/010 y 011 aplicadas con autorización: 18 tablas/175 columnas, 658 referencias
+estáticas sin faltantes. Se conservan las 58 auditorías, 21 documentos y demás
+conteos previos; huellas anteriores de auditorías/negocio coinciden.
+Regresión: 178 pruebas y 41 subpruebas aprobadas, dos advertencias, 12.67 s,
+código 0. SQL real: 9/9 contratos y 4/4 controles de aislamiento aprobados;
+escrituras del ensayo revertidas. Usuario confirmó login, negocio, Documentos
+y Chat IA, también después del retiro de claves antiguas.
+INC-046 resuelta en su alcance de esquema/conexión. INC-047 resuelta tras
+desactivar API keys heredadas y revocar la firma anterior HS256: ambos usos
+del token antiguo reciben 401; ECC/ES256 y claves modernas siguen funcionando.
+**48 incidencias: 44 resueltas, dos mitigadas (023/031), una pendiente externa
+(041) y una abierta (048).** INC-048 y el ensayo de análisis nuevo siguen
+pendientes; OpenAI/Anthropic vacías. El chat recuperó cuatro métricas existentes,
+sin N14 enlazado y sin llamadas a modelos. No se infiere linaje histórico.
+Rama `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+cambios **sin commit/push**. Principal sí recibió los cambios autorizados;
+no se publicó una web. PRUEBAS se conserva, sin copiar sus fixtures.
+[Evidencia, archivos y límites](database_unification.md).
+
+Los registros fechados siguientes conservan su alcance histórico. Los Pasos
+1–4 aceptados y la evaluación funcional/humana pendiente del Paso 5 se conservan.
+
+**Sincronización documental anterior a la verificación operativa — 15-oct-2026:** revisión de README,
+reportes vivos y especificaciones, con 25 archivos actualizados/creados; rutas
+completas en el [índice documental](actualizacion_documental_20261015.md).
+Se incorpora el cambio registrado de conexión hacia principal, el inventario
+posterior, la RPC POS y sus límites sin atribuir a este trabajo su ejecución.
+INC-014 actualizada/resuelta para el corte; INC-046 actualizada y abierta;
+INC-048 nueva, reproducida localmente y abierta, en categoría C.
+Verificaciones y resultados exactos en la
+[auditoría documental](evaluations/documentation_sync_audit_20261015.json).
+El diagnóstico N14 de dos invocaciones simuladas terminó con código 0 porque
+reproduce el defecto; no aprueba el guardado. No se repiten suite general,
+build ni modelos. Siguiente acción de producto: atender INC-048 y completar
+las verificaciones de entorno/recorrido de INC-046; revisión humana del Paso 5,
+commit, push y producción conservan sus acciones separadas.
+
+**Configuración automática integrada — 15-oct-2026:** INC-044/045 resueltas
+localmente: tolerancias conservadas al guardar y GET/POST/PUT con sesión y
+propiedad verificadas. Documentos abre sin formulario obligatorio, aplica
+valores iniciales si faltan y conserva ajustes previos, sin inventar gastos.
+Regresión: 151 pruebas/41 subpruebas, dos advertencias, 9.54 s, código 0;
+Edge N10 14/14 y general 25/25, cero errores; helper 3/3 y build/tipos código 0.
+MEPIA - PRUEBAS: tres consultas de esquema `limit 0`, cero filas/escrituras;
+cero llamadas nuevas del agente a modelos. Usuario confirma que Documentos y
+ajustes avanzados abren sin error. Rama `codex/chatbot-q4`, HEAD `f9cfddc`,
+sin commit/push; producción sin cambios. 45 incidencias: 42 resueltas, dos
+mitigadas, una pendiente externa (041), cero abiertas.
+[Archivos, evidencia y límites](onboarding_defaults_integration.md).
+El usuario grabará desde otra computadora con archivos nuevos: falta configurar
+las claves del motor (OpenAI/Anthropic vacías aquí) y ensayar el servidor completo.
+[Guía de instalación y ensayo](mepia_setup_video.md). Pasos 1–4 aceptados y
+pendientes funcionales/humanos del Paso 5 conservados.
+
+**Revisión histórica de candidata N10 — 15-oct-2026, antes de integrar:** el usuario pidió
+revisar la entrega del equipo con configuración automática. Comparada con
+`codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`;
+la carpeta entregada no tiene `.git`. 13 controles completados: 11 aprobados y
+dos defectos, código 1; Edge sin errores, TypeScript de la candidata código 0.
+INC-044: tolerancia 0.5% pasa a 50% al guardar sin editar. INC-045: cuenta válida
+consulta ajustes de otro negocio. Ambas abiertas exclusivamente en la candidata;
+el acceso anónimo Next sí se rechaza. Producto y 705 archivos originales
+conservados; sin modificación de código de producto, integración, commit/push,
+Supabase/IA reales o producción. Archivos de esta revisión: esta bitácora,
+incidencias, diseño maestro, estado actual, spec N10 e informe Markdown/JSON.
+45 incidencias: 40 resueltas, dos mitigadas, una pendiente externa y dos abiertas
+en la candidata. Siguiente acción de esta mejora: corregir 044/045 y sincronizar
+sus contratos/pruebas antes de aprobar integración. Pasos 1–4 aceptados y demás
+pendientes del Paso 5 conservados; no se atribuye su aprobación a esta revisión.
+[Revisión y evidencia](onboarding_candidate_review_20261015.md).
+
 **Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
 inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
 `49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
@@ -3086,6 +3224,15 @@ se agrega `final_report_not_found`.
 - No se consultó, desplegó ni modificó producción.
 
 ## C. Mejoras de robustez y validación
+
+**Hallazgo nuevo — 15-oct-2026, INC-20261015-048 abierta:** diagnóstico local
+de N14 con base simulada reproduce que un fallo de persistencia no se propaga
+en la respuesta. Control y fallo intentan guardar una vez; ambos devuelven el
+estado del borrador `approved`, sin `layer3_status` ni error. Código 0 del
+diagnóstico confirma reproducción, no aprobación del contrato. Se actualizan
+la spec y las incidencias, sin cambiar producto. Corregir/probar la propagación
+queda pendiente; no reabre los Pasos 1–4 ni mezcla esta robustez con INC-046
+de preparación de entorno. [Evidencia](evaluations/documentation_n14_contract_diagnostic_20261015.json).
 
 Mejoras separadas del cierre funcional inmediato:
 

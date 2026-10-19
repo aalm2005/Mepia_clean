@@ -1,5 +1,22 @@
 # Paso 5 — Integración local del chatbot
 
+**Preparación posterior del video:** INC-048/049 resueltas localmente;
+conciliación de demo recuperada desde S3 en prueba simulada, sin modelos reales.
+Ver [guía de ensayo](demo_video_paso_a_paso.md). Los registros siguientes conservan
+su fecha y alcance.
+
+**Corte operativo — 15-oct-2026:** el chat recupera resultados S3/N14 desde
+`audit_results`, no desde otra base ni directamente de los documentos crudos.
+El servidor completo incluye chat y motor; el perfil reducido permite consultar
+resultados ya guardados sin ejecutar el motor. Ambos necesitan el mismo destino,
+negocio autorizado y linaje. Los archivos privados de conexión ya apuntan a principal;
+[unificación](database_unification.md) verificada para conexión/esquema,
+INC-046 resuelta; servidor completo activo y login confirmado por el usuario. Los ejemplos de PRUEBAS que siguen documentan ese acceso
+anterior; para el destino actual usar URL/claves/algoritmo/cuenta de principal.
+[Contrato de datos](../.kiro/specs/mepia/n15_chat_consulta_datos.md).
+Los cierres/pruebas fechados siguientes conservan su alcance original;
+la regresión de N10 del 15-oct no es una evaluación nueva del motor ni de Gemini.
+
 **Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
 inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
 `49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
@@ -167,7 +184,11 @@ destino. La contraseña la introduce el usuario. La cuenta ya existente se reuti
 al migrar las cookies anteriores al almacenamiento por pestaña hay que
 iniciar sesión una vez en el nuevo flujo. El perfil
 `api.chat_app` reutiliza los permisos existentes, valida configuración en
-lifespan, no exige claves del pipeline y solo registra rutas de Chat IA/listado.
+lifespan y no exige claves del pipeline. Desde la integración N10 del
+15-oct también registra sus ajustes protegidos, además de Chat IA/listado.
+No publica ingesta ni análisis: para documentos nuevos usar `api.main:app`,
+configuración completa y ensayo real. [Guía para otra computadora](mepia_setup_video.md).
+INC-044/045 resueltas localmente; [evidencia](onboarding_defaults_integration.md).
 Los servidores actuales se conservan activos para el acceso local. Al cerrar
 los procesos deberá iniciarlos otra vez; no hay despliegue ni exposición pública.
 

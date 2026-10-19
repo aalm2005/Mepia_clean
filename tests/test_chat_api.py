@@ -341,6 +341,33 @@ def test_actual_main_registers_chat_and_validates_startup_before_db(monkeypatch)
         asyncio.run(main.startup_event())
 
 
+@pytest.mark.parametrize("kind,expected", [("conflict",409),("unavailable",503)])
+def test_actual_ingest_reports_daily_total_failure_without_private_details(monkeypatch,kind,expected):
+    import asyncio
+    import sys
+    from unittest.mock import MagicMock
+    config = SimpleNamespace(settings=SimpleNamespace(
+        SUPABASE_URL=URL,SUPABASE_SERVICE_ROLE_KEY="synthetic-service-key",
+        SUPABASE_JWT_ALGORITHM="ES256",SUPABASE_JWT_SECRET=SimpleNamespace(get_secret_value=lambda:""),
+        CHAT_GEMINI_API_KEY=SimpleNamespace(get_secret_value=lambda:""),CHAT_MODEL="synthetic",
+        ENVIRONMENT="dev",OPENAI_API_KEY="",ANTHROPIC_API_KEY=""))
+    monkeypatch.setitem(sys.modules,"core.config",config)
+    from api import main
+    from agents.api_ingest import APIIngestPayload,ValidationResult,POSPersistenceError
+    db=MagicMock();q=db.table.return_value
+    q.select.return_value=q;q.eq.return_value=q;q.execute.return_value=SimpleNamespace(data=[])
+    monkeypatch.setattr(main,"get_supabase",lambda:db)
+    monkeypatch.setattr(main,"validate_payload",lambda *_:ValidationResult())
+    def fail(*_):raise POSPersistenceError(kind)
+    monkeypatch.setattr(main,"persist_ingestion",fail)
+    payload=APIIngestPayload(business_id=BIZ_A,date="2026-10-15",sucursal_id="check",
+        tickets=[],payments=[],shift_audit=[],inventory=[])
+    with pytest.raises(HTTPException) as caught:
+        asyncio.run(main.ingest_api_event(payload))
+    assert caught.value.status_code==expected
+    assert kind not in caught.value.detail
+
+
 def test_missing_configuration_closed_and_no_empty_conversation_leak():
     with pytest.raises(RuntimeError):
         AuthService(URL, "").validate_configuration()

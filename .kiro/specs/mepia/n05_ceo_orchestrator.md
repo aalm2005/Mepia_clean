@@ -1,5 +1,13 @@
 # N05 — CEO Orchestrator (Motor de Síntesis Estratégica)
 
+**Corrección INC-053 — 15-oct-2026:** N05 guarda el resultado completo que
+devuelve, incluidos cálculos decimales, estado S2 y `source_s3_result_id`.
+La lectura de corridas antiguas recupera cálculos solo desde ese S3 explícito,
+del mismo negocio/fecha y con estado exitoso; sin buscar por cercanía temporal.
+El estado S2 histórico ausente queda desconocido; no se reconstruye desde el
+estado actual ni se afirma activación total. Si falla guardar N05, la petición
+termina en 503 con mensaje fijo, sin publicar un éxito recuperable inexistente.
+
 **Capa:** CEO Layer | **Anterior:** S4 Forensic CFO | **Siguiente:** N06 Orquestador ADK (Layer 2)
 **Archivo de implementación:** `agents/ceo_orchestrator.py`
 **Enfoque:** API-First / Headless — stateless, sin dependencias de UI
@@ -120,6 +128,8 @@ class OrchestratorRunPayload(BaseModel):
   "dormant_metrics": [
     { "metric": "inventory_variance", "missing": ["recipes"] }
   ],
+  "blocked_metrics": [],
+  "metric_status_available": true,
   "completed_at": "2024-01-15T22:10:00Z"
 }
 ```
@@ -133,6 +143,7 @@ class OrchestratorRunPayload(BaseModel):
 | 422  | `archetype` inválido |
 | 422  | `date` en el futuro |
 | 503  | Fallo interno en S3 o S4 — incluye detalle del nodo que falló |
+| 503  | No se pudo guardar N05; mensaje saneado, sin detalles del proveedor |
 
 ---
 

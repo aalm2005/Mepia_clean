@@ -38,7 +38,7 @@ export interface AuditInsight {
 
 export interface CalcResult {
   metric: string;
-  value: number | null;
+  value: number | string | null;
   unit: string;
   status: "ok" | "warning" | "critical" | "incomplete_data" | "unit_mismatch";
   context: string;
@@ -62,6 +62,8 @@ export interface OrchestratorResult {
     layer2_run_id: string | null;
   };
   dormant_metrics: Array<{ metric: string; missing: string[] }>;
+  blocked_metrics?: Array<{ metric: string; reason: string }>;
+  metric_status_available?: boolean;
   completed_at: string;
 }
 

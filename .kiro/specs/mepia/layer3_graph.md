@@ -1,5 +1,12 @@
 # Layer 3 — Orquestador del StateGraph (layer3_graph.py)
 
+**Actualización del ensayo — 15-oct-2026:** INC-048/049 resueltas localmente:
+guardado terminal N14 y seguimiento por padre con error saneado. 208 pruebas y
+41 subpruebas aprobadas, dos advertencias, código 0; proveedores/DB simulados.
+OpenAI configurado, Claude opcional mediante respaldo ya existente.
+Ver [ejecución y límites](layer3_execution.md) y
+[ensayo real pendiente](../../../docs/demo_video_paso_a_paso.md).
+
 **Capa:** Layer 3 | **Disparado por:** `POST /api/audit/layer3/run`
 **Archivo de implementación:** `agents/layer3_graph.py`
 **Tecnología:** LangGraph `StateGraph`

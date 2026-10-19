@@ -1,5 +1,27 @@
 # N15 — Chat de consulta fundamentada
 
+**Continuidad de la demostración — 15-oct-2026:** correcciones de fecha y
+Dashboard 051/052/053 pertenecen a integración, sin cambiar herramientas,
+permisos ni prohibición de cálculo del chat. El menú conserva el análisis al
+volver de Chat IA, dentro de la misma sesión y negocio. La fecha consultada
+en el chat se elige para el mismo día de la auditoría. Ensayo real del 14-oct
+continúa pendiente; no se reabren Pasos 1–4 ni se recalifica evidencia anterior.
+
+**Actualización del ensayo — 15-oct-2026:** INC-048/049 resueltas localmente:
+guardado terminal N14 y seguimiento por padre con error saneado. 208 pruebas y
+41 subpruebas aprobadas, dos advertencias, código 0; proveedores/DB simulados.
+OpenAI configurado, Claude opcional mediante respaldo ya existente.
+Ver [ejecución y límites](layer3_execution.md) y
+[ensayo real pendiente](../../../docs/demo_video_paso_a_paso.md).
+
+**Entorno verificado — 15-oct-2026:** interfaz y servidor completo usan
+MEPIA principal; 009/010/011 aplicadas con autorización y datos preservados.
+Regresión 178/41 subpruebas, código 0; SQL real 13/13 controles. Usuario confirmó
+login y pantallas antes/después del retiro de claves heredadas y firma HS256.
+INC-046/047 resueltas en su alcance; INC-048 y ensayo de análisis nuevo pendientes.
+Las evaluaciones anteriores conservan su entorno original.
+[Ejecución, archivos y límites](../../../docs/database_unification.md).
+
 **Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
 inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
 `49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto
@@ -120,7 +142,7 @@ para mostrar resultados; no sustituye autorización del backend legado.
 INC-034/035/036/037 resueltas. Directorio entregado y 391 evidencias anteriores
 intactos. Modelo real/producción separados; evidencia en la bitácora y reporte
 `docs/evaluations/chatbot_step5_frontend_merge_20261014.json`.
-**Archivos relacionados:** `_glossary.md`, `db_schema.md`,
+**Archivos relacionados:** [datos del motor y bases](n15_chat_consulta_datos.md), `_glossary.md`, `db_schema.md`,
 `n15_chat_consulta_tools.md`, `n15_chat_consulta_catalogo.md`,
 `agents/chat_grounding.py`,
 `agents/chat_tools.py`,
@@ -149,10 +171,16 @@ Edge/Chrome, login registrado en Auth y listado Next 200,
 sin llamadas reales al modelo ni producción. Registro/invitación de futuros
 clientes en la interfaz es trabajo posterior; propiedad permite cuentas aisladas.
 
-Perfil exclusivo `api.chat_app:create_app --factory`: reutiliza el router N15,
+Perfil `api.chat_app:create_app --factory`: reutiliza el router N15,
 exige configuración Supabase propia y valida auth/service key al iniciar.
-Solo expone listado, consulta e historial de Chat IA; no registra rutas del
-pipeline ni exige sus claves. Lee `api/.env` y `.env`; ES256 debe seleccionarse
+Expone listado, consulta e historial de Chat IA. Desde el 15-oct también registra
+GET/POST/PUT de configuración N10 con JWT y propiedad verificadas; guardar
+ajustes es una operación separada, el chat sigue siendo de solo lectura.
+No incluye ingesta/análisis ni exige sus claves. N10 validado: regresión 151/41
+subpruebas, Edge 14/14 y general 25/25, build código 0; INC-044/045 resueltas,
+sin commit/push. [Alcance](../../../docs/onboarding_defaults_integration.md).
+Para archivos nuevos hace falta `api.main:app` y claves del motor; el ensayo
+integral en la computadora de grabación sigue pendiente. Lee `api/.env` y `.env`; ES256 debe seleccionarse
 expresamente para el proyecto de pruebas. Sin clave de chat, consulta devuelve
 503; login/listado siguen disponibles. Interfaz local en `127.0.0.1:3016/chat`
 y API en `127.0.0.1:8016`, configuradas con claves privadas fuera de Git.
@@ -309,7 +337,7 @@ integración, tiempo y costo antes de adoptar la nueva configuración.
 
 ## Discrepancias conocidas
 
-- Chat IA y listado de negocios tienen autenticación/permisos; endpoints
+- Chat IA, listado y configuración N10 tienen autenticación/permisos; otros endpoints
   legados del pipeline aún requieren protección antes de publicar toda la API.
 - `MemoryService.get_context()` no aporta IDs de fuente y no se usa en N15.
 - Las migraciones `008`, `009` y `010` no se han desplegado en producción.

@@ -12,11 +12,34 @@ El [estado actual](../../../docs/estado_actual_mepia.md) separa código, pruebas
 | Archivo | Contenido | Estado |
 |---------|-----------|--------|
 | `tasks_phase1.md` | Design system + componentes base + rutas de onboarding | ✅ Completo |
-| `tasks_phase2.md` | Ruta `/upload`: gate, selector, dropzones, review, form | ✅ Completo |
+| `tasks_phase2.md` | Ruta `/upload`: defaults automáticos, selector, dropzones, revisión y formulario; gate retirado | Implementado; ensayo integral con archivos nuevos pendiente |
 | `tasks_phase3.md` | Ruta `/dashboard` + API routes + integración end-to-end | ✅ Completo |
 | `tasks_backend.md` | S1→S2→S3→S4→N05→N06→N09→Layer3→PBT | Implementado en desarrollo; publicación y validación integral separadas |
 | `n15_chat_consulta.md` | Chat Pasos 1–5 | 1–4 aceptados; integración implementada, validación funcional del Paso 5 pendiente |
 | `design.md` | Experiencia general | Tutorial guiado pendiente; adaptación móvil parcial; simplificación del selector pendiente |
+
+## Integración de entorno — 15-oct-2026
+
+- [x] Registrar inventario posterior de principal y contraste estático sin tablas/columnas faltantes.
+- [x] Registrar configuración privada de interfaz/backend hacia principal con respaldo previo.
+- [x] INC-046: esquema, RPC, políticas y preservación verificados en principal.
+- [x] Procesos completos, login y aislamiento verificados en principal.
+- [x] INC-047: claves API antiguas desactivadas y firma anterior revocada con autorización; rechazo 401 y conexión moderna verificados.
+- [x] Recuperar evidencia S3 existente: cuatro métricas; sin N14 enlazado.
+- [ ] Ensayar análisis nuevo persistido y consulta posterior del chat en ese destino.
+- [ ] Ensayar documentos del 14-oct con los proveedores configurados para la grabación.
+- [x] INC-048: fallo de guardado N14 propagado y completado solo tras guardar.
+- [x] INC-049: seguimiento por ID padre y ruta real corregidos; HTTP probado.
+- [x] INC-050: presentación admite decimales textuales del motor; 16/16 controles y tipos código 0.
+- [x] PDF/XML de demo y oráculo de conciliación local preparados.
+- [x] Conteo ficticio autorizado, insertado una vez y verificado por lectura.
+- [x] INC-051: fecha coherente con ventas y validación de discrepancias.
+- [x] INC-052: menú conserva corrida dentro de sesión/negocio.
+- [x] INC-053: resultado completo persistido y recuperación histórica por S3 explícito.
+- [ ] Completar ensayo real del 14-oct con documentos, OpenAI y Gemini.
+
+La conexión por `audit_results` ya está implementada; estos controles no
+reabren los Pasos 1–4 aceptados. [Detalle](../../../docs/database_unification.md).
 
 ## Archivos de diseño de referencia
 

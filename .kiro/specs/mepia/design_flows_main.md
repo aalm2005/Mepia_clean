@@ -17,14 +17,19 @@ sequenceDiagram
     participant DB as Supabase
 
     Note over U,FA: Login previo e identificación automática del negocio propio
-    Note over U,FA: OnboardingGate — al abrir /upload desde MEPIA
-    UP->>FA: GET /business/{id}/onboarding/status
+    Note over U,FA: Configuración avanzada opcional; /upload no se bloquea
+    UP->>API: GET /api/onboarding?business_id={id} con Bearer
+    API->>FA: GET /business/{id}/onboarding/status con Bearer
+    FA->>DB: Verificar owner_id antes de ajustes
     alt onboarding_complete: false
-        UP->>U: OnboardingRequiredBanner → /onboarding
-        U->>FA: POST /business/{id}/onboarding
-        FA-->>DB: Persiste en mepia_memory + business_fixed_costs
-        FA-->>U: HTTP 201 → redirige a /upload
+        UP->>API: POST /api/onboarding con defaults y Bearer
+        API->>FA: POST /business/{id}/onboarding con Bearer
+        FA->>DB: Verificar dueño y persistir business_onboarding + memoria pending_embed
+        Note over FA,DB: Sin costos inventados; lista inicial vacía
+        FA-->>API: HTTP 201; 409 conserva ajustes existentes
+        API-->>UP: La carga sigue visible
     end
+    U->>UP: Opcional: abrir /onboarding para personalizar los ajustes avanzados
 
     U->>UP: Selecciona arquetipo CEO (ArchetypeSelector)
     U->>UP: Selecciona PDF de POS + PDF/XML de factura

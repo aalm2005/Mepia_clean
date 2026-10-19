@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import { authenticatedFetch } from "@/utils/authenticated-fetch";
+import { resolveAuditDate } from "@/utils/audit-date";
+import Link from "next/link";
 import type { Archetype } from "../AuditTable";
+import { DEFAULT_ONBOARDING_DATA } from "../onboarding/defaults";
 import ArchetypeSelector from "./ArchetypeSelector";
 import DocumentDropzone from "./DocumentDropzone";
 import type { DropzoneStatus } from "./DocumentDropzone";
@@ -19,7 +22,7 @@ interface ReviewState {
 /** Maps HTTP status codes to user-facing Spanish error messages. */
 function getApiErrorMessage(status: number, body: unknown): string {
   if (status === 409) return "Faltan datos para iniciar el análisis.";
-  if (status === 412) return "Completa el onboarding antes de auditar.";
+  if (status === 412) return "No se pudo completar la configuración automática. Revisa los ajustes avanzados.";
   if (status === 503) return "El servicio no está disponible.";
   if (status === 422) {
     const detail = (body as { detail?: string } | null)?.detail;
@@ -46,12 +49,36 @@ async function uploadSingleFile(
   return { ok: res.ok, status: res.status, data };
 }
 
+async function saveDefaultOnboarding(business: string, signal?: AbortSignal): Promise<void> {
+  const payload = {
+    business_id: business,
+    ...DEFAULT_ONBOARDING_DATA,
+  };
+  const response = await authenticatedFetch("/api/onboarding", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    signal,
+  });
+
+  if (response.status === 409) return;
+
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    const detail = (body as { detail?: unknown; message?: unknown } | null)?.detail
+      ?? (body as { message?: unknown } | null)?.message;
+    const message = typeof detail === "string" ? detail : "No se pudo guardar la configuración predeterminada.";
+    throw new Error(message);
+  }
+}
+
 export default function UploadForm() {
   const router = useRouter();
-  const { business } = useMepiaAuth();
+  const { business, rememberAudit } = useMepiaAuth();
 
   const [archetype, setArchetype] = useState<Archetype>("Operative Genius");
-  const [auditDate, setAuditDate] = useState("2024-01-15");
+  const [auditDate, setAuditDate] = useState("");
+  const analyzing = useRef(false);
   const [posFiles, setPosFiles] = useState<File[]>([]);
   const [facturaFiles, setFacturaFiles] = useState<File[]>([]);
 
@@ -67,9 +94,37 @@ export default function UploadForm() {
   const [posErrorMessage, setPosErrorMessage] = useState<string | null>(null);
   const [facturaErrorMessage, setFacturaErrorMessage] = useState<string | null>(null);
   const [auditError, setAuditError] = useState<string | null>(null);
+  const [defaultsError, setDefaultsError] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  /** Tracks the most recent date from uploaded documents for the audit run */
-  const [latestUploadDate, setLatestUploadDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    setDefaultsError(null);
+    if (!business) return;
+
+    const abort = new AbortController();
+    authenticatedFetch(
+      `/api/onboarding?business_id=${encodeURIComponent(business)}`,
+      { signal: abort.signal }
+    )
+      .then(async (response) => {
+        if (!response.ok) throw new Error("No se pudo verificar la configuración del negocio.");
+        return response.json();
+      })
+      .then(async (data) => {
+        if (!abort.signal.aborted && data.onboarding_complete !== true) {
+          await saveDefaultOnboarding(business, abort.signal);
+        }
+      })
+      .catch((error: unknown) => {
+        if (!abort.signal.aborted) {
+          setDefaultsError(
+            error instanceof Error ? error.message : "No se pudieron guardar los valores predeterminados."
+          );
+        }
+      });
+
+    return () => abort.abort();
+  }, [business]);
 
   // ── Derived state ──────────────────────────────────────────────────────────
 
@@ -123,8 +178,9 @@ export default function UploadForm() {
     setProgress: (p: string) => void,
     setError: (e: string | null) => void,
     setReview: (r: ReviewState | null) => void,
-  ): Promise<boolean> {
-    if (files.length === 0) return true;
+  ): Promise<{ ok: boolean; dates: string[] }> {
+    const dates: string[] = [];
+    if (files.length === 0) return { ok: true, dates };
 
     setStatus("uploading");
     setError(null);
@@ -142,7 +198,7 @@ export default function UploadForm() {
           const msg = getApiErrorMessage(status, data);
           setError(`Error en ${files[i].name}: ${msg}`);
           setStatus("error");
-          return false;
+          return { ok: false, dates };
         }
 
         // Check for human review needed
@@ -165,7 +221,7 @@ export default function UploadForm() {
           const d = (r as Record<string, unknown>).date as string | undefined
             ?? ((r as Record<string, unknown>).extracted_fields as Record<string, unknown> | undefined)?.transaction_date as string | undefined;
           if (d && d !== "unknown" && d !== "null") {
-            setLatestUploadDate((prev) => (!prev || d > prev) ? d : prev);
+            dates.push(d);
           }
         }
 
@@ -173,7 +229,7 @@ export default function UploadForm() {
       } catch {
         setError(`Error inesperado en ${files[i].name}.`);
         setStatus("error");
-        return false;
+        return { ok: false, dates };
       }
     }
 
@@ -182,61 +238,79 @@ export default function UploadForm() {
       setStatus("needs_human_review" as DropzoneStatus);
       setReview(lastReview);
       setProgress(`${succeeded} / ${files.length} — revisión pendiente`);
-      return false;
+      return { ok: false, dates };
     }
 
     setStatus("done");
     setProgress(`${succeeded} archivos procesados`);
-    return true;
+    return { ok: true, dates };
   }
 
   // ── Main upload + audit flow ───────────────────────────────────────────────
 
   async function handleAnalyze() {
+    if (analyzing.current || !business) return;
+    analyzing.current = true;
+    setIsAnalyzing(true);
     setAuditError(null);
 
-    // Step 1: Upload all POS files
-    const posOk = await uploadBatch(
-      posFiles, "pos", setPosStatus, setPosProgress, setPosErrorMessage, setPosReview
-    );
-    if (!posOk) return;
-
-    // Step 2: Upload all Factura files
-    const facturaOk = await uploadBatch(
-      facturaFiles, "factura", setFacturaStatus, setFacturaProgress, setFacturaErrorMessage, setFacturaReview
-    );
-    if (!facturaOk) return;
-
-    // Step 3: Trigger audit
-    setIsAnalyzing(true);
-
     try {
-      const res = await authenticatedFetch("/api/audit", {
+      // Step 1: Upload all POS files
+      const pos = await uploadBatch(
+        posFiles, "pos", setPosStatus, setPosProgress, setPosErrorMessage, setPosReview
+      );
+      if (!pos.ok) return;
+
+      // Step 2: Upload all Factura files
+      const factura = await uploadBatch(
+        facturaFiles, "factura", setFacturaStatus, setFacturaProgress, setFacturaErrorMessage, setFacturaReview
+      );
+      if (!factura.ok) return;
+
+      // Step 3: Trigger audit
+      const resolvedDate = resolveAuditDate(auditDate, pos.dates, factura.dates);
+      setAuditDate(resolvedDate);
+
+      const auditRequest = () => authenticatedFetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           archetype,
           business_id: business,
-          date: auditDate || latestUploadDate || new Date().toISOString().split("T")[0],
+          date: resolvedDate,
         }),
       });
 
-      const body = await res.json().catch(() => null);
+      let res = await auditRequest();
+      if (res.status === 412) {
+        try {
+          await saveDefaultOnboarding(business);
+        } catch (error) {
+          setAuditError(
+            `No se pudo aplicar la configuración predeterminada: ${
+              error instanceof Error ? error.message : "intenta de nuevo."
+            }`
+          );
+          return;
+        }
+        res = await auditRequest();
+      }
 
+      const body = await res.json().catch(() => null);
       if (!res.ok) {
         const msg = getApiErrorMessage(res.status, body);
         setAuditError(msg);
-        if (res.status === 412) {
-          router.push("/onboarding");
-        }
         return;
       }
 
       const result = body as { run_id: string };
-      router.push(`/dashboard?run_id=${result.run_id}`);
-    } catch {
-      setAuditError("Error inesperado. Intenta de nuevo.");
+      if (!result?.run_id || typeof result.run_id !== "string") throw new Error("No se recibió el enlace del análisis.");
+      rememberAudit(result.run_id);
+      router.push(`/dashboard?run_id=${encodeURIComponent(result.run_id)}`);
+    } catch (error) {
+      setAuditError(error instanceof Error ? error.message : "Error inesperado. Intenta de nuevo.");
     } finally {
+      analyzing.current = false;
       setIsAnalyzing(false);
     }
   }
@@ -261,6 +335,20 @@ export default function UploadForm() {
         INGESTA — Subir Documentos de Auditoría
       </h1>
 
+      <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+        <p className="text-sm text-zinc-300">
+          Puedes subir documentos de inmediato: MEPIA aplicará valores predeterminados recomendados.
+          Los ajustes avanzados se pueden personalizar cuando lo necesites.
+        </p>
+        <Link
+          href="/onboarding"
+          data-tour="advanced-config-link"
+          className="mt-2 inline-block text-sm font-medium text-accent hover:opacity-80"
+        >
+          Personalizar configuración avanzada →
+        </Link>
+      </div>
+
       <div className="mb-6">
         <ArchetypeSelector value={archetype} onChange={setArchetype} />
       </div>
@@ -277,9 +365,11 @@ export default function UploadForm() {
           id="audit-date"
           type="date"
           value={auditDate}
+          disabled={isAnalyzing}
           onChange={(e) => setAuditDate(e.target.value)}
           className="glass-input px-3 py-1.5 text-sm text-zinc-200 font-mono"
         />
+        <p className="text-xs text-zinc-400">Si la dejas vacía, usaremos la fecha de tus documentos.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-6 mb-4">
@@ -343,6 +433,13 @@ export default function UploadForm() {
         >
           {auditError}
         </div>
+      )}
+
+      {defaultsError && (
+        <p className="mt-4 text-xs text-warning" role="status">
+          No se pudieron guardar los valores predeterminados. Puedes continuar con la carga y personalizar
+          los ajustes después. ({defaultsError})
+        </p>
       )}
 
       <button

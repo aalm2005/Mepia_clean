@@ -65,7 +65,7 @@ export default function BrandIdentityStep({ data, onChange }: Props) {
   }
 
   return (
-    <div className="space-y-6">
+    <div data-tour="advanced-config-brand" className="space-y-6">
       <h2 className="text-label text-muted uppercase tracking-widest">
         Paso 1 — Identidad de Marca
       </h2>
