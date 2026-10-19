@@ -2,7 +2,10 @@
 
 Fecha: 19 de octubre de 2026. Rama: `codex/quincena-5`.
 Base: `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09` (`codex/chatbot-q4`).
-Estado de este registro preparatorio: sin commit ni push todavía.
+Commit de contenido: `ebe6e470f4e6c5124d73e7be3877a54f58c22bd2`.
+Estado: publicado; push normal código 0 y hash remoto coincidente.
+La rama anterior se conserva. Esta confirmación se versiona en un commit
+documental posterior al contenido; los registros históricos permanecen intactos.
 
 ## Contenido
 
@@ -55,3 +58,11 @@ quedan excluidos. Para otra computadora se sigue la
 [Guía de ensayo](demo_video_paso_a_paso.md).
 
 [Evidencia de publicación](evaluations/quincena5_publicacion_20261019.json).
+
+## Cierre de publicación
+
+El contenido preparado se revisó también desde el índice Git: 99 archivos
+no eliminados, cero secretos y cero rutas privadas. La revisión final de
+espacios terminó con código 0. Se preservaron las 443 evidencias anteriores
+y los cuatro artefactos originales. El hash del commit fue contrastado con
+GitHub después del push. Esta verificación no ejecutó modelos ni SQL.

@@ -2,9 +2,9 @@
   "date": "2026-10-19",
   "branch": "codex/quincena-5",
   "base_commit": "f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09",
-  "status": "prepared_not_committed_or_pushed",
+  "status": "content_published_and_remote_verified",
   "repository": "https://github.com/aalm2005/Mepia_clean",
-  "content_commit": null,
+  "content_commit": "ebe6e470f4e6c5124d73e7be3877a54f58c22bd2",
   "verification": {
     "regression": {
       "passed": 226,
@@ -142,5 +142,30 @@
       ".kiro/specs/mepia/requirements.md",
       "docs/demo_video_paso_a_paso.md"
     ]
-  }
+  },
+  "push_verification": {
+    "content_commit": "ebe6e470f4e6c5124d73e7be3877a54f58c22bd2",
+    "branch": "codex/quincena-5",
+    "remote_verified": true,
+    "previous_branch_unchanged": true,
+    "first_push_exit_code": 0
+  },
+  "staged_audit": {
+    "files_scanned": 99,
+    "private_paths_staged": [],
+    "secret_findings": []
+  },
+  "final_content_audit": {
+    "candidate_files": 747,
+    "documentation_files": 73,
+    "historical_files_preserved": 443,
+    "changed_historical_files": [],
+    "secret_findings": [],
+    "personal_email_candidates": [],
+    "large_files": [],
+    "local_markdown_links": 427,
+    "broken_links": [],
+    "status_match_count": 2701
+  },
+  "publication_record": "Confirmation stored in a documentation commit after the verified content commit."
 }

@@ -1,19 +1,19 @@
 # Bitácora oficial de incidencias del chatbot de MEPIA
 
-**Quincena 5 — preparación del 19-oct-2026:** versión reunida en
-`codex/quincena-5`, desde `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`.
-Incluye configuración automática, conexión unificada, controles de persistencia,
-correcciones del Dashboard y documentos de demostración; INC-044–053 conservan
-su estado registrado. INC-054 resuelta: los cuatro artefactos conservan sus
-bytes al clonar en Windows; 8/8 comparaciones y cuatro lecturas aprobadas.
-Estado actual: 54 incidencias, 51 resueltas, dos mitigadas y una pendiente externa.
-Regresión actual: **226 pruebas y 41 subpruebas**, dos
-advertencias, 36.57 s, código 0. Fechas 11/11, presentación 16/16 y tipos código 0.
-Los 23 controles Edge del 15-oct se conservan como evidencia previa, sin repetirlos.
-Revisión de credenciales y documentos aprobada; cambios aún sin commit ni push
-en este registro preparatorio. El ensayo real del 14-oct, revisión humana N15,
-tutorial guiado, adaptación móvil completa y controles de producción siguen
-pendientes. Esta publicación de código no aplica cambios en Supabase ni despliega.
+**Quincena 5 publicada y verificada — 19-oct-2026:** rama
+`codex/quincena-5`, commit de contenido `ebe6e470f4e6c5124d73e7be3877a54f58c22bd2`.
+Push normal código 0 y hash remoto coincidente; `codex/chatbot-q4` conservada.
+Incluye los avances de configuración, unificación, Dashboard y demostración,
+con sus pruebas y documentación. INC-044–053 conservan sus estados; INC-054
+resuelta al preservar los bytes del paquete en Windows: 8/8 comparaciones y
+cuatro lecturas aprobadas. Estado: **54 incidencias, 51 resueltas, dos mitigadas
+y una pendiente externa**, cero abiertas. Regresión del 19-oct: 226 pruebas y
+41 subpruebas, dos advertencias, 36.57 s, código 0; fechas 11/11, presentación
+16/16 y tipos código 0. Edge 23/23 del 15-oct es evidencia previa, no repetida.
+Esta confirmación queda en un commit documental posterior al contenido.
+Pendientes conservados: ensayo real del 14-oct, evaluación funcional/humana N15,
+tutorial guiado, móvil completo y controles de producción. No hubo despliegue,
+SQL ni llamadas a modelos en esta publicación.
 [Publicación y evidencia](quincena5_publicacion_20261019.md).
 
 **Correcciones del ensayo — 15-oct-2026:** INC-051/052/053 resueltas
@@ -116,7 +116,7 @@ publicado `f9cfddc`; las validaciones aceptadas anteriores no se reabren.
 ## INC-20261019-054 — Git transforma los documentos de demostración al clonar en Windows
 
 - **Categoría/estado:** C, integridad de los entregables de demostración; resuelta localmente.
-- **Rama/commit:** `codex/quincena-5`, base `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`, sin commit.
+- **Rama/commit:** `codex/quincena-5`, commit `ebe6e470f4e6c5124d73e7be3877a54f58c22bd2`, publicado y verificado en GitHub.
 - **Evidencia real:** `git diff --cached --check` terminó con código 2 al tratar
   dos PDF como texto. Con `core.autocrlf=true`, los filtros de checkout cambian
   efectivamente los bytes de los dos PDF y del XML comprobados (3/3), alterando
@@ -134,7 +134,7 @@ publicado `f9cfddc`; las validaciones aceptadas anteriores no se reabren.
   revisión de whitespace de artefactos, igual que la evidencia histórica.
   `git diff --cached --check`: código 0 tras la corrección.
 - **Evidencia:** [publicación de quincena 5](quincena5_publicacion_20261019.md).
-  Sin cambios a datos o modelos; pendiente únicamente commit/push en este registro.
+  Sin cambios a datos o modelos; commit/push de contenido verificados con hash remoto coincidente.
 
 ## INC-20261015-051 — Fecha antigua del formulario analiza un día distinto al de los archivos
 
