@@ -1,5 +1,137 @@
 # MEPIA v4 — Documento Maestro de Diseño
 
+**Q7, 10-nov-2026 — conversación conservada y selección de análisis, verificadas localmente.**
+Solicitud explícita del usuario; categoría C de integración. Rama `codex/quincena-6`,
+base `5ae4c868be6843513a3b8a4f0be2962762c6442d`, cambios sin commit.
+INC-20261110-060/061 registran el chat que se vacía al navegar y la selección por fecha.
+El panel se conserva en la shell dentro del ámbito usuario/negocio, con borrador y
+solicitud en curso. El selector de análisis recientes y el botón del Dashboard envían
+`analysis_run_id` opcional: el servidor verifica propiedad, estado y referencia S3 exacta,
+sin elegir otra corrida de la misma fecha. La fecha manual y la consulta conceptual
+siguen disponibles. Cambiar de análisis inicia otra conversación; el contexto se filtra
+por el linaje seleccionado. Sin escrituras de negocio ni modelos reales en estas pruebas.
+Conservar la vista al navegar no convierte el historial temporal del servidor
+(ocho turnos, treinta minutos) en almacenamiento durable. Recarga, cierre de pestaña
+y reinicio conservan su alcance anterior.
+Verificación del 10-nov-2026: 220 pruebas y 103 subpruebas Python aprobadas
+(dos advertencias preexistentes de lifespan), 29 controles Edge aprobados sin errores
+de página, ocho controles aislados del proxy aprobados, compilación y tipos código 0.
+Los tres controles nuevos de navegación/selección pasaron también antes de ajustar
+la espera de una aserción antigua; el segundo recorrido completo aprobó conservando
+su comprobación de aislamiento. Intentos anteriores preservados.
+La aplicación local se reinició con `.test_tmp/q7_chat_20261110/principal/build`;
+login y OpenAPI HTTP 200, campo `analysis_run_id` confirmado. Cero llamadas reales
+a modelos y cero escrituras de datos del negocio en esta corrección. Aceptación
+manual con IA pendiente. INC-20261110-060/061 resueltas para el alcance local verificado.
+Evidencia: `docs/evaluations/q7_chat_20261110.json` y `docs/q7_chat_navigation_20261110.md`.
+
+Los cierres anteriores conservan sus resultados originales. [Plan manual Q7](../output/pdf/MEPIA_Q7_DaAx_Coffee/LEEME_Pruebas_manuales_Q7.md): cinco análisis propuestos, con ejecución manual con IA pendiente.
+
+
+**Importación PDF detallada — 9-nov-2026, verificada localmente.**
+INC-20261109-059 conecta los datos POS estructurados adjuntos a N01 con S1B
+y S2. Se conservan los datos del negocio elegido y se importan únicamente
+fechas visibles del PDF. El archivo anterior puede completarse mediante una
+nueva carga idempotente. Se preservan timestamp y PaymentBreakdown para S3.
+Se calcularon 22 indicadores en memoria. Las 18 pruebas nuevas aprobaron.
+Regresión dirigida con 74 aprobadas y una PBT preexistente fallida por lentitud.
+Compilación y tipos con código 0, servidor local actualizado y disponible.
+[Contrato, evidencia y límites](pos_pdf_importacion_detallada_20261109.md).
+
+**Revisión integral de Q6 — 4-nov-2026.** Tutorial, historial y tendencias
+integrados en `codex/quincena-6`, base `5ae4c86`, sin commit.
+Pasaron 467 pruebas y 136 subpruebas de Python, los recorridos de
+Edge y la compilación con datos simulados. Quedan pendientes la aceptación
+manual y el ensayo real.
+[Resultados y cómo repetir las pruebas](pruebas_mepia_q6_20261104.md).
+
+**Avisos del Dashboard — 4-nov-2026.** Los mensajes del recorrido apuntan
+al historial, al estado o al encabezado de cada resultado. Si un resultado
+no está disponible, el aviso señala el estado del análisis.
+[Pruebas en escritorio y móvil](pruebas_mepia_q6_20261104.md).
+
+**Tutorial de quincena 6 — 4-nov-2026.** La rama `codex/quincena-6`
+(base `5ae4c86`, sin commit) conserva historial y tendencias. Al cambiar de
+negocio se limpia el análisis anterior y cada cuenta y negocio mantiene
+su propio progreso. El enlace directo a un análisis se respeta.
+Edge aprobó 12/12 controles con datos simulados, incluido el recorrido de
+26 pasos en escritorio y móvil (390 × 844). Compilación y tipos aprobaron
+con código 0. La aceptación manual y el ensayo real quedan pendientes.
+
+**Integración quincena 6 — 30-oct-2026, en validación:** nueva copia en
+MEPIA_Quincena_6, rama codex/quincena-6, base 5ae4c86, sin commit. Se conserva la
+versión local de historial/tendencias y se integra el tutorial del equipo.
+INC-20261030-058 registra compatibilidad de navegación, progreso y anclas.
+Pruebas nuevas pendientes; evidencias anteriores conservadas, sin modelos,
+base real, commit/push ni despliegue. Próxima acción: pruebas y cierre documental.
+
+**Pruebas por secciones y demo — 26-oct-2026:** categoría C solicitada,
+comprobaciones técnicas locales aprobadas; aceptación manual pendiente. Rama
+`codex/quincena-5`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`, **sin commit**.
+Regresión: 452 pruebas + 136 subpruebas, una integración real omitida, dos avisos,
+55.02 s, código 0. Demo API 15/15; Edge general extendido 26/26, historial 11/11,
+ajustes 14/14 y demo 5/5, cero errores; motor ocho escenarios/95 comprobaciones;
+build/tipos 0. Chat simulado: cobertura 22/22, 36 revisiones semánticas pendientes;
+matriz 43 controles locales con evidencia, cinco gates separados, sin aceptación
+humana/real implícita. Entorno demo local con datos/SDK/DB en memoria y red externa
+bloqueada; sin modelos reales, DB externa, commit/push ni despliegue.
+[Plan y 30 acciones manuales](plan_pruebas_mepia.md),
+[resultados, intentos y archivos](pruebas_mepia_20261026.md).
+INC-035 actualizada/resuelta en el ejecutor; 57 incidencias (54 resueltas, dos
+mitigadas y una pendiente externa), cero abiertas. Pasos 1–4 e INC-050–057 conservados.
+
+Auditoría final local: 777 archivos previos presentes,
+133 archivos de producto y 465 evidencias históricas/demo
+con huellas intactas; tsconfig.json/next-env.d.ts restaurados, diff código 0.
+Las sondas Python/Node bloquearon destinos externos antes de contactar.
+La revisión manual conserva 30 acciones pendientes; no acredita modelos ni SQL reales.
+
+**Sincronización documental — 19-oct-2026:** revisión del código, bitácoras,
+índices, diseño, tareas, contratos y guías; se actualiza INC-20260930-014 sin crear
+otra incidencia. Rama `codex/quincena-5`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`,
+avances locales **sin commit**. Historial/tendencias terminados y verificados;
+INC-050–053 y Pasos 1–4 conservados. Las cifras de pruebas del cierre anterior
+se mantienen como evidencia ya ejecutada; no se repitieron suites de producto.
+[Archivos, comprobaciones documentales y pendientes](actualizacion_documental_20261019.md).
+No hubo cambios de código, datos, configuración privada, modelos ni producción;
+el repositorio ya tenía avances locales al iniciar esta revisión.
+
+Comprobación documental ejecutada: 40 documentos existentes actualizados, 79 documentos vivos revisados y 595 enlaces locales sin destinos rotos; diff código 0. 545 archivos existentes de otros formatos y 452 evidencias protegidas conservan SHA-256; 10 diseños anteriores tienen copia exacta. Rama/HEAD conservados; cero archivos previos eliminados. Verificación de enlaces limitada a destinos locales, sin consultar URLs externas.
+
+**Cierre local de historial y tendencias — 19-oct-2026:** INC-055/056/057
+resueltas localmente; INC-017 actualizada/resuelta para el acceso al repositorio.
+Categoría C solicitada; INC-050–053 y Pasos 1–4 conservados. Rama
+`codex/quincena-5`, HEAD/base `5ae4c868be6843513a3b8a4f0be2962762c6442d`,
+**sin commit**. Historial protegido, último análisis automático, selección entre
+vistas/recarga/chat, tendencias diarias comparables y mensajes basados en evidencia.
+Regresión completa: **452 aprobadas, una opt-in omitida, 136 subpruebas y dos
+advertencias**, 85.83 s, código 0. Edge nuevo **11/11** y general **23/23**, cero
+errores de página; presentación **16/16 + 8/8**, fechas **11/11**, build/tipos 0.
+DB/Auth/proveedores simulados; cero modelos reales, acceso/escrituras externas,
+commit/push o despliegue. Documentos de demostración y evidencias históricas
+verificados intactos. **57 incidencias: 54 resueltas, dos mitigadas y una pendiente
+externa; cero abiertas.** Pendientes previos de ensayo real, evaluación humana
+N15, tutorial/móvil completo y controles de producción conservados.
+[Archivos, pruebas, límites y pasos de interfaz](analysis_history_dashboard_20261019.md).
+Los registros iniciales/de avance siguientes son históricos de esta misma tarea.
+
+**Avance de validación del historial — 19-oct-2026:** regresión local
+completa aprobada, 452 pruebas, 1 integración opt-in omitida, 136 subpruebas,
+2 advertencias, 85.83 s, código 0. Edge nuevo 11/11, cero errores de página,
+cero modelos/filas modificadas. Revisión visual realizada; tarjetas ajenas al
+resultado retiradas, estados internos traducidos e indicadores pendientes en
+lenguaje sencillo. Se verifica el recorrido anterior después de este ajuste
+de presentación; cierre documental final todavía pendiente. Rama
+`codex/quincena-5`, HEAD/base `5ae4c86`, sin commit/push/despliegue.
+
+**Registro inicial de historial y tendencias — 19-oct-2026, en desarrollo local:** trabajo C
+solicitado expresamente por el usuario; no reabre Pasos 1–4 ni INC-050–053.
+Rama `codex/quincena-5`, base/HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`,
+repositorio limpio al inicio, cambios sin commit. INC-055/056/057 abiertas por
+ausencia de recuperación/historial, series vacías y mensajes sin evidencia.
+Validación nueva todavía pendiente. Sin DB externa, modelos, despliegue o push.
+Los registros fechados siguientes conservan su evidencia histórica.
+
 **Quincena 5 publicada y verificada — 19-oct-2026:** rama
 `codex/quincena-5`, commit de contenido `ebe6e470f4e6c5124d73e7be3877a54f58c22bd2`.
 Push normal código 0 y hash remoto coincidente; `codex/chatbot-q4` conservada.
@@ -395,9 +527,14 @@ Esta tabla mapea directo a las pestañas **"2. UMBRALES"** y **"3. COSTOS"** del
 
 ## 4. Parseo OCR/PDF — veredicto
 
-**No como ruta primaria. Sí como plan B, sin más inversión.**
-
-`N01 POS PDF Input` ya está `✅ done` en el repo — no se pierde nada dejándolo así. La API elimina el techo de confiabilidad que tenía el PDF (ambigüedad de layout/OCR). Toda la inversión nueva de ingesta va al nodo de API. Documentar el PDF como *"ruta de respaldo si la integración API no está disponible."*
+La API POS conserva el contrato estructurado primario S1B. Desde la extensión
+solicitada el 9-nov-2026, N01 también consume ese contrato cuando el PDF incluye
+adjuntos JSON POS válidos y las fechas corresponden al contenido visible.
+Registra ventas individuales, productos, pagos, turnos, caja e inventario y
+actualiza S2. Los documentos convencionales conservan la extracción de totales
+y revisión. No se interpreta un diseño arbitrario de tabla como contrato S1B.
+Recetas, compras y configuración complementaria usan sus rutas de captura.
+[Detalles y verificación](pos_pdf_importacion_detallada_20261109.md).
 
 ---
 

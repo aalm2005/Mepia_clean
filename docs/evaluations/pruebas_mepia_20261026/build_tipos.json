@@ -1,0 +1,8 @@
+{
+  "build": 0,
+  "types": 0,
+  "config_restored": true,
+  "next_env_restored": true,
+  "public_backend_origin": "http://127.0.0.1:8025",
+  "provenance": "Supabase public origin supplied explicitly by scripts/test_mepia_local.environment to this build; recorded after completion. Original report retained."
+}

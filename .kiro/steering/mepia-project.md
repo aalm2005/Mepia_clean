@@ -32,7 +32,7 @@ Tres patrones de flujo multi-agente:
 |---|---|
 | Conciliación de Caja | Compara tickets POS vs depósitos reportados |
 | Gasto Operativo | Detecta incrementos anómalos en insumos |
-| Salud del Negocio | Calcula margen neto y KPIs clave |
+| Salud del Negocio | Presenta los indicadores disponibles y sus unidades; sin un índice ficticio |
 
 ---
 
@@ -82,9 +82,14 @@ Ejemplo ilustrativo:
 
 ## Estructura de Carpetas
 
-Estado y recorrido completos al 15-oct-2026: [resumen actual](../../docs/estado_actual_mepia.md).
+Estado y recorrido completos al 19-oct-2026: [resumen actual](../../docs/estado_actual_mepia.md).
 Login previo, negocio propio identificado automáticamente y Chat IA integrado;
-tutorial guiado pendiente y adaptación móvil parcial. El árbol siguiente es un
+historial N05 y tendencias diarias verificados localmente. Selección por
+pestaña/negocio, limpieza al salir/cambiar negocio y consultas nuevas con dueño
+verificado en servidor. Consulta no ejecuta IA; faltantes no se convierten en
+cero ni en ingresos/margen inventados. Q6 integra el tutorial guiado con
+validación local en escritorio y móvil. La adaptación móvil integral sigue
+pendiente. El árbol siguiente es un
 resumen de carpetas, no un inventario exhaustivo de los nodos ya implementados.
 
 ```

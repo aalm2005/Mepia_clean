@@ -1,5 +1,12 @@
 # Paso 4 — evaluación offline del nodo conversacional N15
 
+**Lectura del estado actual — 19-oct-2026:** este procedimiento y sus
+resultados del Paso 4 conservan aceptación y evidencias históricas. Los avances
+posteriores de historial N05/tendencias no lo reabren ni sustituyen sus juicios.
+[Estado vigente y pendientes del Paso 5](estado_actual_mepia.md),
+[nueva consulta verificada localmente](analysis_history_dashboard_20261019.md).
+No hubo reevaluación con modelos durante esta sincronización documental.
+
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.
 
 **Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.

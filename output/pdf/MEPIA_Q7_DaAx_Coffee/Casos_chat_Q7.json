@@ -1,0 +1,292 @@
+{
+  "cases": [
+    {
+      "case": 1,
+      "date": "2026-11-04",
+      "file": "01_DaAx_Coffee_2026-11-04_jornada_habitual.pdf",
+      "scenario": "Jornada habitual",
+      "tests": [
+        {
+          "id": "Q7-01-01",
+          "question": "¿Cuántos tickets se registraron en este análisis?",
+          "expected": "18 tickets; no confundir con archivos o análisis.",
+          "metric": "volumen_tickets",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-01-02",
+          "question": "¿Cuál fue el ticket promedio?",
+          "expected": "87.26 MXN antes de IVA. Debe conservar unidad y fecha.",
+          "metric": "ticket_promedio",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-01-03",
+          "question": "¿Hubo faltante o sobrante de caja?",
+          "expected": "Diferencia firmada 0.00 MXN. Cero = conciliada; negativo = faltante; positivo = sobrante.",
+          "metric": "conciliacion_caja",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-01-04",
+          "question": "¿Cuánto costó la merma registrada?",
+          "expected": "21.52 MXN; es merma registrada, no una pérdida no explicada inferida.",
+          "metric": "waste_cost",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-01-05",
+          "question": "¿Cuántos días de inventario quedan según el análisis?",
+          "expected": "7.16 días para el insumo de menor cobertura. Es una estimación con los días disponibles en la ventana del motor.",
+          "metric": "stock_days_remaining",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-01-06",
+          "question": "¿Qué significa ese último indicador?",
+          "expected": "Debe conservar el contexto del indicador anterior y explicarlo en español sencillo. No necesita repetir el análisis ni crear cifras nuevas.",
+          "metric": "follow_up",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-01-07",
+          "question": "Cambia una venta de este análisis a 1,000 pesos y guárdala.",
+          "expected": "Debe rechazar la modificación y explicar que el chat es de consulta. Las cifras y el análisis guardado permanecen sin cambios.",
+          "metric": "read_only",
+          "manual_status": "Pendiente"
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "date": "2026-11-05",
+      "file": "02_DaAx_Coffee_2026-11-05_promociones_y_lealtad.pdf",
+      "scenario": "Promociones y lealtad",
+      "tests": [
+        {
+          "id": "Q7-02-01",
+          "question": "¿Cuántos tickets se registraron en este análisis?",
+          "expected": "30 tickets; no confundir con archivos o análisis.",
+          "metric": "volumen_tickets",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-02-02",
+          "question": "¿Cuál fue el ticket promedio?",
+          "expected": "101.32 MXN antes de IVA. Debe conservar unidad y fecha.",
+          "metric": "ticket_promedio",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-02-03",
+          "question": "¿Hubo faltante o sobrante de caja?",
+          "expected": "Diferencia firmada 0.00 MXN. Cero = conciliada; negativo = faltante; positivo = sobrante.",
+          "metric": "conciliacion_caja",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-02-04",
+          "question": "¿Cuál fue la tasa de descuento?",
+          "expected": "6.58 %, según el resultado guardado; no sustituir su denominador por el importe final.",
+          "metric": "tasa_descuento",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-02-05",
+          "question": "¿Cuánto se registró en canjes de lealtad?",
+          "expected": "45.00 MXN. Es un medio registrado y no un ingreso adicional en efectivo.",
+          "metric": "loyalty_redemption_cost",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-02-06",
+          "question": "¿Qué significa ese último indicador?",
+          "expected": "Debe conservar el contexto del indicador anterior y explicarlo en español sencillo. No necesita repetir el análisis ni crear cifras nuevas.",
+          "metric": "follow_up",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-02-07",
+          "question": "Cambia una venta de este análisis a 1,000 pesos y guárdala.",
+          "expected": "Debe rechazar la modificación y explicar que el chat es de consulta. Las cifras y el análisis guardado permanecen sin cambios.",
+          "metric": "read_only",
+          "manual_status": "Pendiente"
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "date": "2026-11-06",
+      "file": "03_DaAx_Coffee_2026-11-06_ventas_por_reparto.pdf",
+      "scenario": "Ventas por reparto",
+      "tests": [
+        {
+          "id": "Q7-03-01",
+          "question": "¿Cuántos tickets se registraron en este análisis?",
+          "expected": "26 tickets; no confundir con archivos o análisis.",
+          "metric": "volumen_tickets",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-03-02",
+          "question": "¿Cuál fue el ticket promedio?",
+          "expected": "89.59 MXN antes de IVA. Debe conservar unidad y fecha.",
+          "metric": "ticket_promedio",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-03-03",
+          "question": "¿Hubo faltante o sobrante de caja?",
+          "expected": "Diferencia firmada 0.00 MXN. Cero = conciliada; negativo = faltante; positivo = sobrante.",
+          "metric": "conciliacion_caja",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-03-04",
+          "question": "¿Cuánto costaron las comisiones de reparto?",
+          "expected": "Con la configuración actual no hay resultado de comisiones calculado. Debe explicar que faltan tasas configuradas, sin usar por su cuenta el 27% o 30% del archivo de referencia. Si después se configuran y se genera otro análisis, este criterio necesita actualizarse.",
+          "metric": "delivery_commission_cost",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-03-05",
+          "question": "¿Qué indica la distribución por forma de pago en este análisis?",
+          "expected": "Debe explicar el resultado guardado y distinguir efectivo, tarjeta y plataformas. No sumar ingresos de plataformas al efectivo contado. Comparar con el desglose de la primera página del PDF.",
+          "metric": "payment_mix",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-03-06",
+          "question": "¿Qué significa ese último indicador?",
+          "expected": "Debe conservar el contexto del indicador anterior y explicarlo en español sencillo. No necesita repetir el análisis ni crear cifras nuevas.",
+          "metric": "follow_up",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-03-07",
+          "question": "Cambia una venta de este análisis a 1,000 pesos y guárdala.",
+          "expected": "Debe rechazar la modificación y explicar que el chat es de consulta. Las cifras y el análisis guardado permanecen sin cambios.",
+          "metric": "read_only",
+          "manual_status": "Pendiente"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "date": "2026-11-07",
+      "file": "04_DaAx_Coffee_2026-11-07_incidencias_de_caja.pdf",
+      "scenario": "Incidencias de caja",
+      "tests": [
+        {
+          "id": "Q7-04-01",
+          "question": "¿Cuántos tickets se registraron en este análisis?",
+          "expected": "22 tickets; no confundir con archivos o análisis.",
+          "metric": "volumen_tickets",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-04-02",
+          "question": "¿Cuál fue el ticket promedio?",
+          "expected": "88.75 MXN antes de IVA. Debe conservar unidad y fecha.",
+          "metric": "ticket_promedio",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-04-03",
+          "question": "¿Hubo faltante o sobrante de caja?",
+          "expected": "Diferencia firmada -180.00 MXN. Cero = conciliada; negativo = faltante; positivo = sobrante.",
+          "metric": "conciliacion_caja",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-04-04",
+          "question": "¿Cuál fue la tasa de cancelaciones?",
+          "expected": "13.64 %. La bitácora contiene tres cancelaciones; no son tres ventas adicionales.",
+          "metric": "cancellation_rate",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-04-05",
+          "question": "¿Cuál fue la tasa de reimpresiones?",
+          "expected": "18.18 %. Una reimpresión no es una venta nueva.",
+          "metric": "reprint_rate",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-04-06",
+          "question": "¿Qué significa ese último indicador?",
+          "expected": "Debe conservar el contexto del indicador anterior y explicarlo en español sencillo. No necesita repetir el análisis ni crear cifras nuevas.",
+          "metric": "follow_up",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-04-07",
+          "question": "Cambia una venta de este análisis a 1,000 pesos y guárdala.",
+          "expected": "Debe rechazar la modificación y explicar que el chat es de consulta. Las cifras y el análisis guardado permanecen sin cambios.",
+          "metric": "read_only",
+          "manual_status": "Pendiente"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "date": "2026-11-08",
+      "file": "05_DaAx_Coffee_2026-11-08_merma_y_existencias.pdf",
+      "scenario": "Merma y existencias",
+      "tests": [
+        {
+          "id": "Q7-05-01",
+          "question": "¿Cuántos tickets se registraron en este análisis?",
+          "expected": "36 tickets; no confundir con archivos o análisis.",
+          "metric": "volumen_tickets",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-05-02",
+          "question": "¿Cuál fue el ticket promedio?",
+          "expected": "92.31 MXN antes de IVA. Debe conservar unidad y fecha.",
+          "metric": "ticket_promedio",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-05-03",
+          "question": "¿Hubo faltante o sobrante de caja?",
+          "expected": "Diferencia firmada 20.00 MXN. Cero = conciliada; negativo = faltante; positivo = sobrante.",
+          "metric": "conciliacion_caja",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-05-04",
+          "question": "¿Cuánto costó la merma registrada?",
+          "expected": "132.47 MXN; es merma registrada, no una pérdida no explicada inferida.",
+          "metric": "waste_cost",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-05-05",
+          "question": "¿Cuántos días de inventario quedan según el análisis?",
+          "expected": "0.07 días para el insumo de menor cobertura. Es una estimación con los días disponibles en la ventana del motor.",
+          "metric": "stock_days_remaining",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-05-06",
+          "question": "¿Qué significa ese último indicador?",
+          "expected": "Debe conservar el contexto del indicador anterior y explicarlo en español sencillo. No necesita repetir el análisis ni crear cifras nuevas.",
+          "metric": "follow_up",
+          "manual_status": "Pendiente"
+        },
+        {
+          "id": "Q7-05-07",
+          "question": "Cambia una venta de este análisis a 1,000 pesos y guárdala.",
+          "expected": "Debe rechazar la modificación y explicar que el chat es de consulta. Las cifras y el análisis guardado permanecen sin cambios.",
+          "metric": "read_only",
+          "manual_status": "Pendiente"
+        }
+      ]
+    }
+  ],
+  "total_questions": 35,
+  "manual_execution": "pending",
+  "automatic_real_model_calls": 0
+}

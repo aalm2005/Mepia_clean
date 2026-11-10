@@ -1,5 +1,14 @@
 # Paso 5 — Integración local del chatbot
 
+**Alcance vigente — 19-oct-2026:** api.chat_app registra también los GET
+protegidos de análisis guardados, además de chat, negocios y ajustes; no ejecuta
+ingesta ni análisis nuevos. Visitar/recargar Chat IA conserva la selección N05
+de las vistas, sin cambiar las fuentes S3/N14 del chat. El historial de análisis
+es persistente en audit_results; la conversación sigue temporal por proceso.
+[Estado actual](estado_actual_mepia.md), [contrato](../.kiro/specs/mepia/analysis_history.md).
+INC-055–057 resueltas localmente; los resultados fechados siguientes conservan
+su alcance. Evaluación funcional/humana N15, C02 y producción siguen separados.
+
 **Preparación posterior del video:** INC-048/049 resueltas localmente;
 conciliación de demo recuperada desde S3 en prueba simulada, sin modelos reales.
 Ver [guía de ensayo](demo_video_paso_a_paso.md). Los registros siguientes conservan
@@ -185,7 +194,8 @@ al migrar las cookies anteriores al almacenamiento por pestaña hay que
 iniciar sesión una vez en el nuevo flujo. El perfil
 `api.chat_app` reutiliza los permisos existentes, valida configuración en
 lifespan y no exige claves del pipeline. Desde la integración N10 del
-15-oct también registra sus ajustes protegidos, además de Chat IA/listado.
+15-oct también registra sus ajustes protegidos, además de Chat IA/listado;
+desde el 19-oct incorpora consultas protegidas de análisis guardados.
 No publica ingesta ni análisis: para documentos nuevos usar `api.main:app`,
 configuración completa y ensayo real. [Guía para otra computadora](mepia_setup_video.md).
 INC-044/045 resueltas localmente; [evidencia](onboarding_defaults_integration.md).
@@ -241,7 +251,7 @@ deniega con 503. Cada operación de historial vuelve a comprobar propiedad.
 | Operación | Contrato |
 |---|---|
 | `GET /me/businesses` | Solo negocios del usuario, máximo 100 |
-| `POST /business/{business_id}/chat` | Body cerrado: `question` (1–2000 caracteres), `requested_date` opcional, `conversation_id` opcional |
+| `POST /business/{business_id}/chat` | Body cerrado: `question` (1–2000 caracteres), `requested_date` opcional, `conversation_id` opcional, `analysis_run_id` opcional (N05 propio terminado, linaje S3 exacto) |
 | Respuesta | `conversation_id` asignado por servidor y `answer: ChatAnswer` |
 | `GET /business/{business_id}/chat/{conversation_id}` | Turnos de esa combinación de usuario, negocio y conversación |
 | `DELETE /business/{business_id}/chat/{conversation_id}` | Elimina solo ese historial; 204 |
@@ -357,3 +367,22 @@ datos, unidades, alertas o fuentes. No hay una plantilla literal obligatoria
 ni una tercera llamada de estilo: se conserva composición y revisión factual.
 Después de reiniciar el backend local, abrir una conversación nueva para
 comprobar la guía vigente; el historial sigue siendo temporal en memoria.
+
+
+## Q7: conversación y análisis seleccionado - 10-nov-2026
+
+El panel persiste en la shell durante navegación interna del mismo usuario/negocio. Retiene mensajes, borrador y solicitud en curso. No añade historial durable tras recarga o cierre. El selector paginado y el botón del Dashboard consultan una ejecución N05 concreta; el backend comprueba propiedad, estado, fecha y linaje antes de crear el proveedor. Los errores específicos de selección se muestran mediante una lista cerrada de mensajes seguros del proxy. El contexto de otra ejecución del mismo día no se reutiliza. INC-20261110-060/061 resueltas localmente, sin commit.
+
+Verificación del 10-nov-2026: 220 pruebas y 103 subpruebas Python aprobadas
+(dos advertencias preexistentes de lifespan), 29 controles Edge aprobados sin errores
+de página, ocho controles aislados del proxy aprobados, compilación y tipos código 0.
+Los tres controles nuevos de navegación/selección pasaron también antes de ajustar
+la espera de una aserción antigua; el segundo recorrido completo aprobó conservando
+su comprobación de aislamiento. Intentos anteriores preservados.
+La aplicación local se reinició con `.test_tmp/q7_chat_20261110/principal/build`;
+login y OpenAPI HTTP 200, campo `analysis_run_id` confirmado. Cero llamadas reales
+a modelos y cero escrituras de datos del negocio en esta corrección. Aceptación
+manual con IA pendiente. INC-20261110-060/061 resueltas para el alcance local verificado.
+Evidencia: `docs/evaluations/q7_chat_20261110.json` y `docs/q7_chat_navigation_20261110.md`.
+
+El [set manual versionado de Q7](../output/pdf/MEPIA_Q7_DaAx_Coffee/Comprobar_resultados_y_chat_Q7.md) y el [cierre de rama](cierre_q6_q7_20261110.md) complementan los resultados históricos de esta integración.

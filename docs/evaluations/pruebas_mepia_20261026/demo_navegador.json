@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Panel identifica datos ficticios y prepara cero sin API",
+      "passed": true
+    },
+    {
+      "name": "Login y lectura real de historial, gráficas y negocio ficticio",
+      "passed": true
+    },
+    {
+      "name": "Documentos PDF/XML → análisis ficticio nuevo → resultado guardado cero",
+      "passed": true
+    },
+    {
+      "name": "Chat consulta evidencia guardada y vuelve a la misma selección",
+      "passed": true
+    },
+    {
+      "name": "Negocio vacío limpia y no afirma evaluación sin anomalías",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "real_provider_calls": 0
+}

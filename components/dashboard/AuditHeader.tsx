@@ -1,5 +1,5 @@
 interface AuditHeaderProps {
-  riskLevel: "low" | "medium" | "high";
+  riskLevel?: "low" | "medium" | "high";
   date?: string;
 }
 
@@ -19,7 +19,7 @@ const riskBadgeConfig = {
 } as const;
 
 export function AuditHeader({ riskLevel, date }: AuditHeaderProps) {
-  const badge = riskBadgeConfig[riskLevel];
+  const badge = riskLevel ? riskBadgeConfig[riskLevel] : {className:"text-zinc-400",label:"RIESGO SIN EVALUAR"};
 
   return (
     <>

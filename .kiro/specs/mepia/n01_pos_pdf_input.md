@@ -1,5 +1,41 @@
 # N01 — POS PDF Input (Ingesta de Ticket de Ventas)
 
+## Extensión de detalle estructurado del 9-nov-2026
+
+`POST /ingest/pos` reconoce adjuntos JSON con el contrato `APIIngestPayload`
+de S1B. La respuesta conserva `POSIngestResult[]` y añade el campo opcional
+`detailed_import`, con versión, estado y conteos de tickets, turnos e inventario.
+El PDF convencional sigue utilizando la extracción de totales descrita abajo.
+
+- El `business_id` de la solicitud prevalece sobre el incluido en el adjunto.
+- Se importan únicamente fechas presentes en el texto del PDF. Los adjuntos
+  de otros días y los complementos de recetas, gastos o configuración quedan fuera.
+- Tickets y pagos deben ser únicos y corresponder al día y sucursal. Cuando
+  hay una sola fecha visible, los totales deben coincidir con el detalle.
+- Los ingresos individuales conservan `document_id`, timestamp, productos y
+  ambas claves `payment` y `PaymentBreakdown`, compatibles con S1B y S3.
+- Los registros se guardan en `transactions`, `pos_inputs`, `shift_audit_events`,
+  `cash_counts` e `inventory_daily`. Solo un turno permite derivar un conteo
+  diario inequívoco. Con varios turnos se requiere la captura diaria separada.
+- El mismo SHA y negocio puede completar un documento antiguo que solo tenía
+  totales. Conserva su ID y no duplica las ventas. Se rechazan totales, tickets
+  o conteos diarios previos incompatibles mediante HTTP 409.
+- El documento se marca pendiente antes de escribir el detalle y solo queda
+  procesado al terminar todas las etapas. Un fallo devuelve HTTP 503 y el
+  mismo PDF permite reanudar. La revisión manual de totales no completa una
+  importación detallada pendiente.
+- Los identificadores de documento y tickets son deterministas. La carga
+  detallada se serializa en el proceso local y el archivo se guarda con upsert.
+- Se reevalúa S2 y se verifica la lectura de sus estados antes de confirmar
+  la respuesta. Los indicadores que requieren compras, recetas o configuración
+  adicional conservan sus requisitos.
+- Un formato POS inconsistente devuelve HTTP 422 antes de escribir datos.
+- La lectura convencional de cantidades requiere un entero completo. Una
+  hora como `12:30` se omite como cantidad.
+
+La prueba de regresión usa el PDF de demostración como fixture y ejecuta el
+endpoint real con DB simulada y red externa bloqueada.
+
 **Capa:** Sequential | **Parte de:** S1 Ingesta | **Siguiente:** S2 Gatekeeper
 **Archivo de implementación:** `api/main.py` → `POST /ingest/pos`
 **Archivos relacionados:** `db_schema.md`, `s2_gatekeeper.md`, `_glossary.md`
@@ -193,3 +229,5 @@ unit_price: Decimal
 | P5 | Mismo SHA-256 + `business_id` → exactamente 1 objeto en Storage |
 | P6 | `line_items` con confianza < 80% → nunca aparecen en el resultado |
 | P7 | `ocr_confidence.totals >= 0.90` → `needs_human_review: false` (si no hay otros campos faltantes) |
+
+[Cinco PDF ficticios para la prueba manual Q7](../../../output/pdf/MEPIA_Q7_DaAx_Coffee/LEEME_Pruebas_manuales_Q7.md). Cada jornada combina ventas, pagos, caja e inventario; el detalle adjunto no se debe separar del PDF.

@@ -1,63 +1,51 @@
-# Fase 3 — Dashboard + API Routes + Integración End-to-End
+# Fase 3 — Dashboard, lecturas y navegación
 
-**Seguimiento INC-052/053 — 15-oct-2026:** enlaces del menú conservan la corrida
-en el mismo usuario/negocio. El GET devuelve el resultado completo guardado o
-recupera cálculos desde su S3 explícito compatible. Estado histórico ausente no
-equivale a todas las métricas activas. Validación y límites en el seguimiento
-del ensayo; no acredita producción ni sustituye la evaluación funcional N15.
+Corte actual 19-oct-2026, rama `codex/quincena-5`, base `5ae4c86`;
+avances de historial y documentación sin commit. Las tareas iniciales conservan
+su terminación; se describen con su comportamiento vigente.
 
-## Tareas
+## Implementación realizada
 
-- [x] 1. Crear `types/audit.ts` con contratos de datos del frontend
-  - Exportar: `AuditInsight`, `OrchestratorResult`, `ForensicReport`, `AnomalyItem`
-  - Exportar: `PipelineStatus`, `Archetype`, `AlertLevel`, `POSIngestResult`, `FacturaIngestResult`
-  - Basarse estrictamente en `_glossary.md` — no inventar campos
-  - _Requirements: _glossary.md contratos de datos_
+- [x] Contratos frontend AuditInsight, OrchestratorResult, ForensicReport,
+  AnomalyItem y estados; proyecciones de lectura en types/analysis.ts.
+- [x] AuditTable con niveles, acciones y presentación de hallazgos.
+- [x] AuditHeader, PipelineStatusBar y Layer2Banner: mensajes sencillos,
+  riesgo desconocido separado y seguimiento avanzado sin enlace inexistente.
+- [x] ForensicSummary, AnomalyCard y DormantMetricsList: disponibilidad
+  diferenciada de listas vacías, desconocidas y faltantes.
+- [x] useAuditPolling: lectura GET protegida por negocio/corrida; intervalo
+  2000 ms mientras corre, estado avanzado por raíz autorizada; cleanup/abort.
+  Retorna result, pipelineStatus, currentNode, layer3Status,
+  layer3DraftStatus y error.
+- [x] Dashboard, Salud y Reportes usan AuditReportView, con variantes de contenido.
+- [x] Proxy de ejecución POST /api/audit y rutas legadas conservados; las vistas
+  leen ahora /api/analyses/{business_id}/..., con Bearer y comprobación de dueño
+  en FastAPI. Esta cobertura no se atribuye al backend legado completo.
+- [x] Historial paginado, selección explícita/recordada/último terminado,
+  navegación y recarga por pestaña/usuario/negocio; limpieza inmediata al salir
+  o cambiar ámbito.
+- [x] Tendencias reales: una corrida por fecha, indicadores diarios/unidades
+  exactos, cero válido, huecos y datos insuficientes sin invención.
+- [x] Mensajes separados de carga, ausencia, error, falta de datos y ausencia
+  acreditada de anomalías. INC-050–053 conservadas; INC-055–057 resueltas.
 
-- [x] 2. Extender `components/AuditTable.tsx`
-  - Aceptar `AuditInsight[]` además de `AuditRow[]` (union type)
-  - Agregar columnas `alert_level` (`AlertLevelBadge`) y `recommended_action`
-  - Fila `critical`: `border-l-2 border-red-500 bg-red-950/20`; `warning`: `border-l-2 border-amber-500`
-  - Prop `isLoading?: boolean` → skeleton de 3 filas con `animate-pulse`
-  - _Requirements: design_components_tree.md §AuditTable, _glossary.md AuditInsight_
+## Verificación ya ejecutada del producto
 
-- [x] 3. Crear componentes de dashboard: `AuditHeader`, `PipelineStatusBar`, `Layer2Banner`
-  - `AuditHeader`: título + badge `risk_level` (rojo fijo si `high`, ámbar si `medium`)
-  - `PipelineStatusBar`: nodos S1→S2→S3→S4→N05; si `escalated` agrega `[L2]` con estado propio
-  - `Layer2Banner`: banner ámbar colapsable; estados `running/completed/failed`; solo si `escalated`
-  - _Requirements: design_components.md, design_wireframes.md, design_flows.md §layer2_
+- [x] Suite local: 452 aprobadas, 136 subpruebas, una opt-in omitida y dos avisos.
+- [x] Edge: historial 11/11 y recorrido anterior 23/23, cero errores de página.
+- [x] Presentación 16/16 y 8/8; fechas 11/11; build y tipos código 0.
 
-- [x] 4. Crear `components/dashboard/AnomalyCard.tsx`, `ForensicSummary.tsx`, `DormantMetricsList.tsx`
-  - `AnomalyCard`: `quantified_impact` en `font-mono text-forensic-xl`; badge severidad; lista `data_points`
-  - `ForensicSummary`: panel 35%; ordena anomalías por severidad; renderiza `AnomalyCard[]`
-  - `DormantMetricsList`: lista muted de métricas sin datos con sus `missing[]`
-  - _Requirements: design_wireframes.md §panel lateral, _glossary.md AnomalyItem_
+[Informe, resultados exactos y límites](../../../docs/analysis_history_dashboard_20261019.md).
+Son datos/Auth/proveedores simulados; esta revisión documental no repite pruebas.
 
-- [x] 5. Crear `hooks/useAuditPolling.ts`
-  - Parámetros: `runId: string | null`, `intervalMs?: number` (default 2000)
-  - Retorna: `{ result, pipelineStatus, currentNode, layer2Status, error }`
-  - Detiene polling cuando `status` es `completed | partial | escalated | failed`
-  - Si `escalated`: inicia segundo polling sobre `layer2_run_id`
-  - Limpia intervalos en cleanup de `useEffect`
-  - _Requirements: design_flows_main.md §polling, design_flows.md §layer2_
+## Trabajo separado pendiente
 
-- [x] 6. Actualizar `app/dashboard/page.tsx` con layout completo
-  - Convertir a `"use client"`; leer `run_id` de `searchParams`
-  - Usar `useAuditPolling(runId)` para datos reactivos
-  - Layout: `AuditHeader` + `PipelineStatusBar` + `Layer2Banner` (condicional)
-  - Grid 65/35: `AuditTable` (con skeleton) + `ForensicSummary` + `DormantMetricsList`
-  - _Requirements: design_wireframes.md §dashboard, design_components_tree.md_
+- [ ] Ensayo real de documentos, persistencia y respuesta del chat.
+- [ ] Evaluación funcional/humana restante N15 y C02 por cuota externa.
+- [x] Integración y pruebas locales del tutorial en Q6.
+- [ ] Aceptación manual del tutorial, adaptación móvil integral y controles de producción.
 
-- [x] 7. Actualizar `app/api/audit/route.ts` y crear rutas dinámicas
-  - `POST /api/audit`: proxy a `POST /orchestrator/run`
-  - `app/api/audit/status/[run_id]/route.ts`: proxy a `GET /orchestrator/status/{run_id}`
-  - `app/api/audit/result/[run_id]/route.ts`: proxy a `GET /orchestrator/result/{run_id}`
-  - `app/api/audit/layer3/status/[layer2_run_id]/route.ts`: proxy a Layer 3 status
-  - _Requirements: design_flows_main.md, _glossary.md OrchestratorResult_
+[Diseño](design.md), [historial](analysis_history.md), [plan general](tasks.md).
 
-- [x] 8. Checkpoint final — Verificar integración end-to-end
-  - `next build` sin errores de TypeScript ni Tailwind
-  - Verificar flujo completo: `/onboarding` → `/upload` → `/dashboard`
-  - Verificar que `PipelineStatusBar` actualiza nodos activos durante polling
-  - Verificar que `Layer2Banner` aparece solo cuando `escalation.triggered: true`
-  - Verificar filas `critical` con borde rojo y fondo `red-950/20`
+
+[Versión anterior conservada](../../../docs/history/documentation_before_sync_20261019/.kiro/specs/mepia/tasks_phase3.md). Sus estados y cifras describen su fecha original.

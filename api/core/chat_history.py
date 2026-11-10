@@ -71,11 +71,14 @@ class ChatHistoryStore:
             self._conversations.pop((user_id, business_id, conversation.id), None)
 
     @staticmethod
-    def writing_context(conversation: Conversation, resolved_date: str | None) -> list[dict]:
+    def writing_context(conversation: Conversation, resolved_date: str | None, source_s3_result_id: str | None = None) -> list[dict]:
         # Nunca introducir resultados de otra fecha como evidencia de la actual.
         return [{"question": turn["question"], "answer": "\n".join(
             part["message"] for part in turn["answer"]["parts"]
             if part["generation_status"] == "validated")[:4000]}
             for turn in conversation.turns
             if turn["answer"]["resolved_date"] == resolved_date
+            and (source_s3_result_id is None or any(
+                ref.get("audit_result_id") == source_s3_result_id or ref.get("source_s3_result_id") == source_s3_result_id
+                for part in turn["answer"]["parts"] for ref in part.get("evidence", [])))
             and any(part["kind"] != "greeting" for part in turn["answer"]["parts"])][-4:]

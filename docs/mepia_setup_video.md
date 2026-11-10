@@ -1,6 +1,20 @@
 # Ejecutar MEPIA en otra computadora para el video
 
-**Entorno verificado:** interfaz y servidor completo usan MEPIA principal con
+**Nuevo corte local — 26-oct-2026:** hay [pruebas por secciones](plan_pruebas_mepia.md)
+y [demostración sin API real](pruebas_mepia_20261026.md), con regresión 452/136,
+demo API 15/15 y Edge general 26/26, historial 11/11, ajustes 14/14 y demo 5/5.
+Son ejecuciones nuevas con datos/Auth/SDK simulados, distintas de las evidencias
+fechadas inferiores. Los 30 casos manuales y la evaluación humana/proveedor/DB
+real permanecen pendientes; no reabren pasos aceptados ni acreditan producción.
+
+**Consulta sin nueva ejecución:** entrar a Dashboard recupera selección de la
+pestaña o último análisis terminado; el historial permite elegir anteriores.
+Dashboard/Salud/Reportes conservan la selección al visitar/recargar el chat.
+Son lecturas protegidas, sin consumo de modelos. Una tendencia requiere dos
+fechas con el mismo indicador/unidad; varias corridas de un día no bastan.
+[Guía vigente y pendientes](actualizacion_documental_20261019.md).
+
+**Registro de entorno del 15-oct-2026:** interfaz y servidor completo usan MEPIA principal con
 claves modernas, ECC/ES256 y cuenta con negocio asignado. INC-046/047 resueltas;
 login, Documentos y Chat IA confirmados por el usuario después del cambio.
 OpenAI ya está configurado en esta computadora; Claude puede quedar vacío
@@ -8,17 +22,18 @@ porque existe respaldo OpenAI. INC-048/049 resueltas localmente. El ensayo real
 de archivos/IA sigue pendiente: [pasos del usuario](demo_video_paso_a_paso.md).
 Ver [evidencia y límites](database_unification.md).
 
-Estado: 15-oct-2026. Esta guía describe la preparación necesaria; no certifica
+Guía actualizada: 19-oct-2026; los registros de entorno del 15-oct son históricos. Esta guía describe la preparación necesaria; no certifica
 que el análisis completo ya haya pasado un ensayo en la computadora del equipo.
 La [integración de ajustes](onboarding_defaults_integration.md) está validada
 localmente y confirmada por el usuario en sus pantallas.
 
 ## Qué debe recibir el compañero
 
-1. La misma versión del código. Rama `codex/chatbot-q4`, HEAD de referencia
-   `f9cfddc`; **N10 y la unificación actuales todavía no tienen commit/push**.
-   Descargar solo ese HEAD no incluye estos cambios. Entregar una copia
-   actualizada o publicar los cambios en una acción autorizada por separado.
+1. La misma versión del código. Base publicada: `codex/quincena-5`,
+   `5ae4c868be6843513a3b8a4f0be2962762c6442d`; ya incluye N10 y la unificación.
+   Historial, tendencias y esta sincronización son avances locales sin commit.
+   Clonar solo esa base no los incluye. Entregar una copia actualizada, sin
+   secretos ni datos privados; una publicación exige una acción separada.
 2. Node.js/npm y Python con el lanzador `py` disponibles en su terminal.
    Instalar las dependencias de este repositorio; no reutilizar `node_modules`,
    `.next` ni el entorno `.venv` de otra máquina.
@@ -72,9 +87,10 @@ Las API keys heredadas fueron desactivadas y su firma anterior revocada.
 No copiar claves antiguas de otra carpeta: actualizar ambos archivos privados
 con las modernas del mismo proyecto. La clave secreta del servidor y las de
 modelos van únicamente en `api/.env`. Reiniciar
-ambos procesos al modificar la configuración. Las claves de OpenAI y Anthropic
-se encontraban vacías en la revisión anterior. OpenAI ya se configuró; Claude
-puede quedar vacío conservando la variable. Falta validar OpenAI/Gemini reales.
+ambos procesos al modificar la configuración. La preparación del 15-oct registró OpenAI configurado y respaldo de N11
+comprobado por simulación. No se inspeccionaron claves en esta revisión.
+Configurar/verificar privadamente acceso y cuota en la computadora destino;
+falta validar el recorrido real completo.
 
 ## Iniciar los procesos
 
@@ -85,10 +101,12 @@ puede quedar vacío conservando la variable. Falta validar OpenAI/Gemini reales.
 ```
 
 Este perfil incluye ingesta, análisis, ajustes y chat. El perfil
-`api.chat_app:create_app --factory` sirve para acceso, ajustes y chat;
+`api.chat_app:create_app --factory` sirve para acceso, ajustes, chat y
+consulta de análisis guardados;
 **no incluye la carga de documentos ni el análisis completo**. Iniciar solo uno
-de los dos perfiles en el puerto 8016. En esta máquina quedó activo
-`api.main:app` tras la unificación, junto con Next en 3016. No se ejecutó
+de los dos perfiles en el puerto 8016. En el registro del 15-oct quedó activo
+`api.main:app` tras la unificación, junto con Next en 3016; su estado actual
+no se comprueba en esta revisión documental. No se ejecutó
 un análisis nuevo de IA para comprobar su arranque.
 
 **Terminal 2, interfaz**, también desde la raíz:
@@ -139,14 +157,17 @@ pregunta conceptual como prueba de consulta de resultados nuevos.
 3. Elegir un POS PDF con texto extraíble y una factura CFDI XML o PDF compatible.
    Una imagen escaneada no garantiza extracción: el lector actual usa texto y
    reglas, sin un OCR general. Preparar datos de prueba representativos.
-4. **Cambiar la fecha del análisis para que coincida con los documentos.** La
-   pantalla todavía inicia en `2024-01-15`; no asumir que la detecta sola.
+4. **Comprobar la fecha del análisis.** Inicia vacía y se infiere desde el lote
+   de ventas; si no hay una fecha inequívoca, se pide elegirla. Una selección
+   contradictoria detiene el análisis (INC-051 ya corregida).
 5. Pulsar Analizar; corregir cualquier revisión humana que aparezca y continuar.
    Si una métrica necesita datos adicionales, puede quedar incompleta; subir
    solo facturas no garantiza indicadores de ventas, ni viceversa.
 6. Comprobar que la corrida termina, que los resultados corresponden al negocio
    y fecha, y que se abre el Dashboard con su `run_id`. Guardar ese enlace para
-   el ensayo; la recuperación automática del último análisis aún es limitada.
+   el ensayo. Sin selección se recupera el último análisis terminado del negocio;
+   el historial permite elegir anteriores sin ejecutar modelos. Ver la validación
+   local y sus límites en `analysis_history_dashboard_20261019.md`.
 7. Abrir Chat IA y preguntar por un resultado realmente disponible de esa
    fecha, además de una pregunta conceptual. Verificar respuesta y fuentes.
 
@@ -167,7 +188,8 @@ compartido existente.
 
 Mostrar problema que resuelve MEPIA, login y negocio automático; Documentos con
 ajustes iniciales y personalización opcional; carga/resultado del análisis que
-haya aprobado el ensayo; una pregunta sencilla en Chat IA. Cerrar explicando
-lo pendiente: tutorial guiado, adaptación móvil completa y validaciones restantes
-del Paso 5/producción. Si no se completa el ensayo, identificar claramente los
+haya aprobado el ensayo y una pregunta sencilla en Chat IA. En Q6, abre
+**Tutorial** en la barra superior para mostrar la guía. La aceptación manual,
+la adaptación móvil integral y las validaciones del Paso 5 y de producción
+siguen pendientes. Si no se completa el ensayo, identificar claramente los
 resultados previamente guardados y no presentarlos como una carga nueva exitosa.

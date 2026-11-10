@@ -1,5 +1,19 @@
 # Ensayo de MEPIA para el video
 
+**Nuevo corte local — 26-oct-2026:** hay [pruebas por secciones](plan_pruebas_mepia.md)
+y [demostración sin API real](pruebas_mepia_20261026.md), con regresión 452/136,
+demo API 15/15 y Edge general 26/26, historial 11/11, ajustes 14/14 y demo 5/5.
+Son ejecuciones nuevas con datos/Auth/SDK simulados, distintas de las evidencias
+fechadas inferiores. Los 30 casos manuales y la evaluación humana/proveedor/DB
+real permanecen pendientes; no reabren pasos aceptados ni acreditan producción.
+
+**Consultar lo ya guardado:** para mostrar avances sin ejecutar de nuevo el
+motor, entra al Dashboard y elige una corrida del historial. Sin selección se
+recupera el último análisis terminado. Esas lecturas no consumen IA ni crean
+registros. La sección «Carga y analiza» es otro recorrido, que puede escribir
+en la base compartida y consumir cuota; no se realizó en esta actualización.
+[Estado, pruebas y límites](actualizacion_documental_20261019.md).
+
 **Entrega de la quincena 5:** Git conserva los bytes del paquete de demostración
 al clonarlo en Windows (INC-054), incluidos PDF y XML. No edites sus cantidades
 ni conviertas los archivos antes del ensayo; así se conserva su identificación
@@ -12,15 +26,16 @@ la corrida dentro de la misma sesión/negocio y el Dashboard recupera los cálcu
 El análisis anterior del 15-ene-2024 se conserva como tal; no demuestra el caso
 de octubre. [Verificación y límites](dashboard_demo_fix_20261015.md).
 
-Preparado el 15-oct-2026. Los datos son ficticios y pertenecen al **14 de octubre
+Datos preparados el 15-oct-2026; recorrido documental actualizado el 19-oct-2026. Los datos son ficticios y pertenecen al **14 de octubre
 de 2026**. Este documento describe el ensayo; no afirma que el análisis real de
 IA ya haya terminado. [Evidencia local](evaluations/demo_preparation_20261015.json).
 
 ## Antes de iniciar
 
-- OpenAI está configurado en privado; Claude puede quedar vacío porque N11 tiene
-  respaldo OpenAI, comprobado aquí con un proveedor simulado. Gemini sigue a cargo
-  del chat. Todavía falta validar las respuestas de los servicios reales.
+- El registro del 15-oct confirmó configuración privada de OpenAI y respaldo
+  N11 simulado; Gemini responde al chat. Verificar privadamente claves/cuota en
+  la computadora de grabación: esta revisión no inspeccionó su estado actual.
+  El recorrido real completo sigue pendiente.
 - El servidor completo y la interfaz deben estar activos en esta computadora.
   Al terminar la preparación se comprueba su arranque. Abrir
   [MEPIA](http://localhost:3016/) en Edge o Chrome.
@@ -52,7 +67,7 @@ operación: subir ambos registraría dos documentos distintos.
 ## 2. Entra a MEPIA
 
 1. Abre el enlace local y entra con tu cuenta de la base principal.
-2. Confirma que aparece **MEPIA Dev**.
+2. Confirma que aparece el negocio autorizado. En el entorno principal del caso Q7, **MEPIA Dev** pasó a llamarse **DaAx Coffee**.
 3. Abre **Documentos** en el menú. Los ajustes iniciales ya se aplican
    automáticamente; no necesitas llenar el formulario avanzado para este ensayo.
 
@@ -73,8 +88,12 @@ Volver a analizar sí puede generar otra corrida y consumo de modelos.
 
 ## 4. Comprueba el Dashboard
 
-La página debe abrir el análisis correspondiente al 14/10/2026; comprueba la fecha del encabezado. Al volver desde Chat IA, el menú conserva esa corrida en la misma sesión y negocio. Conserva su enlace
-con `run_id` para volver a mostrarlo. Los valores de referencia son:
+La página debe abrir el análisis del 14/10/2026; comprueba fecha, guardado y
+referencia en el historial. Si hay varios del mismo día, elige el que quieres
+demostrar: no se suman. Dashboard, Salud, Reportes y la vuelta del chat conservan
+la selección, incluso al recargar. Conserva su enlace con run_id. Los valores
+siguientes son el oráculo de los documentos, no cifras que deban fabricarse
+si el motor no las guardó:
 
 | Dato | Cantidad |
 |---|---:|
@@ -86,7 +105,10 @@ con `run_id` para volver a mostrarlo. Los valores de referencia son:
 
 La tarjeta de conciliación o el resultado `conciliacion_caja` debe mostrar cero:
 el dinero contado coincide con el fondo inicial más lo vendido en efectivo.
-Las otras tarjetas pueden aparecer con raya o datos insuficientes. Este conjunto
+Solo aparecen indicadores del análisis; los incompletos explican lo que falta.
+Una única fecha no permite una tendencia: hacen falta dos fechas comparables.
+No se deben mostrar ingresos/márgenes inventados ni interpretar falta de
+evidencia como «Sin anomalías detectadas». Este conjunto
 no contiene tickets individuales, recetas, nómina ni costos confirmados; no
 demuestra ticket promedio, utilidad ni todos los indicadores del sistema.
 
@@ -95,7 +117,9 @@ demuestra ticket promedio, utilidad ni todos los indicadores del sistema.
 1. Abre **Chat IA**, inicia una conversación nueva y selecciona **14/10/2026**.
 2. Pregunta: **¿Cuál fue la conciliación de caja?**
 3. Debe explicar en lenguaje sencillo el resultado disponible de **$0.00 MXN**.
-   Comprueba que la fuente corresponde al mismo día y al análisis guardado.
+   Comprueba fecha y fuente S3/N14. El chat consulta por fecha/linaje, y no adopta
+   automáticamente el N05 elegido en las vistas: si hay varios análisis del día,
+   contrasta la fuente citada antes de afirmar que es exactamente la misma corrida.
 4. Luego pregunta: **¿Qué es el ticket promedio?** Esta segunda pregunta comprueba
    una explicación conceptual, no un ticket promedio calculado para el negocio.
 
@@ -109,8 +133,9 @@ ensayo de la interfaz debe confirmar análisis, guardado y respuesta real.
 - 0:30-1:15: login, negocio automático y Documentos con configuración inicial.
 - 1:15-2:30: seleccionar fecha/archivos, analizar y explicar conciliación de caja.
 - 2:30-3:45: consultar el resultado y un concepto en Chat IA.
-- 3:45-4:30: avances y pendientes: tutorial guiado, adaptación móvil completa,
-  más validaciones funcionales/humanas y controles para publicación.
+- 3:45-4:30 · Muestra el botón **Tutorial** de Q6 y un paso que ubique el historial.
+  Menciona la aceptación manual, la adaptación móvil integral y las validaciones
+  de servicios reales y de publicación que quedan pendientes.
 
 El informe avanzado N14 solo aparece cuando el flujo correspondiente se ejecuta;
 una corrida básica no garantiza que haya escalación. No hace falta forzarla para
@@ -119,8 +144,9 @@ debe pedir sesión; recargar la misma pestaña la conserva.
 
 ## Preparación técnica del conteo
 
-El agente ejecuta primero `scripts/prepare_video_demo.py` sin parámetros: solo
-lectura. Con la autorización específica recibida, `--apply` insertó un conteo nuevo de $200
+Registro histórico del 15-oct: `scripts/prepare_video_demo.py` se ejecutó
+primero sin parámetros (lectura). Con la autorización específica de entonces,
+`--apply` insertó un conteo nuevo de $200
 de fondo y $1,650 contados, con cero salidas, para la fecha indicada.
 La consulta posterior confirmó una sola preparación y cero nuevas inserciones.
 Es idempotente: si su fila ya existe idéntica, no inserta otra. Rechaza otro conteo,

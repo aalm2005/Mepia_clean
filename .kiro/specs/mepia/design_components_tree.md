@@ -1,81 +1,55 @@
-# Diseño Frontend — Árbol Completo de Componentes
+# Diseño Frontend — Árbol de componentes
 
-**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+Actualizado para Q6 el 4-nov-2026. [Contratos](design_components.md).
 
-**Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
-
-**Referenciado desde:** `design_components.md`
-
-## Componentes incorporados del frontend del equipo — 14-oct-2026
-
-RootLayout conserva MepiaAuthProvider/MepiaShell y agrega GlassBackground.
-Dashboard es el inicio después del login; `/` redirige allí y se retira
-WelcomeSplash. Dashboard y Reportes usan
-AuditReportView (KpiGrid/MetricsCharts/AuditTable); Salud usa KpiGrid/MetricsCharts.
-Todas son páginas cliente dentro del mismo marco, con módulos de gráficas
-cargados dinámicamente. useAuditPolling limpia contexto/cancela peticiones y
-verifica negocio/corrida antes de mostrar resultado. Se conserva el backend.
-El árbol anterior debajo conserva el detalle de los componentes base.
-
-## Árbol por ruta
-
-```
-app/
-├── layout.tsx                    # RootLayout → MepiaAuthProvider → MepiaShell
-│                                 # sesión por pestaña; proveedor verifica usuario, APIs verifican Bearer
-├── login/
-│   └── page.tsx                  # MepiaLogin — único acceso antes de MEPIA
-├── chat/
-│   └── page.tsx                  # ChatPanel — contexto común, sin login propio
-│                                 # mensajes, compositor inferior, fuentes e historial
-│
-├── onboarding/
-│   └── page.tsx                  # OnboardingPage (Server Component)
-│       └── OnboardingForm        # "use client" — 4 pasos
-│           ├── BrandIdentityStep # brand_voice, prohibited_recommendations, priority_focus
-│           ├── AuditTolerancesStep # discrepancia, margen warning/crítico, spike
-│           ├── CostStructureStep # lista ExpectedCostStructure (add/remove)
-│           └── AuditRulesStep    # red_alert_triggers, ignored_anomaly_types
-│
-├── upload/
-│   └── page.tsx                  # UploadPage (Server Component)
-│       └── UploadForm            # "use client"
-│           ├── ArchetypeSelector # 3 tarjetas: Operative | Purist | Hacker
-│           ├── DocumentDropzone  # POS — drag & drop + click, acepta .pdf
-│           ├── DocumentDropzone  # Factura — drag & drop + click, acepta .pdf,.xml
-│           ├── UploadStatusBadge # idle | uploading | done | error
-│           └── ReviewAlert       # Visible si needs_human_review: true
-│           # Defaults de onboarding se crean en segundo plano sin bloquear la carga
-│
-└── dashboard/
-    └── page.tsx                  # DashboardPage (Client Component → AuditReportView)
-        ├── AuditHeader           # Título + risk_level badge global
-        ├── PipelineStatusBar     # S1→S2→S3→S4→N05 [→L2 si escalated]
-        ├── Layer2Banner          # Solo si pipeline_status: "escalated"
-        ├── AuditTable            # Tabla forense principal
-        │   ├── AuditRow          # módulo | raw_result | copilot_phrase | alert_level
-        │   └── ArchetypeBadge    # Badge por arquetipo CEO
-        ├── ForensicSummary       # Panel lateral 35%
-        │   └── AnomalyCard       # quantified_impact + severity + data_points
-        └── DormantMetricsList    # Métricas sin datos suficientes
+```text
+RootLayout
+ └ MepiaAuthProvider → MepiaShell + GlassBackground
+    ├ MepiaTour → recorrido guiado y progreso por usuario y negocio
+    ├ /login → MepiaLogin
+    ├ /dashboard → AuditReportView
+    ├ /salud → AuditReportView (view=health)
+    ├ /reportes → AuditReportView (sin bloque de métricas)
+    │   ├ useAnalysisHistory → AnalysisHistory
+    │   ├ useAuditPolling → resultado guardado y estado avanzado protegido
+    │   ├ AuditHeader + PipelineStatusBar + Layer2Banner condicional
+    │   ├ KpiGrid + MetricsCharts (Dashboard/Salud)
+    │   │   └ useAnalysisTrends → MetricLineChart + gráficas por unidad
+    │   ├ AuditTable
+    │   ├ ForensicSummary → AnomalyCard
+    │   └ DormantMetricsList
+    ├ /chat → ChatPanel
+    │   └ conversación, fuentes, fecha y compositor inferior
+    ├ /upload → UploadForm
+    │   ├ ArchetypeSelector
+    │   ├ DocumentDropzone POS PDF
+    │   ├ DocumentDropzone factura XML/PDF
+    │   ├ UploadStatusBadge + ReviewAlert
+    │   └ enlace opcional a ajustes avanzados
+    └ /onboarding → OnboardingForm
+        ├ BrandIdentityStep
+        ├ AuditTolerancesStep
+        ├ CostStructureStep
+        └ AuditRulesStep
 ```
 
-## Contratos de props clave
+Las tres vistas comparten selección y lógica, con diferencias de presentación.
+El marco se remonta por usuario/negocio, y los hooks abortan respuestas antiguas.
+Historial, métricas, errores y estados están ligados al mismo ámbito autorizado.
+Cambiar negocio o cerrar sesión limpia datos sin esperar a la respuesta siguiente.
 
-### `AuditTable`
-```typescript
-interface AuditTableProps {
-  rows: AuditInsight[] | AuditRow[]
-  isLoading?: boolean
-  emptyMessage?: string
-}
-```
+Las gráficas se cargan dinámicamente; el frontend conserva valores, unidades y
+estados persistidos. Las tendencias consultan varios días, sin volver a ejecutar
+el análisis ni sumar varias corridas del mismo día.
 
-Columnas: Módulo (15%) · Resultado Forense (30%) · Insight CEO (35%) · Nivel (10%) · Acción (10%)
+El menú y el logo conservan la selección al navegar y al volver del chat,
+incluso tras recargar esa visita. La conversación N15 sigue siendo temporal y
+distinta del historial persistido de análisis.
 
-Fila `critical`: `border-l-2 border-red-500 bg-red-950/20`
+El diagrama representa responsabilidades, no proporciones exactas de pantalla
+ni una certificación de todos los tamaños móviles.
+[Flujos](design_flows.md), [wireframes](design_wireframes.md),
+[selección y estados](analysis_history_ui.md).
 
-## Archivos relacionados de este nodo
 
-- `design_components.md` — especificación de componentes nuevos
-- `design_wireframes.md` — posición en el layout
+[Versión anterior conservada](../../../docs/history/documentation_before_sync_20261019/.kiro/specs/mepia/design_components_tree.md). Sus estados y cifras describen su fecha original.

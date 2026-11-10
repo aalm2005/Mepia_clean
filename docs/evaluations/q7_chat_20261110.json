@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-10",
+  "branch": "codex/quincena-6",
+  "head": "5ae4c868be6843513a3b8a4f0be2962762c6442d",
+  "commit": "sin commit",
+  "incidents": [
+    "INC-20261110-060",
+    "INC-20261110-061"
+  ],
+  "state": "resolved for verified local scope; human acceptance pending",
+  "python": {
+    "passed": 220,
+    "subtests_passed": 103,
+    "warnings": 2,
+    "seconds": 11.87,
+    "real_provider_calls": 0
+  },
+  "browser": {
+    "passed": true,
+    "checks": 29,
+    "page_errors": [],
+    "mode": "DB/Auth/SDK simulated, external network blocked"
+  },
+  "proxy_unit_checks": {
+    "passed": 8,
+    "real_network": false
+  },
+  "build": {
+    "build": 0,
+    "types": 0,
+    "config_restored": true,
+    "next_env_restored": true
+  },
+  "activated": {
+    "ready": true,
+    "login_http": 200,
+    "openapi_http": 200,
+    "analysis_selection_contract": true,
+    "build": ".test_tmp\\q7_chat_20261110\\principal\\build",
+    "database_writes": 0,
+    "model_calls": 0
+  },
+  "first_browser_attempt": "Three new Q7 checks passed; full run stopped on an older assertion that counted a new history request still in flight. Added an explicit wait for the own-business history response without relaxing the foreign-business security assertion. Second full run passed.",
+  "limits": [
+    "State retained across internal navigation in the same user/business scope, including draft and pending request.",
+    "Does not add durable history across reload/tab close/server restart; backend limits remain eight turns/thirty minutes.",
+    "Selected N05 must be owned, finished and have compatible exact S3 lineage; no fallback to a different same-day run.",
+    "Thirty-five manual chat prompts are defined but not executed against real models.",
+    "No business data writes or new audit runs in this correction; no commit or push."
+  ],
+  "manual_guide": "output/pdf/MEPIA_Q7_DaAx_Coffee/Comprobar_resultados_y_chat_Q7.md"
+}

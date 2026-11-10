@@ -1,5 +1,13 @@
 # API Layer 3 — Endpoint Disparador
 
+**Lectura desde vistas — 19-oct-2026:** Dashboard/Salud/Reportes consultan
+GET `/business/{business_id}/analyses/{run_id}/layer3`. Verifica sesión y dueño,
+valida el N05 propio y resuelve su padre guardado al N10/N14 del mismo negocio.
+No permite elegir un padre ajeno desde la interfaz. Respeta el fallo N14 temporal
+previo y devuelve errores saneados; no inicia el grafo ni genera informes.
+[Contrato](analysis_history.md). Las rutas directas siguientes se conservan como
+contrato legado, sin atribuirles la autorización del wrapper nuevo.
+
 **Actualización del ensayo — 15-oct-2026:** INC-048/049 resueltas localmente:
 guardado terminal N14 y seguimiento por padre con error saneado. 208 pruebas y
 41 subpruebas aprobadas, dos advertencias, código 0; proveedores/DB simulados.

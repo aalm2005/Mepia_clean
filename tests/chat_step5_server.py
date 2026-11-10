@@ -3,6 +3,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from api.chat import create_chat_router
+from api.analysis_history import create_analysis_router
 from api.core.chat_history import ChatHistoryStore
 from agents.chat_conversation import ChatConversationNode
 from agents.chat_provider_gemini import GeminiCompletion
@@ -10,7 +11,7 @@ from agents.chat_response import ChatJsonCompletionAdapter
 from tests.test_chat_api import AUTH, DB, SimulatedSDK, token, USER_A, USER_B, BIZ_A, BIZ_B, BIZ_C
 
 app = FastAPI()
-app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:3015", "http://localhost:3015", "http://127.0.0.1:3018", "http://localhost:3018"],
+app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:3015", "http://localhost:3015", "http://127.0.0.1:3018", "http://localhost:3018", "http://127.0.0.1:3025", "http://localhost:3025"],
                    allow_methods=["*"], allow_headers=["*"], allow_credentials=False)
 db = DB()
 sdk = SimulatedSDK()
@@ -23,6 +24,7 @@ def node():
 
 
 app.include_router(create_chat_router(auth=AUTH, db_factory=lambda: db, node_factory=node, history=ChatHistoryStore()))
+app.include_router(create_analysis_router(auth=AUTH, db_factory=lambda: db))
 
 
 @app.get("/__test__/session/{who}")

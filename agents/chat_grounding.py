@@ -84,6 +84,7 @@ class ChatGroundingService:
         self,
         business_id: str,
         requested_date: Optional[str] = None,
+        source_s3_result_id: Optional[str] = None,
     ) -> ChatGroundingPacket:
         if not business_id or not business_id.strip():
             raise ValueError("business_id no puede estar vacío")
@@ -93,7 +94,9 @@ class ChatGroundingService:
             except ValueError as exc:
                 raise ValueError("requested_date debe usar el formato YYYY-MM-DD") from exc
 
-        s3_row = self._latest_row(business_id, "S3", requested_date)
+        if source_s3_result_id is not None and self._valid_uuid(source_s3_result_id) is None:
+            raise ValueError("La referencia S3 no es válida")
+        s3_row = self._latest_row(business_id, "S3", requested_date, result_id=source_s3_result_id)
         resolved_date = requested_date or self._row_date(s3_row)
         source_s3_result_id = self._valid_uuid(
             s3_row.get("id") if s3_row else None
@@ -156,6 +159,7 @@ class ChatGroundingService:
         node_id: str,
         requested_date: Optional[str],
         source_s3_result_id: Optional[str] = None,
+        result_id: Optional[str] = None,
     ) -> Optional[dict]:
         query = (
             self._db.table("audit_results")
@@ -170,6 +174,8 @@ class ChatGroundingService:
             query = query.eq("date", requested_date)
         if source_s3_result_id is not None:
             query = query.eq("source_s3_result_id", source_s3_result_id)
+        if result_id is not None:
+            query = query.eq("id", result_id)
 
         response = (
             query.or_(_VALID_NODE_STATUS_FILTER)
@@ -181,6 +187,10 @@ class ChatGroundingService:
         rows = response.data or []
         for row in rows:
             if str(row.get("business_id")) != business_id:
+                continue
+            if row.get("node_id") != node_id or (requested_date and str(row.get("date")) != requested_date):
+                continue
+            if result_id is not None and self._valid_uuid(row.get("id")) != result_id:
                 continue
             if (
                 source_s3_result_id is not None

@@ -1,5 +1,195 @@
 # Bitácora oficial de incidencias del chatbot de MEPIA
 
+## INC-20261110-060 — El chat pierde su vista al cambiar de pantalla
+
+Estado: resuelta para el alcance local verificado. Categoría C, mejora de integración solicitada expresamente.
+Rama `codex/quincena-6`, HEAD/base `5ae4c868be6843513a3b8a4f0be2962762c6442d`, sin commit.
+El usuario reporta que Chat → Dashboard → Chat deja la conversación vacía. ChatPanel se desmonta con la ruta; su historial del servidor no se recupera automáticamente.
+Se conserva el panel en la shell por usuario/negocio para retener turnos, borrador y respuesta en curso. Cambio de cuenta/negocio y cierre de sesión desmontan el ámbito.
+Los límites anteriores de ocho turnos y treinta minutos del servidor se mantienen; no es historial durable ni recuperación tras recarga/reinicio.
+Verificación del 10-nov-2026: 220 pruebas y 103 subpruebas Python aprobadas
+(dos advertencias preexistentes de lifespan), 29 controles Edge aprobados sin errores
+de página, ocho controles aislados del proxy aprobados, compilación y tipos código 0.
+Los tres controles nuevos de navegación/selección pasaron también antes de ajustar
+la espera de una aserción antigua; el segundo recorrido completo aprobó conservando
+su comprobación de aislamiento. Intentos anteriores preservados.
+La aplicación local se reinició con `.test_tmp/q7_chat_20261110/principal/build`;
+login y OpenAPI HTTP 200, campo `analysis_run_id` confirmado. Cero llamadas reales
+a modelos y cero escrituras de datos del negocio en esta corrección. Aceptación
+manual con IA pendiente. INC-20261110-060/061 resueltas para el alcance local verificado.
+Evidencia: `docs/evaluations/q7_chat_20261110.json` y `docs/q7_chat_navigation_20261110.md`.
+
+
+## INC-20261110-061 — Selección de análisis del chat limitada a fecha
+
+Estado: resuelta para el alcance local verificado. Categoría C solicitada, sin reabrir Pasos 1–4.
+Misma rama/base, sin commit. La fecha obliga a recordar jornadas y selecciona el último S3 de ese día, que puede diferir del análisis elegido en Dashboard.
+Se añade selector paginado de N05 recientes y botón para usar el del Dashboard. `analysis_run_id` opcional se resuelve con permisos, estado terminado, fecha y linaje S3 exacto antes de crear el proveedor.
+Referencias ajenas, ausentes, incompletas o incompatibles se rechazan; no hay fallback a otra ejecución. El contexto conversacional de una ejecución no se reutiliza en otra del mismo día.
+Verificación del 10-nov-2026: 220 pruebas y 103 subpruebas Python aprobadas
+(dos advertencias preexistentes de lifespan), 29 controles Edge aprobados sin errores
+de página, ocho controles aislados del proxy aprobados, compilación y tipos código 0.
+Los tres controles nuevos de navegación/selección pasaron también antes de ajustar
+la espera de una aserción antigua; el segundo recorrido completo aprobó conservando
+su comprobación de aislamiento. Intentos anteriores preservados.
+La aplicación local se reinició con `.test_tmp/q7_chat_20261110/principal/build`;
+login y OpenAPI HTTP 200, campo `analysis_run_id` confirmado. Cero llamadas reales
+a modelos y cero escrituras de datos del negocio en esta corrección. Aceptación
+manual con IA pendiente. INC-20261110-060/061 resueltas para el alcance local verificado.
+Evidencia: `docs/evaluations/q7_chat_20261110.json` y `docs/q7_chat_navigation_20261110.md`.
+
+Lecturas únicamente; no crea auditorías ni cambia datos del negocio.
+
+
+## INC-20261109-059 — El PDF POS guardaba totales y dejaba fuera el detalle para métricas
+
+- Fecha de diagnóstico y corrección 9-nov-2026.
+- Categoría C, ampliación de ingesta solicitada por el usuario.
+- Rama `codex/quincena-6`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`, sin commit.
+- Evidencia inicial de solo lectura en principal. El PDF estaba procesado y
+  `pos_inputs` contenía 2058 MXN de venta, 492 en efectivo y 671 en tarjeta.
+  Faltaban transacciones y conteo de caja. S2 conservaba 30 métricas pendientes.
+  Inventario era la única activa y S3 devolvía valores nulos por falta de compras.
+- Causa confirmada. `/ingest/pos` no consumía los adjuntos JSON estructurados.
+  Además, la lectura de tablas interpretaba `12:30` como cantidad `1230`, y S1B
+  guardaba pagos bajo `payment` mientras S3 buscaba `PaymentBreakdown`.
+- Corrección en `agents/pos_document.py`, `agents/pos_parser.py`,
+  `agents/api_ingest.py`, `api/main.py` y `components/upload/UploadForm.tsx`.
+  Se reutilizan validación y persistencia S1B, se conservan timestamp y pagos,
+  y se comprueba que S2 haya guardado su nuevo estado. La carga anterior puede
+  completarse con el mismo documento. Identificadores estables y bloqueo local
+  evitan duplicados. Una carga interrumpida permanece pendiente hasta reintentarse.
+- Alcance del PDF. Importa tickets, productos, pagos, turnos, caja e inventario
+  del contrato S1B. El negocio se toma de la solicitud y las fechas deben estar
+  visibles. Los adjuntos de recetas, gastos o configuración no se ejecutan.
+- Estado resuelta para el flujo local verificado. La prueba local confirmó
+  22 indicadores numéricos, 15 tickets, promedio 120 MXN, caja -180 MXN,
+  merma registrada 8 MXN y lealtad 15 MXN. Las 18 pruebas del flujo nuevo aprobaron.
+  Regresión dirigida final con 74 aprobadas y una PBT anterior fallida por lentitud
+  del generador, reproducida también por separado. Se conserva ese resultado.
+  Compilación y tipos con código 0. Servidor reiniciado, login HTTP 200 y contrato
+  `detailed_import` confirmado por OpenAPI. El usuario hará la carga real.
+- Evidencia y límites en [la nota de implementación](pos_pdf_importacion_detallada_20261109.md).
+
+**Pruebas por secciones y demo — 26-oct-2026:** categoría C solicitada,
+comprobaciones técnicas locales aprobadas; aceptación manual pendiente. Rama
+`codex/quincena-5`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`, **sin commit**.
+Regresión: 452 pruebas + 136 subpruebas, una integración real omitida, dos avisos,
+55.02 s, código 0. Demo API 15/15; Edge general extendido 26/26, historial 11/11,
+ajustes 14/14 y demo 5/5, cero errores; motor ocho escenarios/95 comprobaciones;
+build/tipos 0. Chat simulado: cobertura 22/22, 36 revisiones semánticas pendientes;
+matriz 43 controles locales con evidencia, cinco gates separados, sin aceptación
+humana/real implícita. Entorno demo local con datos/SDK/DB en memoria y red externa
+bloqueada; sin modelos reales, DB externa, commit/push ni despliegue.
+[Plan y 30 acciones manuales](plan_pruebas_mepia.md),
+[resultados, intentos y archivos](pruebas_mepia_20261026.md).
+INC-035 actualizada/resuelta en el ejecutor; 57 incidencias (54 resueltas, dos
+mitigadas y una pendiente externa), cero abiertas. Pasos 1–4 e INC-050–057 conservados.
+
+Auditoría final local: 777 archivos previos presentes,
+133 archivos de producto y 465 evidencias históricas/demo
+con huellas intactas; tsconfig.json/next-env.d.ts restaurados, diff código 0.
+Las sondas Python/Node bloquearon destinos externos antes de contactar.
+La revisión manual conserva 30 acciones pendientes; no acredita modelos ni SQL reales.
+
+**Sincronización documental — 19-oct-2026:** revisión del código, bitácoras,
+índices, diseño, tareas, contratos y guías; se actualiza INC-20260930-014 sin crear
+otra incidencia. Rama `codex/quincena-5`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`,
+avances locales **sin commit**. Historial/tendencias terminados y verificados;
+INC-050–053 y Pasos 1–4 conservados. Las cifras de pruebas del cierre anterior
+se mantienen como evidencia ya ejecutada; no se repitieron suites de producto.
+[Archivos, comprobaciones documentales y pendientes](actualizacion_documental_20261019.md).
+No hubo cambios de código, datos, configuración privada, modelos ni producción;
+el repositorio ya tenía avances locales al iniciar esta revisión.
+
+Comprobación documental ejecutada: 40 documentos existentes actualizados, 79 documentos vivos revisados y 595 enlaces locales sin destinos rotos; diff código 0. 545 archivos existentes de otros formatos y 452 evidencias protegidas conservan SHA-256; 10 diseños anteriores tienen copia exacta. Rama/HEAD conservados; cero archivos previos eliminados. Verificación de enlaces limitada a destinos locales, sin consultar URLs externas.
+
+**Cierre local de historial y tendencias — 19-oct-2026:** INC-055/056/057
+resueltas localmente; INC-017 actualizada/resuelta para el acceso al repositorio.
+Categoría C solicitada; INC-050–053 y Pasos 1–4 conservados. Rama
+`codex/quincena-5`, HEAD/base `5ae4c868be6843513a3b8a4f0be2962762c6442d`,
+**sin commit**. Historial protegido, último análisis automático, selección entre
+vistas/recarga/chat, tendencias diarias comparables y mensajes basados en evidencia.
+Regresión completa: **452 aprobadas, una opt-in omitida, 136 subpruebas y dos
+advertencias**, 85.83 s, código 0. Edge nuevo **11/11** y general **23/23**, cero
+errores de página; presentación **16/16 + 8/8**, fechas **11/11**, build/tipos 0.
+DB/Auth/proveedores simulados; cero modelos reales, acceso/escrituras externas,
+commit/push o despliegue. Documentos de demostración y evidencias históricas
+verificados intactos. **57 incidencias: 54 resueltas, dos mitigadas y una pendiente
+externa; cero abiertas.** Pendientes previos de ensayo real, evaluación humana
+N15, tutorial/móvil completo y controles de producción conservados.
+[Archivos, pruebas, límites y pasos de interfaz](analysis_history_dashboard_20261019.md).
+Los registros iniciales/de avance siguientes son históricos de esta misma tarea.
+
+**Seguimiento de INC-057 — 19-oct-2026:** segundo recorrido anterior
+alcanzó 12 controles antes de agotar 90 s buscando el texto exacto de un error.
+El mensaje estaba dentro del mismo contenedor que «Reintentar»; se separa en
+un span, conservando el error y su botón. Evidencia preservada. Se comprueba
+además el mensaje de fallo de conexión con transporte abortado y referencias
+numeradas para distinguir incluso identificadores breves coincidentes.
+Validación posterior pendiente, sin commit.
+
+**Seguimiento de validación de INC-055 — 19-oct-2026:** el E2E anterior
+se detuvo tras cinco controles porque su inventario de negocios recogía todos
+los selectores de la página; el historial nuevo agrega una opción vacía válida.
+Se acota la comprobación a `#mepia-business`, manteniendo la igualdad exacta de
+los dos negocios propios. Evidencia original preservada; no es un defecto de
+permisos ni un resultado aprobado. Repetición pendiente, sin commit.
+
+**Verificación inicial del historial — 19-oct-2026:** 81 pruebas dirigidas,
+8 controles de presentación y tipos aprobados. Regresión completa inicial:
+1 fallida, 451 aprobadas, 1 integración opt-in omitida, 136 subpruebas y
+2 advertencias, 74.46 s. La aserción de rutas de `test_chat_app` aún enumeraba
+solo chat/ajustes: se amplía explícitamente con los cinco GET protegidos y
+sus rechazos anónimos. Edge inicial: tres controles aprobados y una aserción
+fallida porque el escenario añadió una fecha sin cálculos; el null adicional
+es correcto y se conserva en la expectativa. No es aprobación final ni un
+defecto nuevo de producto. Intento original preservado en `.test_tmp/history_20261019/attempt1`.
+INC-055/056/057 siguen en validación, sin commit. INC-017 actualizada: el
+sandbox no reconoció el worktree ajeno a su raíz; acceso local autorizado
+fuera del aislamiento comprobó estado limpio y permitió pruebas. Sin red/DB/modelos.
+
+**Registro inicial de historial y tendencias — 19-oct-2026, en desarrollo local:** trabajo C
+solicitado expresamente por el usuario; no reabre Pasos 1–4 ni INC-050–053.
+Rama `codex/quincena-5`, base/HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`,
+repositorio limpio al inicio, cambios sin commit. INC-055/056/057 abiertas por
+ausencia de recuperación/historial, series vacías y mensajes sin evidencia.
+Validación nueva todavía pendiente. Sin DB externa, modelos, despliegue o push.
+Los registros fechados siguientes conservan su evidencia histórica.
+
+## INC-20261019-055 — No se recupera ni se elige el historial guardado
+
+- Categoría C; resuelta localmente y verificada con datos simulados. Rama `codex/quincena-5`,
+  base `5ae4c86`, sin commit.
+- Evidencia original, anterior a la corrección: `useAuditPolling` retorna sin run_id; no existe listado
+  de N05 en Dashboard/Salud/Reportes. INC-052 ya conserva selección en navegación;
+  no se reabre ni se presenta esa corrección como pendiente.
+- Solución aplicada: historial protegido por sesión/propietario, recuperación automática y
+  errores explícitos, selección por usuario/negocio y limpieza de respuestas tardías.
+- Verificación final: 452/136, Edge 11/11 y 23/23; evidencia en [cierre local](analysis_history_dashboard_20261019.md). Sin consultas externas ni modelos reales.
+
+## INC-20261019-056 — Tendencias sin consulta y nombres que sugieren datos inexistentes
+
+- Categoría C; resuelta localmente y verificada con datos simulados. Rama `codex/quincena-5`,
+  base `5ae4c86`, sin commit.
+- Evidencia original, anterior a la corrección: ambas vistas pasan `lineData=[]`; la gráfica fija series
+  ingresos/margen que no proceden de una consulta histórica. La selección por
+  expresiones regulares puede confundir concentración de ingresos con ingresos.
+- Solución aplicada: lecturas históricas aisladas, una corrida por fecha, indicadores diarios
+  explícitamente comparables y misma unidad; ceros válidos, faltantes sin rellenar.
+- Verificación final: selección por día, cero, unidades, faltantes y límites en las pruebas HTTP y Edge; [evidencia](analysis_history_dashboard_20261019.md). Datos históricos intactos.
+
+## INC-20261019-057 — Mensajes afirman ausencia de anomalías sin análisis cargado
+
+- Categoría C; resuelta localmente y verificada con datos simulados. Rama `codex/quincena-5`,
+  base `5ae4c86`, sin commit.
+- Evidencia original, anterior a la corrección: `ForensicSummary` recibe `[]` al faltar resultado y publica
+  «Sin anomalías detectadas». Riesgo por defecto bajo y textos de arrays/Excel/CSV
+  también confunden ausencia de evidencia con análisis y recorridos disponibles.
+- Solución aplicada: estados de carga/vacío/error/faltantes separados y evaluación forense
+  comprobada antes de afirmar ausencia de anomalías; instrucciones cotidianas.
+- Verificación final: estados, error de conexión, forense desconocido y cero válido en HTTP/Edge; [evidencia](analysis_history_dashboard_20261019.md). Demostración intacta.
+
 **Quincena 5 publicada y verificada — 19-oct-2026:** rama
 `codex/quincena-5`, commit de contenido `ebe6e470f4e6c5124d73e7be3877a54f58c22bd2`.
 Push normal código 0 y hash remoto coincidente; `codex/chatbot-q4` conservada.
@@ -165,6 +355,16 @@ publicado `f9cfddc`; las validaciones aceptadas anteriores no se reabren.
 - **Archivos/evidencia actuales:** [seguimiento de la corrección](dashboard_demo_fix_20261015.md).
 
 ## INC-20261015-052 — Navegar al chat pierde la selección visual de la corrida
+
+- **Ampliación verificada — 19-oct-2026:** la corrección de navegación se
+  conserva; la selección dispone ahora de referencia mínima en sessionStorage
+  por pestaña/usuario/negocio. Volver del chat incluso después de recargarlo
+  recupera la corrida; negocio/logout limpia inmediatamente. El límite de
+  selección solo en memoria descrito abajo corresponde al 15-oct y queda
+  ampliado por INC-055, sin reabrir INC-052. DB/Auth/proveedores simulados,
+  Edge 11/11 y 23/23 del cierre local; sin repetición en la revisión documental.
+  Rama codex/quincena-5, base 5ae4c86, sin commit. [Evidencia](analysis_history_dashboard_20261019.md).
+
 
 - **Categoría/estado:** C, navegación del ensayo; resuelta localmente.
 - **Rama/commit:** `codex/chatbot-q4`, HEAD `f9cfddc84721a9ea32f8e56ba804f0ed8dc77f09`, diagnóstico sin commit.
@@ -658,6 +858,32 @@ estén demostradas, indicarlo expresamente en lugar de inferirlas.
 - **Intento 4:** seis controles aprobados, código 1, cero errores de página. La guarda nueva rechaza correctamente el fixture con negocio A porque, al recargar, la lista propia empezó por C. El caso positivo asumía un orden que la API no garantiza; se fija el negocio del fixture antes de su primera respuesta al negocio seleccionado y se cambia después al otro propio. El caso negativo mantiene el negocio ajeno B fijo. No se debilita la guarda para acomodar la prueba; siguiente intento separado.
 
 ## INC-20261014-035 — Servidor sintético del recorrido combinado no responde al arrancar
+
+- **Cierre del ejecutor — 26-oct-2026:** cuatro controles Node dirigidos
+  aprobados después de corregir la ruta; demo API final 15/15 y navegador 5/5,
+  cero errores. General 26/26, historial 11/11, ajustes 14/14, build/tipos 0.
+  La auditoría registra como previstos los dos cambios nuevos de infraestructura
+  del agregado, sin alterar sus códigos originales ni evidencia de producto.
+  Se corrige clasificación de clases anidadas releyendo XML. Estado resuelto
+  en este ejecutor; sin nueva incidencia de producto. [Archivos, pruebas exactas,
+  intentos iniciales y límites](pruebas_mepia_20261026.md). Rama codex/quincena-5,
+  HEAD 5ae4c86, sin commit/push/producción. Cero modelos y DB externos.
+
+
+- **Seguimiento de pruebas por secciones — 26-oct-2026:** el nuevo ejecutor
+  conserva la regresión 452/136 aprobada. Cuatro controles Node no arrancaron
+  por barras Windows en NODE_OPTIONS; se corrige a ruta con barras normales:
+  fechas 11/11, presentación 16/16 + 8/8 y restauración 3/3, código 0.
+  El primer recorrido de demo se adelantó a «Cargando negocios»; el segundo
+  leyó cifra y unidad juntas como si fueran solo la cifra. Capturas acreditan
+  la carga y el cero correcto; se corrigen esperas/selectores del ejecutor,
+  sin cambiar el resultado de producto. Intentos originales conservados.
+  El agregador de navegador terminó código 1 al detectar dos archivos nuevos
+  de infraestructura editados durante la ejecución; sus cuatro comprobaciones
+  terminaron código 0. La auditoría final distinguirá esos cambios previstos.
+  Demo protegida y gateway local en validación; no hay defecto nuevo demostrado
+  del producto. Rama codex/quincena-5, HEAD 5ae4c86, sin commit. [Informe](pruebas_mepia_20261026.md).
+
 
 - **Fecha, rama y alcance:** 14-oct-2026, validación local de la integración; `codex/chatbot-q4`, HEAD `6fa66bc`, sin commit/push.
 - **Evidencia:** primer intento E2E se detiene antes de controles funcionales: «Servidor local no respondió». Informe privado `frontend_merge_20261014/attempt1/e2e.json`; log del servidor sintético vacío. No se infiere la causa ni se atribuye al frontend. Build Next 15.5.27 completo código 0; presentación 12/12 código 0.
@@ -2339,6 +2565,21 @@ offline; las tres repeticiones adicionales siguen pendientes. Produccion sin cam
 
 ## INC-20260930-014 — Resúmenes documentales desfasados del Paso 4 y del índice 009
 
+- **Seguimiento resuelto — 19-oct-2026, sincronización documental:** se detectaron
+  referencias vigentes que aún exigían run_id, vaciaban al retirarlo, dejaban
+  tendencias desconectadas y describían Salud/polling anteriores. Se corrigen
+  diseño, tareas, contratos, guías e índices; se separa la publicación 5ae4c86
+  de los avances locales. Versiones de diseño reorganizadas conservadas por bytes.
+  No hay defecto nuevo de producto ni incidencia duplicada. Rama
+  `codex/quincena-5`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`, sin commit.
+  Archivos y comprobaciones reales en el [informe](actualizacion_documental_20261019.md)
+  y su [auditoría](evaluations/documentation_sync_audit_20261019.json).
+  Suite 452/136 y Edge 11/11+23/23 pertenecen al cierre anterior, sin repetir.
+  Se conserva 57 incidencias: 54 resueltas, dos mitigadas, una pendiente externa.
+  Siguiente trabajo: ensayo real/evaluación humana y controles separados del plan;
+  no se ejecutaron modelos, DB, commit, push ni despliegue.
+
+
 - **Sincronización del corte actual — 15-oct-2026:** se corrigen resúmenes que
   aún dejaban la unificación en su inicio y no distinguían conexión implementada
   de destino validado. Se alinean estado, guía del video, contratos de datos y
@@ -3475,6 +3716,14 @@ offline; las tres repeticiones adicionales siguen pendientes. Produccion sin cam
 
 ## INC-20261004-017 — Carpeta temporal del sandbox sin permiso de escritura
 
+- **Seguimiento 19-oct-2026, resuelto para esta tarea:** el repositorio solicitado
+  estaba fuera de la raíz inicial del sandbox. Git reportó falta de worktree y
+  acceso al cwd; la ejecución local autorizada verificó `codex/quincena-5`,
+  HEAD `5ae4c86`, estado inicial limpio y pruebas completas. Temporales bajo
+  `.test_tmp/history_20261019`; sin relajar pruebas ni acceder a DB/modelos reales.
+  Cambios actuales sin commit; [cierre y evidencia](analysis_history_dashboard_20261019.md).
+
+
 - **Paso 5, 12-oct-2026:** pnpm informó `EPERM` al resolver la carpeta del
   proyecto dentro del aislamiento. La instalación autorizada fuera del mismo,
   con almacenes temporales bajo `.test_tmp/step5`, terminó correctamente. No
@@ -3589,3 +3838,46 @@ offline; las tres repeticiones adicionales siguen pendientes. Produccion sin cam
 Evidencia pública de INC-040/041 y seguimiento de INC-035: [consolidado de automatización](evaluations/chatbot_step5_automation_summary_20261014.md).
 
 Seguimiento final de INC-035: intento 6, 154 passed, 2 warnings, 41 subtests passed in 22.73s, código 0; 18/18 controles Edge y cero errores, código 0. Auditoría posterior detecta reordenamiento de include por Next; se extrae restauración compartida, tres pruebas Node aprobadas y ejecución de esa misma función sobre el estado generado real recupera ambas huellas previas. El flujo completo del navegador no se repite tras extraer solo la limpieza; se conserva su evidencia junto con la prueba específica de la función. Evidencia `evaluations/chatbot_step5_workspace_cleanup_20261014.json`.
+
+## INC-20261030-058 — Compatibilidad del tutorial al integrar quincena 6
+
+**Cierre técnico local — 4-nov-2026.** Tras cambiar de negocio, el tutorial
+podía leer el `run_id` anterior antes de que se actualizara la URL y marcar
+el nuevo ámbito como inicializado. Ahora reevalúa la URL al quitar esa
+referencia. La prueba verifica que la corrida y los indicadores anteriores
+desaparecen, que cada negocio guarda su propio paso y que el anterior
+se reanuda al volver. Edge 12/12, compilación y tipos con código 0.
+Evidencia local en `.test_tmp/q6_20261030/tutorial_20261104/browser/report.json`
+y `.test_tmp/q6_20261030/build_20261104/build/report.json`. Rama
+`codex/quincena-6`, base `5ae4c86`, sin commit. Queda pendiente la aceptación manual.
+
+La revisión integral de Q6 confirmó el cierre técnico y añadió el recorrido
+del tutorial al ejecutor habitual. [Resultados de la regresión](pruebas_mepia_q6_20261104.md).
+
+**Ajuste del Dashboard — 4-nov-2026.** El recorrido apuntaba a bloques
+grandes de resultados y, cuando faltaba el elemento, mostraba el aviso
+centrado. Los avisos señalan ahora el selector, el estado y encabezados
+concretos. Si faltan resultados, se señala el estado correspondiente.
+Edge 12/12, con aserciones de ancla y flecha en escritorio, móvil
+y negocio vacío. Compilación y tipos con código 0, sin commit.
+
+**Registro del 30-oct-2026.**
+
+Estado: en validación local. Categoría C solicitada por el usuario, integración
+transversal de interfaz; no reabre los Pasos 1–4 ni INC-050–057.
+Rama de la copia: codex/quincena-6; base 5ae4c868be6843513a3b8a4f0be2962762c6442d;
+sin commit. Originales y ZIP conservados.
+
+Evidencia estática: el ZIP parte de una versión anterior de AuditReportView;
+reemplazarlo elimina historial/tendencias. El recorrido usa claves globales de
+localStorage, navega sin conservar run_id y referencia cuatro anclas de ajustes
+que el formulario no expone. Su destrucción durante navegación no garantiza
+retirar el overlay; se valida el ciclo completo al integrar.
+
+Se conserva la vista local y se añaden sus anclas; progreso por usuario/negocio,
+navegación con selección, cierre/limpieza de cada instancia y objetivos de ajustes
+compatibles. Los textos distinguen indicadores disponibles y faltantes. Se conserva
+el lock previo y se añade únicamente driver.js 1.3.1. Pruebas pendientes; no se
+declara resuelta hasta registrar su resultado. No se usan modelos ni bases reales.
+
+[Corte consolidado Q6–Q7](cierre_q6_q7_20261110.md): los estados de INC-20261109-059 e INC-20261110-060/061 se mantienen en su alcance local. Las cifras de sus verificaciones originales se conservan.

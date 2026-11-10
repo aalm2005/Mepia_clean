@@ -1,6 +1,5 @@
 /**
- * Filas tabulares genéricas — listas para mapear Excel/CSV parseado
- * o arrays de CalcResult del orquestador.
+ * Filas de presentación derivadas de resultados guardados del análisis.
  */
 export type TabularValue = string | number | null;
 

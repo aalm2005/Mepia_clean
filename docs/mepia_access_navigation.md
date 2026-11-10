@@ -1,5 +1,34 @@
 # Acceso por pestaña e inicio único de MEPIA
 
+**Nuevo corte local — 26-oct-2026:** hay [pruebas por secciones](plan_pruebas_mepia.md)
+y [demostración sin API real](pruebas_mepia_20261026.md), con regresión 452/136,
+demo API 15/15 y Edge general 26/26, historial 11/11, ajustes 14/14 y demo 5/5.
+Son ejecuciones nuevas con datos/Auth/SDK simulados, distintas de las evidencias
+fechadas inferiores. Los 30 casos manuales y la evaluación humana/proveedor/DB
+real permanecen pendientes; no reabren pasos aceptados ni acreditan producción.
+
+## Selección de resultados vigente — 19-oct-2026
+
+La sesión y la referencia de corrida sobreviven a recargas de la misma pestaña.
+La referencia mínima está ligada a usuario/negocio; no guarda resultados ni
+credenciales nuevas. Sin run_id se usa la selección recordada o el último
+terminado. Un enlace explícito inválido/ajeno muestra error sin fallback.
+Dashboard/Salud/Reportes y vuelta del chat conservan selección; cambio de negocio
+o logout limpia inmediatamente y cancela respuestas antiguas. Cada GET nuevo
+revalida dueño en FastAPI; sessionStorage no autoriza consultas.
+[Contrato](../.kiro/specs/mepia/analysis_history_ui.md),
+[verificación actual](analysis_history_dashboard_20261019.md).
+La validación 24/24 inferior corresponde al 15-oct, no a una repetición nueva.
+
+**Historial y tendencias — 19-oct-2026, cambio local sin commit:** recuperación
+automática, historial para elegir N05, selección por pestaña/negocio y tendencias
+de indicadores diarios guardados. Consultas nuevas con sesión y propietario
+verificados en FastAPI; no dependen solo de la guarda visual. Mensajes separados
+de carga, ausencia, faltantes, error y evidencia forense. Las APIs legadas fuera
+de estas consultas conservan sus controles de producción pendientes.
+[Funcionamiento, pruebas y límites](analysis_history_dashboard_20261019.md). Los registros previos fechados
+describen sus cortes históricos; no se reemplaza su evidencia.
+
 **Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
 inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
 `49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto

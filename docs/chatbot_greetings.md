@@ -1,5 +1,11 @@
 # Saludos del chatbot — 15-oct-2026
 
+**Continuidad — 19-oct-2026:** los saludos conservan su contrato y cierre.
+Visitar/recargar Chat IA conserva ahora la referencia del análisis seleccionado
+en Dashboard/Salud/Reportes; esto no altera el saludo ni las fuentes S3/N14.
+[Navegación vigente](mepia_access_navigation.md). Los resultados del 15-oct
+siguientes permanecen históricos, sin repetición en esta revisión documental.
+
 **Publicación verificada — 15-oct-2026:** acceso por pestaña, Dashboard como
 inicio y saludos del chat publicados en `codex/chatbot-q4`, commit
 `49a5d05184a6e3f50c4353cafd84092df1e9b285`. Push normal código 0 y hash remoto

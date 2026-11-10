@@ -1,5 +1,12 @@
 # MEPIA — Estrategia de Costos de LLM
 
+**Consulta de resultados — 19-oct-2026:** historial, recuperación, tendencias y
+seguimiento de análisis guardados solo leen datos; no ejecutan modelos ni
+recalculan el negocio. Crear un análisis nuevo conserva su recorrido y posible
+consumo. [Contrato](analysis_history.md). La tabla inferior es la estimación
+histórica V1 con sus supuestos, no gasto medido ni precios verificados en este
+corte; no se revisaron tarifas ni proveedores reales en esta sincronización.
+
 **Decisión fija — V1**
 **Presupuesto máximo aprobado: $0.20 USD por auditoría completa**
 
@@ -82,7 +89,7 @@ en el peor escenario posible (3 ejecuciones de N13).
 ---
 
 ## Archivos relacionados
-- `_index.md` — tabla de arquitectura de LLMs
+- `_index.md` — mapa de nodos; los modelos del motor se detallan en las specs de cada nodo
 - `s4_auditoria_ia.md` — modelo S4
 - `n05_ceo_orchestrator.md` — modelo N05
 - `n09_gastos.md` — modelo N09

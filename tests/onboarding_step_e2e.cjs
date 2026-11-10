@@ -1,3 +1,4 @@
+const {dismissTutorialWhenPresent}=require("./tutorial_test_helpers.cjs");
 // Navegador y proxies reales, Auth/DB sintéticos. Nunca usa servicios externos.
 const fs = require('node:fs');
 const path = require('node:path');
@@ -46,7 +47,7 @@ function rows(data, table) {return data.tables[table].filter(row => row.business
   const authHeaders = {Authorization: 'Bearer ' + session.access_token, 'Content-Type': 'application/json'};
   browser = await chromium.launch({headless: true, ...(process.env.MEPIA_TEST_BROWSER ? {channel: process.env.MEPIA_TEST_BROWSER} : {})});
   const context = await browser.newContext({viewport: {width: 1280, height: 900}});
-  const page = await context.newPage(); page.setDefaultTimeout(90000);
+  const page = await context.newPage(); await dismissTutorialWhenPresent(page); page.setDefaultTimeout(90000);
   page.on('pageerror', error => errors.push(error.message));
   await context.route('**/*', route => {
     const url = route.request().url();

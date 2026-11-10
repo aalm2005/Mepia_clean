@@ -1,0 +1,71 @@
+{
+  "created_at_utc": "2026-11-10T17:44:49.538557+00:00",
+  "files": [
+    {
+      "name": "01_DaAx_Coffee_2026-11-04_jornada_habitual.pdf",
+      "bytes": 107003,
+      "sha256": "a8b6724520d26a65f2ed88ec0e2e69d4793704cade1d6ce69bf6627cba02c8ab"
+    },
+    {
+      "name": "02_DaAx_Coffee_2026-11-05_promociones_y_lealtad.pdf",
+      "bytes": 126219,
+      "sha256": "6f4dba0abd2d115b4ea061297bfb93593ecd44e756fbd921a3e71e2de89cddd5"
+    },
+    {
+      "name": "03_DaAx_Coffee_2026-11-06_ventas_por_reparto.pdf",
+      "bytes": 117432,
+      "sha256": "7dae70fa9168194665751208a0cb0906e73eb9a722baafa33528d56db9df00e7"
+    },
+    {
+      "name": "04_DaAx_Coffee_2026-11-07_incidencias_de_caja.pdf",
+      "bytes": 115261,
+      "sha256": "1937f8cca0b78a654246e7ddccde485079506ddbaea12f4512e14c25b181c260"
+    },
+    {
+      "name": "05_DaAx_Coffee_2026-11-08_merma_y_existencias.pdf",
+      "bytes": 129667,
+      "sha256": "ddb3e62205d4f2bbf327b06795ed5b32bba207ec1e673f6fb3e14b37ed4dcf2e"
+    },
+    {
+      "name": "Bitacora_pruebas_Q7.md",
+      "bytes": 1009,
+      "sha256": "e5c07d06f93cdc27a0b23e44d4c623e5c525dc8c6ff42c9e849e50ca452a6ec6"
+    },
+    {
+      "name": "Casos_chat_Q7.json",
+      "bytes": 12553,
+      "sha256": "6e429e794161b3806e69f3f17c94d4f410760c3b6f771baaf9983a89e460b554"
+    },
+    {
+      "name": "Comprobar_resultados_y_chat_Q7.md",
+      "bytes": 15875,
+      "sha256": "7abbc4caee1c4d6d54a6d779b37cf11cb33d2683742648dc78274221bc2a9801"
+    },
+    {
+      "name": "Fuentes_y_supuestos.json",
+      "bytes": 5132,
+      "sha256": "58d2c4535ebbc7250f0de37b6d512f5409068376315dffff2c506f4ee8795603"
+    },
+    {
+      "name": "LEEME_Pruebas_manuales_Q7.md",
+      "bytes": 11303,
+      "sha256": "9f4ff90323735766b7864342dacfb9276b12a4131ac496b2a846ea3e26e5c551"
+    },
+    {
+      "name": "Referencias_DaAx_Q7.json",
+      "bytes": 10745,
+      "sha256": "1b69f088b99599791b6d9f47c415bfc8f37c411c301c956766840d72a16fafd0"
+    },
+    {
+      "name": "Resultados_esperados_validacion_local.json",
+      "bytes": 2042,
+      "sha256": "820d3d943e051c723b57b77c8ebc6e6e918094b45e3b37007fb7ecbd360ad379"
+    }
+  ],
+  "pdf_count": 5,
+  "analysis_cases": 5,
+  "tickets": 132,
+  "uploaded_to_primary": false,
+  "real_ai_tests": "pending",
+  "local_validation_passed": true
+}

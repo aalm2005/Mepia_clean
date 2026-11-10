@@ -21,12 +21,17 @@ def test_chat_and_settings_routes_without_unrelated_model_keys(monkeypatch):
     with TestClient(create_app(config())) as client:
         assert client.get('/me/businesses').status_code == 401
         assert client.get('/audit').status_code == 404
+        for suffix in ('', '/latest', '/00000000-0000-4000-8000-000000000002', '/00000000-0000-4000-8000-000000000002/trends', '/00000000-0000-4000-8000-000000000002/layer3'):
+            assert client.get('/business/00000000-0000-4000-8000-000000000001/analyses'+suffix).status_code == 401
         assert client.get('/business/00000000-0000-4000-8000-000000000001/onboarding/status').status_code == 401
         paths = client.get('/openapi.json').json()['paths']
         assert set(paths) == {'/me/businesses', '/business/{business_id}/chat',
                              '/business/{business_id}/chat/{conversation_id}',
                              '/business/{business_id}/onboarding',
-                             '/business/{business_id}/onboarding/status'}
+                             '/business/{business_id}/onboarding/status',
+                             '/business/{business_id}/analyses', '/business/{business_id}/analyses/latest',
+                             '/business/{business_id}/analyses/{run_id}', '/business/{business_id}/analyses/{run_id}/trends',
+                             '/business/{business_id}/analyses/{run_id}/layer3'}
 
 
 @pytest.mark.parametrize('changes', [

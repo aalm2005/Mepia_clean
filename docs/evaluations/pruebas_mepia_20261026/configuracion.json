@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Entrada con sesión propia y acceso directo a Documentos",
+      "passed": true
+    },
+    {
+      "name": "Ajustes iniciales persistidos sin gastos ficticios",
+      "passed": true
+    },
+    {
+      "name": "Volver a Documentos conserva los ajustes personalizados",
+      "passed": true
+    },
+    {
+      "name": "Guardar sin editar conserva tolerancia 0%",
+      "passed": true
+    },
+    {
+      "name": "Guardar sin editar conserva tolerancia 0.1%",
+      "passed": true
+    },
+    {
+      "name": "Guardar sin editar conserva tolerancia 0.5%",
+      "passed": true
+    },
+    {
+      "name": "Guardar sin editar conserva tolerancia 1%",
+      "passed": true
+    },
+    {
+      "name": "Guardar sin editar conserva tolerancia 5%",
+      "passed": true
+    },
+    {
+      "name": "Guardar sin editar conserva tolerancia 100%",
+      "passed": true
+    },
+    {
+      "name": "Negocio ajeno: GET devuelve 403 sin datos ni cambios",
+      "passed": true
+    },
+    {
+      "name": "Negocio ajeno: POST devuelve 403 sin datos ni cambios",
+      "passed": true
+    },
+    {
+      "name": "Negocio ajeno: PUT devuelve 403 sin datos ni cambios",
+      "passed": true
+    },
+    {
+      "name": "Acceso anónimo denegado en Next y directamente en Python",
+      "passed": true
+    },
+    {
+      "name": "Proxy valida identificadores y cuerpo antes de reenviar",
+      "passed": true
+    }
+  ],
+  "page_errors": [],
+  "external_api_calls": 0
+}

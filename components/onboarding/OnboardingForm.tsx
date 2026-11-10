@@ -184,7 +184,7 @@ export default function OnboardingForm() {
   return (
     <div className="glass-strong rounded-2xl">
       {/* Progress indicator */}
-      <div data-tour="advanced-config-tabs" className="flex items-center gap-0 border-b border-white/10 px-panel py-4">
+      <div data-tour="advanced-config-tabs" data-seccion={activeStep} className="flex items-center gap-0 border-b border-white/10 px-panel py-4">
         {STEPS.map((step) => {
           const isActive = step.id === activeStep;
           return (
@@ -204,7 +204,7 @@ export default function OnboardingForm() {
       </div>
 
       {/* Step content */}
-      <div data-tour="advanced-config-fields" className="px-panel py-8 min-h-[280px]">
+      <div data-tour={["", "advanced-config-brand", "advanced-config-thresholds", "advanced-config-costs", "advanced-config-rules"][activeStep]} className="px-panel py-8 min-h-[280px]">
         {renderStep(activeStep)}
       </div>
 
@@ -218,6 +218,7 @@ export default function OnboardingForm() {
             <button
               type="button"
               onClick={handlePrev}
+              data-tour="config-anterior"
               disabled={isSaving}
               className="px-4 py-2 text-sm text-muted hover:text-zinc-100 transition-colors disabled:opacity-50"
             >
@@ -229,6 +230,7 @@ export default function OnboardingForm() {
             <button
               type="button"
               onClick={handleNext}
+              data-tour="config-siguiente"
               className="glass-btn-ghost px-4 py-2 text-sm"
             >
               Siguiente →
@@ -239,6 +241,7 @@ export default function OnboardingForm() {
             <button
               type="button"
               onClick={handleSave}
+              data-tour="config-guardar"
               disabled={isSaving}
               className="glass-btn-primary px-5 py-2 text-sm font-medium"
             >

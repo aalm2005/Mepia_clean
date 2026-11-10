@@ -1,5 +1,11 @@
 # N14 — Informe Final (Nodo de Persistencia y Entrega)
 
+**Seguimiento desde historial — 19-oct-2026:** N14 conserva su guardado y
+fallo terminal corregidos (INC-048/049 resueltas). Las vistas leen su estado
+mediante el N05 autorizado y padre guardado, sin ejecutar modelos ni entregar
+como persistido un informe fallido. [Wrapper protegido](analysis_history.md).
+Reportes no implementa en este avance un visor integral de todo N14.
+
 **Capa:** Layer 3 — Nodo final | **Anterior:** N13 Revisor de Calidad | **Siguiente:** END
 **Archivo de implementación:** `agents/n14_informe_final.py`
 **Tipo:** Python puro — sin LLM, 100% determinista

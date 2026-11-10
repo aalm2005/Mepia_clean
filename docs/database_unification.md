@@ -1,5 +1,15 @@
 # Unificación de MEPIA en la base principal
 
+**Consulta posterior — 19-oct-2026:** historial N05, resultado, tendencias
+y estado avanzado reutilizan audit_results y verifican sesión/propietario en
+servidor. No agregan migraciones ni requieren replicar datos entre proyectos.
+[Contrato](../.kiro/specs/mepia/analysis_history.md),
+[pruebas simuladas](analysis_history_dashboard_20261019.md).
+INC-048/049 están resueltas localmente; el ensayo integral real sigue pendiente.
+Las lecturas/escrituras y conteos de principal que constan abajo pertenecen a
+la unificación autorizada del 15-oct; no se repitieron ni se inspeccionó la base
+durante esta sincronización. Ensayo nuevo real y producción siguen separados.
+
 **Registro del corte anterior:** la preparación posterior resolvió localmente
 INC-048/049 y confirmó OpenAI configurado; Claude es opcional mediante el respaldo
 OpenAI existente. Las pruebas/conteos que siguen describen su corte original.

@@ -10,7 +10,7 @@ import logging
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any, Literal
-from uuid import UUID
+from uuid import UUID, uuid5, NAMESPACE_URL
 
 from pydantic import BaseModel, Field
 
@@ -561,6 +561,7 @@ def _persist_transactions(
     ticket_flags: dict[str, list[str]],
     rejected_items: dict[str, list[int]],
     db: Any,
+    document_id: str | None = None,
 ) -> int:
     """
     Crea 1 registro en transactions por ticket.
@@ -611,6 +612,7 @@ def _persist_transactions(
             payment = payments_by_order.get(ticket.order_id)
             raw_metadata: dict[str, Any] = {
                 "order_id": ticket.order_id,
+                "timestamp": ticket.timestamp.isoformat(),
                 "order_type": ticket.order_type,
                 "cajero_id": ticket.cajero_id,
                 "mesero_id": ticket.mesero_id,
@@ -632,6 +634,8 @@ def _persist_transactions(
                     "cortesia_staff": _decimal_to_float(payment.cortesia_staff),
                     "tarjetas_lealtad": _decimal_to_float(payment.tarjetas_lealtad),
                 }
+                # S3 consume este nombre; se conserva también la representación de S1B.
+                raw_metadata["PaymentBreakdown"] = raw_metadata["payment"]
 
             # Add validation flags if any
             flags = ticket_flags.get(ticket.order_id, [])
@@ -648,9 +652,21 @@ def _persist_transactions(
                 "document_reference": ticket.order_id,
                 "raw_metadata": raw_metadata,
             })
+            if document_id is not None:
+                rows[-1].update(
+                    id=str(uuid5(NAMESPACE_URL, f"mepia-pos:{business_id}:{ticket.timestamp.date()}:{ticket.sucursal_id}:{ticket.order_id}")),
+                    document_id=document_id,
+                )
 
         # Batch insert the chunk
         if rows:
+            if document_id is not None:
+                try:
+                    db.table("transactions").upsert(rows, on_conflict="id").execute()
+                except Exception:
+                    raise POSPersistenceError("unavailable") from None
+                persisted += len(rows)
+                continue
             try:
                 db.table("transactions").insert(rows).execute()
                 persisted += len(rows)
@@ -678,6 +694,9 @@ def _persist_shift_audit_events(
     shift_audits: list[ShiftAuditEvent],
     rejected_indices: list[int],
     db: Any,
+    *,
+    strict: bool = False,
+    write_cash_count: bool = True,
 ) -> int:
     """
     Persiste shift audit events y actualiza cash_counts.
@@ -745,11 +764,15 @@ def _persist_shift_audit_events(
                 ).execute()
                 persisted += 1
             except Exception as exc:
+                if strict:
+                    raise POSPersistenceError("unavailable") from None
                 _logger.error(
                     "Error persisting shift_audit_event (turno=%s, date=%s): %s",
                     shift.turno, audit.date, exc,
                 )
 
+            if not write_cash_count:
+                continue
             # --- cash_counts: upsert por (business_id, date) ---
             # apertura → initial_float, cierre_z → actual_counted
             cash_row = {
@@ -767,6 +790,8 @@ def _persist_shift_audit_events(
                     on_conflict="business_id,date",
                 ).execute()
             except Exception as exc:
+                if strict:
+                    raise POSPersistenceError("unavailable") from None
                 _logger.error(
                     "Error persisting cash_counts (date=%s): %s",
                     audit.date, exc,
@@ -781,6 +806,8 @@ def _persist_inventory_daily(
     inventory_items: list[InventoryUsageEvent],
     inventory_flags: dict[str, list[str]],
     db: Any,
+    *,
+    strict: bool = False,
 ) -> int:
     """
     Persiste snapshot diario de inventario/costos teóricos.
@@ -815,6 +842,8 @@ def _persist_inventory_daily(
             ).execute()
             persisted += 1
         except Exception as exc:
+            if strict:
+                raise POSPersistenceError("unavailable") from None
             _logger.error(
                 "Error persisting inventory_daily (ingredient=%s): %s",
                 item.ingredient_id, exc,

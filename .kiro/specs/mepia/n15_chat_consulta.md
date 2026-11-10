@@ -1,5 +1,62 @@
 # N15 — Chat de consulta fundamentada
 
+**Q7, 10-nov-2026 — conversación conservada y selección de análisis, verificadas localmente.**
+Solicitud explícita del usuario; categoría C de integración. Rama `codex/quincena-6`,
+base `5ae4c868be6843513a3b8a4f0be2962762c6442d`, cambios sin commit.
+INC-20261110-060/061 registran el chat que se vacía al navegar y la selección por fecha.
+El panel se conserva en la shell dentro del ámbito usuario/negocio, con borrador y
+solicitud en curso. El selector de análisis recientes y el botón del Dashboard envían
+`analysis_run_id` opcional: el servidor verifica propiedad, estado y referencia S3 exacta,
+sin elegir otra corrida de la misma fecha. La fecha manual y la consulta conceptual
+siguen disponibles. Cambiar de análisis inicia otra conversación; el contexto se filtra
+por el linaje seleccionado. Sin escrituras de negocio ni modelos reales en estas pruebas.
+Conservar la vista al navegar no convierte el historial temporal del servidor
+(ocho turnos, treinta minutos) en almacenamiento durable. Recarga, cierre de pestaña
+y reinicio conservan su alcance anterior.
+Verificación del 10-nov-2026: 220 pruebas y 103 subpruebas Python aprobadas
+(dos advertencias preexistentes de lifespan), 29 controles Edge aprobados sin errores
+de página, ocho controles aislados del proxy aprobados, compilación y tipos código 0.
+Los tres controles nuevos de navegación/selección pasaron también antes de ajustar
+la espera de una aserción antigua; el segundo recorrido completo aprobó conservando
+su comprobación de aislamiento. Intentos anteriores preservados.
+La aplicación local se reinició con `.test_tmp/q7_chat_20261110/principal/build`;
+login y OpenAPI HTTP 200, campo `analysis_run_id` confirmado. Cero llamadas reales
+a modelos y cero escrituras de datos del negocio en esta corrección. Aceptación
+manual con IA pendiente. INC-20261110-060/061 resueltas para el alcance local verificado.
+Evidencia: `docs/evaluations/q7_chat_20261110.json` y `docs/q7_chat_navigation_20261110.md`.
+
+Los cierres anteriores conservan sus resultados originales. [Plan manual Q7](../../../output/pdf/MEPIA_Q7_DaAx_Coffee/LEEME_Pruebas_manuales_Q7.md): cinco análisis propuestos, con ejecución manual con IA pendiente.
+
+
+**Pruebas por secciones — 26-oct-2026:** nuevo entorno local de demostración,
+sin modelos/DB externos. Suite 452/136 y demo API 15/15; Edge general 26/26,
+historial 11/11, ajustes 14/14 y demo 5/5, build/tipos 0. Chat simulado 22/22
+de cobertura; 36 juicios semánticos pendientes en esta corrida, sin revocar la
+aceptación histórica del Paso 4. [Plan e infraestructura](local_testing.md),
+[resultados](../../../docs/pruebas_mepia_20261026.md). Claridad humana, proveedor
+real/C02 y producción siguen separados; avances sin commit.
+
+**Continuidad documental — 19-oct-2026:** Dashboard, Salud y Reportes
+conservan su análisis seleccionado al visitar/recargar Chat IA. N15 mantiene
+fuentes S3/N14 por fecha y linaje; la referencia visual N05 no se convierte en
+fuente del chat. api.chat_app incluye ahora los GET protegidos de análisis
+guardados; no incluye ingesta ni ejecución de análisis nuevos.
+[Contrato de datos](n15_chat_consulta_datos.md), [selección](analysis_history_ui.md),
+[estado actual](../../../docs/estado_actual_mepia.md). Pasos 1–4 conservan su
+aceptación; C02/cuota, evaluación funcional/humana y producción siguen separados.
+
+**Validación local — 19-oct-2026:** historial/tendencias verificados con
+452 pruebas y 136 subpruebas, una integración opt-in omitida, dos avisos; Edge
+11/11 y 23/23, cero errores; build y tipos código 0. Proveedores/DB simulados;
+sin commit/push ni producción. INC-055/056/057 resueltas y INC-017 actualizada.
+[Evidencia y límites](../../../docs/analysis_history_dashboard_20261019.md).
+
+**Consulta histórica — 19-oct-2026, implementación local:** Dashboard,
+Salud y Reportes comparten historial N05 protegido y recuperación automática.
+Se conserva el análisis elegido al visitar Chat IA y al recargar en la misma
+pestaña/negocio. N15 mantiene sus fuentes, fecha y linaje; no se ejecutan modelos
+al elegir historial. [Contrato de consulta](analysis_history.md).
+
 **Continuidad de la demostración — 15-oct-2026:** correcciones de fecha y
 Dashboard 051/052/053 pertenecen a integración, sin cambiar herramientas,
 permisos ni prohibición de cálculo del chat. El menú conserva el análisis al
@@ -154,7 +211,7 @@ intactos. Modelo real/producción separados; evidencia en la bitácora y reporte
 
 Paso 5 implementado y probado localmente (12-oct-2026): `POST /business/{business_id}/chat`
 exige sesión Supabase y propiedad antes de evidencia/modelo. Body cerrado:
-`question`, `requested_date` opcional, `conversation_id` opcional asignado por
+`question`, `requested_date` opcional, `analysis_run_id` opcional y `conversation_id` opcional asignado por
 servidor. `GET /me/businesses` solo lista negocios propios; GET/DELETE del
 historial vuelven a comprobar permiso. Contexto anterior tratado como dato no
 confiable y nunca citable; ocho turnos/30 minutos/256 conversaciones por proceso.
@@ -173,7 +230,8 @@ clientes en la interfaz es trabajo posterior; propiedad permite cuentas aisladas
 
 Perfil `api.chat_app:create_app --factory`: reutiliza el router N15,
 exige configuración Supabase propia y valida auth/service key al iniciar.
-Expone listado, consulta e historial de Chat IA. Desde el 15-oct también registra
+Expone listado, consulta e historial de Chat IA; desde el 19-oct agrega los
+GET protegidos de análisis guardados. Desde el 15-oct también registra
 GET/POST/PUT de configuración N10 con JWT y propiedad verificadas; guardar
 ajustes es una operación separada, el chat sigue siendo de solo lectura.
 No incluye ingesta/análisis ni exige sus claves. N10 validado: regresión 151/41

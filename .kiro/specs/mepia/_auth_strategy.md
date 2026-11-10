@@ -1,5 +1,16 @@
 # MEPIA — Estrategia de autenticación y autorización
 
+## Cobertura de lecturas de análisis — 19-oct-2026
+
+El router `/business/{business_id}/analyses` y sus cinco GET verifican JWT y
+`businesses.owner_id` antes de auditorías, también en api.chat_app. Next valida
+sesión/Bearer e identificadores; respuestas privadas sin caché. 401/403/404/503
+saneados; revocación y acceso ajeno probados con simulaciones. La selección
+guardada en la pestaña no concede permisos. No se extiende esta cobertura por
+afirmación a los endpoints legados: siguen como gate de producción.
+[Contrato](analysis_history.md), [estado actual](../../../docs/estado_actual_mepia.md).
+Los registros fechados anteriores conservan su alcance; INC-048 está resuelta.
+
 **Entorno verificado — 15-oct-2026:** interfaz y servidor completo usan
 MEPIA principal; 009/010/011 aplicadas con autorización y datos preservados.
 Regresión 178/41 subpruebas, código 0; SQL real 13/13 controles. Usuario confirmó

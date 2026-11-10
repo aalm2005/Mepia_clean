@@ -125,12 +125,31 @@ class _Query:
         self.max_rows = count
         return self
 
+    def range(self, start: int, end: int) -> _Query:
+        self.window = (start, end)
+        return self
+
+    def lte(self, field: str, value: Any) -> _Query:
+        self.upper = (field, value)
+        return self
+
     def execute(self) -> _Result:
-        rows = [row for row in self.rows if all(row.get(k) == v for k, v in self.filters)]
+        def field(row, key):
+            if "->>" in key:
+                parent, child = key.split("->>")
+                return (row.get(parent) or {}).get(child)
+            return row.get(key)
+        rows = [row for row in self.rows if all(field(row, k) == v for k, v in self.filters)]
+        if hasattr(self, "upper"):
+            key, value = self.upper
+            rows = [r for r in rows if str(r.get(key) or "") <= str(value)]
         if self.allowed_statuses is not None:
             rows = [row for row in rows if row.get("node_status") in self.allowed_statuses]
         for field, desc in reversed(self.orders):
             rows.sort(key=lambda row: str(row.get(field) or ""), reverse=desc)
+        if hasattr(self, "window"):
+            start, end = self.window
+            rows = rows[start:end+1]
         return _Result(rows[:self.max_rows] if self.max_rows is not None else rows)
 
 

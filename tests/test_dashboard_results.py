@@ -45,7 +45,9 @@ def test_completed_run_round_trip_preserves_decimals_states_and_lineage(monkeypa
     row=db.store['audit_results'][0]
     assert row['source_s3_result_id']==source
     assert row['result_data']['sequential_results']['calc_results'][0]['value']=='0.00'
-    assert restore_result(row,db)==result.model_dump(mode='json')
+    restored=restore_result(row,db)
+    assert restored.pop('forensic_status_available') is True
+    assert restored==result.model_dump(mode='json')
     assert result.metric_status_available is True
     assert bool(result.dormant_metrics)==partial and bool(result.blocked_metrics)==partial
 

@@ -21,7 +21,10 @@ interface ReviewState {
 
 /** Maps HTTP status codes to user-facing Spanish error messages. */
 function getApiErrorMessage(status: number, body: unknown): string {
-  if (status === 409) return "Faltan datos para iniciar el análisis.";
+  if (status === 409) {
+    const detail = (body as { detail?: unknown } | null)?.detail;
+    return typeof detail === "string" ? detail : "Faltan datos para iniciar el análisis.";
+  }
   if (status === 412) return "No se pudo completar la configuración automática. Revisa los ajustes avanzados.";
   if (status === 503) return "El servicio no está disponible.";
   if (status === 422) {
@@ -186,6 +189,7 @@ export default function UploadForm() {
     setError(null);
 
     let succeeded = 0;
+    let importedTickets = 0;
     let lastReview: ReviewState | null = null;
 
     for (let i = 0; i < files.length; i++) {
@@ -206,6 +210,7 @@ export default function UploadForm() {
           needs_human_review: boolean;
           file_id: string;
           missing_fields?: string[];
+          detailed_import?: { status: string; tickets: number };
         }> = Array.isArray(data) ? data : [data];
 
         const reviewNeeded = results.find((r) => r.needs_human_review);
@@ -218,6 +223,7 @@ export default function UploadForm() {
 
         // Track dates from successful uploads for the audit run
         for (const r of results) {
+          if (r.detailed_import?.status === "complete") importedTickets += r.detailed_import.tickets;
           const d = (r as Record<string, unknown>).date as string | undefined
             ?? ((r as Record<string, unknown>).extracted_fields as Record<string, unknown> | undefined)?.transaction_date as string | undefined;
           if (d && d !== "unknown" && d !== "null") {
@@ -242,7 +248,7 @@ export default function UploadForm() {
     }
 
     setStatus("done");
-    setProgress(`${succeeded} archivos procesados`);
+    setProgress(`${succeeded} archivos procesados${importedTickets ? ` · ${importedTickets} tickets registrados` : ""}`);
     return { ok: true, dates };
   }
 
@@ -349,12 +355,12 @@ export default function UploadForm() {
         </Link>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6" data-tour="enfoque">
         <ArchetypeSelector value={archetype} onChange={setArchetype} />
       </div>
 
       {/* Date picker for audit */}
-      <div className="mb-6 flex items-center gap-3">
+      <div className="mb-6 flex items-center gap-3" data-tour="fecha">
         <label
           htmlFor="audit-date"
           className="text-xs font-semibold uppercase tracking-widest text-zinc-500"
@@ -372,7 +378,7 @@ export default function UploadForm() {
         <p className="text-xs text-zinc-400">Si la dejas vacía, usaremos la fecha de tus documentos.</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mb-4">
+      <div className="grid grid-cols-2 gap-6 mb-4" data-tour="archivos">
         {/* POS column */}
         <div className="flex flex-col gap-2">
           <DocumentDropzone
@@ -445,6 +451,7 @@ export default function UploadForm() {
       <button
         type="button"
         onClick={handleAnalyze}
+        data-tour="analizar"
         disabled={isDisabled}
         className="glass-btn-primary w-full mt-6 py-3.5 text-sm font-semibold uppercase tracking-widest"
       >

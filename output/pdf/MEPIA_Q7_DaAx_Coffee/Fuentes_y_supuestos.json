@@ -1,0 +1,103 @@
+{
+  "consulted_on": "2026-11-10",
+  "sources": [
+    {
+      "id": "menu_comore",
+      "url": "https://www.comore.mx/",
+      "scope": "Menú local Monterrey",
+      "facts": "Americano 12 oz 55; latte 12 oz 75; capuchino 8 oz 65; flat white 8 oz 65; chai 75; matcha 85; chocolate 75; sabor adicional 10."
+    },
+    {
+      "id": "menu_eden",
+      "url": "https://www.edenflorycafe.com/menu",
+      "scope": "Menú local Monterrey",
+      "facts": "Americano 54; latte 76; capuchino 80; flat white 76; chai 85; matcha 99; pan de canasta 53 o 63."
+    },
+    {
+      "id": "menu_liminal",
+      "url": "https://liminalcafe.mx/products",
+      "scope": "Menú local Monterrey",
+      "facts": "Americano 300 ml 58; latte 300 ml 70; flat white 150 ml 64; chai 82; matcha 96; chocolate 68."
+    },
+    {
+      "id": "azucar_morena",
+      "url": "https://cafeazucarmorena.com/pages/b2b",
+      "scope": "Cotización pública de proveedor de Monterrey, no promedio regional",
+      "facts": "Café 420/kg; vainilla 195/750 ml; avena 64/L; concha congelada 384/24; vaso kraft 215/50. Pedido mínimo y disponibilidad del proveedor aplican; no se realizan compras."
+    },
+    {
+      "id": "leche_borden",
+      "url": "https://www.heb.com.mx/borden-leche-entera-1-l-451535/p",
+      "scope": "Precio de catálogo HEB, sin sucursal fijada",
+      "facts": "34 por litro. Precio de referencia publicado; no cotización confirmada en una sucursal."
+    },
+    {
+      "id": "leche_lala",
+      "url": "https://www.heb.com.mx/lala-leche-entera-1-l-1108/p",
+      "scope": "Precio regular de catálogo HEB, sin sucursal fijada",
+      "facts": "38 por litro regular; se descarta la promoción de 30 para la base. Promedio de ambas referencias de leche = 36/L."
+    },
+    {
+      "id": "chai",
+      "url": "https://cafesierranorte.com.mx/product/davinci-jarabe-te-chai/",
+      "scope": "Proveedor de Monterrey",
+      "facts": "Concentrado chai 250/L más IVA. Se adopta costo antes del IVA del proveedor, 0.25/ml."
+    },
+    {
+      "id": "matcha",
+      "url": "https://fujiro.mx/",
+      "scope": "Proveedor con envíos desde Monterrey",
+      "facts": "Matcha puro 3600/kg mostrado; costo adoptado 3.60/g. Precio mostrado con promociones de vigencia no confirmada; referencia para simulación."
+    },
+    {
+      "id": "chocolate",
+      "url": "https://kafensoluciones.com/categoria/bases-en-polvo/bases-de-sabores/",
+      "scope": "Referencia nacional de Cancún, no promedio de Monterrey",
+      "facts": "Base chocolate 380/1300 g, costo aproximado 0.29230769/g. Sustituto documentado al no obtener una cotización local pública comparable."
+    },
+    {
+      "id": "agua",
+      "url": "https://waterdepotmx.com/precios",
+      "scope": "Proveedor que anuncia sucursales en Monterrey",
+      "facts": "Relleno de garrafón 20 L a 30; costo 0.0015/ml."
+    },
+    {
+      "id": "capuchino",
+      "url": "https://www.starbucksathome.com/cam/recetas/capuccino",
+      "scope": "Receta pública de cafetería; no receta privada de Monterrey",
+      "facts": "Espresso con 150 ml de leche. La espuma procede de esa leche; no es un insumo adicional."
+    },
+    {
+      "id": "vainilla",
+      "url": "https://www.starbucksathome.com/cam/recetas/latte-de-vainilla",
+      "scope": "Receta pública de cafetería; adaptación de gramajes DaAx",
+      "facts": "Espresso, leche y jarabe de vainilla."
+    },
+    {
+      "id": "uber",
+      "url": "https://merchants.ubereats.com/mx/en/pricing/",
+      "scope": "Tarifas nacionales por plan, no promedio regional",
+      "facts": "Entrega 25/27/29%; se propone 27% para el escenario. Cargos de marketing, Uber One e impuestos se tratan por separado; no es costo total de liquidación."
+    },
+    {
+      "id": "didi",
+      "url": "https://www.didi-food.com/es-MX/store?shopId=5764607669219100311&type=operation",
+      "scope": "Tarifa nacional, no promedio regional",
+      "facts": "Servicio con reparto 30%; se propone esa tarifa base."
+    },
+    {
+      "id": "clip",
+      "url": "https://clip.mx/como-funciona-clip/calculadora-clip",
+      "scope": "Tarifa nacional",
+      "facts": "3.6% más IVA; referencia informativa, no configura automáticamente una métrica de terminal."
+    }
+  ],
+  "scope": [
+    "No modifica el catálogo existente de DaAx Coffee ni sus comisiones.",
+    "La base actual contiene recetas y precios anteriores; pueden aparecer alertas de consistencia por esos valores.",
+    "No se crean gastos, facturas, compras de ingredientes ni nómina por incluir inventario en el PDF.",
+    "Los costos de insumos son referencias de simulación; no incluyen uniformemente impuestos recuperables, fletes, mano de obra o servicios. No acreditan utilidad neta.",
+    "Chocolate usa referencia nacional externa a Monterrey; agua y otros precios son cotizaciones individuales.",
+    "La bonificación se representa después del IVA conforme al contrato actual de MEPIA. Es una convención de esta prueba interna, no un modelo de facturación fiscal."
+  ]
+}

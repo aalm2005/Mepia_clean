@@ -1,5 +1,20 @@
 # Plan de pruebas del Paso 5 de MEPIA
 
+**Nuevo corte local — 26-oct-2026:** hay [pruebas por secciones](plan_pruebas_mepia.md)
+y [demostración sin API real](pruebas_mepia_20261026.md), con regresión 452/136,
+demo API 15/15 y Edge general 26/26, historial 11/11, ajustes 14/14 y demo 5/5.
+Son ejecuciones nuevas con datos/Auth/SDK simulados, distintas de las evidencias
+fechadas inferiores. Los 30 casos manuales y la evaluación humana/proveedor/DB
+real permanecen pendientes; no reabren pasos aceptados ni acreditan producción.
+
+**Seguimiento vigente — 19-oct-2026:** el historial de análisis N05 y las
+tendencias se verificaron con DB/Auth/modelos simulados; son distintos del
+historial conversacional de este plan. [Casos y resultados](analysis_history_dashboard_20261019.md).
+452 pruebas/136 subpruebas y Edge 11/11+23/23 pertenecen a ese cierre local;
+no califican automáticamente las 48 situaciones ni la comprensión humana N15.
+C02/cuota y revisión humana siguen pendientes; no se repiten modelos en esta
+sincronización. [Estado y próximos trabajos](actualizacion_documental_20261019.md).
+
 **Automatización vigente — 14-oct-2026:** ejecutor por capas implementado.
 Final local: 43 capas por caso aprobadas, cinco pendientes, cero fallidas,
 código 0; no equivale a 43 casos funcionales completos. Regresión 154 pruebas

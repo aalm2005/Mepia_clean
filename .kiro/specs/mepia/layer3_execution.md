@@ -1,5 +1,11 @@
 # Ejecución y fallo terminal de Layer 3
 
+**Lectura protegida vigente — 19-oct-2026:** las vistas consultan el estado
+avanzado a través de un N05 autorizado, no un padre arbitrario. El wrapper
+`/business/{business_id}/analyses/{run_id}/layer3` verifica dueño y filtra N10/N14
+del mismo negocio; conserva el registro de fallos y sus límites inferiores.
+No altera ejecución ni crea un informe al consultarlo. [Contrato](analysis_history.md).
+
 **Capa:** infraestructura de aplicación. **Anterior:** N13. **Terminal:** N14.
 **Implementación:** `agents/layer3_execution.py`, `agents/n14_informe_final.py`.
 

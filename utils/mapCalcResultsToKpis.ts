@@ -14,10 +14,10 @@ const KPI_DEFS: Array<{
   label: string;
   match: RegExp;
 }> = [
-  { id: "ingresos", label: "Ingresos Totales", match: /ingreso|revenue|ventas|sales|subtotal|total_sales/i },
-  { id: "margen", label: "Margen", match: /margin|margen/i },
+  { id: "ingresos", label: "Ingresos Totales", match: /^(ingresos_totales|total_sales|ventas_totales|revenue)$/i },
+  { id: "margen", label: "Margen", match: /^(contribution_margin|margen_contribucion)$/i },
   { id: "merma", label: "Pérdida por Mermas", match: /merma|waste/i },
-  { id: "salud", label: "Salud del Negocio", match: /health/i },
+  { id: "salud", label: "Salud del Negocio", match: /^health_score$/i },
   { id: "caja", label: "Conciliación de Caja", match: /cash_reconcil|caja|cash/i },
 ];
 
@@ -44,7 +44,7 @@ function formatValue(result: CalcResult | undefined): string {
  * No inventa cifras: si no hay match, el valor queda "—".
  */
 export function mapCalcResultsToKpis(results: CalcResult[] = []): KpiCardData[] {
-  return KPI_DEFS.map((def) => {
+  const cards: KpiCardData[] = KPI_DEFS.map((def) => {
     const match = results.find((r) => def.match.test(r.metric));
     return {
       id: def.id,
@@ -52,9 +52,15 @@ export function mapCalcResultsToKpis(results: CalcResult[] = []): KpiCardData[] 
       value: formatValue(match),
       unit: match && match.value !== null ? (match.unit === "%" || match.unit === "pct" ? "" : match.unit) : "",
       status: match?.status ?? "empty",
-      hint: match?.context ?? "Esperando datos de auditoría o Excel/CSV",
+      hint: match?.context ?? "Este análisis no conserva este indicador.",
     };
   });
+  const represented = new Set(cards.filter(card => card.status !== "empty").map(card => card.label));
+  return [...cards, ...results.filter(result=>!represented.has(result.metric)).map((result,index)=>({
+    id:`${result.metric}:${index}`,label:result.metric,value:formatValue(result),
+    unit:result.value===null||result.unit==="%"||result.unit==="pct"?"":result.unit,
+    status:result.status,hint:result.context,
+  }))];
 }
 
 /** Convierte calc_results a filas tabulares para Recharts. */

@@ -1,3 +1,4 @@
+import {metricLabel} from "@/utils/analysis-presentation";
 import type { KpiCardData } from "@/utils/mapCalcResultsToKpis";
 
 const statusTone: Record<KpiCardData["status"], string> = {
@@ -10,13 +11,15 @@ const statusTone: Record<KpiCardData["status"], string> = {
 };
 
 export default function KpiGrid({ items }: { items: KpiCardData[] }) {
+  const visible=items.filter(item=>item.status!=="empty");
+  if(!visible.length) return <p className="text-sm text-zinc-400">Este análisis no conserva indicadores calculados. Revisa los datos pendientes de esa fecha.</p>;
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
-      {items.map((kpi) => (
+      {visible.map((kpi) => (
         <article key={kpi.id} className="glass-accent p-5 relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-emerald-400/8 to-transparent" />
           <p className="relative text-label uppercase tracking-widest text-zinc-400">
-            {kpi.label}
+            {metricLabel(kpi.label)}
           </p>
           <p className={`relative kpi-value text-2xl font-semibold mt-2 ${statusTone[kpi.status]}`}>
             {kpi.value}

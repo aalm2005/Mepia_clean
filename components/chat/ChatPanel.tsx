@@ -4,11 +4,13 @@ import { getSupabaseBrowser } from "@/utils/supabase-browser";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import { MepiaIcon } from "@/components/ui/MepiaIcon";
 import type { ChatTurn } from "@/types/chat";
+import type { AnalysisSummary } from "@/types/analysis";
+import { analysisLabel, analysisStatus, metricLabel } from "@/utils/analysis-presentation";
 
 function MetricStatuses({ data }: { data: Record<string, unknown> }) {
   if (!Array.isArray(data.metrics)) return null;
   const labels: Record<string, string> = { ok: "Resultado emitido", warning: "Advertencia",
-    critical: "Alerta crítica", incomplete_data: "Datos incompletos", error: "Error" };
+    critical: "Alerta crítica", incomplete_data: "Datos incompletos", unit_mismatch: "Unidades incompatibles", error: "Error" };
   return <div className="flex flex-wrap gap-2" aria-label="Estados emitidos por S3">
     {data.metrics.map((raw: unknown, index: number) => {
       if (!raw || typeof raw !== "object") return null;
@@ -16,14 +18,14 @@ function MetricStatuses({ data }: { data: Record<string, unknown> }) {
       const color = status === "critical" || status === "error" ? "text-red-300 border-red-800"
         : status === "warning" ? "text-amber-300 border-amber-800" : "text-zinc-300 border-zinc-700";
       return <span key={index} className={"rounded-lg border px-2.5 py-1 text-xs " + color}>
-        {String(metric.metric ?? "Métrica")} · {labels[status] ?? status}
+        {metricLabel(String(metric.metric ?? "Métrica"))} · {labels[status] ?? status}
       </span>;
     })}
   </div>;
 }
 
-export function ChatPanel() {
-  const { session, business, businesses, businessesLoading } = useMepiaAuth();
+export function ChatPanel({ active = true }: { active?: boolean }) {
+  const { session, business, businesses, businessesLoading, auditRunId, rememberAudit } = useMepiaAuth();
   const [date, setDate] = useState("");
   const [question, setQuestion] = useState("");
   const [pending, setPending] = useState("");
@@ -31,6 +33,13 @@ export function ChatPanel() {
   const [conversation, setConversation] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [analysisRun, setAnalysisRun] = useState("");
+  const [analyses, setAnalyses] = useState<AnalysisSummary[]>([]);
+  const [historyPage, setHistoryPage] = useState(0);
+  const [nextPage, setNextPage] = useState<number | null>(null);
+  const [analysesLoading, setAnalysesLoading] = useState(false);
+  const [analysesError, setAnalysesError] = useState("");
+  const [historyReload, setHistoryReload] = useState(0);
   const epoch = useRef(0);
   const inflight = useRef<AbortController | null>(null);
   const end = useRef<HTMLDivElement>(null);
@@ -39,7 +48,21 @@ export function ChatPanel() {
   activeUser.current = session?.user.id;
 
   useEffect(() => () => { epoch.current++; inflight.current?.abort(); }, []);
-  useEffect(() => { end.current?.scrollIntoView({ behavior: "smooth", block: "end" }); }, [turns.length, pending, busy]);
+  useEffect(() => { if (active) end.current?.scrollIntoView({ behavior: "smooth", block: "end" }); }, [active, turns.length, pending, busy]);
+  useEffect(() => {
+    if (!active || !session || !business) return;
+    const abort = new AbortController();
+    setAnalysesLoading(true); setAnalysesError("");
+    request(`/api/analyses/${business}?page=${historyPage}`, "GET", undefined, abort.signal).then(data => {
+      if (abort.signal.aborted) return;
+      if (data.business_id !== business || !Array.isArray(data.items)) throw new Error("El historial no corresponde al negocio seleccionado.");
+      setAnalyses(previous => Array.from(new Map((historyPage ? [...previous, ...data.items] : data.items)
+        .map((item: AnalysisSummary) => [item.run_id, item])).values()) as AnalysisSummary[]);
+      setNextPage(data.next_page);
+    }).catch(e => { if (!abort.signal.aborted) setAnalysesError((e as Error).message); })
+      .finally(() => { if (!abort.signal.aborted) setAnalysesLoading(false); });
+    return () => abort.abort();
+  }, [active, session?.user.id, business, historyPage, historyReload]);
 
   async function request(path: string, method = "GET", body?: unknown, signal?: AbortSignal) {
     const { data } = await getSupabaseBrowser().auth.getSession();
@@ -57,6 +80,20 @@ export function ChatPanel() {
     epoch.current++; inflight.current?.abort();
     setTurns([]); setConversation(null); setQuestion(""); setPending(""); setError(""); setBusy(false);
   }
+  async function chooseAnalysis(run: string) {
+    if (busy || run === analysisRun) return;
+    if (!run) { resetScope(); setAnalysisRun(""); setDate(""); return; }
+    const current = epoch.current;
+    const abort = new AbortController(); inflight.current = abort;
+    setBusy(true); setError("");
+    try {
+      const item = analyses.find(a => a.run_id === run) ?? await request(`/api/analyses/${business}/${run}`, "GET", undefined, abort.signal);
+      if (current !== epoch.current || abort.signal.aborted) return;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date) || (item.business_id && item.business_id !== business)) throw new Error("No fue posible seleccionar ese análisis.");
+      resetScope(); setAnalysisRun(run); setDate(item.date); rememberAudit(run);
+    } catch (e) { if (!abort.signal.aborted && current === epoch.current) setError((e as Error).message); }
+    finally { if (current === epoch.current) setBusy(false); }
+  }
   async function send(event: FormEvent) {
     event.preventDefault();
     if (busy || !business || !question.trim()) return;
@@ -65,7 +102,7 @@ export function ChatPanel() {
     setBusy(true); setError(""); setPending(submitted); setQuestion("");
     try {
       const data = await request("/api/chat/" + business, "POST", {
-        question: submitted, requested_date: date || null, conversation_id: conversation,
+        question: submitted, requested_date: date || null, conversation_id: conversation, analysis_run_id: analysisRun || null,
       }, abort.signal);
       if (current !== epoch.current) return;
       setConversation(data.conversation_id);
@@ -91,10 +128,30 @@ export function ChatPanel() {
     <header className="flex flex-wrap items-center gap-3 px-5 py-4 sm:px-7">
       <div><h1 className="text-lg font-medium">Chat IA <span className="ml-2 text-xs font-normal text-zinc-500">MEPIA</span></h1>
         <p className="mt-0.5 text-xs text-zinc-500">Consulta resultados de tu negocio</p></div>
-      <div className="ml-auto flex items-center gap-3">
-        <label className="flex items-center gap-2 text-xs text-zinc-400">Fecha (opcional)<input type="date" value={date} onChange={e => { resetScope(); setDate(e.target.value); }}
+      <div className="ml-auto flex flex-wrap items-center gap-3">
+        <label className="flex items-center gap-2 text-xs text-zinc-400">Fecha (opcional)<input type="date" value={date} onChange={e => { resetScope(); setAnalysisRun(""); setDate(e.target.value); }}
           className="max-w-[145px] rounded-lg border border-white/10 bg-transparent px-2 py-1.5 text-xs text-zinc-300 [color-scheme:dark]"/></label>
         <button aria-label="Nueva conversación" title="Nueva conversación" onClick={() => { resetScope(); input.current?.focus(); }} className="rounded-lg p-2 text-zinc-400 hover:bg-white/5 hover:text-white"><MepiaIcon name="plus"/></button>
+      </div>
+      <div className="w-full min-w-0 space-y-2">
+        <label htmlFor="chat-analysis" className="block text-xs text-zinc-400">Análisis que quieres consultar</label>
+        <select id="chat-analysis" value={analysisRun} disabled={busy} onChange={e => void chooseAnalysis(e.target.value)}
+          className="w-full min-w-0 rounded-lg border border-white/10 bg-[#303030] px-3 py-2 text-xs text-zinc-200">
+          <option value="">Últimos resultados disponibles{date ? ` de ${date}` : ""}</option>
+          {analysisRun && !analyses.some(a => a.run_id === analysisRun) && <option value={analysisRun}>Análisis seleccionado · {date} · Ref. {analysisRun.slice(0,8)}</option>}
+          {analyses.map((a,index) => <option key={a.run_id} value={a.run_id} disabled={!["completed","partial","escalated"].includes(a.status)}>
+            {index === 0 ? "Más reciente · " : ""}{analysisLabel(a)} · {analysisStatus[a.status] ?? analysisStatus.unknown}
+          </option>)}
+        </select>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-zinc-400">
+          <button disabled={!auditRunId || busy} onClick={() => auditRunId && void chooseAnalysis(auditRunId)} className="underline disabled:opacity-40">Usar análisis del Dashboard</button>
+          {nextPage !== null && <button disabled={analysesLoading} onClick={() => setHistoryPage(nextPage)} className="underline disabled:opacity-40">Ver análisis anteriores</button>}
+          <button disabled={analysesLoading} onClick={() => { setHistoryPage(0); setHistoryReload(n => n+1); }} className="underline disabled:opacity-40">Actualizar lista</button>
+          {analysesLoading && <span role="status">Cargando análisis…</span>}
+        </div>
+        {analysesError && <p role="alert" className="text-xs text-amber-300">{analysesError}</p>}
+        {!analysesLoading && !analysesError && !analyses.length && <p className="text-xs text-zinc-500">No hay análisis guardados; puedes hacer preguntas conceptuales.</p>}
+        {analysisRun && <p className="text-xs text-emerald-300">Consultas una ejecución concreta. Cambiar de análisis inicia otra conversación.</p>}
       </div>
     </header>
     <div className="min-h-0 flex-1 overflow-y-auto px-5 sm:px-8" aria-live="polite">
@@ -145,7 +202,7 @@ export function ChatPanel() {
           <button disabled={busy} onClick={() => historyAction(false)} className="hover:text-zinc-300 disabled:opacity-40">Recargar historial</button>
           <button disabled={busy} onClick={() => historyAction(true)} className="hover:text-zinc-300 disabled:opacity-40">Eliminar conversación</button>
         </div>}
-        <form onSubmit={send} className="rounded-3xl border border-white/5 bg-[#303030] px-4 pb-3 pt-4 shadow-sm focus-within:border-white/15">
+        <form onSubmit={send} data-tour="pregunta" className="rounded-3xl border border-white/5 bg-[#303030] px-4 pb-3 pt-4 shadow-sm focus-within:border-white/15">
           <label htmlFor="question" className="sr-only">Pregunta sobre tus métricas</label>
           <textarea ref={input} id="question" maxLength={2000} rows={2} disabled={busy || !business} value={question}
             onChange={e => setQuestion(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }}

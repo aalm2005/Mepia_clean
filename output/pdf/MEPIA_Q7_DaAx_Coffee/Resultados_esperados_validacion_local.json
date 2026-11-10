@@ -1,0 +1,73 @@
+{
+  "mode": "offline endpoint and deterministic engine; in-memory database",
+  "external_database_writes": 0,
+  "model_calls": 0,
+  "numeric_operational_metrics_per_case": 22,
+  "cases": [
+    {
+      "file": "01_DaAx_Coffee_2026-11-04_jornada_habitual.pdf",
+      "date": "2026-11-04",
+      "scenario": "Jornada habitual",
+      "tickets": 18,
+      "pages": 5,
+      "gross_collected": "1822",
+      "average_before_vat": "87.26",
+      "cash_variance": "0.00",
+      "waste_cost": "21.52",
+      "stock_days": "7.16",
+      "discounts": "0"
+    },
+    {
+      "file": "02_DaAx_Coffee_2026-11-05_promociones_y_lealtad.pdf",
+      "date": "2026-11-05",
+      "scenario": "Promociones y lealtad",
+      "tickets": 30,
+      "pages": 7,
+      "gross_collected": "3326",
+      "average_before_vat": "101.32",
+      "cash_variance": "0.00",
+      "waste_cost": "7.08",
+      "stock_days": "4.34",
+      "discounts": "200"
+    },
+    {
+      "file": "03_DaAx_Coffee_2026-11-06_ventas_por_reparto.pdf",
+      "date": "2026-11-06",
+      "scenario": "Ventas por reparto",
+      "tickets": 26,
+      "pages": 6,
+      "gross_collected": "2702",
+      "average_before_vat": "89.59",
+      "cash_variance": "0.00",
+      "waste_cost": "24.64",
+      "stock_days": "3.12",
+      "discounts": "0"
+    },
+    {
+      "file": "04_DaAx_Coffee_2026-11-07_incidencias_de_caja.pdf",
+      "date": "2026-11-07",
+      "scenario": "Incidencias de caja",
+      "tickets": 22,
+      "pages": 7,
+      "gross_collected": "2265",
+      "average_before_vat": "88.75",
+      "cash_variance": "-180.00",
+      "waste_cost": "44.08",
+      "stock_days": "2.23",
+      "discounts": "0"
+    },
+    {
+      "file": "05_DaAx_Coffee_2026-11-08_merma_y_existencias.pdf",
+      "date": "2026-11-08",
+      "scenario": "Merma y existencias",
+      "tickets": 36,
+      "pages": 7,
+      "gross_collected": "3855",
+      "average_before_vat": "92.31",
+      "cash_variance": "20.00",
+      "waste_cost": "132.47",
+      "stock_days": "0.07",
+      "discounts": "0"
+    }
+  ]
+}

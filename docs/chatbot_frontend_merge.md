@@ -1,5 +1,26 @@
 # Integración del frontend del equipo con Chat IA
 
+## Comportamiento combinado vigente — 19-oct-2026
+
+Dashboard, Salud y Reportes usan AuditReportView con historial protegido,
+recuperación automática y selección por pestaña/negocio. Dashboard/Salud muestran
+tendencias diarias comparables, cero válido y faltantes explícitos; no hay series
+fijas de ingresos/margen. Las lecturas nuevas verifican dueño en FastAPI.
+El recorrido anterior se repitió 23/23 y el nuevo 11/11 con simulaciones, cero
+errores; [informe de producto](analysis_history_dashboard_20261019.md).
+Los registros de la integración del 14-oct que siguen son históricos:
+bienvenida/cookies se sustituyeron el 15-oct; principal se unificó después.
+La sincronización documental actual no repite suites ni accede a servicios.
+
+**Historial y tendencias — 19-oct-2026, cambio local sin commit:** recuperación
+automática, historial para elegir N05, selección por pestaña/negocio y tendencias
+de indicadores diarios guardados. Consultas nuevas con sesión y propietario
+verificados en FastAPI; no dependen solo de la guarda visual. Mensajes separados
+de carga, ausencia, faltantes, error y evidencia forense. Las APIs legadas fuera
+de estas consultas conservan sus controles de producción pendientes.
+[Funcionamiento, pruebas y límites](analysis_history_dashboard_20261019.md). Los registros previos fechados
+describen sus cortes históricos; no se reemplaza su evidencia.
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.

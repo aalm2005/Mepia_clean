@@ -1,5 +1,76 @@
 # MEPIA
 
+**Corte Q6–Q7 · 10-nov-2026.** MEPIA reúne carga POS, análisis guardados, tendencias, reportes, tutorial de 26 pasos y consulta de una corrida concreta en el chat.
+
+- [Documento maestro V1.6](docs/documento_maestro_mepia_v1_6.md) ([PDF](output/pdf/Documento_Maestro_MEPIA_V1.6.pdf)) y [estado actual](docs/estado_actual_mepia.md).
+- [Cinco pruebas manuales de DaAx Coffee](output/pdf/MEPIA_Q7_DaAx_Coffee/LEEME_Pruebas_manuales_Q7.md) y [35 preguntas para comprobar el chat](output/pdf/MEPIA_Q7_DaAx_Coffee/Comprobar_resultados_y_chat_Q7.md).
+- [Navegación y selección del chat](docs/q7_chat_navigation_20261110.md) y [verificación del corte](docs/cierre_q6_q7_20261110.md).
+
+Los cinco PDF son insumos ficticios para cinco análisis, con 132 tickets internos. No acreditan 50 análisis terminados. La verificación local no acredita aceptación con IA, roles compartidos ni una prueba en teléfono físico.
+
+**9-nov-2026.** Documentos importa el detalle POS estructurado adjunto al PDF
+y permite completar cargas anteriores mediante un reintento idempotente.
+El PDF de demostración produjo 22 indicadores numéricos en la validación local.
+Compilación y tipos aprobados, servidor local actualizado. La regresión dirigida
+registró 74 aprobadas y una PBT preexistente fallida por lentitud de generación.
+[Alcance, pruebas y uso](docs/pos_pdf_importacion_detallada_20261109.md).
+
+## Quincena 6
+
+El tutorial de 26 pasos está integrado con el historial y las gráficas.
+Abre **Tutorial** en la barra superior para repetirlo. La revisión local
+incluye acceso, documentos, resultados, chat, configuración, escritorio
+y móvil. Quedan pendientes la aceptación manual y el ensayo real.
+
+- [Estado actual](docs/estado_actual_mepia.md)
+- [Pruebas de integración y arranque de la demo](docs/pruebas_mepia_q6_20261104.md)
+
+**Pruebas y demostración — 26-oct-2026:**
+[Plan por secciones y 30 acciones manuales](docs/plan_pruebas_mepia.md) ·
+[Resultados y cómo abrir la demo sin API real](docs/pruebas_mepia_20261026.md).
+Suite local 452/136 y demo API 15/15; Edge 26/26, 11/11, 14/14 y 5/5;
+build/tipos 0. La demostración usa datos/SDK/DB ficticios en memoria, con bloqueo
+de red externa y puertos separados. Avances sin commit sobre codex/quincena-5,
+5ae4c86; aceptación manual y capas reales/producción pendientes.
+
+## Registro histórico de la integración del 19-oct-2026
+
+Base publicada: `codex/quincena-5`, `5ae4c868be6843513a3b8a4f0be2962762c6442d`.
+Historial, recuperación automática, selección entre vistas/recarga/chat,
+tendencias comparables y mensajes con evidencia están implementados/verificados
+localmente **sin commit**. Consultar análisis guardados no ejecuta motor ni IA.
+Las consultas nuevas verifican sesión y propietario; los permisos del backend
+legado siguen pendientes antes de producción.
+
+- [Estado y recorrido vigentes](docs/estado_actual_mepia.md).
+- [Índice de la sincronización y pendientes](docs/actualizacion_documental_20261019.md).
+- [Pruebas ya ejecutadas del historial](docs/analysis_history_dashboard_20261019.md).
+- [Guía de instalación/consulta](docs/mepia_setup_video.md) y [demo](docs/demo_video_paso_a_paso.md).
+- [Fuente de verdad del avance](docs/chatbot_corrections.md), [incidencias](docs/chatbot_incidents.md)
+  y [especificaciones](.kiro/specs/mepia/_index.md).
+
+57 incidencias: 54 resueltas, dos mitigadas y una pendiente externa (041).
+Ensayo real, revisión funcional/humana N15, tutorial, móvil integral y controles
+de producción siguen pendientes. Esta actualización solo sincroniza documentos:
+no repite suites, modifica datos/configuración privada ni publica cambios.
+Los registros fechados inferiores conservan sus resultados históricos.
+
+**Verificado localmente — 19-oct-2026, sin commit:** historial y tendencias
+implementados; INC-055/056/057 resueltas. Regresión 452/136, una opt-in omitida,
+dos avisos; Edge 11/11 y 23/23, cero errores; build/tipos código 0. 57 incidencias,
+54 resueltas, dos mitigadas y una pendiente externa. [Detalle y comprobación](docs/analysis_history_dashboard_20261019.md).
+Sin DB/modelos reales, commit/push ni despliegue. Los datos y evidencias previos
+se conservaron. La publicación 5ae4c86 siguiente es el corte anterior a este trabajo.
+
+**Historial y tendencias — 19-oct-2026, cambio local sin commit:** recuperación
+automática, historial para elegir N05, selección por pestaña/negocio y tendencias
+de indicadores diarios guardados. Consultas nuevas con sesión y propietario
+verificados en FastAPI; no dependen solo de la guarda visual. Mensajes separados
+de carga, ausencia, faltantes, error y evidencia forense. Las APIs legadas fuera
+de estas consultas conservan sus controles de producción pendientes.
+[Funcionamiento, pruebas y límites](docs/analysis_history_dashboard_20261019.md). Los registros previos fechados
+describen sus cortes históricos; no se reemplaza su evidencia.
+
 **Quincena 5 publicada y verificada — 19-oct-2026:** rama
 `codex/quincena-5`, commit de contenido `ebe6e470f4e6c5124d73e7be3877a54f58c22bd2`.
 Push normal código 0 y hash remoto coincidente; `codex/chatbot-q4` conservada.

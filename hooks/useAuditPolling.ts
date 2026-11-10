@@ -5,21 +5,6 @@ import type { OrchestratorResult, PipelineStatus } from "@/types/audit";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import { authenticatedFetch } from "@/utils/authenticated-fetch";
 
-/**
- * Response from GET /api/audit/status/{run_id}
- * → proxied to GET /orchestrator/status/{run_id}
- */
-interface StatusResponse {
-  run_id: string;
-  pipeline_status: PipelineStatus;
-  current_node?: string;
-  completed_at?: string;
-}
-
-/**
- * Response from GET /api/audit/layer3/status/{layer3_run_id}
- * → proxied to GET /api/audit/layer3/status/{layer3_run_id}
- */
 interface Layer3StatusResponse {
   layer3_run_id: string;
   status: "running" | "completed" | "failed";
@@ -29,13 +14,6 @@ interface Layer3StatusResponse {
   started_at?: string;
   completed_at?: string;
 }
-
-const TERMINAL_STATUSES: PipelineStatus[] = [
-  "completed",
-  "partial",
-  "escalated",
-  "failed",
-];
 
 interface UseAuditPollingResult {
   /** Full orchestrator result (available after pipeline reaches terminal status) */
@@ -52,23 +30,15 @@ interface UseAuditPollingResult {
   error: string | null;
 }
 
-/**
- * Hook for polling the audit pipeline status.
- *
- * Flow:
- *   1. Poll GET /api/audit/status/{runId} every intervalMs
- *   2. When pipeline reaches terminal status → fetch full result
- *   3. If escalation.triggered → start second polling to GET /api/audit/layer3/status/{layer3_run_id}
- *   4. Stop all polling when Layer 3 completes or fails
- *
- * Spec: tasks_backend.md §18.3
- */
+/** Recupera resultados guardados del negocio autorizado y sigue únicamente estados en proceso. */
 export function useAuditPolling(
   runId: string | null,
   intervalMs: number = 2000
 ): UseAuditPollingResult {
   const { session, business, rememberAudit } = useMepiaAuth();
   const user = session?.user.id;
+  const scopeKey = `${user}:${business}:${runId}`;
+  const [readKey,setReadKey] = useState("");
   const [result, setResult] = useState<OrchestratorResult | null>(null);
   const [pipelineStatus, setPipelineStatus] = useState<PipelineStatus | null>(
     null
@@ -87,6 +57,7 @@ export function useAuditPolling(
 
   useEffect(() => {
     // Clear even when runId is removed; a business change also removes its query.
+    setReadKey(scopeKey);
     setResult(null);
     setPipelineStatus(null);
     setCurrentNode(null);
@@ -118,19 +89,19 @@ export function useAuditPolling(
      */
     const fetchFinalResult = async () => {
       try {
-        const res = await authenticatedFetch(`/api/audit/result/${runId}`, { signal: abort.signal });
-        if (!res.ok) {
-          throw new Error(
-            `Error fetching result: ${res.status} ${res.statusText}`
-          );
-        }
-        const data: OrchestratorResult = await res.json();
+        const res = await authenticatedFetch(`/api/analyses/${business}/${runId}`, { signal: abort.signal });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload?.detail ?? "No fue posible recuperar el análisis guardado.");
+        const data: OrchestratorResult = payload;
         if (!isCurrent()) return;
         if (data.business_id !== business || data.run_id !== runId) {
           throw new Error("Este análisis no corresponde al negocio seleccionado.");
         }
+        setPipelineStatus(data.pipeline_status);
         setResult(data);
         rememberAudit(runId);
+        if (data.pipeline_status !== "running") clearMainInterval();
+        if (data.pipeline_status === "failed") setError("Este análisis falló. Elige otro del historial o revisa los documentos antes de iniciar uno nuevo.");
 
         // If escalated → start Layer 3 polling using layer2_run_id
         // The backend triggers Layer 3 automatically when escalation happens
@@ -138,18 +109,18 @@ export function useAuditPolling(
           data.escalation.triggered &&
           data.escalation.layer2_run_id !== null
         ) {
-          const layer2RunId = data.escalation.layer2_run_id;
+          clearLayer3Interval();
 
           const pollLayer3 = async () => {
             try {
               const l3Res = await authenticatedFetch(
-                `/api/audit/layer3/status/${layer2RunId}`, { signal: abort.signal }
+                `/api/analyses/${business}/${runId}/layer3`, { signal: abort.signal }
               );
               if (!l3Res.ok) {
                 // 404 means Layer 3 hasn't started yet — not an error
                 if (l3Res.status === 404) return;
                 throw new Error(
-                  `Error fetching Layer 3 status: ${l3Res.status} ${l3Res.statusText}`
+                  "No fue posible consultar el informe avanzado. Intenta de nuevo."
                 );
               }
               const l3Data: Layer3StatusResponse = await l3Res.json();
@@ -173,21 +144,20 @@ export function useAuditPolling(
               setError(
                 err instanceof Error
                   ? err.message
-                  : "Error polling Layer 3 status"
+                  : "No fue posible consultar el informe avanzado."
               );
               clearLayer3Interval();
             }
           };
 
           // Poll immediately, then on interval
+          layer3IntervalRef.current = setInterval(pollLayer3, intervalMs);
           await pollLayer3();
-          if (isCurrent()) layer3IntervalRef.current = setInterval(pollLayer3, intervalMs);
         }
       } catch (err) {
         if (!isCurrent()) return;
-        setError(
-          err instanceof Error ? err.message : "Error fetching audit result"
-        );
+        clearMainInterval();
+        setError(err instanceof TypeError || err instanceof SyntaxError ? "No fue posible conectar con MEPIA. Revisa tu conexión e intenta de nuevo." : err instanceof Error ? err.message : "No fue posible recuperar el análisis guardado.");
       }
     };
 
@@ -196,35 +166,12 @@ export function useAuditPolling(
      * Terminal statuses: completed, partial, escalated, failed
      */
     const pollStatus = async () => {
-      try {
-        const res = await authenticatedFetch(`/api/audit/status/${runId}`, { signal: abort.signal });
-        if (!res.ok) {
-          throw new Error(
-            `Error fetching status: ${res.status} ${res.statusText}`
-          );
-        }
-        const data: StatusResponse = await res.json();
-        if (!isCurrent()) return;
-
-        setPipelineStatus(data.pipeline_status);
-        setCurrentNode(data.current_node ?? null);
-
-        if (TERMINAL_STATUSES.includes(data.pipeline_status)) {
-          clearMainInterval();
-          await fetchFinalResult();
-        }
-      } catch (err) {
-        if (!isCurrent()) return;
-        setError(
-          err instanceof Error ? err.message : "Error polling audit status"
-        );
-        clearMainInterval();
-      }
+      await fetchFinalResult();
     };
 
     // Kick off immediately, then on interval
-    pollStatus();
     mainIntervalRef.current = setInterval(pollStatus, intervalMs);
+    void pollStatus();
 
     return () => {
       active = false;
@@ -234,12 +181,13 @@ export function useAuditPolling(
     };
   }, [runId, intervalMs, business, user, rememberAudit]);
 
+  const visible = readKey===scopeKey && result?.business_id === business && result?.run_id === runId;
   return {
-    result: result?.business_id === business && result?.run_id === runId ? result : null,
-    pipelineStatus,
-    currentNode,
-    layer3Status,
-    layer3DraftStatus,
-    error,
+    result: visible ? result : null,
+    pipelineStatus: visible ? pipelineStatus : null,
+    currentNode: visible ? currentNode : null,
+    layer3Status: visible ? layer3Status : null,
+    layer3DraftStatus: visible ? layer3DraftStatus : null,
+    error: readKey===scopeKey ? error : null,
   };
 }

@@ -1,5 +1,109 @@
 # MEPIA — Flujo y estado actual
 
+Consultar el [documento maestro V1.6](documento_maestro_mepia_v1_6.md) para el alcance acumulado y los criterios de entrega. El nombre del negocio existente pasó a **DaAx Coffee** sin crear otra cuenta ni negocio. La autorización sigue por propietario; no hay membresías de cinco cuentas para un negocio compartido. El objetivo de 50 análisis y la aceptación en teléfono físico siguen sin evidencia. Las notas fechadas de abajo describen su momento de verificación.
+
+**Q7, 10-nov-2026 — conversación conservada y selección de análisis, verificadas localmente.**
+Solicitud explícita del usuario; categoría C de integración. Rama `codex/quincena-6`,
+base `5ae4c868be6843513a3b8a4f0be2962762c6442d`, cambios sin commit.
+INC-20261110-060/061 registran el chat que se vacía al navegar y la selección por fecha.
+El panel se conserva en la shell dentro del ámbito usuario/negocio, con borrador y
+solicitud en curso. El selector de análisis recientes y el botón del Dashboard envían
+`analysis_run_id` opcional: el servidor verifica propiedad, estado y referencia S3 exacta,
+sin elegir otra corrida de la misma fecha. La fecha manual y la consulta conceptual
+siguen disponibles. Cambiar de análisis inicia otra conversación; el contexto se filtra
+por el linaje seleccionado. Sin escrituras de negocio ni modelos reales en estas pruebas.
+Conservar la vista al navegar no convierte el historial temporal del servidor
+(ocho turnos, treinta minutos) en almacenamiento durable. Recarga, cierre de pestaña
+y reinicio conservan su alcance anterior.
+Verificación del 10-nov-2026: 220 pruebas y 103 subpruebas Python aprobadas
+(dos advertencias preexistentes de lifespan), 29 controles Edge aprobados sin errores
+de página, ocho controles aislados del proxy aprobados, compilación y tipos código 0.
+Los tres controles nuevos de navegación/selección pasaron también antes de ajustar
+la espera de una aserción antigua; el segundo recorrido completo aprobó conservando
+su comprobación de aislamiento. Intentos anteriores preservados.
+La aplicación local se reinició con `.test_tmp/q7_chat_20261110/principal/build`;
+login y OpenAPI HTTP 200, campo `analysis_run_id` confirmado. Cero llamadas reales
+a modelos y cero escrituras de datos del negocio en esta corrección. Aceptación
+manual con IA pendiente. INC-20261110-060/061 resueltas para el alcance local verificado.
+Evidencia: `docs/evaluations/q7_chat_20261110.json` y `docs/q7_chat_navigation_20261110.md`.
+
+Los cierres anteriores conservan sus resultados originales. [Paquete manual Q7](../output/pdf/MEPIA_Q7_DaAx_Coffee/LEEME_Pruebas_manuales_Q7.md): cinco análisis propuestos y 35 preguntas; la ejecución manual con IA aún no consta. [Cierre y verificación de la rama](cierre_q6_q7_20261110.md).
+
+
+**Importación de detalle POS — 9-nov-2026.** INC-20261109-059 resuelta para
+el alcance local verificado. El PDF con adjuntos S1B registra ventas, pagos,
+turnos, caja e inventario y actualiza las métricas. Puede completar el documento
+anterior mediante una nueva carga. Se verificaron 22 resultados numéricos y
+las 18 pruebas del flujo nuevo aprobaron. Regresión dirigida con 74 aprobadas
+y una PBT preexistente fallida por lentitud de generación. Compilación y tipos
+con código 0, servidor local reiniciado y disponible. El usuario realizará
+la carga y el análisis nuevos en principal.
+[Contrato y evidencia](pos_pdf_importacion_detallada_20261109.md).
+
+**Revisión integral de Q6 — 4-nov-2026.** Tutorial, historial y tendencias
+integrados en `codex/quincena-6`, base `5ae4c86`, sin commit.
+Pasaron 467 pruebas y 136 subpruebas de Python, los recorridos de
+Edge y la compilación con datos simulados. Quedan pendientes la aceptación
+manual y el ensayo real.
+[Resultados y cómo repetir las pruebas](pruebas_mepia_q6_20261104.md).
+
+**Tutorial de quincena 6 — 4-nov-2026.** La rama `codex/quincena-6`
+(base `5ae4c86`, sin commit) conserva historial y tendencias. Al cambiar de
+negocio se limpia el análisis anterior y cada cuenta y negocio mantiene
+su propio progreso. El enlace directo a un análisis se respeta.
+Edge aprobó 12/12 controles con datos simulados, incluido el recorrido de
+26 pasos en escritorio y móvil (390 × 844). Compilación y tipos aprobaron
+con código 0. La aceptación manual y el ensayo real quedan pendientes.
+
+**Pruebas por secciones y demo — 26-oct-2026:** categoría C solicitada,
+comprobaciones técnicas locales aprobadas; aceptación manual pendiente. Rama
+`codex/quincena-5`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`, **sin commit**.
+Regresión: 452 pruebas + 136 subpruebas, una integración real omitida, dos avisos,
+55.02 s, código 0. Demo API 15/15; Edge general extendido 26/26, historial 11/11,
+ajustes 14/14 y demo 5/5, cero errores; motor ocho escenarios/95 comprobaciones;
+build/tipos 0. Chat simulado: cobertura 22/22, 36 revisiones semánticas pendientes;
+matriz 43 controles locales con evidencia, cinco gates separados, sin aceptación
+humana/real implícita. Entorno demo local con datos/SDK/DB en memoria y red externa
+bloqueada; sin modelos reales, DB externa, commit/push ni despliegue.
+[Plan y 30 acciones manuales](plan_pruebas_mepia.md),
+[resultados, intentos y archivos](pruebas_mepia_20261026.md).
+INC-035 actualizada/resuelta en el ejecutor; 57 incidencias (54 resueltas, dos
+mitigadas y una pendiente externa), cero abiertas. Pasos 1–4 e INC-050–057 conservados.
+
+Auditoría final local: 777 archivos previos presentes,
+133 archivos de producto y 465 evidencias históricas/demo
+con huellas intactas; tsconfig.json/next-env.d.ts restaurados, diff código 0.
+Las sondas Python/Node bloquearon destinos externos antes de contactar.
+La revisión manual conserva 30 acciones pendientes; no acredita modelos ni SQL reales.
+
+**Sincronización documental — 19-oct-2026:** revisión del código, bitácoras,
+índices, diseño, tareas, contratos y guías; se actualiza INC-20260930-014 sin crear
+otra incidencia. Rama `codex/quincena-5`, HEAD `5ae4c868be6843513a3b8a4f0be2962762c6442d`,
+avances locales **sin commit**. Historial/tendencias terminados y verificados;
+INC-050–053 y Pasos 1–4 conservados. Las cifras de pruebas del cierre anterior
+se mantienen como evidencia ya ejecutada; no se repitieron suites de producto.
+[Archivos, comprobaciones documentales y pendientes](actualizacion_documental_20261019.md).
+No hubo cambios de código, datos, configuración privada, modelos ni producción;
+el repositorio ya tenía avances locales al iniciar esta revisión.
+
+Comprobación documental ejecutada: 40 documentos existentes actualizados, 79 documentos vivos revisados y 595 enlaces locales sin destinos rotos; diff código 0. 545 archivos existentes de otros formatos y 452 evidencias protegidas conservan SHA-256; 10 diseños anteriores tienen copia exacta. Rama/HEAD conservados; cero archivos previos eliminados. Verificación de enlaces limitada a destinos locales, sin consultar URLs externas.
+
+**Verificado localmente — 19-oct-2026, sin commit:** historial y tendencias
+implementados; INC-055/056/057 resueltas. Regresión 452/136, una opt-in omitida,
+dos avisos; Edge 11/11 y 23/23, cero errores; build/tipos código 0. 57 incidencias,
+54 resueltas, dos mitigadas y una pendiente externa. [Detalle y comprobación](analysis_history_dashboard_20261019.md).
+Sin DB/modelos reales, commit/push ni despliegue. Los datos y evidencias previos
+se conservaron. La publicación 5ae4c86 siguiente es el corte anterior a este trabajo.
+
+**Historial y tendencias — 19-oct-2026, cambio local sin commit:** recuperación
+automática, historial para elegir N05, selección por pestaña/negocio y tendencias
+de indicadores diarios guardados. Consultas nuevas con sesión y propietario
+verificados en FastAPI; no dependen solo de la guarda visual. Mensajes separados
+de carga, ausencia, faltantes, error y evidencia forense. Las APIs legadas fuera
+de estas consultas conservan sus controles de producción pendientes.
+[Funcionamiento, pruebas y límites](analysis_history_dashboard_20261019.md). Los registros previos fechados
+describen sus cortes históricos; no se reemplaza su evidencia.
+
 **Quincena 5 publicada y verificada — 19-oct-2026:** rama
 `codex/quincena-5`, commit de contenido `ebe6e470f4e6c5124d73e7be3877a54f58c22bd2`.
 Push normal código 0 y hash remoto coincidente; `codex/chatbot-q4` conservada.
@@ -89,7 +193,8 @@ no se publicó una web. PRUEBAS se conserva, sin copiar sus fixtures.
 Los registros fechados siguientes conservan su alcance histórico. Los Pasos
 1–4 aceptados y la evaluación funcional/humana pendiente del Paso 5 se conservan.
 
-[Archivos actualizados, rutas y comprobaciones de este corte](actualizacion_documental_20261015.md).
+[Informe histórico de la sincronización del 15-oct](actualizacion_documental_20261015.md).
+[Sincronización vigente del 19-oct](actualizacion_documental_20261019.md).
 
 **Configuración automática integrada — 15-oct-2026:** INC-044/045 resueltas
 localmente: tolerancias conservadas al guardar y GET/POST/PUT con sesión y
@@ -126,7 +231,7 @@ los registros de acceso y conteos siguientes describen su ejecución anterior.
 
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
-**Actualización documental: 15-oct-2026. Rama: `codex/chatbot-q4`.**
+**Actualización documental: 19-oct-2026. Rama: `codex/quincena-5`; HEAD `5ae4c86`, avances sin commit.**
 Este resumen distingue implementación, evidencia de pruebas y trabajo pendiente.
 La [bitácora del chatbot](chatbot_corrections.md) conserva la fuente de verdad
 de su avance; los registros fechados y las evaluaciones son evidencia histórica.
@@ -170,10 +275,11 @@ Publicar código en GitHub no despliega MEPIA ni cierra sus pendientes de produc
    N14; N12 se omite en v1. La revisión puede terminar con advertencias.
 7. **Consultar resultados.** Dashboard y Salud incluyen indicadores/gráficas;
    Reportes reutiliza la vista de hallazgos sin el bloque de métricas. Las vistas
-   actuales consumen una corrida por `run_id`; no se ha demostrado recuperación
-   automática del último análisis al entrar desde cualquier enlace del menú.
-   El componente de tendencias recibe actualmente una serie vacía: falta conectar
-   periodos históricos. La vista Reportes no prueba por sí sola la presentación
+   consumen una corrida por `run_id`, con historial por fecha/guardado/estado,
+   recuperación del último N05 terminado si falta selección y navegación/recarga
+   conservadas en la misma pestaña y negocio. Dashboard y Salud consultan otras
+   fechas: una corrida por día, indicadores diarios comparables y espacios sin
+   rellenar datos. Validación local sintética; ver [contrato y evidencia](analysis_history_dashboard_20261019.md). La vista Reportes no prueba por sí sola la presentación
    integral de todo el contenido N14.
 8. **Preguntar en Chat IA.** Comparte sesión y negocio, sin otro login. Consulta
    conceptos del catálogo y resultados existentes S3/N14, muestra fuentes/fecha y
@@ -194,7 +300,7 @@ los PDF ni tiene consulta libre a todas las tablas. Las definiciones proceden
 del catálogo local y no acreditan resultados del negocio.
 
 `api.main:app` sirve motor, chat y ajustes; `api.chat_app:create_app --factory`
-sirve chat, negocios y ajustes sin ingesta/análisis. Ejecutarlos por separado
+sirve chat, negocios, ajustes y consulta de análisis guardados; no ejecuta ingesta ni análisis nuevos. Ejecutarlos por separado
 es opcional. La consulta posterior exige resultados realmente persistidos en
 el mismo proyecto; no requiere que el motor siga trabajando.
 
@@ -208,14 +314,14 @@ El análisis nuevo completo conserva su ensayo pendiente.
 
 | Área | Implementado o demostrado | Pendiente / límite del alcance |
 |---|---|---|
-| Acceso | Login común, sesión Supabase, lista propia, selección automática y permisos del chat | Simplificar selector con un negocio; registro/invitaciones de clientes; autorización por recurso de endpoints FastAPI legados |
-| Diseño | Frontend azul, Dashboard como inicio único, menú, KPI, gráficas, Salud, Reportes y chat; bienvenida independiente eliminada | Completar experiencia integral de resultados e historial entre periodos |
+| Acceso | Login común, sesión Supabase, lista propia, selección automática y permisos de chat, ajustes y nuevas lecturas de análisis | Simplificar selector con un negocio; registro/invitaciones de clientes; autorización por recurso de endpoints FastAPI legados |
+| Diseño | Frontend azul, Dashboard como inicio, KPI/gráficas, Salud/Reportes/chat; historial, recuperación, selección y tendencias diarios verificados localmente | Ensayo con datos reales, adaptación móvil integral y publicación |
 | Base compartida | Principal con 18 tablas/175 columnas; datos preservados, procesos y acceso verificados; SQL 13/13 de unificación. INC-046/047 resueltas; INC-048/049 corregidas localmente con regresión 208/41 subpruebas | Ensayar documentos e IA reales, persistencia y consulta posterior; sin certificar despliegue público |
 | Motor | Ingesta, validación, cálculo, interpretación, escalación y revisión implementados; evaluaciones del motor documentadas | Validar recorrido completo con datos representativos y servidor completo en el entorno de presentación; módulos omitidos de v1 separados |
 | Chat Pasos 1–4 | Grounding, herramientas, conversación y evaluación offline aceptados en desarrollo; seguimiento cerrado el 12-oct | No reabrirlos por pendientes de integración o publicación |
 | Chat Paso 5 | API, Auth/propiedad, historial, interfaz y ejecutor de pruebas implementados; acceso y pregunta conceptual confirmados por el usuario | Completar capas funcionales pendientes, pruebas reales y revisión humana de claridad |
 | Configuración inicial | Automática sin gastos ficticios; edición avanzada opcional y protegida, 14/14 controles Edge N10 | Ensayo integral con documentos nuevos y servidor completo en la computadora de grabación |
-| Tutorial guiado | Formulario de configuración y marcas `data-tour` | Recorrido didáctico por pantallas aún sin implementar |
+| Tutorial guiado | 26 pasos en seis vistas. Edge verificó escritorio y móvil en Q6 | Aceptación manual |
 | Celulares | Menú desplegable, chat y distribuciones adaptables; verificaciones sintéticas acotadas | Adaptación y pruebas completas de formularios, tablas, gráficas, teclado y tamaños/dispositivos |
 | Producción | Base principal reactivada y actualizada con autorización; validaciones anteriores en PRUEBAS conservadas; sin despliegue web | Autorización por recurso en endpoints legados, revisión de dependencias, límites/observabilidad, historial entre réplicas y despliegue web autorizado |
 
@@ -303,9 +409,11 @@ Para 3–5 minutos: presentar el problema, mostrar login/identificación automá
 configuración, documentos, resultados y una pregunta al chat; cerrar con tutorial,
 adaptación móvil y validación/publicación pendientes. Usar datos de prueba
 preparados y comprobar previamente el recorrido que se mostrará. El perfil
-`api.chat_app:create_app` sirve al chat, listado y ajustes protegidos; para
-demostrar carga y análisis se necesita `api.main:app`. Aquí faltan las claves
-OpenAI/Anthropic y no se ejecutó un análisis nuevo real. El usuario confirma las
+`api.chat_app:create_app --factory` sirve chat, negocios, ajustes y consultas
+protegidas de análisis guardados; para cargar y analizar se necesita api.main.
+Configurar privadamente las claves en la computadora de grabación: su presencia
+y permisos actuales no se revisaron en este corte. El análisis nuevo real sigue
+sin ensayo aprobado. El usuario confirma las
 pantallas de Documentos/ajustes en su cuenta, pero grabará otro integrante desde
 su computadora con archivos nuevos. Preparar y ensayar esa instalación según la
 [guía de grabación](mepia_setup_video.md); el éxito del ensayo sigue pendiente.

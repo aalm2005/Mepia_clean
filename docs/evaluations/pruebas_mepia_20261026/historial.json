@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Proxy anónimo bloquea historial, resultado y tendencias",
+      "passed": true
+    },
+    {
+      "name": "Acceso común y recuperación automática del último análisis terminado",
+      "passed": true
+    },
+    {
+      "name": "Historial distingue fecha, guardado, estado y varias ejecuciones del mismo día",
+      "passed": true
+    },
+    {
+      "name": "Tendencia real usa fechas y un único análisis por fecha, con cero válido",
+      "passed": true
+    },
+    {
+      "name": "Dashboard, Salud, Reportes, chat y recarga conservan la misma selección",
+      "passed": true
+    },
+    {
+      "name": "Una sola fecha y ausencia de cálculos explican lo que falta",
+      "passed": true
+    },
+    {
+      "name": "Enlace ajeno, inexistente y vacío dan error sin sustituirlo por otro análisis",
+      "passed": true
+    },
+    {
+      "name": "Fallo de historial se muestra como error y permite reintentar",
+      "passed": true
+    },
+    {
+      "name": "Cambio de negocio limpia datos y descarta respuesta tardía; vacío no afirma ausencia de anomalías",
+      "passed": true
+    },
+    {
+      "name": "Cerrar sesión limpia referencias y no deja resultados visibles",
+      "passed": true
+    },
+    {
+      "name": "Cero modelos, cero cambios de filas y solo GET en las consultas",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "external_calls": 0
+}

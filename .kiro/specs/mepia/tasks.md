@@ -1,5 +1,19 @@
 # Plan de Implementación — MEPIA
 
+**Validación por secciones — 26-oct-2026:** ejecutor local y entorno de
+demostración implementados/verificados; [contrato](local_testing.md) y
+[resultados exactos](../../../docs/pruebas_mepia_20261026.md). API/DB/SDK simulados,
+sin consumo de modelos ni acciones externas. Las 30 comprobaciones manuales
+permanecen pendientes y no se trasladan aprobaciones a producción.
+
+**Registro del 19-oct-2026:** historial N05, recuperación automática,
+selección por pestaña/negocio, tendencias diarias y mensajes con evidencia
+implementados y verificados localmente. INC-055/056/057 resueltas; INC-050–053
+conservadas. Rama `codex/quincena-5`, HEAD `5ae4c86`, cambios sin commit.
+[Resultados y límites](../../../docs/analysis_history_dashboard_20261019.md).
+Este avance es categoría C; no es un paso adicional de N15. Ensayo real,
+evaluación humana, tutorial/móvil y producción siguen separados.
+
 ## Visión general
 
 Implementación incremental de MEPIA. Las fases 1–3 (frontend) están completas.
@@ -13,12 +27,12 @@ El [estado actual](../../../docs/estado_actual_mepia.md) separa código, pruebas
 |---------|-----------|--------|
 | `tasks_phase1.md` | Design system + componentes base + rutas de onboarding | ✅ Completo |
 | `tasks_phase2.md` | Ruta `/upload`: defaults automáticos, selector, dropzones, revisión y formulario; gate retirado | Implementado; ensayo integral con archivos nuevos pendiente |
-| `tasks_phase3.md` | Ruta `/dashboard` + API routes + integración end-to-end | ✅ Completo |
+| `tasks_phase3.md` | Dashboard/Salud/Reportes, historial protegido y tendencias | Implementado y verificado localmente; sin commit del avance actual |
 | `tasks_backend.md` | S1→S2→S3→S4→N05→N06→N09→Layer3→PBT | Implementado en desarrollo; publicación y validación integral separadas |
 | `n15_chat_consulta.md` | Chat Pasos 1–5 | 1–4 aceptados; integración implementada, validación funcional del Paso 5 pendiente |
-| `design.md` | Experiencia general | Tutorial guiado pendiente; adaptación móvil parcial; simplificación del selector pendiente |
+| `design.md` | Experiencia general | Tutorial Q6 verificado localmente; adaptación móvil parcial; simplificación del selector pendiente |
 
-## Integración de entorno — 15-oct-2026
+## Integración de entorno — registro del 15-oct-2026
 
 - [x] Registrar inventario posterior de principal y contraste estático sin tablas/columnas faltantes.
 - [x] Registrar configuración privada de interfaz/backend hacia principal con respaldo previo.

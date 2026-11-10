@@ -26,10 +26,24 @@ export async function chatProxy(req: NextRequest, path: string) {
       const messages: Record<number, string> = {
         401: "Tu sesión venció. Inicia sesión de nuevo.", 403: "Sin acceso a este negocio",
         404: "Conversación no disponible", 409: "Espera a que termine la respuesta anterior",
-        422: "Revisa la pregunta, fecha y negocio", 429: "Límite de conversaciones alcanzado",
+        422: "Revisa la pregunta, fecha, análisis y negocio", 429: "Límite de conversaciones alcanzado",
       };
       const status = [401, 403, 404, 409, 422, 429].includes(upstream.status) ? upstream.status : 503;
-      return NextResponse.json({ detail: messages[status] ?? "Chat no disponible. Intenta más tarde." }, { status, headers });
+      // Solo mensajes estáticos conocidos; jamás propagar excepciones crudas del backend.
+      const allowed = new Set([
+        "El análisis no existe o no corresponde a este negocio",
+        "Elige un análisis terminado para consultar sus resultados",
+        "El análisis no conserva una referencia de resultados válida",
+        "Este análisis no conserva su referencia de cálculo; elige otro análisis",
+        "Los cálculos de este análisis no están disponibles; elige otro análisis",
+        "La fecha no coincide con el análisis seleccionado",
+      ]);
+      let detail = messages[status] ?? "Chat no disponible. Intenta más tarde.";
+      if ([404,409,422].includes(status)) {
+        const failure = await upstream.json().catch(() => null);
+        if (typeof failure?.detail === "string" && allowed.has(failure.detail)) detail = failure.detail;
+      }
+      return NextResponse.json({ detail }, { status, headers });
     }
     return NextResponse.json(await upstream.json(), { headers });
   } catch {

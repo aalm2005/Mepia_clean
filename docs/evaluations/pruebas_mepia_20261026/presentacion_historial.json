@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Concentración de ingresos no es ingresos totales",
+    "Costo operativo no es margen",
+    "Salud en MXN describe media por producto",
+    "Cero decimal sigue siendo cero",
+    "No reescala porcentaje",
+    "Estados incompletos no grafican",
+    "Identificación distingue guardado y referencia del mismo día",
+    "No promete Excel ni arrays al faltar datos"
+  ],
+  "passed": 8
+}

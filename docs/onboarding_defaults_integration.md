@@ -1,5 +1,12 @@
 # Configuración inicial automática — integración local
 
+**Continuidad — 19-oct-2026:** los defaults y su edición protegida mantienen
+su cierre (INC-044/045). Las nuevas consultas históricas verifican dueño por
+separado y reutilizan los análisis existentes; no recrean ajustes ni inventan
+costos al consultar. [Historial y límites](analysis_history_dashboard_20261019.md).
+Los resultados N10 y confirmaciones siguientes conservan su fecha, sin repetir
+pruebas ni acceder a la base en esta revisión documental.
+
 **Alcance de esta evidencia:** integración N10 validada en su entorno y fecha.
 El conteo de 45 incidencias al final corresponde a ese cierre. El estado posterior
 incluye la [unificación en principal](database_unification.md), con INC-046/047

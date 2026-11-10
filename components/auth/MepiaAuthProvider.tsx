@@ -9,6 +9,14 @@ type AuthContext = { session: Session | null; ready: boolean; businesses: Busine
   reloadBusinesses: () => void; signOut: () => Promise<void>;
   auditRunId: string | null; rememberAudit: (runId: string) => void };
 const Context = createContext<AuthContext | null>(null);
+const AUDIT_KEY = "mepia.analysis.selection";
+const BUSINESS_KEY = "mepia.analysis.business";
+function readSelection(key:string) {
+  try { return JSON.parse(sessionStorage.getItem(key) ?? "null"); } catch { return null; }
+}
+function clearSelection() {
+  try { sessionStorage.removeItem(AUDIT_KEY); sessionStorage.removeItem(BUSINESS_KEY); } catch {}
+}
 
 export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
@@ -20,6 +28,7 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState("");
   const [reload, setReload] = useState(0);
   const activeUser = useRef<string>();
+  const activeBusiness = useRef(business); activeBusiness.current = business;
 
   useEffect(() => {
     let alive = true;
@@ -31,6 +40,7 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
         const current = ++revision;
         if (verificationTimer !== undefined) clearTimeout(verificationTimer);
         if (activeUser.current !== next?.user.id) {
+          if (activeUser.current || !next) clearSelection();
           setLastAudit(null);
           setSession(null); setBusinesses([]); setBusiness(""); setError(""); setReady(false);
         }
@@ -62,7 +72,8 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
   const user = session?.user.id;
   const auditRunId = lastAudit?.user === user && lastAudit?.business === business ? lastAudit.run : null;
   const rememberAudit = useCallback((runId: string) => {
-    if (!user || !business || activeUser.current !== user) return;
+    if (!user || !business || activeUser.current !== user || activeBusiness.current !== business) return;
+    try { sessionStorage.setItem(AUDIT_KEY,JSON.stringify({user,business,run:runId})); } catch {}
     setLastAudit(current => current?.user === user && current.business === business && current.run === runId
       ? current : { user, business, run: runId });
   }, [user, business]);
@@ -79,7 +90,13 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
         const result = await response.json();
         if (abort.signal.aborted || activeUser.current !== user) return;
         const own: Business[] = result.businesses;
-        setBusinesses(own); setBusiness(current => own.some(item => item.id === current) ? current : own[0]?.id ?? "");
+        const saved = readSelection(BUSINESS_KEY);
+        const selected = own.some(item=>item.id===activeBusiness.current) ? activeBusiness.current
+          : saved?.user===user && own.some(item=>item.id===saved.business) ? saved.business : own[0]?.id ?? "";
+        setBusinesses(own); setBusiness(selected); activeBusiness.current=selected;
+        try { sessionStorage.setItem(BUSINESS_KEY,JSON.stringify({user,business:selected})); } catch {}
+        const analysis=readSelection(AUDIT_KEY);
+        if(analysis?.user===user && analysis.business===selected && typeof analysis.run==="string") setLastAudit(analysis);
       } catch {
         if (!abort.signal.aborted && activeUser.current === user) { setBusinesses([]); setBusiness(""); setError("No fue posible cargar tus negocios. Intenta de nuevo."); }
       } finally { if (!abort.signal.aborted && activeUser.current === user) setLoading(false); }
@@ -88,13 +105,18 @@ export function MepiaAuthProvider({ children }: { children: React.ReactNode }) {
   }, [user, reload]);
 
   async function signOut() {
+    clearSelection(); setLastAudit(null); setBusiness(""); activeBusiness.current=""; setSession(null); setBusinesses([]);
     const { error: failure } = await getSupabaseBrowser().auth.signOut({ scope: "local" });
     if (failure) throw new Error("No fue posible cerrar sesión. Intenta de nuevo.");
     setLastAudit(null);
   }
   return <Context.Provider value={{ session, ready, businesses, business, businessesLoading, error,
     auditRunId, rememberAudit,
-    selectBusiness: id => { if (businesses.some(item => item.id === id)) { if (id !== business) setLastAudit(null); setBusiness(id); } },
+    selectBusiness: id => { if (businesses.some(item => item.id === id)) {
+      if (id !== business) { setLastAudit(null); try { sessionStorage.removeItem(AUDIT_KEY); } catch {} }
+      activeBusiness.current=id; setBusiness(id);
+      try { sessionStorage.setItem(BUSINESS_KEY,JSON.stringify({user,business:id})); } catch {}
+    } },
     reloadBusinesses: () => setReload(value => value + 1), signOut }}>{children}</Context.Provider>;
 }
 

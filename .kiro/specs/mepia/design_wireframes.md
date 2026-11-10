@@ -1,108 +1,67 @@
-# Diseño Frontend — Wireframing Lógico
+# Diseño Frontend — Wireframes lógicos vigentes
 
-**Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](../../../docs/mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
+Actualizado al 19-oct-2026. Los esquemas representan contenido y jerarquía,
+no dimensiones exactas. [Componentes](design_components.md).
 
-**Alcance al 15-oct-2026:** [estado y recorrido actual](../../../docs/estado_actual_mepia.md). El negocio propio se carga automáticamente tras login. Los esquemas inferiores conservan contratos/diseño base; el tutorial didáctico sigue pendiente y la adaptación móvil es parcial.
+## Marco y vistas de resultados
 
-**Referenciado desde:** `design.md`
+```text
+MEPIA | Dashboard | Documentos | Chat IA | Salud | Reportes | Configuración
+Negocio autorizado                                      Cerrar sesión
 
-## Acceso general y Chat IA integrado
+Título de la vista / fecha del análisis / riesgo si está acreditado
+Historial de análisis
+[número · fecha analizada · guardado · estado · referencia breve] [cargar más]
+Estado: buscando / cargando / completado / parcial / error
+Informe avanzado: preparando / guardado / fallo (solo si corresponde)
 
-Sin sesión: pantalla de bienvenida MEPIA, correo/contraseña e Iniciar sesión.
-Después del acceso: Dashboard y menú común (Dashboard, Documentos, Chat IA,
-Salud del Negocio, Reportes, Configuración), negocio y cierre de sesión. La
-bienvenida independiente y el enlace Inicio duplicado se retiraron el 15-oct.
-Chat IA ocupa el área central: bienvenida/sugerencias al estar vacío, mensajes
-de usuario a la derecha y respuestas MEPIA con fuentes a la izquierda;
-compositor redondeado inferior y nueva conversación/fecha en cabecera.
-Marco azul y superficies de vidrio del equipo; conversación similar a ChatGPT. En móvil, el menú
-se abre desde su icono y el compositor permanece disponible mientras se desplazan
-mensajes/sugerencias. El chat no presenta otro login. E2E sintético final 15/15; bienvenida visible
-y gráficas por unidad verificadas en la integración del 14-oct.
+Dashboard y Salud:
+  Indicadores de la corrida: nombre real, cifra y unidad o faltante explicado
+  Métricas calculadas: barras separadas por unidad
+  Evolución de indicadores diarios: fechas ordenadas, una corrida por fecha
+    o explicación de falta de fechas comparables
 
-## Layout `/dashboard`
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│ MEPIA                              [risk_level: HIGH ●]     │  ← AuditHeader
-│ Reporte de Auditoría Forense       Última auditoría: hoy    │
-├─────────────────────────────────────────────────────────────┤
-│ Pipeline: [S1 ✓]──[S2 ✓]──[S3 ✓]──[S4 ✓]──[N05 ✓]──[L2⟳] │  ← PipelineStatusBar
-├─────────────────────────────────────────────────────────────┤
-│ ▲ Análisis profundo en curso (Layer 2) — Ver resultados →   │  ← Layer2Banner (si escalated)
-├──────────────────────────────────┬──────────────────────────┤
-│                                  │  ANOMALÍAS CRÍTICAS      │
-│  TABLA FORENSE PRINCIPAL         │  ┌────────────────────┐  │
-│  ┌──────┬──────────┬──────────┐  │  │ margin_leak        │  │
-│  │Módulo│Resultado │Insight   │  │  │ -10% margen        │  │
-│  │      │Forense   │CEO       │  │  │ ~$1,200 MXN        │  │
-│  ├──────┼──────────┼──────────┤  │  └────────────────────┘  │
-│  │ ●    │ raw_res  │ frase +  │  │  ┌────────────────────┐  │
-│  │ crit │ número   │ badge    │  │  │ source_discrepancy │  │
-│  ├──────┼──────────┼──────────┤  │  │ -320 MXN           │  │
-│  │ ▲    │ raw_res  │ frase +  │  │  └────────────────────┘  │
-│  │ warn │ número   │ badge    │  │                          │
-│  ├──────┼──────────┼──────────┤  │  MÉTRICAS DORMANT        │
-│  │ ─    │ raw_res  │ frase +  │  │  · inventory_variance    │
-│  │ info │ número   │ badge    │  │    falta: recipes        │
-│  └──────┴──────────┴──────────┘  │                          │
-│                                  │                          │
-└──────────────────────────────────┴──────────────────────────┘
+Hallazgos y acciones disponibles del análisis
+Anomalías evaluadas / ausencia de evidencia / evaluación sin anomalías
+Indicadores sin información suficiente y datos que faltan
 ```
 
-**Proporciones:** tabla principal 65% · panel lateral 35%
+Reportes comparte historial y hallazgos sin el bloque de métricas; no es una
+promesa de presentar todo N14. La ausencia de resultados no produce cifras
+ficticias ni el mensaje «Sin anomalías detectadas». Se conserva cero válido.
+Las tendencias muestran huecos donde faltan datos, sin conectar ni sumar
+corridas repetidas. Una fecha sola explica el requisito de dos fechas válidas.
+No hay títulos fijos de ingresos o margen si esos datos no existen.
 
-`Layer2Banner` solo aparece cuando `pipeline_status: "escalated"`. Es colapsable.
-El nodo `[L2]` muestra spinner si Layer 2 corre, checkmark verde si completó, rojo si falló.
+## Documentos
 
-### Jerarquía visual
-
-1. Banner `risk_level: "high"` — barra roja fija, imposible ignorar
-2. Filas `critical` — borde izquierdo rojo + fondo `red-950/20`
-3. `AnomalyCard` — `quantified_impact` en `font-mono text-2xl`
-4. Filas `warning` — borde ámbar
-5. Filas `info` — estilo base
-
-Panel lateral: `low` → solo dormant · `medium` → warnings · `high` → critical primero
-
----
-
-## Layout `/upload`
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│ INGESTA — Subir Documentos de Auditoría                     │
-├─────────────────────────────────────────────────────────────┤
-│ ARQUETIPO CEO                                               │
-│ [Operative Genius ✓]  [Product Purist]  [Growth Hacker]    │
-├──────────────────────────┬──────────────────────────────────┤
-│  TICKET POS              │  FACTURA DE PROVEEDOR            │
-│  ┌────────────────────┐  │  ┌────────────────────────────┐  │
-│  │  Arrastra tu PDF   │  │  │  Arrastra PDF o XML        │  │
-│  │  [Seleccionar PDF] │  │  │  [Seleccionar archivo]     │  │
-│  └────────────────────┘  │  └────────────────────────────┘  │
-│  Estado: idle            │  Estado: idle                    │
-├──────────────────────────┴──────────────────────────────────┤
-│  [Analizar con Agentes IA →]                                │
-│  ⚠ needs_human_review: true → ReviewAlert aparece aquí     │
-└─────────────────────────────────────────────────────────────┘
+```text
+Documentos de auditoría
+Fecha: [vacía para inferir de ventas / selección compatible]
+Enfoque: [Operative Genius | Product Purist | Growth Hacker]
+[POS PDF] [Factura XML/PDF]
+Estado de cada carga / revisión humana si corresponde
+[Analizar archivos con Agentes IA]  ocupado durante la operación
+[Personalizar configuración avanzada] opcional
 ```
 
-**Selector de arquetipo:** 3 tarjetas horizontales. La seleccionada tiene `border-emerald-500`.
-El arquetipo se envía en el payload de `POST /orchestrator/run`.
+Los valores iniciales se crean solo si faltan; costos sin inventar. No se
+anuncian Excel/CSV ni un recorrido general de imágenes escaneadas.
 
-### Estados del formulario de upload
+## Acceso y chat
 
-| Estado | Visual |
-|--------|--------|
-| `idle` | Dropzone con borde `border-dashed border-zinc-700` |
-| `uploading` | Spinner + texto "Procesando OCR..." |
-| `done` | Borde `border-emerald-500` + checkmark |
-| `error` | Borde `border-red-500` + mensaje de error |
-| `needs_human_review` | `ReviewAlert` con campos faltantes listados |
+Sin sesión: MepiaLogin. Después: Dashboard como inicio, sin bienvenida separada.
+Chat usa el mismo marco: nueva conversación/fecha, mensajes y fuentes, compositor
+inferior. No pide otro login. Visitarlo y recargar conserva la referencia del
+análisis al volver; las fuentes del chat siguen el contrato S3/N14.
+Cambiar negocio o salir limpia inmediatamente la vista anterior.
 
-## Archivos relacionados de este nodo
+Menú móvil y composiciones adaptables existentes; revisión integral de
+dispositivos, tablas y formularios pendiente. El botón **Tutorial** está en la
+barra superior. En móvil se muestra el ícono de ayuda con nombre accesible
+«Ver tutorial».
+[Onboarding](design_wireframes_onboarding.md), [flujos](design_flows.md),
+[evidencia local](../../../docs/analysis_history_dashboard_20261019.md).
 
-- `design_components.md` — especificación de cada componente del wireframe
-- `design_flows.md` — lógica de transición entre estados
-- `design_wireframes_onboarding.md` — wireframe de `/app/onboarding`
+
+[Versión anterior conservada](../../../docs/history/documentation_before_sync_20261019/.kiro/specs/mepia/design_wireframes.md). Sus estados y cifras describen su fecha original.

@@ -1,5 +1,24 @@
 # MEPIA — Glosario Compartido
 
+**Contratos vigentes de consulta — 19-oct-2026:** definiciones completas de
+[AnalysisSummary, AnalysisTrend y disponibilidad forense](analysis_history_contracts.md).
+Historial de análisis = corridas N05 persistidas; historial conversacional =
+ChatHistoryStore temporal; memoria semántica = mepia_memory; selección de vista =
+referencia mínima de pestaña/usuario/negocio. No son almacenes intercambiables.
+Las proyecciones no cambian CalcResult ni los estados emitidos por el motor.
+
+**Evidencia de presentación — 19-oct-2026:** `forensic_status_available`
+es un booleano derivado al leer N05, separado de `metric_status_available` S2.
+Exige informe original coincidente y cálculos válidos; nunca se persiste ni
+infiere a partir del fallback. `PipelineStatus` admite unknown solo para lectura
+de registros sin evidencia de terminación. No cambia la salida del motor.
+
+**Contrato de consulta — 19-oct-2026:** `AnalysisSummary` identifica N05 por
+run_id, fecha analizada, created_at y estado. `AnalysisTrend` contiene una serie
+por métrica diaria y unidad exactas, puntos con fecha/valor decimal o null/run_id,
+conteos de periodos válidos/faltantes y aviso de alcance limitado. Son proyecciones
+de lectura; no modifican CalcResult ni el motor. Detalle en `analysis_history.md`.
+
 **Distinción de datos vigente:** `audit_results` guarda las métricas S3 y el
 informe N14 que consulta N15 con negocio, fecha y raíz S3 coincidentes.
 `ChatHistoryStore` conserva conversación temporal en memoria; `mepia_memory`

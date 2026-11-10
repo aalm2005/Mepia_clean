@@ -9,6 +9,7 @@ from api.chat import create_chat_router, gemini_node_factory
 from api.core.auth import AuthService
 from api.core.chat_config import ChatSettings
 from api.onboarding import create_onboarding_router
+from api.analysis_history import create_analysis_router
 
 
 def create_app(config: ChatSettings | None = None) -> FastAPI:
@@ -36,4 +37,5 @@ def create_app(config: ChatSettings | None = None) -> FastAPI:
         auth=auth,
         db_factory=lambda: create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_ROLE_KEY.get_secret_value()),
     ))
+    app.include_router(create_analysis_router(auth=auth, db_factory=lambda: create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_ROLE_KEY.get_secret_value())))
     return app

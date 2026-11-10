@@ -20,6 +20,7 @@ class ChatRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
     question: str = Field(min_length=1, max_length=2000)
     requested_date: date | None = None
+    analysis_run_id: UUID | None = None
     conversation_id: UUID | None = None
 
 
@@ -94,15 +95,45 @@ def create_chat_router(*, auth: AuthService, db_factory: Callable,
     def chat(payload: ChatRequest, response: Response,
              access: BusinessAccess = Depends(verify_business_access)):
         private(response)
+        source = None
+        day = payload.requested_date.isoformat() if payload.requested_date else None
+        if payload.analysis_run_id is not None:
+            # El selector refiere una ejecución N05, no "el último S3" de su fecha.
+            # Propiedad, existencia y linaje se comprueban antes del proveedor.
+            try:
+                rows = (access.db.table("audit_results")
+                        .select("id,business_id,date,node_id,node_status,source_s3_result_id,result_data")
+                        .eq("business_id", access.business_id).eq("node_id", "N05")
+                        .eq("id", str(payload.analysis_run_id)).limit(1).execute()).data or []
+            except Exception:
+                raise HTTPException(503, "No fue posible recuperar el análisis seleccionado") from None
+            if (len(rows) != 1 or rows[0].get("business_id") != access.business_id
+                    or rows[0].get("id") != str(payload.analysis_run_id) or rows[0].get("node_id") != "N05"):
+                raise HTTPException(404, "El análisis no existe o no corresponde a este negocio")
+            row = rows[0]
+            from api.analysis_history import usable
+            if not usable(row):
+                raise HTTPException(409, "Elige un análisis terminado para consultar sus resultados")
+            raw = row.get("result_data") or {}
+            if not isinstance(raw, dict):
+                raise HTTPException(409, "El análisis no conserva una referencia de resultados válida")
+            column, embedded = row.get("source_s3_result_id"), raw.get("source_s3_result_id")
+            source = ChatGroundingService._valid_uuid(column or embedded)
+            if source is None or (column and embedded and column != embedded):
+                raise HTTPException(409, "Este análisis no conserva su referencia de cálculo; elige otro análisis")
+            if day is not None and day != str(row.get("date")):
+                raise HTTPException(422, "La fecha no coincide con el análisis seleccionado")
+            day = str(row.get("date"))
         with store.use(access.user_id, access.business_id,
                        str(payload.conversation_id) if payload.conversation_id else None) as conversation:
             try:
                 # Existencia y ámbito del historial comprobados antes de evidencia/modelo.
+                packet = ChatGroundingService(access.db).build_packet(access.business_id, day, source)
+                if source is not None and packet.source_s3_result_id != source:
+                    raise HTTPException(409, "Los cálculos de este análisis no están disponibles; elige otro análisis")
                 node = node_factory()
-                packet = ChatGroundingService(access.db).build_packet(
-                    access.business_id, payload.requested_date.isoformat() if payload.requested_date else None)
                 answer = node.answer(payload.question, packet, business_id=access.business_id,
-                                     history=store.writing_context(conversation, packet.resolved_date))
+                                     history=store.writing_context(conversation, packet.resolved_date, source))
                 store.append(conversation, payload.question, answer)
             except HTTPException:
                 raise

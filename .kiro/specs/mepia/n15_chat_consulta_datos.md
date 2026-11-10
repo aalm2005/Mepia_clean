@@ -5,7 +5,7 @@
 
 ## Input / Output
 
-Entrada: negocio autorizado, fecha opcional y pregunta. Salida: métricas,
+Entrada: negocio autorizado, pregunta y fecha o `analysis_run_id` opcionales. Salida: métricas,
 informe permitido, fuentes y faltantes; conceptos desde catálogo/glosario local.
 Implementación: `agents/chat_grounding.py`, `agents/chat_tools.py`, `api/chat.py`.
 
@@ -21,7 +21,9 @@ Implementación: `agents/chat_grounding.py`, `agents/chat_tools.py`, `api/chat.p
   en `result_data.results` y su ID como raíz `source_s3_result_id`.
 - WHEN se guarda N14 THEN contiene el informe en `result_data` y el linaje de S3.
 - WHEN el chat consulta THEN verifica usuario/propiedad y filtra negocio;
-  con fecha selecciona esa fecha, sin ella la S3 válida más reciente.
+  con `analysis_run_id` exige N05 terminado del negocio y su S3 exacto; un ID
+  incompatible no cae en otra corrida. Sin ID, usa la fecha indicada o la S3
+  válida más reciente. El N14 siempre debe corresponder a la misma raíz S3.
 - WHEN recupera N14 THEN exige negocio, fecha y raíz S3 coincidentes. Sin N14
   puede consultar métricas válidas, indicando que falta el informe.
 - WHEN motor y chat usan proyectos distintos THEN no comparten registros
@@ -36,12 +38,12 @@ Implementación: `agents/chat_grounding.py`, `agents/chat_tools.py`, `api/chat.p
 ## Perfiles y entorno
 
 `api.main:app` registra motor, chat y ajustes. `api.chat_app:create_app --factory`
-registra chat, negocios y ajustes, sin ingesta/análisis. Ambos leen `api/.env`
+registra chat, negocios, ajustes y GET de análisis guardados, sin ingesta/análisis nuevos. Ambos leen `api/.env`
 y `.env`; el frontend debe usar el mismo proyecto Supabase y una sesión válida
-de ese proyecto. El historial conversacional es temporal en memoria y distinto
-de los resultados persistidos en `audit_results`.
+de ese proyecto. El historial conversacional es temporal en memoria; el de análisis N05 está
+persistido en `audit_results`. La selección visual no altera las fuentes N15.
 
-Interfaz y servidor completo comparten principal. Lectura real de grounding:
+Registro del 15-oct: interfaz y servidor completo comparten principal. Lectura real de grounding:
 cuatro métricas existentes, una evidencia S3 y ningún informe N14 enlazado.
 No se reconstruye linaje histórico ni se generan respuestas en esa comprobación.
 INC-046 resuelta; la validación anterior conserva su alcance. Ver [estado operativo](../../../docs/database_unification.md).
@@ -57,6 +59,8 @@ INC-046 resuelta; la validación anterior conserva su alcance. Ver [estado opera
 - Seleccionar una fecha no habilita agregaciones ni comparaciones calculadas.
 
 ## Archivos relacionados de este nodo
+
+- [Análisis N05 y seguridad](analysis_history.md), [selección](analysis_history_ui.md).
 
 - [Herramientas](n15_chat_consulta_tools.md), [catálogo](n15_chat_consulta_catalogo.md).
 - [Esquema](db_schema.md), [informe final](n14_informe_final.md).

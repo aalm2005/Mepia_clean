@@ -1,5 +1,20 @@
 # Ejecución automatizada y revisión humana del Paso 5
 
+**Nuevo corte local — 26-oct-2026:** hay [pruebas por secciones](plan_pruebas_mepia.md)
+y [demostración sin API real](pruebas_mepia_20261026.md), con regresión 452/136,
+demo API 15/15 y Edge general 26/26, historial 11/11, ajustes 14/14 y demo 5/5.
+Son ejecuciones nuevas con datos/Auth/SDK simulados, distintas de las evidencias
+fechadas inferiores. Los 30 casos manuales y la evaluación humana/proveedor/DB
+real permanecen pendientes; no reabren pasos aceptados ni acreditan producción.
+
+**Continuidad — 19-oct-2026:** la nueva consulta de análisis y tendencias
+tiene pruebas simuladas propias; no cambia las fuentes del chat ni resuelve
+C02/cuota o los juicios humanos pendientes de este ejecutor. Los cinco GET
+protegidos de análisis forman parte de api.chat_app y se comprobaron en la
+regresión local, sin ejecutar modelos. [Evidencia actual](analysis_history_dashboard_20261019.md).
+Los resultados por capa e intentos reales siguientes conservan su fecha/alcance;
+esta revisión documental no los vuelve a ejecutar.
+
 **Acceso e inicio — 15-oct-2026, validado localmente; sin commit:** sesión por pestaña (recargar conserva; cerrar/abrir pide login), Dashboard como inicio y bienvenida eliminada. API con Bearer y verificación de servidor; cookies antiguas no autentican. [Contrato, pruebas y límites](mepia_access_navigation.md). INC-042 resuelta localmente: Edge 24/24, cero errores; build y tipos código 0. 42 incidencias: 39 resueltas, dos mitigadas y una pendiente externa. Los informes fechados anteriores no validan este cambio.
 
 **Estado documental al 15-oct-2026:** consultar [flujo, avance y pendientes](estado_actual_mepia.md). La sesión identifica y carga el negocio autorizado automáticamente; el selector con un solo negocio aún puede simplificarse. Tutorial guiado pendiente y adaptación móvil parcial. Los registros y conteos fechados siguientes conservan su alcance histórico; la publicación de código no equivale a despliegue.

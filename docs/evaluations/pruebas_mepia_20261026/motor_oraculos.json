@@ -1,0 +1,68 @@
+{
+  "level": 1,
+  "total_cases": 8,
+  "passed_cases": 8,
+  "failed_cases": 0,
+  "total_metrics": 95,
+  "correct_metrics": 95,
+  "accuracy_pct": 100.0,
+  "elapsed_seconds": 0.05,
+  "cases": [
+    {
+      "case_id": "caso_01_dia_limpio",
+      "passed": true,
+      "total_metrics": 11,
+      "passed_metrics": 11,
+      "failures": []
+    },
+    {
+      "case_id": "caso_02_faltante_caja",
+      "passed": true,
+      "total_metrics": 10,
+      "passed_metrics": 10,
+      "failures": []
+    },
+    {
+      "case_id": "caso_03_patron_fraude_operativo",
+      "passed": true,
+      "total_metrics": 12,
+      "passed_metrics": 12,
+      "failures": []
+    },
+    {
+      "case_id": "caso_04_erosion_margen_delivery",
+      "passed": true,
+      "total_metrics": 13,
+      "passed_metrics": 13,
+      "failures": []
+    },
+    {
+      "case_id": "caso_05_merma_inventario_riesgo",
+      "passed": true,
+      "total_metrics": 13,
+      "passed_metrics": 13,
+      "failures": []
+    },
+    {
+      "case_id": "caso_06_descuentos_zona_gris",
+      "passed": true,
+      "total_metrics": 12,
+      "passed_metrics": 12,
+      "failures": []
+    },
+    {
+      "case_id": "caso_07_ruidoso_pero_normal",
+      "passed": true,
+      "total_metrics": 11,
+      "passed_metrics": 11,
+      "failures": []
+    },
+    {
+      "case_id": "caso_08_multi_hallazgo_revision_ciega",
+      "passed": true,
+      "total_metrics": 13,
+      "passed_metrics": 13,
+      "failures": []
+    }
+  ]
+}

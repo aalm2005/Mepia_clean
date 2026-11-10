@@ -1,11 +1,13 @@
 """Lectura del Dashboard. Nunca recalcula ni modifica auditorías históricas."""
 from copy import deepcopy
+from decimal import Decimal, InvalidOperation
 from uuid import UUID
 
 
 def restore_result(row: dict, db) -> dict:
     data = deepcopy(row.get("result_data") or {})
     sequence = data.get("sequential_results")
+    original_report = sequence.get("forensic_report") if isinstance(sequence, dict) else data.get("forensic_report")
     has_sequence = isinstance(sequence, dict) and isinstance(sequence.get("calc_results"), list)
     if not has_sequence:
         sequence = {
@@ -41,7 +43,20 @@ def restore_result(row: dict, db) -> dict:
         and isinstance(data.get("dormant_metrics"), list)
         and isinstance(data.get("blocked_metrics"), list)
         and data.get("metric_status_available", True) is True)
+    def valid_calculation(item):
+        if not isinstance(item, dict) or item.get("status") not in ("ok", "warning", "critical"): return False
+        value = item.get("value")
+        if isinstance(value, bool) or not isinstance(value, (str, int, float, Decimal)): return False
+        try: return Decimal(str(value)).is_finite()
+        except (InvalidOperation, ValueError): return False
+    report = original_report or {}
+    forensic_available = (isinstance(report, dict)
+        and report.get("business_id") == row["business_id"] and report.get("date") == row["date"]
+        and isinstance(report.get("anomalies"), list) and bool(report.get("generated_at"))
+        and any(valid_calculation(item) for item in sequence["calc_results"])
+        and data.get("pipeline_status", "completed") in ("completed", "partial", "escalated"))
     return {
+        "forensic_status_available": forensic_available,
         "run_id": row["id"], "business_id": row["business_id"], "date": row["date"],
         "archetype": data.get("archetype", row.get("archetype", "Operative Genius")),
         "pipeline_status": data.get("pipeline_status", "completed"),

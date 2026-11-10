@@ -1,5 +1,11 @@
 # Contrato físico del pipeline — migración 011
 
+**Lecturas históricas — 19-oct-2026:** N05 ya guardado alimenta historial y
+tendencias sin migración adicional. S3/N14 mantienen sus contratos y linaje;
+no se reconstruyen relaciones por proximidad. 011 se aplicó en principal en la
+unificación autorizada del 15-oct, según su informe; no se ejecuta aquí.
+[Consulta protegida](analysis_history.md).
+
 **Estado al 15-oct-2026:** contrato observado en inventario posterior de principal:
 18 tablas/175 columnas; revisión estática de 658 referencias sin faltantes.
 La RPC conserva históricos POS duplicados y rechaza fechas ambiguas, sin imponer

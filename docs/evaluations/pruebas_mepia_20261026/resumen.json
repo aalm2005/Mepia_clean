@@ -1,0 +1,186 @@
+{
+  "date_local": "2026-10-26",
+  "branch": "codex/quincena-5",
+  "head": "5ae4c868be6843513a3b8a4f0be2962762c6442d",
+  "commit": "sin commit",
+  "scope": "Local testing by sections and isolated interactive demonstration, fake Auth/DB/SDK; no production changes.",
+  "unit": {
+    "passed": 452,
+    "subtests_passed": 136,
+    "skipped_real_integration": 1,
+    "warnings": 2,
+    "seconds": 55.02,
+    "exit_code": 0,
+    "source": "regresion.log"
+  },
+  "unit_sections": {
+    "01_acceso": {
+      "passed": 67
+    },
+    "02_interfaz": {
+      "passed": 12
+    },
+    "03_documentos": {
+      "passed": 78
+    },
+    "04_motor": {
+      "passed": 81
+    },
+    "05_historial_graficas": {
+      "passed": 62
+    },
+    "06_chatbot": {
+      "passed": 119
+    },
+    "07_fallos": {
+      "passed": 33
+    },
+    "08_integracion_real_separada": {
+      "skipped": 1
+    }
+  },
+  "new_demo_api": {
+    "passed": 15,
+    "exit_code": 0,
+    "source": "demo_api.log"
+  },
+  "oracles": {
+    "total_cases": 8,
+    "passed_cases": 8,
+    "total_metrics": 95,
+    "correct_metrics": 95,
+    "accuracy_pct": 100.0
+  },
+  "browser": {
+    "general": {
+      "checks": 26,
+      "passed": true,
+      "errors": []
+    },
+    "history": {
+      "checks": 11,
+      "passed": true,
+      "errors": []
+    },
+    "settings": {
+      "checks": 14,
+      "passed": true,
+      "errors": []
+    },
+    "demo": {
+      "checks": 5,
+      "passed": true,
+      "errors": []
+    }
+  },
+  "presentation": {
+    "existing": 16,
+    "history": 8,
+    "dates": 11,
+    "workspace_restore": 3
+  },
+  "offline_chat": {
+    "cases": 28,
+    "parts": 36,
+    "coverage": "22/22",
+    "failures": 0,
+    "semantic_pending": 36,
+    "real_model_calls": 0
+  },
+  "chat_matrix": {
+    "source_summary": {
+      "passed": 41,
+      "failed": 0,
+      "not_run": 7
+    },
+    "browser_extended_checks": [
+      "C07",
+      "C08",
+      "S10_busy",
+      "C04",
+      "S08_notice",
+      "P06_keyboard_partial",
+      "S05_proxy_size"
+    ],
+    "local_automation_passed": 43,
+    "not_executed_prepublication_or_human": 5,
+    "not_a_count_of_fully_accepted_functional_cases": true,
+    "human_clarity": "pending",
+    "real_provider_calls": 0,
+    "pending_prepublication_cases": [
+      "P01",
+      "P03",
+      "P04",
+      "P05",
+      "P06"
+    ]
+  },
+  "build_types": {
+    "build": 0,
+    "types": 0,
+    "config_restored": true,
+    "next_env_restored": true,
+    "public_backend_origin": "http://127.0.0.1:8025",
+    "provenance": "Supabase public origin supplied explicitly by scripts/test_mepia_local.environment to this build; recorded after completion. Original report retained."
+  },
+  "raw_aggregate_exits": {
+    "unit_run": 1,
+    "browser_run": 1,
+    "unit_reason": "New wrapper initial NODE_OPTIONS Windows path failed before four Node checks; corrected and rerun individually, all exit 0. Product Python checks passed in initial run.",
+    "browser_reason": "Four browser/build checks exited 0; wrapper preservation gate caught intentional concurrent edits to two newly introduced infrastructure files; raw report retained."
+  },
+  "auxiliary_failures_preserved": [
+    {
+      "path": ".test_tmp/qa_20261026/unit",
+      "reason": "Windows preload path; original Node exit 1 retained."
+    },
+    {
+      "path": ".test_tmp/qa_20261026/demo_validation/browser",
+      "reason": "Assertion before business loading finished; no product error."
+    },
+    {
+      "path": ".test_tmp/qa_20261026/demo_browser_attempt2/browser",
+      "reason": "Zero selector forgot unit included in element; screenshot shows correct 0 MXN and charts."
+    }
+  ],
+  "updated_incidents": [
+    "INC-20261014-035"
+  ],
+  "new_incidents": [],
+  "real_model_calls": 0,
+  "external_database_reads": 0,
+  "external_database_writes": 0,
+  "commits": 0,
+  "pushes": 0,
+  "deployments": 0,
+  "manual_acceptance": {
+    "cases": 30,
+    "passed_by_human": 0,
+    "status": "pending"
+  },
+  "local_technical_checks_passed": true,
+  "full_production_or_real_model_acceptance": false,
+  "demo": {
+    "url": "http://127.0.0.1:3037/__demo__",
+    "ports": [
+      8025,
+      3036,
+      3037
+    ],
+    "storage": "in process memory only",
+    "simulation_note": "Gateway redirects only document/analysis writes to protected fake endpoints; it does not validate legacy write proxies. Deterministic motor tested separately."
+  },
+  "visual_check": {
+    "exit_code": 0,
+    "zero_with_unit": true,
+    "trend_points_visible": true,
+    "page_errors": [],
+    "evidence": "demo_graficas_final.png"
+  },
+  "preservation": {
+    "baseline_files": 777,
+    "production_files_unchanged": 133,
+    "protected_files_unchanged": 465,
+    "diff_check_exit_code": 0
+  }
+}

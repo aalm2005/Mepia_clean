@@ -41,12 +41,13 @@ export default function MetricLineChart({
           {series.map((s, i) => (
             <Line
               key={s.dataKey}
-              type="monotone"
+              type="linear"
+              connectNulls={false}
               dataKey={s.dataKey}
               name={s.name}
               stroke={s.color ?? (i === 0 ? CHART_COLORS.emerald : CHART_COLORS.sky)}
               strokeWidth={2.2}
-              dot={false}
+              dot={{ r: 3 }}
               activeDot={{ r: 4 }}
             />
           ))}

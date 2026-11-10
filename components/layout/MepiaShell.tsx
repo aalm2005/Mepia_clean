@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useMepiaAuth } from "@/components/auth/MepiaAuthProvider";
 import { MepiaIcon, type MepiaIconName } from "@/components/ui/MepiaIcon";
+import { MepiaTour } from "@/components/tutorial/MepiaTour";
+import { ChatPanel } from "@/components/chat/ChatPanel";
 
 const navigation: { href: string; label: string; icon: MepiaIconName }[] = [
   { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
@@ -37,8 +39,8 @@ export function MepiaShell({ children }: { children: React.ReactNode }) {
     <aside className={`sidebar-glass fixed inset-y-0 left-0 z-40 w-64 flex-col px-3 py-5 ${menu ? "flex" : "hidden md:flex"}`} aria-label="Menú de MEPIA">
       <Link href={analysisHref("/dashboard")} className="mb-8 flex items-center gap-3 px-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-400/15 text-emerald-300 font-semibold">M</span><span className="text-lg font-semibold tracking-wide">MEPIA</span></Link>
       <p className="px-3 pb-3 text-[11px] uppercase tracking-widest text-zinc-500">Tu espacio</p>
-      <nav aria-label="Navegación principal" className="space-y-1">
-        {navigation.map(item => <Link key={item.href} href={analysisHref(item.href)} aria-current={path === item.href ? "page" : undefined}
+      <nav aria-label="Navegación principal" data-tour="nav" className="space-y-1">
+        {navigation.map(item => <Link key={item.href} href={analysisHref(item.href)} aria-current={path === item.href ? "page" : undefined} data-tour={`nav-${item.href.slice(1)}`}
           className={`nav-item ${path === item.href ? "is-active" : ""}`}>
           <MepiaIcon name={item.icon} /><span>{item.label}</span>{item.href === "/chat" && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-400"/>}</Link>)}
       </nav>
@@ -50,18 +52,26 @@ export function MepiaShell({ children }: { children: React.ReactNode }) {
     </aside>
     <div className="md:pl-64">
       <header className="sidebar-glass sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-white/5 px-4 sm:px-6">
-        <button aria-label="Abrir menú" aria-expanded={menu} onClick={() => setMenu(true)} className="rounded-lg p-2 text-zinc-400 hover:bg-white/5 md:hidden"><MepiaIcon name="menu"/></button>
-        <div className="flex min-w-0 flex-1 items-center gap-3"><label htmlFor="mepia-business" className="hidden text-xs text-zinc-500 sm:block">Negocio</label>
+        <button data-tour="menu" aria-label="Abrir menú" aria-expanded={menu} onClick={() => setMenu(true)} className="rounded-lg p-2 text-zinc-400 hover:bg-white/5 md:hidden"><MepiaIcon name="menu"/></button>
+        <div className="flex min-w-0 flex-1 items-center gap-3" data-tour="negocio"><label htmlFor="mepia-business" className="hidden text-xs text-zinc-500 sm:block">Negocio</label>
           <select id="mepia-business" aria-label="Negocio" value={business} disabled={businessesLoading || !businesses.length}
             onChange={event => { selectBusiness(event.target.value); if (["/dashboard", "/salud", "/reportes"].includes(path)) router.replace(path); }}
             className="min-w-0 max-w-full rounded-lg border border-white/10 bg-surface px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-400 disabled:opacity-50 sm:max-w-[240px]">
             {!businesses.length && <option value="">{businessesLoading ? "Cargando negocios…" : "Sin negocio asignado"}</option>}
             {businesses.map(item => <option key={item.id} value={item.id}>{item.business_name}</option>)}
           </select></div>
+        <Suspense>
+          <MepiaTour key={session.user.id + ":" + business} />
+        </Suspense>
         <span aria-label="Sesión iniciada" className="ml-auto flex shrink-0 items-center gap-2 text-xs text-zinc-500"><span className="h-1.5 w-1.5 rounded-full bg-emerald-400"/><span className="hidden sm:inline">Sesión iniciada</span></span>
       </header>
       {error && <div role="alert" className="flex items-center gap-3 border-b border-red-900/40 bg-red-950/20 px-6 py-3 text-sm text-red-300">{error}<button onClick={reloadBusinesses} className="ml-auto shrink-0 underline">Intentar de nuevo</button></div>}
-      <main key={`${session.user.id}:${business}`} className={path === "/chat" ? "h-[calc(100dvh-4rem)]" : "min-h-[calc(100dvh-4rem)]"}>{children}</main>
+      <main key={`${session.user.id}:${business}`} className={path === "/chat" ? "h-[calc(100dvh-4rem)]" : "min-h-[calc(100dvh-4rem)]"}>
+        <div hidden={path !== "/chat"} className={path === "/chat" ? "h-full" : "hidden"}>
+          <ChatPanel active={path === "/chat"}/>
+        </div>
+        {path !== "/chat" && children}
+      </main>
     </div>
   </div>;
 }

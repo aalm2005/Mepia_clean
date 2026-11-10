@@ -1,5 +1,25 @@
 # N05 — CEO Orchestrator (Motor de Síntesis Estratégica)
 
+**Consulta y navegación — corte 19-oct-2026:** el resultado N05 guardado
+alimenta historial propio, último terminado y selección de las tres vistas.
+Varias corridas del mismo día permanecen identificables; las tendencias eligen
+una, sin sumarlas. La recuperación S3 explícita de INC-053 se conserva.
+[API](analysis_history.md), [selección](analysis_history_ui.md),
+[comparabilidad](analysis_history_trends.md). Avance local sin commit sobre
+`codex/quincena-5`, `5ae4c86`; no cambia ejecución ni exige una DB nueva.
+
+**Validación local — 19-oct-2026:** historial/tendencias verificados con
+452 pruebas y 136 subpruebas, una integración opt-in omitida, dos avisos; Edge
+11/11 y 23/23, cero errores; build y tipos código 0. Proveedores/DB simulados;
+sin commit/push ni producción. INC-055/056/057 resueltas y INC-017 actualizada.
+[Evidencia y límites](../../../docs/analysis_history_dashboard_20261019.md).
+
+**Consulta histórica — 19-oct-2026, implementación local:** Dashboard,
+Salud y Reportes comparten historial N05 protegido y recuperación automática.
+Se conserva el análisis elegido al visitar Chat IA y al recargar en la misma
+pestaña/negocio. N15 mantiene sus fuentes, fecha y linaje; no se ejecutan modelos
+al elegir historial. [Contrato de consulta](analysis_history.md).
+
 **Corrección INC-053 — 15-oct-2026:** N05 guarda el resultado completo que
 devuelve, incluidos cálculos decimales, estado S2 y `source_s3_result_id`.
 La lectura de corridas antiguas recupera cálculos solo desde ese S3 explícito,

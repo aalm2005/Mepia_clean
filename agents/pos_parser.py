@@ -177,10 +177,12 @@ def _extract_line_items_from_tables(pages: list) -> list[LineItem]:
                         continue
 
                     # Limpiar y convertir
-                    qty_clean = re.sub(r"[^\d]", "", qty_raw)
-                    if not qty_clean:
+                    # Una hora (12:30) o un código no son cantidades.
+                    if not re.fullmatch(r"\d+", qty_raw):
                         continue
-                    qty = int(qty_clean)
+                    qty = int(qty_raw)
+                    if qty < 1:
+                        continue
 
                     price = _parse_decimal(re.sub(r"[^\d.,]", "", price_raw))
                     if price is None or price <= 0:
@@ -225,6 +227,9 @@ def extract_pos_data(pdf_bytes: bytes) -> list[POSExtractResult]:
                 all_text += page_text + "\n"
                 all_pages.append(page)
 
+            # Las tablas necesitan el documento abierto para leer sus streams.
+            line_items_raw = _extract_line_items_from_tables(all_pages)
+
         if not all_text.strip():
             return [_make_empty_result(sha)]
 
@@ -233,9 +238,6 @@ def extract_pos_data(pdf_bytes: bytes) -> list[POSExtractResult]:
 
         # Extraer totales
         totals = _extract_totals_from_text(all_text)
-
-        # Extraer line items de tablas
-        line_items_raw = _extract_line_items_from_tables(all_pages)
 
         # Si no hay fechas, crear un resultado único sin fecha
         if not dates:

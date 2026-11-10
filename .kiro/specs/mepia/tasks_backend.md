@@ -1,5 +1,14 @@
 # Tasks Backend — MEPIA Pipeline Completo
 
+**Consulta histórica — 19-oct-2026:** implementados los cinco GET del router
+`api/analysis_history.py`, registrados en api.main/api.chat_app, con JWT y dueño
+verificados antes de auditorías. Lista, último terminado, resultado, tendencias
+y estado avanzado; no ejecutan modelos ni escrituras. Proxy Next privado y
+lecturas nuevas probadas con DB/Auth simulados. INC-055–057 resueltas.
+[Contrato y evidencia](analysis_history.md). Sin migraciones; permisos del
+backend legado y producción continúan pendientes. Avances locales sin commit
+sobre `codex/quincena-5`, `5ae4c86`.
+
 ## Estado del análisis
 
 Las tareas de implementación siguientes están marcadas como realizadas y sus
@@ -385,10 +394,10 @@ exclusivo del chat no sirve carga/auditoría. Véase [estado actual](../../../do
 - [x] 18.2 Actualizar `app/api/audit/route.ts`
   - `POST /api/audit` → proxy a `POST /orchestrator/run`
 - [x] 18.3 Actualizar `hooks/useAuditPolling.ts`
-  - Polling a `GET /api/audit/status/{run_id}` → `GET /orchestrator/status/{run_id}`
-  - Si `escalation.triggered` → iniciar segundo polling a `GET /api/audit/layer3/status/{layer3_run_id}`
+  - Lectura vigente: `GET /api/analyses/{business_id}/{run_id}` → router protegido de análisis; rutas antiguas conservadas como legado
+  - Si `escalation.triggered` → GET protegido `/{run_id}/layer3`, resuelve el padre guardado del N05 autorizado
   - Detener polling cuando `status` es `completed | partial | escalated | failed`
 - [x] 18.4 Checkpoint de integración end-to-end
   - Flujo completo: onboarding → subir POS PDF → subir factura → analizar → dashboard
   - Verificar que `DormantMetricsList` muestra métricas con datos faltantes
-  - Verificar que `PipelineStatusBar` actualiza nodos durante polling
+  - Verificar estados comprensibles del análisis/informe avanzado, sin nodos internos visibles

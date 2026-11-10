@@ -50,24 +50,18 @@ export function Layer2Banner({ layer2Status, onDismiss }: Layer2BannerProps) {
           <>
             <Spinner />
             <span className="text-sm font-mono text-amber-400">
-              Análisis profundo en curso (Layer 2)...
+              Preparando el informe avanzado…
             </span>
           </>
         )}
         {layer2Status === "completed" && (
           <span className="text-sm font-mono text-accent">
-            ✓ Análisis profundo completado —{" "}
-            <a
-              href="#layer2-results"
-              className="underline underline-offset-2 hover:text-accent/80 transition-colors"
-            >
-              Ver resultados →
-            </a>
+            Informe avanzado guardado.
           </span>
         )}
         {layer2Status === "failed" && (
           <span className="text-sm font-mono text-red-400">
-            ✗ Error en análisis profundo
+            No fue posible guardar el informe avanzado. Los indicadores guardados siguen disponibles.
           </span>
         )}
       </div>

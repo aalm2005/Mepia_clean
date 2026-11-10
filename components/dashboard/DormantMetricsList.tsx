@@ -1,3 +1,4 @@
+import {metricLabel,missingDataLabel} from "@/utils/analysis-presentation";
 interface DormantMetricsListProps {
   metrics: Array<{ metric: string; missing: string[] }>;
   blocked?: Array<{ metric: string; reason: string }>;
@@ -20,24 +21,24 @@ export function DormantMetricsList({ metrics, blocked = [], available }: Dormant
       ) : (
         <ul className="flex flex-col gap-3">
           {metrics.map((item) => (
-            <li key={item.metric} className="flex flex-col gap-1">
-              <span className="text-sm text-zinc-400">{item.metric}</span>
+            <li key={metricLabel(item.metric)} className="flex flex-col gap-1">
+              <span className="text-sm text-zinc-400">{metricLabel(item.metric)}</span>
               {item.missing.length > 0 && (
                 <ul className="flex flex-col gap-0.5">
                   {item.missing.map((field) => (
                     <li
-                      key={field}
+                      key={missingDataLabel(field)}
                       className="text-xs text-zinc-600 font-mono before:content-['·'] before:mr-1.5"
                     >
-                      {field}
+                      {missingDataLabel(field)}
                     </li>
                   ))}
                 </ul>
               )}
             </li>
           ))}
-          {blocked.map(item => <li key={item.metric} className="text-sm text-zinc-400">
-            {item.metric}: requiere revisión de documentos.
+          {blocked.map(item => <li key={metricLabel(item.metric)} className="text-sm text-zinc-400">
+            {metricLabel(item.metric)}: requiere revisión de documentos.
           </li>)}
         </ul>
       )}

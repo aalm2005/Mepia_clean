@@ -1,0 +1,336 @@
+{
+  "business_in_app": "DaAx Coffee",
+  "demo_business_label": "DaAx Coffee",
+  "status": "Referencia propuesta; no importada ni aplicada a la base",
+  "prices_basis": "Precios al público con IVA incluido; medias simples de muestra, no promedio estadístico regional. Tamaños de menús no idénticos.",
+  "recipes_basis": "Adaptaciones estandarizadas para simulación. No son recetas privadas de los establecimientos de referencia.",
+  "ingredients": {
+    "cafe_g": {
+      "name": "Café tostado",
+      "unit": "g",
+      "cost": "0.42",
+      "opening": "4000",
+      "source": "azucar_morena"
+    },
+    "leche_ml": {
+      "name": "Leche entera UHT",
+      "unit": "ml",
+      "cost": "0.036",
+      "opening": "26000",
+      "source": "leche_borden + leche_lala"
+    },
+    "avena_ml": {
+      "name": "Bebida de avena",
+      "unit": "ml",
+      "cost": "0.064",
+      "opening": "6000",
+      "source": "azucar_morena"
+    },
+    "vainilla_ml": {
+      "name": "Jarabe de vainilla",
+      "unit": "ml",
+      "cost": "0.26",
+      "opening": "1500",
+      "source": "azucar_morena"
+    },
+    "chai_ml": {
+      "name": "Concentrado chai",
+      "unit": "ml",
+      "cost": "0.25",
+      "opening": "2000",
+      "source": "chai"
+    },
+    "matcha_g": {
+      "name": "Matcha puro",
+      "unit": "g",
+      "cost": "3.6",
+      "opening": "500",
+      "source": "matcha"
+    },
+    "chocolate_g": {
+      "name": "Base de chocolate",
+      "unit": "g",
+      "cost": "0.2923076923076923076923076923",
+      "opening": "2600",
+      "source": "chocolate"
+    },
+    "agua_ml": {
+      "name": "Agua purificada",
+      "unit": "ml",
+      "cost": "0.0015",
+      "opening": "40000",
+      "source": "agua"
+    },
+    "concha_pza": {
+      "name": "Concha congelada para hornear",
+      "unit": "unidad",
+      "cost": "16",
+      "opening": "120",
+      "source": "azucar_morena"
+    }
+  },
+  "products": [
+    {
+      "id": "AM",
+      "name": "Cafe Americano",
+      "label": "Americano",
+      "price": 56,
+      "category": "Bebidas con café",
+      "recipe": {
+        "cafe_g": 18,
+        "agua_ml": 276
+      },
+      "observed": [
+        54,
+        55,
+        58
+      ],
+      "recipe_cost_reference": "7.97",
+      "sample_average": "55.67"
+    },
+    {
+      "id": "LA",
+      "name": "Cafe Latte",
+      "label": "Latte",
+      "price": 74,
+      "category": "Bebidas con café",
+      "recipe": {
+        "cafe_g": 18,
+        "leche_ml": 240,
+        "agua_ml": 36
+      },
+      "observed": [
+        70,
+        75,
+        76
+      ],
+      "recipe_cost_reference": "16.25",
+      "sample_average": "73.67"
+    },
+    {
+      "id": "CA",
+      "name": "Cappuccino",
+      "label": "Capuchino",
+      "price": 73,
+      "category": "Bebidas con café",
+      "recipe": {
+        "cafe_g": 18,
+        "leche_ml": 150,
+        "agua_ml": 36
+      },
+      "observed": [
+        65,
+        80
+      ],
+      "recipe_cost_reference": "13.01",
+      "sample_average": "72.50"
+    },
+    {
+      "id": "FW",
+      "name": "Flat White",
+      "label": "Flat white",
+      "price": 68,
+      "category": "Bebidas con café",
+      "recipe": {
+        "cafe_g": 18,
+        "leche_ml": 150,
+        "agua_ml": 36
+      },
+      "observed": [
+        64,
+        65,
+        76
+      ],
+      "recipe_cost_reference": "13.01",
+      "sample_average": "68.33"
+    },
+    {
+      "id": "CH",
+      "name": "Chai Latte DaAx",
+      "label": "Chai latte",
+      "price": 81,
+      "category": "Bebidas sin café",
+      "recipe": {
+        "chai_ml": 30,
+        "leche_ml": 240
+      },
+      "observed": [
+        75,
+        82,
+        85
+      ],
+      "recipe_cost_reference": "16.14",
+      "sample_average": "80.67"
+    },
+    {
+      "id": "MA",
+      "name": "Matcha Latte DaAx",
+      "label": "Matcha latte",
+      "price": 93,
+      "category": "Bebidas sin café",
+      "recipe": {
+        "matcha_g": 3,
+        "leche_ml": 240,
+        "agua_ml": 30
+      },
+      "observed": [
+        85,
+        96,
+        99
+      ],
+      "recipe_cost_reference": "19.49",
+      "sample_average": "93.33"
+    },
+    {
+      "id": "CO",
+      "name": "Chocolate Caliente DaAx",
+      "label": "Chocolate caliente",
+      "price": 72,
+      "category": "Bebidas sin café",
+      "recipe": {
+        "chocolate_g": 30,
+        "leche_ml": 240
+      },
+      "observed": [
+        68,
+        75
+      ],
+      "recipe_cost_reference": "17.41",
+      "sample_average": "71.50"
+    },
+    {
+      "id": "PA",
+      "name": "Concha DaAx",
+      "label": "Concha horneada",
+      "price": 53,
+      "category": "Panadería",
+      "recipe": {
+        "concha_pza": 1
+      },
+      "observed": [
+        53
+      ],
+      "price_note": "Referencia individual de pan de canasta de Edén, no promedio.",
+      "recipe_cost_reference": "16.00",
+      "sample_average": "53.00"
+    }
+  ],
+  "delivery_proposals": [
+    {
+      "platform": "UberEats",
+      "commission_rate": "0.27",
+      "scope": "Tarifa base de entrega; no costo total de liquidación"
+    },
+    {
+      "platform": "DiDiFood",
+      "commission_rate": "0.30",
+      "scope": "Tarifa base; no costo total de liquidación"
+    }
+  ],
+  "terminal_reference": {
+    "name": "Clip",
+    "rate": "0.036",
+    "plus_vat": true,
+    "note": "Información de referencia; no se aplica automáticamente por subir estos PDF."
+  },
+  "sources": [
+    {
+      "id": "menu_comore",
+      "url": "https://www.comore.mx/",
+      "scope": "Menú local Monterrey",
+      "facts": "Americano 12 oz 55; latte 12 oz 75; capuchino 8 oz 65; flat white 8 oz 65; chai 75; matcha 85; chocolate 75; sabor adicional 10."
+    },
+    {
+      "id": "menu_eden",
+      "url": "https://www.edenflorycafe.com/menu",
+      "scope": "Menú local Monterrey",
+      "facts": "Americano 54; latte 76; capuchino 80; flat white 76; chai 85; matcha 99; pan de canasta 53 o 63."
+    },
+    {
+      "id": "menu_liminal",
+      "url": "https://liminalcafe.mx/products",
+      "scope": "Menú local Monterrey",
+      "facts": "Americano 300 ml 58; latte 300 ml 70; flat white 150 ml 64; chai 82; matcha 96; chocolate 68."
+    },
+    {
+      "id": "azucar_morena",
+      "url": "https://cafeazucarmorena.com/pages/b2b",
+      "scope": "Cotización pública de proveedor de Monterrey, no promedio regional",
+      "facts": "Café 420/kg; vainilla 195/750 ml; avena 64/L; concha congelada 384/24; vaso kraft 215/50. Pedido mínimo y disponibilidad del proveedor aplican; no se realizan compras."
+    },
+    {
+      "id": "leche_borden",
+      "url": "https://www.heb.com.mx/borden-leche-entera-1-l-451535/p",
+      "scope": "Precio de catálogo HEB, sin sucursal fijada",
+      "facts": "34 por litro. Precio de referencia publicado; no cotización confirmada en una sucursal."
+    },
+    {
+      "id": "leche_lala",
+      "url": "https://www.heb.com.mx/lala-leche-entera-1-l-1108/p",
+      "scope": "Precio regular de catálogo HEB, sin sucursal fijada",
+      "facts": "38 por litro regular; se descarta la promoción de 30 para la base. Promedio de ambas referencias de leche = 36/L."
+    },
+    {
+      "id": "chai",
+      "url": "https://cafesierranorte.com.mx/product/davinci-jarabe-te-chai/",
+      "scope": "Proveedor de Monterrey",
+      "facts": "Concentrado chai 250/L más IVA. Se adopta costo antes del IVA del proveedor, 0.25/ml."
+    },
+    {
+      "id": "matcha",
+      "url": "https://fujiro.mx/",
+      "scope": "Proveedor con envíos desde Monterrey",
+      "facts": "Matcha puro 3600/kg mostrado; costo adoptado 3.60/g. Precio mostrado con promociones de vigencia no confirmada; referencia para simulación."
+    },
+    {
+      "id": "chocolate",
+      "url": "https://kafensoluciones.com/categoria/bases-en-polvo/bases-de-sabores/",
+      "scope": "Referencia nacional de Cancún, no promedio de Monterrey",
+      "facts": "Base chocolate 380/1300 g, costo aproximado 0.29230769/g. Sustituto documentado al no obtener una cotización local pública comparable."
+    },
+    {
+      "id": "agua",
+      "url": "https://waterdepotmx.com/precios",
+      "scope": "Proveedor que anuncia sucursales en Monterrey",
+      "facts": "Relleno de garrafón 20 L a 30; costo 0.0015/ml."
+    },
+    {
+      "id": "capuchino",
+      "url": "https://www.starbucksathome.com/cam/recetas/capuccino",
+      "scope": "Receta pública de cafetería; no receta privada de Monterrey",
+      "facts": "Espresso con 150 ml de leche. La espuma procede de esa leche; no es un insumo adicional."
+    },
+    {
+      "id": "vainilla",
+      "url": "https://www.starbucksathome.com/cam/recetas/latte-de-vainilla",
+      "scope": "Receta pública de cafetería; adaptación de gramajes DaAx",
+      "facts": "Espresso, leche y jarabe de vainilla."
+    },
+    {
+      "id": "uber",
+      "url": "https://merchants.ubereats.com/mx/en/pricing/",
+      "scope": "Tarifas nacionales por plan, no promedio regional",
+      "facts": "Entrega 25/27/29%; se propone 27% para el escenario. Cargos de marketing, Uber One e impuestos se tratan por separado; no es costo total de liquidación."
+    },
+    {
+      "id": "didi",
+      "url": "https://www.didi-food.com/es-MX/store?shopId=5764607669219100311&type=operation",
+      "scope": "Tarifa nacional, no promedio regional",
+      "facts": "Servicio con reparto 30%; se propone esa tarifa base."
+    },
+    {
+      "id": "clip",
+      "url": "https://clip.mx/como-funciona-clip/calculadora-clip",
+      "scope": "Tarifa nacional",
+      "facts": "3.6% más IVA; referencia informativa, no configura automáticamente una métrica de terminal."
+    }
+  ],
+  "limitations": [
+    "No modifica el catálogo existente de DaAx Coffee ni sus comisiones.",
+    "La base actual contiene recetas y precios anteriores; pueden aparecer alertas de consistencia por esos valores.",
+    "No se crean gastos, facturas, compras de ingredientes ni nómina por incluir inventario en el PDF.",
+    "Los costos de insumos son referencias de simulación; no incluyen uniformemente impuestos recuperables, fletes, mano de obra o servicios. No acreditan utilidad neta.",
+    "Chocolate usa referencia nacional externa a Monterrey; agua y otros precios son cotizaciones individuales.",
+    "La bonificación se representa después del IVA conforme al contrato actual de MEPIA. Es una convención de esta prueba interna, no un modelo de facturación fiscal."
+  ]
+}

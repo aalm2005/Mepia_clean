@@ -44,6 +44,7 @@ from agents.parallel_orchestrator import (
 from utils.memory_service import MemoryService, MemoryChunk
 from agents.layer3_graph import build_layer3_graph
 from agents.pos_parser import extract_pos_data, POSExtractResult
+from agents.pos_document import extract_document_payloads, ingest_pos_document, POSDocumentConflict
 from agents.factura_parser import (
     extract_factura_xml,
     extract_factura_pdf,
@@ -63,6 +64,7 @@ from core.config import settings
 from api.chat import create_chat_router, gemini_node_factory
 from api.onboarding import create_onboarding_router
 from api.audit_results import restore_result
+from api.analysis_history import create_analysis_router
 from api.core.auth import AuthService
 
 # ---------------------------------------------------------------------------
@@ -148,6 +150,7 @@ app.include_router(create_chat_router(
 
 
 app.include_router(create_onboarding_router(auth=_chat_auth, db_factory=lambda: get_supabase()))
+app.include_router(create_analysis_router(auth=_chat_auth, db_factory=lambda: get_supabase()))
 
 # ---------------------------------------------------------------------------
 # Flujo paralelo: los tres agentes corren simultáneamente
@@ -217,6 +220,7 @@ class POSIngestResult(BaseModel):
     line_items: Optional[list] = None
     ocr_confidence: dict
     missing_fields: Optional[list[str]] = None
+    detailed_import: Optional[dict] = None
 
 
 class POSReviewPayload(BaseModel):
@@ -225,16 +229,19 @@ class POSReviewPayload(BaseModel):
     payment_methods: Optional[dict] = None
 
 
-def _upload_to_storage(db: Client, path: str, data: bytes) -> str:
+def _upload_to_storage(db: Client, path: str, data: bytes, *, upsert: bool = False) -> str:
     """
     Sube bytes a Supabase Storage en el bucket 'mepia-documents'.
     Si el bucket no existe o hay error, retorna un path local como fallback.
     """
     try:
+        options = {"content-type": "application/octet-stream"}
+        if upsert:
+            options["upsert"] = "true"
         db.storage.from_("mepia-documents").upload(
             path,
             data,
-            {"content-type": "application/octet-stream"},
+            options,
         )
         return path
     except Exception:
@@ -305,6 +312,23 @@ async def ingest_pos(
     # 4. Calcular SHA-256 y verificar deduplicación
     from agents.pos_parser import calculate_sha256 as pos_sha256
     sha = pos_sha256(pdf_bytes)
+    try:
+        payloads = await asyncio.to_thread(extract_document_payloads, pdf_bytes, business_id)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from None
+    except Exception:
+        raise HTTPException(422, "No se pudo leer el PDF. Comprueba que sea válido y que no tenga contraseña.") from None
+    if payloads:
+        try:
+            return await asyncio.to_thread(
+                ingest_pos_document, db, pdf_bytes, business_id,
+                file.filename or "reporte_pos.pdf", payloads,
+                lambda client, path, content: _upload_to_storage(client, path, content, upsert=True),
+            )
+        except POSDocumentConflict as exc:
+            raise HTTPException(409, str(exc)) from None
+        except Exception:
+            raise HTTPException(503, "No se completó la importación del detalle. Vuelve a cargar el mismo PDF para continuar.") from None
     existing = _check_duplicate_sha256(db, sha, business_id)
     if existing:
         # Retornar resultado existente sin duplicar
@@ -441,6 +465,9 @@ async def ingest_pos(
             )
         )
 
+    for result in extract_results:
+        if result.date and not result.needs_human_review:
+            await asyncio.to_thread(GatekeeperAgent(db).evaluate, business_id, result.date.isoformat())
     return output
 
 
@@ -459,6 +486,8 @@ async def review_pos(file_id: str, payload: POSReviewPayload):
         raise HTTPException(status_code=404, detail=f"Documento '{file_id}' no encontrado.")
 
     doc = doc_result.data[0]
+    if (doc.get("extracted_data") or {}).get("detailed_import", {}).get("status") == "pending":
+        raise HTTPException(409, "La importación del detalle está pendiente. Vuelve a cargar el mismo PDF para completarla.")
 
     # 2. Verificar que necesita revisión
     if not doc.get("needs_human_review", False):

@@ -1,5 +1,13 @@
 # MEPIA — Arquitectura de Base de Datos
 
+**Contrato de almacenamiento — 19-oct-2026:** el historial reutiliza
+`audit_results` con node_id=N05. El identificador de corrida distingue registros
+de la misma fecha; created_at identifica guardado y date identifica día analizado.
+S3 y N14 conservan su linaje; no se agrega tabla, índice ni migración por este
+avance. AnalysisSummary/AnalysisTrend son proyecciones, no entidades SQL nuevas.
+[Contrato de lectura](analysis_history_contracts.md). Las verificaciones reales
+fechadas siguientes son históricas; esta revisión no consultó la base principal.
+
 **Tipo:** Híbrida — campos estructurados para cálculos + JSONB para datos flexibles
 **Motor:** PostgreSQL via Supabase
 **Migración base:** `supabase/migrations/002_hybrid_schema.sql`

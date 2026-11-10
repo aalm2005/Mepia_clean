@@ -1,0 +1,28 @@
+.................................................................... [ 15%]
+...............................................................................................s............ [ 38%]
+............................................ [ 48%]
+............................................................................ [ 65%]
+........................................................................ [ 81%]
+........................................................................ [ 97%]
+.............                                                            [100%]
+============================== warnings summary ===============================
+tests/test_chat_api.py::test_actual_main_registers_chat_and_validates_startup_before_db
+  <MEPIA>\api\main.py:107: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_chat_api.py::test_actual_main_registers_chat_and_validates_startup_before_db
+  <entorno_python>/Lib\site-packages\fastapi\applications.py:4681: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+452 passed, 1 skipped, 2 warnings, 136 subtests passed in 55.02s

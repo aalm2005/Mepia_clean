@@ -1,0 +1,28 @@
+{
+  "source_summary": {
+    "passed": 41,
+    "failed": 0,
+    "not_run": 7
+  },
+  "browser_extended_checks": [
+    "C07",
+    "C08",
+    "S10_busy",
+    "C04",
+    "S08_notice",
+    "P06_keyboard_partial",
+    "S05_proxy_size"
+  ],
+  "local_automation_passed": 43,
+  "not_executed_prepublication_or_human": 5,
+  "not_a_count_of_fully_accepted_functional_cases": true,
+  "human_clarity": "pending",
+  "real_provider_calls": 0,
+  "pending_prepublication_cases": [
+    "P01",
+    "P03",
+    "P04",
+    "P05",
+    "P06"
+  ]
+}

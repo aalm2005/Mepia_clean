@@ -1,3 +1,4 @@
+const {dismissTutorialWhenPresent}=require("./tutorial_test_helpers.cjs");
 // Recorrido navegador → Next.js → FastAPI → grounding → SDK simulado.
 const assert = require('node:assert/strict');
 const { spawn, spawnSync } = require('node:child_process');
@@ -72,7 +73,7 @@ async function requireFreePort(port) {
   browser = await chromium.launch({ headless: true,
     ...(process.env.MEPIA_TEST_BROWSER ? { channel: process.env.MEPIA_TEST_BROWSER } : {}) });
   const context = await browser.newContext({ viewport: { width: 1100, height: 850 } });
-  page = await context.newPage();
+  page = await context.newPage(); await dismissTutorialWhenPresent(page);
   page.context().setDefaultTimeout(90000);
   page.setDefaultTimeout(90000); // Compilación fría local; rendimiento se mide aparte.
   page.on('response', res => { if (res.url().includes('/auth/v1/')) authResponses.push({ path: new URL(res.url()).pathname, status: res.status() }); });
@@ -152,7 +153,7 @@ async function requireFreePort(port) {
   await check('Inicio de sesión y solo negocios propios', async () => {
     await login('a');
     assert.equal(new URL(page.url()).origin, base);
-    const values = await page.locator('select option').evaluateAll(options => options.map(o => o.value));
+    const values = await page.locator('#mepia-business option').evaluateAll(options => options.map(o => o.value));
     assert.deepEqual(values.sort(), [state.business_a, state.business_c].sort());
   });
   await check('API legada verifica Bearer y no confunde sesión válida con acceso anónimo', async () => {
@@ -180,6 +181,7 @@ async function requireFreePort(port) {
   await check('Otra pestaña exige login y no cierra la sesión de la pestaña original', async () => {
     const other = await page.context().newPage();
     try {
+      await dismissTutorialWhenPresent(other);
       await other.goto(base + '/dashboard');
       await other.waitForURL(url => url.pathname === '/login');
       await other.getByLabel('Correo', {exact: true}).waitFor();
@@ -238,7 +240,7 @@ async function requireFreePort(port) {
       return route.fulfill({json: {run_id:run}});
     });
     await page.route('**/api/audit/status/'+run, route => route.fulfill({json:{run_id:run,pipeline_status:'partial'}}));
-    await page.route('**/api/audit/result/'+run, route => route.fulfill({json:{
+    await page.route('**/api/analyses/*/'+run, route => route.fulfill({json:{
       run_id:run,business_id:owner,date:'2026-10-14',archetype:'Operative Genius',pipeline_status:'partial',
       sequential_results:{active_metrics:['cash_reconciliation'],calc_results:[
         {metric:'conciliacion_caja',value:'0.00',unit:'MXN',status:'ok',context:'Caja de demostración'}],
@@ -257,23 +259,23 @@ async function requireFreePort(port) {
     await page.locator('#audit-date').fill('');
     await page.getByRole('button',{name:/Analizar 2 archivos/}).click();
     await page.waitForURL(url=>url.searchParams.get('run_id')===run);
-    await page.locator('.kpi-value').nth(4).filter({hasText:/^0\s*MXN$/}).waitFor();
+    await page.locator('.kpi-value').filter({hasText:/^0\s*MXN$/}).waitFor();
     assert.equal(auditCalls,1);assert.equal(auditDate,'2026-10-14');
-    await page.getByText('avg_ticket',{exact:true}).waitFor();
-    await page.getByText('tickets',{exact:true}).waitFor();
+    await page.getByText('Ticket promedio',{exact:true}).waitFor();
+    await page.getByText('Tickets de venta',{exact:true}).waitFor();
     await page.screenshot({path:path.join(output,'demo-zero.png'),fullPage:true});
     await page.getByRole('navigation',{name:'Navegación principal'}).getByRole('link',{name:'Chat IA',exact:true}).click();
     await page.getByLabel('Pregunta sobre tus métricas').waitFor();
     const dashboard=page.getByRole('navigation',{name:'Navegación principal'}).getByRole('link',{name:'Dashboard',exact:true});
     assert.equal(await dashboard.getAttribute('href'),'/dashboard?run_id='+run);
     await dashboard.click();
-    await page.locator('.kpi-value').nth(4).filter({hasText:/^0\s*MXN$/}).waitFor();
+    await page.locator('.kpi-value').filter({hasText:/^0\s*MXN$/}).waitFor();
     assert.equal(new URL(page.url()).searchParams.get('run_id'),run);
     await page.reload();
-    await page.locator('.kpi-value').nth(4).filter({hasText:/^0\s*MXN$/}).waitFor();
+    await page.locator('.kpi-value').filter({hasText:/^0\s*MXN$/}).waitFor();
     assert.equal(auditCalls,1);
     await page.unroute('**/api/upload');await page.unroute('**/api/audit');await page.unroute('**/api/onboarding?*');
-    await page.unroute('**/api/audit/status/'+run);await page.unroute('**/api/audit/result/'+run);
+    await page.unroute('**/api/audit/status/'+run);await page.unroute('**/api/analyses/*/'+run);
   });
   await check('Dashboard presenta métricas sintéticas sin alterar porcentaje y separa unidades', async () => {
     const run = '00000000-0000-4000-8000-000000000001';
@@ -287,7 +289,7 @@ async function requireFreePort(port) {
     };
     await page.route('**/api/audit/status/' + run, route => route.fulfill({json: {run_id: run, pipeline_status: 'completed'}}));
     let auditBusiness;
-    await page.route('**/api/audit/result/' + run, async route => {
+    await page.route('**/api/analyses/*/' + run, async route => {
       // Al recargar, la lista propia puede comenzar por A o C; fijar el fixture
       // al negocio elegido antes de la primera respuesta, no asumir su orden.
       auditBusiness ??= await page.getByLabel('Negocio', {exact: true}).inputValue();
@@ -305,19 +307,19 @@ async function requireFreePort(port) {
     await page.screenshot({path: path.join(output, 'dashboard.png'), fullPage: true});
     await page.getByLabel('Negocio', {exact: true}).selectOption(auditBusiness === state.business_a ? state.business_c : state.business_a);
     await page.waitForURL(url => url.pathname === '/dashboard' && !url.search);
-    await page.getByText('Aquí aparecerán los resultados cuando completes un análisis.', {exact: true}).waitFor();
+    await page.getByText('Todavía no hay un análisis terminado para mostrar. Elige uno del historial o prepara uno nuevo en Documentos.', {exact: true}).waitFor();
     assert.equal(await page.getByText('0.5%', {exact: true}).count(), 0);
     await page.getByLabel('Negocio', {exact: true}).selectOption(state.business_a);
     await page.unroute('**/api/audit/status/' + run);
-    await page.unroute('**/api/audit/result/' + run);
+    await page.unroute('**/api/analyses/*/' + run);
     const foreignRun = '00000000-0000-4000-8000-000000000002';
     await page.route('**/api/audit/status/' + foreignRun, route => route.fulfill({json: {run_id: foreignRun, pipeline_status: 'completed'}}));
-    await page.route('**/api/audit/result/' + foreignRun, route => route.fulfill({json: {...syntheticResult, run_id: foreignRun, business_id: state.business_b}}));
+    await page.route('**/api/analyses/*/' + foreignRun, route => route.fulfill({json: {...syntheticResult, run_id: foreignRun, business_id: state.business_b}}));
     await page.goto(base + '/dashboard?run_id=' + foreignRun);
     await page.getByText('Este análisis no corresponde al negocio seleccionado.', {exact: true}).waitFor();
     assert.equal(await page.getByText('0.5%', {exact: true}).count(), 0);
     await page.unroute('**/api/audit/status/' + foreignRun);
-    await page.unroute('**/api/audit/result/' + foreignRun);
+    await page.unroute('**/api/analyses/*/' + foreignRun);
     await page.getByLabel('Negocio', {exact: true}).selectOption(state.business_a);
     await page.waitForURL(url => url.pathname === '/dashboard' && !url.search);
     await page.getByRole('navigation', {name: 'Navegación principal'}).getByRole('link', {name: 'Chat IA', exact: true}).click();
@@ -357,8 +359,81 @@ async function requireFreePort(port) {
     await page.getByRole('button', { name: 'Enviar pregunta' }).isEnabled();
     assert.equal(await page.locator('article').count(), 2);
   });
+  await check('Q7: conversación y borrador conservados al navegar', async () => {
+    const before = await (await fetch(api + '/__test__/state')).json();
+    const saved = await page.locator('article').allTextContents();
+    await page.getByLabel('Pregunta sobre tus métricas').fill('Borrador conservado Q7');
+    const nav=page.getByRole('navigation',{name:'Navegación principal'});
+    await nav.getByRole('link',{name:'Dashboard',exact:true}).click();
+    await page.waitForURL(url=>url.pathname==='/dashboard');
+    assert.equal(await page.getByLabel('Pregunta sobre tus métricas').isVisible(),false);
+    await nav.getByRole('link',{name:'Chat IA',exact:true}).click();
+    await page.getByLabel('Pregunta sobre tus métricas').waitFor();
+    assert.deepEqual(await page.locator('article').allTextContents(),saved);
+    assert.equal(await page.getByLabel('Pregunta sobre tus métricas').inputValue(),'Borrador conservado Q7');
+    const after = await (await fetch(api + '/__test__/state')).json();
+    assert.equal(after.model_calls,before.model_calls);
+    await page.getByLabel('Pregunta sobre tus métricas').fill('');
+    await page.setViewportSize({width:390,height:844});
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    await page.screenshot({path:path.join(output,'q7-chat-mobile.png'),fullPage:true});
+    await page.setViewportSize({width:1100,height:850});
+  });
+  await check('Q7: una respuesta en curso sobrevive a la navegación', async () => {
+    const count=await page.locator('article').count();
+    let release;
+    const held=new Promise(resolve=>{release=resolve;});
+    let reached;
+    const entered=new Promise(resolve=>{reached=resolve;});
+    await page.route('**/api/chat/'+state.business_a,async route=>{
+      if(route.request().method()!=='POST')return route.continue();
+      reached();await held;return route.continue();
+    });
+    await page.getByLabel('Pregunta sobre tus métricas').fill('Hola');
+    await page.getByRole('button',{name:'Enviar pregunta'}).click();
+    await entered;
+    const nav=page.getByRole('navigation',{name:'Navegación principal'});
+    await nav.getByRole('link',{name:'Dashboard',exact:true}).click();
+    await page.waitForURL(url=>url.pathname==='/dashboard');
+    release();
+    await nav.getByRole('link',{name:'Chat IA',exact:true}).click();
+    await page.waitForFunction(n=>document.querySelectorAll('article').length===n+1,count);
+    await page.unroute('**/api/chat/'+state.business_a);
+  });
+  await check('Q7: selector reciente y análisis del Dashboard sin recordar fecha', async () => {
+    const runA='00000000-0000-4000-8000-000000000081',runB='00000000-0000-4000-8000-000000000082';
+    const listPattern=url=>url.pathname==='/api/analyses/'+state.business_a&&url.searchParams.has('page');
+    await page.route(listPattern,route=>route.fulfill({json:{business_id:state.business_a,next_page:null,items:[
+      {run_id:runA,date:'2026-11-05',created_at:'2026-11-10T18:00:00Z',status:'completed'},
+      {run_id:runB,date:'2026-11-04',created_at:'2026-11-10T17:00:00Z',status:'completed'}]}}));
+    await page.getByRole('button',{name:'Actualizar lista',exact:true}).click();
+    await page.locator('#chat-analysis option[value="'+runB+'"]').waitFor({state:'attached'});
+    await page.getByLabel('Análisis que quieres consultar',{exact:true}).selectOption(runB);
+    assert.equal(await page.locator('input[type=date]').inputValue(),'2026-11-04');
+    assert.equal(await page.locator('article').count(),0);
+    const postPattern='**/api/chat/'+state.business_a;
+    await page.route(postPattern,route=>{
+      if(route.request().method()!=='POST')return route.continue();
+      const body=route.request().postDataJSON();
+      assert.equal(body.analysis_run_id,runB);assert.equal(body.requested_date,'2026-11-04');
+      return route.fulfill({json:{conversation_id:'00000000-0000-4000-8000-000000000083',answer:{business_id:state.business_a,
+        resolved_date:'2026-11-04',calculation_allowed:false,parts:[{kind:'result',status:'ok',message:'Resultados del análisis elegido.',
+          data:{},evidence:[],missing_data:[],generation_status:'validated',claims:[]}]}}});
+    });
+    await page.getByLabel('Pregunta sobre tus métricas').fill('¿Cuál fue el ticket promedio?');
+    await page.getByRole('button',{name:'Enviar pregunta'}).click();
+    await page.getByText('Resultados del análisis elegido.',{exact:true}).waitFor();
+    await page.locator('input[type=date]').fill('2026-11-03');
+    await page.getByRole('button',{name:'Usar análisis del Dashboard',exact:true}).click();
+    assert.equal(await page.locator('#chat-analysis').inputValue(),runB);
+    assert.equal(await page.locator('input[type=date]').inputValue(),'2026-11-04');
+    await page.screenshot({path:path.join(output,'q7-analysis-selector.png'),fullPage:true});
+    await page.unroute(postPattern);await page.unroute(listPattern);
+  });
   await check('Cambio de negocio limpia historial visible', async () => {
+    const loaded=page.waitForResponse(res=>new URL(res.url()).pathname==='/api/analyses/'+state.business_c&&res.request().method()==='GET');
     await page.getByLabel('Negocio', { exact: true }).selectOption(state.business_c);
+    await (await loaded).finished();
     assert.equal(await page.locator('article').count(), 0);
   });
   await check('Negocio ajeno: 403 sin evidencia ni modelo', async () => {
@@ -388,7 +463,7 @@ async function requireFreePort(port) {
     await page.getByRole('navigation', {name:'Navegación principal'}).getByRole('link', {name:'Chat IA',exact:true}).click();
     await page.getByLabel('Pregunta sobre tus métricas').waitFor();
     assert.equal(await page.locator('article').count(), 0);
-    assert.deepEqual(await page.locator('select option').evaluateAll(options => options.map(o => o.value)), [state.business_b]);
+    assert.deepEqual(await page.locator('#mepia-business option').evaluateAll(options => options.map(o => o.value)), [state.business_b]);
   });
   if (process.env.MEPIA_STEP5_EXTENDED_CHECKS === '1') {
     // Las respuestas se retienen en la red; nunca se invoca un proveedor real.
@@ -523,7 +598,7 @@ async function requireFreePort(port) {
   await check('Cerrar y abrir de nuevo la pestaña exige credenciales', async () => {
     const context = page.context();
     await page.close();
-    page = await context.newPage();
+    page = await context.newPage(); await dismissTutorialWhenPresent(page);
     page.on('pageerror', e => errors.push(e.message));
     page.on('response', res => { if (res.url().includes('/auth/v1/')) authResponses.push({path: new URL(res.url()).pathname, status: res.status()}); });
     await page.goto(base + '/dashboard');

@@ -3,7 +3,7 @@
 
 export type Archetype = "Operative Genius" | "Product Purist" | "Growth Hacker";
 export type AlertLevel = "info" | "warning" | "critical";
-export type PipelineStatus = "completed" | "partial" | "escalated" | "failed" | "running";
+export type PipelineStatus = "completed" | "partial" | "escalated" | "failed" | "running" | "unknown";
 
 export interface AnomalyItem {
   anomaly_id: string;
@@ -64,6 +64,7 @@ export interface OrchestratorResult {
   dormant_metrics: Array<{ metric: string; missing: string[] }>;
   blocked_metrics?: Array<{ metric: string; reason: string }>;
   metric_status_available?: boolean;
+  forensic_status_available?: boolean;
   completed_at: string;
 }
 
