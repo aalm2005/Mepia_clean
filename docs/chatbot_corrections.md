@@ -1,5 +1,7 @@
 # Bitácora oficial del chatbot de MEPIA
 
+**Cierre consolidado Q6–Q7 · 10-nov-2026.** Rama `codex/quincena-6`, commit de contenido `45fc329cc7aba65f3cf93fd3928ff2c8f3986124`. El [informe del corte](cierre_q6_q7_20261110.md) enlaza los cambios de ingesta, navegación y selección y sus pruebas. La regresión integral pasó con 497 pruebas y 136 subpruebas, una integración real omitida y dos avisos. INC-20261109-059 e INC-20261110-060/061 conservan su resolución local; sigue pendiente la aceptación manual con IA.
+
 **Q7, 10-nov-2026 — conversación conservada y selección de análisis, verificadas localmente.**
 Solicitud explícita del usuario; categoría C de integración. Rama `codex/quincena-6`,
 base `5ae4c868be6843513a3b8a4f0be2962762c6442d`, cambios sin commit.

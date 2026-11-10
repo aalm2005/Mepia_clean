@@ -1,5 +1,7 @@
 # Bitácora oficial de incidencias del chatbot de MEPIA
 
+El commit `45fc329cc7aba65f3cf93fd3928ff2c8f3986124` de `codex/quincena-6` contiene las correcciones INC-20261109-059, INC-20261110-060 e INC-20261110-061. Las entradas fechadas conservan la rama, base y resultados observados durante su verificación original.
+
 ## INC-20261110-060 — El chat pierde su vista al cambiar de pantalla
 
 Estado: resuelta para el alcance local verificado. Categoría C, mejora de integración solicitada expresamente.
